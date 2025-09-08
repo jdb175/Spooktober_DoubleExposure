@@ -32,11 +32,26 @@ image darkroom_workspace = "placeholders/darkroom_temp1@2.jpg"
 image darkroom_trays = "placeholders/darkroom_temp2.png"
 #image photo1 = "placeholders/photo1_temp"
 
+
+image background_negative = "placeholders/darkroom_temp2.png"
+
 #characters
-image Erin_headshot = "placeholders/Erin_temp1.png"
 #image Siob_headshot = "placeholders/Siob_temp1.jpg"
 #image Peter_headshot = "placeholders/Peter_temp1.png"
 #image Gunnar_headshot = "placeholders/Gunnar_temp1.png"
+
+#exposure
+image BG1_inverted = "exposuretest/bakgroundimage_inverted.png"
+image BG1 = "exposuretest/bakgroundimage.png"
+image Mask_inverted = "exposuretest/pallid_mask_nobpg_invert.png" 
+image BG1_WithMask = Composite(
+    (1191,647),
+    (0,0), "exposuretest/bakgroundimage.png",
+    (0,0), "exposuretest/pallid_mask_nobpg.png" 
+)
+image black_background = Solid("#000000") 
+image white_background = Solid("#fff")  
+
 
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -45,11 +60,72 @@ define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 label start:
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
-    jump introScene
+    jump exposureScene
     return
+
+label exposureScene:
+    scene black_background
+    "I am adding this on the front to experiment with some visual effects"
+    show BG1_inverted:
+        alpha 0
+        zoom 1.1
+        blur 15
+        yalign 1
+        xalign -0.1
+        rotate 7
+        easeout 0.1 alpha 1
+        pause 0.15
+        parallel:
+            easeout 0.5 alpha 0.7
+        parallel:
+            ease 0.9 yalign 0.6 xalign 0.3 rotate 3   
+        pause 0.6
+        ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
+        pause 0.7
+        linear 1.0 blur 5 zoom 1.03
+        pause 0.2
+        linear 0.2 blur 3 zoom 1.015
+        pause 0.4
+        linear 0.2 blur 0 zoom 1
+    "The goal was to capture some of the effect of projecting a negative onto a paper"
+    "I was thinking the initial scene could be show like this, in negative"
+    "you stay here for however long and see the normal conversation"
+    "We may need a background or something, even if it is very subtle"
+    scene white_background
+    show BG1 at truecenter with Fade(0.1, .8, .8, color="#fff")
+    "Maybe you see the exposed photo before going back into the dark to double expose"
+    scene black_background with fade
+    show BG1 at truecenter:
+        alpha 0.5
+    "Now we double expose on the mask"
+    show Mask_inverted at truecenter:
+        alpha 0
+        zoom 0.7
+        blur 15
+        rotate -3
+        xalign 0.45 yalign 0.4
+        easeout 0.2 alpha 1
+        pause 0.15
+        easeout 0.5 alpha 0.7
+        pause 0.7
+        linear 0.5 xalign 0.5 yalign 0.5
+        pause 0.7
+        linear 0.5 blur 0 zoom 0.5
+        pause 0.7
+        linear 0.3 rotate -1
+        linear 0.2 rotate 1
+        pause 0.2
+        linear 0.2 rotate 0
+    "If we want a more artsy effect we will need assets specific to that"    
+    scene white_background
+    show BG1_WithMask at truecenter with Fade(0.1, .8, .8, color="#fff")
+    "For combining the image we could either make sure the assets line up and I superimpose them, or have another image with is the double exposure"
+    "Back to the normal start"
+
 
 
 label introScene:
+    scene black
     #Open on black?
     "Erin Darabondi."
     show Erin_headshot
