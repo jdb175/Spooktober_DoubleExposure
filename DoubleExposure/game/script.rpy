@@ -44,6 +44,7 @@ image background_negative = "placeholders/darkroom_temp2.png"
 image BG1_inverted = "exposuretest/bakgroundimage_inverted.png"
 image BG1 = "exposuretest/bakgroundimage.png"
 image Mask_inverted = "exposuretest/pallid_mask_nobpg_invert.png" 
+image Mask = "exposuretest/pallid_mask_nobpg.png" 
 image BG1_WithMask = Composite(
     (1191,647),
     (0,0), "exposuretest/bakgroundimage.png",
@@ -65,20 +66,86 @@ label start:
 
 label exposureScene:
     scene black_background
-    "I am adding this on the front to experiment with some visual effects"
+    "Let's try a red thing (just testing visuals)"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        alpha 0
+        linear 0.5 alpha 0.1
+    "Step forward"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.2
+    "Step forward2"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.3
+    "Step forward3"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.4
+    "Step forward4"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.5
+    "Now we double expose"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.6
+    show Mask at truecenter:
+        matrixcolor TintMatrix("#f00")
+        alpha 0
+        linear 0.5 alpha 0.1
+    "Now we double expose 1"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.7
+    show Mask at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.2
+    "Now we double expose 2"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.8
+    show Mask at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.3
+    "Now we double expose 3"
+    show BG1 at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.9
+    show Mask at truecenter:
+        matrixcolor TintMatrix("#f00")
+        linear 0.5 alpha 0.4
+    "Done"
+    show BG1 at truecenter:
+        matrixcolor None
+        linear 0.5 alpha 0.9
+    show Mask at truecenter:
+        matrixcolor None
+        linear 0.5 alpha 0.4
+    "Here is the completed image"
+
+
+
+label projectorScene:
+    scene black_background
+    "Now a projection"
     show BG1_inverted:
         alpha 0
         zoom 1.1
         blur 15
-        yalign 1
-        xalign -0.1
-        rotate 7
-        easeout 0.1 alpha 1
-        pause 0.15
-        parallel:
-            easeout 0.5 alpha 0.7
-        parallel:
-            ease 0.9 yalign 0.6 xalign 0.3 rotate 3   
+        yalign 0.6 xalign 0.3 rotate 3        
+        alpha 0
+        pause 0.05
+        alpha 0.7
+        pause 0.05    
+        alpha 0
+        pause 0.05    
+        alpha 0.7
+        pause 0.05 
+        alpha 0   
+        pause 0.1
+        linear 0.7 alpha 0.7
         pause 0.6
         ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
         pause 0.7
@@ -117,6 +184,7 @@ label exposureScene:
         pause 0.2
         linear 0.2 rotate 0
     "If we want a more artsy effect we will need assets specific to that"    
+    "Adding more text here helps with skipping"
     scene white_background
     show BG1_WithMask at truecenter with Fade(0.1, .8, .8, color="#fff")
     "For combining the image we could either make sure the assets line up and I superimpose them, or have another image with is the double exposure"
