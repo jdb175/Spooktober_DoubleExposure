@@ -24,3 +24,6 @@
 /dialogue.tab
 /dialogue.txt
 /strings.json
+
+#Mac things
+.DS_Store
