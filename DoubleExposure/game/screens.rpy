@@ -77,9 +77,29 @@ style frame:
 
 
 
+transform developingImage(a, b):
+    xalign 0.5 
+    yalign 0.5
+    matrixcolor TintMatrix("#f00") * BrightnessMatrix(b)
+    linear a alpha a
+
+    
 ################################################################################
 ## In-game screens
 ################################################################################
+
+screen develop_photo(base_image, secondary_image=None):
+    frame id "photodevelopment":
+        add base_image at developingImage(persistent.baseAlpha, persistent.overExposureBrightness)
+
+        if(secondary_image):
+            add secondary_image at developingImage(persistent.secondaryAlpha, persistent.overExposureBrightness)
+
+        vbox:
+            text "[persistent.baseDeveloped]"
+            textbutton "Stop Developing":
+                sensitive(persistent.canStopDeveloping)
+                action Jump("projector_select_double")
 
 
 ## Say screen ##################################################################

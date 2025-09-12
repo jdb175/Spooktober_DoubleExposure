@@ -1,4 +1,4 @@
-﻿#Importing libraries
+#Importing libraries
 init python:
     import math
 
@@ -41,9 +41,7 @@ image background_negative = "placeholders/darkroom_temp2.png"
 #image Gunnar_headshot = "placeholders/Gunnar_temp1.png"
 
 #exposure
-image BG1_inverted = "exposuretest/bakgroundimage_inverted.png"
 image BG1 = "exposuretest/bakgroundimage.png"
-image Mask_inverted = "exposuretest/pallid_mask_nobpg_invert.png" 
 image Mask = "exposuretest/pallid_mask_nobpg.png" 
 image BG1_WithMask = Composite(
     (1191,647),
@@ -54,143 +52,159 @@ image black_background = Solid("#000000")
 image white_background = Solid("#fff")  
 
 
+transform project:
+    matrixcolor InvertMatrix()
+    zoom 1.1
+    blur 15
+    yalign 0.55 xalign 0.4 rotate 3        
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    pause 0.6
+    ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
+    pause 0.7
+    linear 1.0 blur 5 zoom 1.03
+    pause 0.2
+    linear 0.2 blur 3 zoom 1.015
+    pause 0.4
+    linear 0.2 blur 0 zoom 1
+
+
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
+
+init python:
+    MIN_DEVELOP_TIME = 30
+    MAX_DEVELOP_TIME = 60
+
+    def startDeveloping():
+        persistent.baseDeveloped = 0
+        persistent.secondaryDeveloped = 0
+        persistent.canStopDeveloping = False
+        persistent.baseAlpha = 0.0
+        persistent.secondaryAlpha = 0.0
+        persistent.overExposureBrightness = 0.0
+
+
+    def develop(baseDeveloped: int, developSecondary: bool = False):
+        # 1 indexed for artist ease
+        print("baseDeveloped: ", baseDeveloped, 
+            "\n----persistent baseDeveloped: ", persistent.baseDeveloped, 
+            "\n----persistent secondaryDeveloped: ", persistent.secondaryDeveloped, 
+            "\n----canStopDeveloping: ", persistent.canStopDeveloping)
+        if(baseDeveloped >= persistent.baseDeveloped):
+            if(baseDeveloped > persistent.baseDeveloped):
+                delta = baseDeveloped - persistent.baseDeveloped
+                persistent.baseDeveloped = baseDeveloped
+                persistent.baseAlpha = min(baseDeveloped/MAX_DEVELOP_TIME, 1.0)
+
+                if(developSecondary):
+                    persistent.secondaryDeveloped += delta
+                    persistent.secondaryAlpha = min(persistent.secondaryDeveloped/MAX_DEVELOP_TIME, 1.0)
+
+                if(baseDeveloped > MAX_DEVELOP_TIME):
+                    persistent.overExposureBrightness = (baseDeveloped - MAX_DEVELOP_TIME) / MAX_DEVELOP_TIME
+                
+                persistent.canStopDeveloping = persistent.baseDeveloped >= MIN_DEVELOP_TIME
+        else:
+            persistent.canStopDeveloping = False
 
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
-    jump exposureScene
+    jump projector_select_base
     return
 
-label exposureScene:
-    scene black_background
-    "Let's try a red thing (just testing visuals)"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        alpha 0
-        linear 0.5 alpha 0.1
-    "Step forward"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.2
-    "Step forward2"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.3
-    "Step forward3"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.4
-    "Step forward4"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.5
-    "Now we double expose"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.6
-    show Mask at truecenter:
-        matrixcolor TintMatrix("#f00")
-        alpha 0
-        linear 0.5 alpha 0.1
-    "Now we double expose 1"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.7
-    show Mask at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.2
-    "Now we double expose 2"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.8
-    show Mask at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.3
-    "Now we double expose 3"
-    show BG1 at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.9
-    show Mask at truecenter:
-        matrixcolor TintMatrix("#f00")
-        linear 0.5 alpha 0.4
-    "Done"
-    show BG1 at truecenter:
-        matrixcolor None
-        linear 0.5 alpha 0.9
-    show Mask at truecenter:
-        matrixcolor None
-        linear 0.5 alpha 0.4
-    "Here is the completed image"
-
-
-
-label projectorScene:
+label projector_select_base:
+    $ renpy.block_rollback()
     scene black_background
     "Now a projection"
-    show BG1_inverted:
-        alpha 0
-        zoom 1.1
-        blur 15
-        yalign 0.6 xalign 0.3 rotate 3        
-        alpha 0
-        pause 0.05
-        alpha 0.7
-        pause 0.05    
-        alpha 0
-        pause 0.05    
-        alpha 0.7
-        pause 0.05 
-        alpha 0   
-        pause 0.1
-        linear 0.7 alpha 0.7
-        pause 0.6
-        ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
-        pause 0.7
-        linear 1.0 blur 5 zoom 1.03
-        pause 0.2
-        linear 0.2 blur 3 zoom 1.015
-        pause 0.4
-        linear 0.2 blur 0 zoom 1
+    show BG1 at project
+        
     "The goal was to capture some of the effect of projecting a negative onto a paper"
     "I was thinking the initial scene could be show like this, in negative"
     "you stay here for however long and see the normal conversation"
     "We may need a background or something, even if it is very subtle"
-    scene white_background
-    show BG1 at truecenter with Fade(0.1, .8, .8, color="#fff")
-    "Maybe you see the exposed photo before going back into the dark to double expose"
+    $ renpy.block_rollback()
+
+label develop_base:
+    scene black_background with fade
+    $ startDeveloping()
+    show screen develop_photo("exposuretest/bakgroundimage.png")
+    "Let's try a red thing (just testing visuals)"
+    $ develop(10)
+    "10"
+    $ develop(20)
+    "20"
+    $ develop(30)
+    "30"
+    $ develop(40)
+    "40"    
+    $ develop(50)
+    "50"    
+    $ develop(60)
+    "60"    
+    "Done developing, overexpose?"
+    $ develop(70)
+    "60+10"    
+    $ develop(80)
+    "60+20"    
+    $ develop(90)
+    "60+30"    
+
+label projector_select_double:
+    hide screen develop_photo
+    $ renpy.block_rollback()
     scene black_background with fade
     show BG1 at truecenter:
-        alpha 0.5
-    "Now we double expose on the mask"
-    show Mask_inverted at truecenter:
-        alpha 0
-        zoom 0.7
-        blur 15
-        rotate -3
-        xalign 0.45 yalign 0.4
-        easeout 0.2 alpha 1
-        pause 0.15
-        easeout 0.5 alpha 0.7
-        pause 0.7
-        linear 0.5 xalign 0.5 yalign 0.5
-        pause 0.7
-        linear 0.5 blur 0 zoom 0.5
-        pause 0.7
-        linear 0.3 rotate -1
-        linear 0.2 rotate 1
-        pause 0.2
-        linear 0.2 rotate 0
+        alpha 0.25
+    "Select the mask to expose"
+    show Mask at project
     "If we want a more artsy effect we will need assets specific to that"    
     "Adding more text here helps with skipping"
-    scene white_background
-    show BG1_WithMask at truecenter with Fade(0.1, .8, .8, color="#fff")
-    "For combining the image we could either make sure the assets line up and I superimpose them, or have another image with is the double exposure"
-    "Back to the normal start"
+    scene black_background with fade
+    show screen develop_photo("exposuretest/bakgroundimage.png", "exposuretest/pallid_mask_nobpg.png")
+    $ jumptarget = "develop_double_" + str(persistent.baseDeveloped)
+    $ print("jumping to evaluate jumpTarget: ", jumptarget, ", baseDeveloped: ", persistent.baseDeveloped )
+    $ renpy.block_rollback()
+    jump expression jumptarget
 
+label develop_double_30:
+    $ develop(40, True)
+    "40 double"
+label develop_double_40:
+    $ develop(50, True)
+    "50 double"
+label develop_double_50:
+    $ develop(60, True)
+    "60 double"
+    "Done developing, overexpose?"   
+label develop_double_60:
+    $ develop(70, True)
+    "60+10 double"
+    $ develop(80, True)
+    "60+20 double"
+    $ develop(90, True)
+    "60+30 double"
 
+label complete_image:  
+    $ renpy.block_rollback()
+    hide screen develop_photo
+    "Complete"
+    show BG1 at truecenter:
+        matrixcolor None
+    show Mask at truecenter:
+        matrixcolor None
+    "Here is the completed image"
 
 label introScene:
     scene black
