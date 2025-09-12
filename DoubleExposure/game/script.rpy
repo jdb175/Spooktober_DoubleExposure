@@ -25,6 +25,9 @@ default curDevLevel = 0
 
 default budLevel = 0 #friendship level with bud.
 
+#Branching story related variables
+default photoFound = False
+
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
@@ -45,6 +48,7 @@ define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 label start:
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
+    $ budLevel = 0
     jump introScene
     return
 
@@ -60,15 +64,21 @@ label introScene:
     hide Erin_headshot
     temp "SHOW: one of Erin's works, if we have the art budget" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
-    "But Erin's love of double exposure, in particular, stuck with you."
+    "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
+    "Which some days feels crazy, like you're a *real artist*"
+    "And some days feels like you're so far from real success."
+    "Erin's love of double exposure, in particular, stuck with you."
     temp "SHOW: Something new exposed over the current art piece" #Show something exposed over the piece.
-    "Taking two images and making them one."
-    "Maybe that's what caught the eye of the Darabondi Foundation."
+    "Partially developing one photo, and then"
+    "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
+    "You still do it the old fashioned way, too. Film. A darkroom."
+    "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
     #Stretch goal – show a drawing of a letter in hand, or SOMETHING
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
-    "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
+    "You could hardly believe it when you found out."
+    "You were chosen as a recipient of their first ever Young Artist Grant"
     temp "SHOW: The darkroom photo exposing view. A photo is developing." #show the darkroom.
-    "A chance to work - to be *paid* to work - in Erin's old studio. To create works inspired by her."
+    "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     "By her legacy."
     temp "SHOW: as the photo develops, a terrifying face comes into view, one we will soon learn to be that of the Porter" #show the Porter appearing in the photo
     "A legacy which, for better or for worse, you are now a part of..."
@@ -92,6 +102,7 @@ label introScene:
             #show bud dejected or pensive
             bud "Yeah, of course. Me too. That's why we're here."
         "Of course. I've read some pretty crazy theories":
+            $ budLevel += 1
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
         "Why would she need to fake her disappearence to run her own foundation? You have to admit that makes no sense.":
@@ -107,6 +118,7 @@ label introScene:
     "Ah shit. To be honest, you've been struggling with that too."
     menu:
         "I'm actually really struggling with it.":
+            $ budLevel += 1
             "I know the grant stipulates that we can make whatever we want, so long as it is *in dialogue with Erin's work*"
             "Just specific enough to make things harder, but vague enough to get drowned in options"
             bud "Dude, it's freaking HARD, right? It's like, suddenly there's all this pressure."
@@ -208,7 +220,9 @@ label darkroomIntro2:
 
 
 label photo1_firstDev:
-    "You slide one of the two pieces of photo paper under the enlarger and start a print of 'day and night'"
+    "You slide one of the two pieces of photo paper under the enlarger."
+    "It feels coarse to the touch. Strangely thick."
+    "You expose the paper, starting a print of 'day and night'"
     scene darkroom_trays with flash
     "Next comes the developing liquid. You drop the print in the bath and wait."
     "If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
@@ -216,35 +230,45 @@ label photo1_firstDev:
     show photo1
     "The image begins to emerge, slowly at first."
     "Then, something else starts to happen."
-    "Erin's lips part. Subtly, but unmistakably"
-    "You hear her voice. Whether it's from the photo or in your head you can't quite tell."
+    "In the photo, the figure by the window starts to move."
     show Erin_headshot
-    Erin "Everything we did was wrong. From the start."
-    Erin "The Bright House. The Porter. I see that now."
-    Erin "But there is a part of me that can hardly stop myself."
-    Erin "When I picture that glorious light leaking into our world, I almost shudder with the rapture of the thought."
-    Erin "I see our world for the dark place it is. Even in the bright of day it is filled with shadows."
-    Erin "I would see it filled with light."
-    #50% exposed
+    "Erin."
+    "She turns towards the camera and somehow, you hear her muttering to herself."
+    Erin "Something like that..."
+    "She walks towards the camera, disappearing out of frame."
+    hide Erin_headshot with fade
+    Erin "Well shit, I do believe that's going to do it."
+    Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
+    show Erin_headshot
+    Erin "I should probably shoot a few takes. Different expressions."
+    Erin "Since I have no idea how I'm going to be feeling after all of this."
+    Erin "That's assuming, of course, you even come back at all..."
     "You pull your gaze away for a moment to check the clock. It's halfway done."
     "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
     "But... what if it stops?"
     "Or what if it doesn't stop?"
     "What is even happening here?!"
+    #50% breakpoint!
     menu:
         "Pull out the photo":
             hide photo1
-            hide Erin_headshot
-            $ curDevLevel = 50
+            "You grab your tongs and pull out the photo."
+            "Immediately, whatever it was you were watching stops completely."
+            "The photo looks as it should - a half-developed print of the negative you saw earlier."
+            "The room is quiet, except for the sound of your heart pounding in your chest."
             jump photo1_firstDouble
         "Keep watching":
             "Your heart pounding, you try to focus back on what you are seeing and hearing."
             "You can always decide to pull it out later, even if it ruins the image a bit."
-    Erin "But it scares me."
-    Erin "Because I am supposed to love this world. The world. My world."
-    Erin "And with every day that passes I find it harder to see it for anything other than a shadow."
-    Erin "The light within me makes all else dark."
-    Erin "That is what I will show with this piece."
+    Erin "Shit. Erin, you're shaking."
+    Erin "Well, if this is going to be my last photograph, it may as well be a good one."
+    "She turns and looks at the doorway."
+    Erin "Maybe Peter is completely full of shit."
+    Erin "..."
+    Erin "I don't think he is though."
+    Erin "And you've come too far to back out now. Whatever happens..."
+    Erin "..."
+    Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
     #80% breakpoint
     "Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
     "You'd guess it is 80 percent of the way to fully developed - 30 percent more than you'd hoped for your double-exposure plan."
@@ -279,6 +303,7 @@ label photo1_firstDev:
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump photo1_ruined
+    return
     
 label photo1_ruined:
     "Well, you've ruined this photo, but that hardly matters."
@@ -320,11 +345,21 @@ label photo1_addSiob:
     show photo1
     show Erin_headshot at left
     show Siob_headshot at right
-    "As Siobhan's head beings to appear, her lips begin to move, just as Erin's did."
+    "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
+    "Then, she starts to move. Her feet, partially suspended, touch the ground."
+    "Like she's there."
     Siob "*I* don't know. I trust Peter. Something about his energy."
     Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
     Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
     Siob "But if I do... well, I just want to say, I love your work."
+    Erin "Admit it, you'd never heard of me."
+    Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
+    Siob "I guess he's like, famous famous. Did you know?"
+    Erin "Yeah."
+    Erin "You seem excited for tomorrow."
+    Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
+    Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
+    Siob "Like, what should he be telling us?"
     if curDevLevel >= 80: # won't be hardcoded in real system, this is to cut you off if you took the other scene too far
         "The photo is starting to get overexposed. You ought to pull it out. If you think that matters anymore."
         menu:
@@ -334,13 +369,20 @@ label photo1_addSiob:
             "Keep watching":
                 jump photo1_addSiob_past100
     #if we're here, we weren't at 80.
-    Erin "You're better."
-    Siob "That's not true."
-    Siob "Gunnar is the real big fish here anyway. Actually famous and all."
-    Siob "No idea how Peter found us. Or why he chose us, you know?"
-    Erin "I think he saw my series. 'Otherworld.' A title like that *had* to grab his attention."
-    Siob "See, what's funny is that you seem to really believe in this stuff."
-    Erin "You don't?"
+    Erin "Well, so, what *is* the Porter? Like how did he find it? Why should he trust it?"
+    Erin "He calls it a spirit but couldn't it be a demon or something?"
+    Siob "Oh, yeah, I was worried about that too."
+    Siob "But I did some um, some digging. While you guys were doing that bonefire thing last night."
+    Siob "I figured a guy like Peter writes absolutely everything down."
+    Siob "To be fair, I also thought he'd like, lock all that shit up in a secret library or something."
+    Siob "But it was all just out in his office."
+    Erin "You read his stuff??"
+    Siob "SHHH!"
+    Siob "But, yeah."
+    Siob "You want me to tell you or what?"
+    Eirn "... yeah, I do."
+    Siob "So by his reckoning, it's like, an old house spirit. Like, it came with this place."
+    Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
     #Now we hit 100%
     "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     menu:
@@ -352,12 +394,12 @@ label photo1_addSiob:
 
 label photo1_addSiob_past100:
     $ corruption += 5
-    Siob "When I see it, I will, yeah."
-    Siob "'The Porter.' Did Peter come up with that name?"
-    Erin "No. It is His Name."
+    Erin "'The Porter.' Did Peter come up with that name?"
+    Siob "No. It is His Name."
     Siob "It is His Function."
-    Erin "It was taken From Him"
+    Siob "It was taken From Him"
     Siob "BUT HE WILL NOT BE CONTAINED"
+    Erin "HE WILL HAVE WHAT IS HIS"
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     hide Siob_headshot
     hide Erin_headshot
@@ -375,9 +417,17 @@ label photo1_addGunnar:
     "As the man's head begins to appear, his mouth begins to move"
     unk "I'm sure you've heard this before, but I will say it again."
     unk "Fame is the *worst* thing that could happen to you."
-    Erin "You're right. I have heard that before."
-    unk "I'm serious! I've almost stopped writing entirely, in fact."
-    Erin "So like, why are you here then?"
+    Erin "You're right. I *have* heard that before."
+    unk "Oh don't get me wrong, I understand you."
+    Erin "Do you?"
+    unk "The fire to prove yourself. To do something great. It's pointless to ignore it."
+    unk "I'm not saying you should stop chasing fame. May as well tell a moth to steer clear of candles."
+    unk "I'm just telling you that you won't like it." #Note, I think Erin actually kinda thinks this is funny now. It was annoying at first.
+    Erin "So what, embrace the flame"
+    unk "Isn't that what we're doing here?"
+    unk "Chasing somthing that could very well destroy us?"
+    Erin "I'm not going to get destroyed. That's why I'm not going first."
+    Erin "Is that what you're doing?"
     if curDevLevel >= 80: # won't be hardcoded in real system, this is to cut you off if you took the other scene too far
         "The photo is starting to get overexposed. You ought to pull it out. If you think that matters anymore."
         menu:
@@ -391,11 +441,22 @@ label photo1_addGunnar:
     unk "Well..."
     unk "If Peter is right and this... place... really exists, then someone should to write about it."
     unk "And I suppose I can't stand the thought of it being anyone other than me."
-    Erin "Has anyone ever told you you've vain, Gunnar?"
-    Gunnar "You are too, Erin, or you wouldn't be here."
-    Erin "I have no idea why I'm here, if I'm being honest."
-    Gunnar "I know you've both just met him, but I've known Peter a long time. He knows what he's doing."
+    Erin "I think you might be vain, Gunnar. Has anyone ever told you that?"
+    Gunnar "I've seen your work. Very psychological, very personal. You must think your head is a very interesting place to be."
+    Gunnar "My books have multiple points of view. And I try *very* hard to make sure none of them are my own."
+    Erin "So you're saying I'm going to be in your book?"
+    Gunnar "Who knows what's going to come out of this. Book. Poem. Alien scribblings. The Truth about the Creation of Time."
+    Gunnar "But if you end up being interesting enough... sure, I might put you in."
+    Gunnar "But enough ramblings of a vain man. What drive Erin Darabondi to step through the threshold of the so-called Bright House?"
+    Erin "..."
+    Erin "I have no idea."
+    Gunnar "Bullshit."
+    Erin "Do you really trust Peter?"
+    Gunnar "If he tells us this Bright House is safe, well, I trust he believes that."
+    Gunnar "I know you - both of you - have just met him, but I've known him a long time. He knows what he's doing."
+    Gunnar "Not in all things. I pray to God you never have to see his personal attempts at art."
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
+
     #Now we hit 100%
     "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     menu:
@@ -428,10 +489,21 @@ label photo1_addPeter:
     show Erin_headshot at left
     unk "I've spoken with Siobhan. She'll be going through tonight. Gunnar is happy to go tomorrow, unless you'd prefer his spot."
     Erin "That's fine with me."
-    unk "Can I sit with you a moment? I'm usually pretty good at reading people and I really can't tell how you're doing."
-    unk "you don't have to be here if you don't want to."
+    unk "I'm pleased to see you're already working. And I'm honored that my kitchen is going to be a part of some great work of art."
+    unk "This is what impresses me the most about you creative types. I'd assume a kitchen is just... boring, I don't know."
+    unk "But I guess you see something in it."
+    Erin "Maybe it'll make more sense when you see the piece."
+    Erin "Honestly, I don't even know what this piece is going to be either. Usually I've got something more like a plan."
+    Erin "But I think it'll be interesting to capture these images of *before*. And then, once we go through... to the ..."
+    unk "Bright House, yes."
+    Erin "To the Bright House. To show how we see things after."
+    Erin "If I go. You know I still - "
+    unk "It's okay. You don't have to be here if you don't want to. And you don't have to decide anything now."
     Erin "Thank you, Mr. Carlson"
     Peter "Please, just Peter is fine."
+    Peter "Anyway, I'll leave you to your work. Dinner's at 5 if you want it and then Siobhan's going through at 7:00PM sharp. In the Grand hall."
+    hide Peter_headshot
+    Erin "Peter, wait!"
     if curDevLevel >= 80: # won't be hardcoded in real system, this is to cut you off if you took the other scene too far
         "The photo is starting to get overexposed. You ought to pull it out. If you think that matters anymore."
         menu:
@@ -441,12 +513,20 @@ label photo1_addPeter:
             "Keep watching":
                 jump photo1_addPeter_past100
     #If we're here, we weren't at 80
-    Peter "Enjoy your breakfast, and see you this evening, 5pm in the workroom."
-    Erin "Wait, I have a question."
-    Peter "I hope I have an answer"
-    Erin "I still don't fully understand why you need us in the first place."
+    show Peter_headshot
+    Erin "I have a question."
+    Peter "I hope I have an answer."
+    Erin "What is the Porter? I know you said a 'helper spirit' but I mean, how do you know that?"
+    Peter "Incredible amounts of research. And a good deal of personal experience."
+    Peter "You will see it yourself, you know. Tonight. 7:00PM sharp, in fact."
+    Peter "..."
+    Peter "I know that is not adequate. But the truth is I don't think anything I say could be enough. You either believe me or don't."
+    Peter "Or do several years of your own painstaking research."
+    Erin "Fine. But I still don't fully understand why you need us here."
     Erin "I mean, I guess I can understand. You find something incredible, you want to share it."
-    Peter "It's not just incredible. It is so much more. And that's the problem."
+    Erin "But is that really it?"
+    Peter "This place is not just incredible. It would be incredible no matter what it looked like, of course. Another world, apart from our own..."
+    Peter "But I promise you, Erin, it is so much more. And that's the problem."
     Peter "If I had Gunnar's way with words, I could describe it to you so you'd understand."
     Peter "Or if I had your grasp of the symbolic image, or Siobhan's power to capture emotion..."
     Peter "I found the Bright House through nothing more than pure, stupid curiosity."
@@ -490,12 +570,49 @@ label photo1_secondBase:
             "Wait until it is ready for a second exposure":
                 "You watch the clock, only half-listening to Erin's speech, pulling out the photo as soon as possible to create a new exposure."
                 jump photo1_doubleMenu
+    #We finish up our second development and move on to the first night.
     else:
-        "With that, you've used the last of the photo paper you found among Erin's things."
-        "You run home, bringing some of your own back to the darkroom, but it's no use."
-        "You just get a normal image."
-        "Your head swirling with thoughts and questions, you feel like the best thing to do is head to bed."
-        jump night1_intro
+        "You stand in the darkroom for a minute, dumbfounded, still processing what just happened."
+        if corruption > 5:
+            "You look at the photos you just printed. Out the corner of your eye you feel like you can see them moving still. But they aren't."
+        else:
+            "You look at the photos you just printed. No sign of anything out of the ordinary."
+        "If you can trust what you've just seen, it seems like Erin was a part of something strange. Magical."
+        "And you have no choice to believe that understanding what she was up to could explain what you've just seen."
+        "On the other hand, Erin disappeared without a trace. Knowing more might be a very bad idea."
+        if corruption > 10:
+            "You start to feel the hairs on the back of your neck raise. Like something is watching you."
+            "Like something is in the darkroom with you."
+    jump endOfDayOneChoices
+
+label endOfDayOneChoices:
+        menu:
+            set menuset
+            "Search the room for further clues":
+                "You spend hours searching the room. Supposedly her effects were left undisturbed, so it stands to reason you might find something that helps explain this."
+                if corruption >= 10:
+                    "The whole time, you feel that presense over your shoulder, watching you."
+                    "It's not a good feeling."
+                elif corruption >= 5:
+                    "You start to feel the hairs on the back of your neck raise. Like something is watching you."
+                    "Like something is in the darkroom with you."
+                "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
+                "And then, tucked away in the back of a file nestled among old tax documents, you find something."
+                temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
+                $ photoFound = True
+                "Something unsettling indeed."
+                "The photo is printed on similar paper to the photos you found."
+                "There is no note, no explanation."
+                "You slip it into your bag."
+                jump night1_intro
+            "Try printing another photograph":
+                "The photo paper you found is gone, but you of course had brought some of your own."
+                "You pull it out of your back and attempt another exposure."
+                "Nothing. Just a photo."
+                jump endOfDayOneChoices
+            "Go home. Make sense of this tomorrow":
+                "It's late. You're alone in a creepy darkroom. You don't know what's happening. And frankly, none of this technically concerns you."
+                jump night1_intro
 
 label night1_intro:
     hide darkroom_trays with dissolve
@@ -512,6 +629,7 @@ label night1_intro:
     if corruption >= 10:
         unk "you are already TOO BRIGHT"
     else:
+        unk "before you are tainted"
     temp "we SHOW the eyes"
     unk "my eyes... kept in anothers head"
     temp "SHOW heart"
@@ -523,6 +641,8 @@ label night1_intro:
     unk "they could not run. and neither can you."
     "..."
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
+    if photoFound == True:
+        "The face from the photo you found."
     "Like it is burned into your vision."
     jump day2
     return

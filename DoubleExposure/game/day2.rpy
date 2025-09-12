@@ -12,6 +12,7 @@ label day2:
     jump day2_budConvo
 
 label day2_budConvo:
+    "As you hurry doublt"
     show bud
     bud "Oh, hey!"
     temp "I think Bud will help you with some important info here, but I'm not going to write this scene just yet."
