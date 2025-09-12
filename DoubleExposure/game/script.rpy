@@ -85,16 +85,33 @@ init python:
     MIN_DEVELOP_TIME = 30
     MAX_DEVELOP_TIME = 60
 
-    def startDeveloping():
+    def startDeveloping(endTarget):
         persistent.baseDeveloped = 0
         persistent.secondaryDeveloped = 0
         persistent.canStopDeveloping = False
         persistent.baseAlpha = 0.0
         persistent.secondaryAlpha = 0.0
         persistent.overExposureBrightness = 0.0
+        persistent.pendingJump = False
+        persistent.endTarget = endTarget
+        persistent.doubleExposing = False
 
+    def stopDeveloping():
+        print("Flagging to end development after the next line")
+        persistent.pendingJump = True
+        persistent.canStopDeveloping = False
 
-    def develop(baseDeveloped: int, developSecondary: bool = False):
+    def startDoubleExposing(endTarget):
+        persistent.endTarget = endTarget
+        persistent.doubleExposing = True
+
+    def develop(baseDeveloped: int):
+        print("checking if there is a jump pending, ", persistent.pendingJump)
+        if(persistent.pendingJump == True):
+            persistent.pendingJump = False
+            renpy.jump(persistent.endTarget)
+            return
+
         # 1 indexed for artist ease
         print("baseDeveloped: ", baseDeveloped, 
             "\n----persistent baseDeveloped: ", persistent.baseDeveloped, 
@@ -106,7 +123,7 @@ init python:
                 persistent.baseDeveloped = baseDeveloped
                 persistent.baseAlpha = min(baseDeveloped/MAX_DEVELOP_TIME, 1.0)
 
-                if(developSecondary):
+                if(persistent.doubleExposing):
                     persistent.secondaryDeveloped += delta
                     persistent.secondaryAlpha = min(persistent.secondaryDeveloped/MAX_DEVELOP_TIME, 1.0)
 
@@ -138,28 +155,38 @@ label projector_select_base:
 
 label develop_base:
     scene black_background with fade
-    $ startDeveloping()
+    $ startDeveloping("projector_select_double")
     show screen develop_photo("exposuretest/bakgroundimage.png")
     "Let's try a red thing (just testing visuals)"
     $ develop(10)
-    "10"
+    "One line"
+    "two lines"
     $ develop(20)
-    "20"
+    "One line"
+    "two lines"
     $ develop(30)
-    "30"
+    "One line"
+    "two lines"
     $ develop(40)
-    "40"    
+    "One line"
+    "two lines"
     $ develop(50)
-    "50"    
+    "One line"
+    "two lines"
     $ develop(60)
-    "60"    
-    "Done developing, overexpose?"
+    "One line"
+    "two lines"
+    if(persistent.pendingJump == False):
+        "Are you ready to overexpose?"
     $ develop(70)
-    "60+10"    
+    "One line"
+    "two lines"
     $ develop(80)
-    "60+20"    
+    "One line"
+    "two lines"
     $ develop(90)
-    "60+30"    
+    "One line"
+    "two lines"
 
 label projector_select_double:
     hide screen develop_photo
@@ -176,24 +203,26 @@ label projector_select_double:
     $ jumptarget = "develop_double_" + str(persistent.baseDeveloped)
     $ print("jumping to evaluate jumpTarget: ", jumptarget, ", baseDeveloped: ", persistent.baseDeveloped )
     $ renpy.block_rollback()
+    $ startDoubleExposing("complete_image")
     jump expression jumptarget
 
 label develop_double_30:
-    $ develop(40, True)
+    $ develop(40)
     "40 double"
 label develop_double_40:
-    $ develop(50, True)
+    $ develop(50)
     "50 double"
 label develop_double_50:
-    $ develop(60, True)
+    $ develop(60)
     "60 double"
-    "Done developing, overexpose?"   
+    if(persistent.pendingJump == False):
+        "Are you willing to overexpose?" 
 label develop_double_60:
-    $ develop(70, True)
+    $ develop(70)
     "60+10 double"
-    $ develop(80, True)
+    $ develop(80)
     "60+20 double"
-    $ develop(90, True)
+    $ develop(90)
     "60+30 double"
 
 label complete_image:  

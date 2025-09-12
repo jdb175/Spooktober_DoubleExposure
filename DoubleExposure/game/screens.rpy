@@ -97,9 +97,12 @@ screen develop_photo(base_image, secondary_image=None):
 
         vbox:
             text "[persistent.baseDeveloped]"
-            textbutton "Stop Developing":
-                sensitive(persistent.canStopDeveloping)
-                action Jump("projector_select_double")
+            if(persistent.pendingJump):
+                text "Stopping Development"
+            else:
+                textbutton "Stop Developing":
+                    sensitive(persistent.canStopDeveloping)
+                    action Function(stopDeveloping)
 
 
 ## Say screen ##################################################################
