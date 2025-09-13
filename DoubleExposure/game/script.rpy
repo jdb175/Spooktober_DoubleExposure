@@ -625,7 +625,8 @@ label endOfDayOneChoices:
 
 label night1_intro:
     hide darkroom_trays with dissolve
-    ""
+    "Your head swirling with questions, you head home to try and get some sleep."
+    "It comes slowly, but sleep does come."
     "..."
     temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
     unk "..."
@@ -649,11 +650,14 @@ label night1_intro:
     unk "my tongue curled in anothers mouth"
     unk "they could not run. and neither can you."
     temp "SHOW Porter."
-    temp "ZOOM forwards through its mouth until we see "
-    "..."
+    temp "ZOOM forwards through its mouth, into the darkroom scene."
+    #I want these to be burned somewhere, which would require art of a trash bin or oven or something, but we can just hide them in the enlarger for now.
+    temp "ZOOM into a detail in the scene - a photo on the wall."
+    temp "FLASH out of the scene"
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
     if photoFound == True:
         "The face from the photo you found."
     "Like it is burned into your vision."
+    "Was it trying to show you something?"
     jump day2Start
     return
