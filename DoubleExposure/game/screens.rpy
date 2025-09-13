@@ -135,10 +135,13 @@ screen enlarger_select_photo():
     frame id "enlarger_selection":
         xalign 0.5 yalign 0.5
 
-        add persistent.exposingImagePath at enlarger_project_image
+        if(persistent.exposedBaseImage):
+            add persistent.exposedBaseImage.path at center
+
+        add persistent.exposingImage.path at enlarger_project_image
         
         vbox:
-            text "[persistent.exposingImageText]"
+            text "[persistent.exposingImage.description]"
             textbutton "Select Image" action [Function(stop_enlarger), Return(persistent.enlargerJumpLabel)]
             
 
