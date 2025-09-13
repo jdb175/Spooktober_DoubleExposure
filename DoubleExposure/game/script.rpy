@@ -1,51 +1,3 @@
-#Importing libraries
-python early:
-    import math
-    from enum import Enum
-
-    DEVELOP_LABEL_PREFIX = "develop_"
-    
-    class EnlargerImage:
-        def __init__(self, label, path, description):
-            self.label = label
-            self.path = path
-            self.description = description
-
-        def __eq__(self, other): 
-            if not isinstance(other, EnlargerImage):
-                return False
-
-            return self.label == other.label and self.path == other.path
-    
-    class Days(Enum):
-        DAY_ONE=0
-
-    BASE_IMAGES_DAY_ONE = [
-        EnlargerImage("house", 
-            "exposuretest/bakgroundimage.png",
-            "An image of a house"),
-        EnlargerImage("face", 
-            "exposuretest/face_bg.png",
-            "An image of a face"),
-    ]
-
-    OBJECT_IMAGES_DAY_ONE = [
-        EnlargerImage("mask", 
-            "exposuretest/pallid_mask_nobpg.png",
-            "An image of a mask"),
-        EnlargerImage("face", 
-            "exposuretest/guy.png",
-            "It's a guy"),
-    ]
-
-    BASE_IMAGES = {
-        Days.DAY_ONE: BASE_IMAGES_DAY_ONE,
-    }   
-
-    OBJECT_IMAGES = {
-        Days.DAY_ONE: OBJECT_IMAGES_DAY_ONE,
-    }
-
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
@@ -98,128 +50,21 @@ image white_background = Solid("#fff")
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
-init python:
-    MIN_DEVELOP_TIME = 30
-    MAX_DEVELOP_TIME = 60
-
-    def startDeveloping(enlargerTarget, overExposureTarget):
-        persistent.baseDeveloped = 0
-        persistent.secondaryDeveloped = 0
-        persistent.overExposure = 0.0
-        persistent.canStopDeveloping = False
-        persistent.baseAlpha = 0.0
-        persistent.secondaryAlpha = 0.0
-        persistent.overExposureBrightness = 0.0
-        persistent.endingDevelopment = False
-        persistent.endTarget = enlargerTarget
-        persistent.overExposeTarget = overExposureTarget
-        persistent.doubleExposing = False
-
-    def stopDeveloping():
-        print("Flagging to end development after the next line")
-        persistent.endingDevelopment = True
-        persistent.canStopDeveloping = False
-
-    def startDoubleExposing(endTarget, overExposureTarget):
-        persistent.overExposeTarget = overExposureTarget
-        persistent.endTarget = endTarget
-        persistent.doubleExposing = True
-
-    def _checkPendingJump(checkExposure = True):
-        print("checking if there is a jump pending, ", persistent.endingDevelopment)
-
-        if(persistent.endingDevelopment):
-            persistent.endingDevelopment = False
-            renpy.jump(persistent.endTarget)
-    
-        if(persistent.baseDeveloped == MAX_DEVELOP_TIME and checkExposure):
-            persistent.endingDevelopment = False
-            renpy.jump(persistent.overExposeTarget)
-
-    def _develop(baseDevelopment: int = -1, secondaryDevelopment: int = -1):
-        _checkPendingJump()
-
-        increment : int = 0
-
-        if(baseDevelopment < 0):
-            increment = secondaryDevelopment - persistent.secondaryDeveloped
-        else:
-            increment = baseDevelopment - persistent.baseDeveloped
-
-        if(increment < 0):
-            persistent.canStopDeveloping = False
-        else:
-            if(increment > 0):
-                persistent.baseDeveloped += increment
-                persistent.baseAlpha = min(persistent.baseDeveloped/MAX_DEVELOP_TIME, 1.0)
-
-                if(persistent.doubleExposing):
-                    persistent.secondaryDeveloped += increment
-                    persistent.secondaryAlpha = min(persistent.secondaryDeveloped/MAX_DEVELOP_TIME, 1.0)
-                
-                persistent.canStopDeveloping = persistent.baseDeveloped >= MIN_DEVELOP_TIME
-
-
-    def develop_overexposed(overexposure: int):
-        _checkPendingJump(False)
-        persistent.canStopDeveloping = False
-        persistent.overExposureBrightness = overexposure / MAX_DEVELOP_TIME
-
-    def develop_double(development: int):
-        _develop(secondaryDevelopment=development)
-
-    def develop(development: int):
-        _develop(baseDevelopment=development)
-
-
-init python:
-
-    def stop_enlarger():
-        if(persistent.exposedBaseImage):
-            persistent.exposedBaseImage = None
-        else:
-            baseImages = BASE_IMAGES[Days(persistent.currentDay)]
-            persistent.exposedBaseImage = baseImages[persistent.imageIndex]
-
-    def populate_enlarger_data():
-        if(persistent.exposedBaseImage):
-            objectImages = OBJECT_IMAGES[Days(persistent.currentDay)]
-            persistent.exposingImage = objectImages[persistent.imageIndex]
-            persistent.enlargerJumpLabel = DEVELOP_LABEL_PREFIX + persistent.exposedBaseImage.label + "_" + objectImages[persistent.imageIndex].label
-        else:
-            baseImages = BASE_IMAGES[Days(persistent.currentDay)]
-            persistent.exposingImage = baseImages[persistent.imageIndex]
-            persistent.enlargerJumpLabel = DEVELOP_LABEL_PREFIX + baseImages[persistent.imageIndex].label
-
-    def start_enlarger(day: Days):
-        persistent.currentDay = day.value
-        persistent.imageIndex = 0
-        populate_enlarger_data()
-
-    def cycle_enlarger(sign: int):
-        baseImages = BASE_IMAGES[Days(persistent.currentDay)]
-
-        persistent.imageIndex += sign
-        persistent.imageIndex = persistent.imageIndex % len(baseImages)
-
-        populate_enlarger_data()
-
-        print("Cycling ", sign, ": ", persistent.imageIndex, "/ ", len(baseImages))
-        renpy.hide_screen("enlarger_select_photo")
-        renpy.show_screen("enlarger_select_photo")
-
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
-    jump projector_select_base
+    jump day_one
     return
+
+label day_one:
+    $ beginDay(Days.DAY_ONE)
+    "Start exposing an image"
 
 label projector_select_base:
     $ renpy.block_rollback()
     scene black_background
-    "Now a projection"
-    $ start_enlarger(Days.DAY_ONE)
+    $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     $ renpy.block_rollback()
     jump expression target_label
@@ -261,13 +106,14 @@ label develop_house_overexposed:
     $ develop_overexposed(30)
     "One line"
     "two lines"
+    
 
 label projector_select_double:
     hide screen develop_photo
     $ renpy.block_rollback()
     scene black_background
     "Now project the double exposure"
-    $ start_enlarger(Days.DAY_ONE)
+    $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     $ renpy.block_rollback()
     jump expression target_label
@@ -283,6 +129,7 @@ label develop_house_mask:
     "three"
 
 label develop_house_mask_overexposed:
+    "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     "60+10 double"
     $ develop_overexposed(20)
@@ -298,6 +145,17 @@ label complete_image_house_mask:
     show Mask at truecenter:
         matrixcolor None
     "Here is the completed image"
+    jump post_image_completion_dayone
+
+label post_image_completion_dayone:
+    scene black_background
+    if(persistent.photoPaper > 0):
+        if(persistent.photoPaper == 1):
+            "You have just 1 piece of photo paper left"
+        else:
+            "You have [persistent.photoPaper] pieces of photo paper left"
+        jump projector_select_base
+    "You're out of paper"
 
 label introScene:
     scene black
