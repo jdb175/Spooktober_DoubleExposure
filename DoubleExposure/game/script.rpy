@@ -20,13 +20,16 @@ define unk2 = Character("???", color = "#b59cd8") #second unknown, in case two u
 
 ### Defining Variables ###
 default menuset = set() #we initialize this every time we have a menu set (see Ren'Py docs for more info)
-default corruption = 0
-default curDevLevel = 0
-
+default corruption = 0 #incremented as you overexpose photos. Checked whenever we feel like it.
+default curDevLevel = 0 #used as a placeholder for how developed your current photo is. Will be replaced when the real photo system is added.
 default budLevel = 0 #friendship level with bud.
 
 #Branching story related variables
-default photoFound = False
+default gunnarKnown = False #You know Gunnar's name
+default peterKnown = False #You know Peter's name
+default houseKnown = False #You've heard them talk about going 'through a gate'
+default porterKnown = False #You've heard them talk about the Porter
+default photoFound = False #You found the hidden photo in Erin's house.
 
 ###images### 
 #We may decide not to define these but just to use filenames later
@@ -83,7 +86,7 @@ label introScene:
     temp "SHOW: as the photo develops, a terrifying face comes into view, one we will soon learn to be that of the Porter" #show the Porter appearing in the photo
     "A legacy which, for better or for worse, you are now a part of..."
     #TRANSITION TIME!
-    "THREE DAYS EARLIER..."
+    temp "THREE DAYS EARLIER..."
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     temp "SHOW: Bud. If we can create a background elsewhere in Erin's house, this is happening there. Otherwise, it is happening in the wide of the darkroom."
     bud "I don't think she's dead."
@@ -370,6 +373,7 @@ label photo1_addSiob:
                 jump photo1_addSiob_past100
     #if we're here, we weren't at 80.
     Erin "Well, so, what *is* the Porter? Like how did he find it? Why should he trust it?"
+    $ porterKnown = True
     Erin "He calls it a spirit but couldn't it be a demon or something?"
     Siob "Oh, yeah, I was worried about that too."
     Siob "But I did some um, some digging. While you guys were doing that bonefire thing last night."
@@ -381,7 +385,7 @@ label photo1_addSiob:
     Siob "But, yeah."
     Siob "You want me to tell you or what?"
     Eirn "... yeah, I do."
-    Siob "So by his reckoning, it's like, an old house spirit. Like, it came with this place."
+    Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
     #Now we hit 100%
     "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
@@ -440,8 +444,10 @@ label photo1_addGunnar:
     unk "Hah!"
     unk "Well..."
     unk "If Peter is right and this... place... really exists, then someone should to write about it."
+    $ houseKnown = True
     unk "And I suppose I can't stand the thought of it being anyone other than me."
     Erin "I think you might be vain, Gunnar. Has anyone ever told you that?"
+    $ gunnarKnown = True
     Gunnar "I've seen your work. Very psychological, very personal. You must think your head is a very interesting place to be."
     Gunnar "My books have multiple points of view. And I try *very* hard to make sure none of them are my own."
     Erin "So you're saying I'm going to be in your book?"
@@ -500,6 +506,7 @@ label photo1_addPeter:
     Erin "If I go. You know I still - "
     unk "It's okay. You don't have to be here if you don't want to. And you don't have to decide anything now."
     Erin "Thank you, Mr. Carlson"
+    $ peterKnown = True
     Peter "Please, just Peter is fine."
     Peter "Anyway, I'll leave you to your work. Dinner's at 5 if you want it and then Siobhan's going through at 7:00PM sharp. In the Grand hall."
     hide Peter_headshot
@@ -517,6 +524,7 @@ label photo1_addPeter:
     Erin "I have a question."
     Peter "I hope I have an answer."
     Erin "What is the Porter? I know you said a 'helper spirit' but I mean, how do you know that?"
+    $ porterKnown = True
     Peter "Incredible amounts of research. And a good deal of personal experience."
     Peter "You will see it yourself, you know. Tonight. 7:00PM sharp, in fact."
     Peter "..."
@@ -526,6 +534,7 @@ label photo1_addPeter:
     Erin "I mean, I guess I can understand. You find something incredible, you want to share it."
     Erin "But is that really it?"
     Peter "This place is not just incredible. It would be incredible no matter what it looked like, of course. Another world, apart from our own..."
+    $ houseKnown = True
     Peter "But I promise you, Erin, it is so much more. And that's the problem."
     Peter "If I had Gunnar's way with words, I could describe it to you so you'd understand."
     Peter "Or if I had your grasp of the symbolic image, or Siobhan's power to capture emotion..."
@@ -618,7 +627,7 @@ label night1_intro:
     hide darkroom_trays with dissolve
     ""
     "..."
-    temp "we show a face appearing here. The Porter? We hear heavy breathing"
+    temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
     unk "..."
     unk "i see you" #Could we do a cool text effect here?
     unk "return what is mine"
@@ -637,12 +646,14 @@ label night1_intro:
     temp "SHOW hand"
     unk "my hand joined to another's arm"
     temp "SHOW tongue"
-    unk "my tongue wet in anothers mouth"
+    unk "my tongue curled in anothers mouth"
     unk "they could not run. and neither can you."
+    temp "SHOW Porter."
+    temp "ZOOM forwards through its mouth until we see "
     "..."
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
     if photoFound == True:
         "The face from the photo you found."
     "Like it is burned into your vision."
-    jump day2
+    jump day2Start
     return
