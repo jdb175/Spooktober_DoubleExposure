@@ -1,6 +1,7 @@
 #Importing libraries
 init python:
     import math
+    from enum import Enum
 
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
@@ -51,33 +52,6 @@ image BG1_WithMask = Composite(
 image black_background = Solid("#000000") 
 image white_background = Solid("#fff")  
 
-
-transform project:
-    matrixcolor InvertMatrix()
-    zoom 1.1
-    blur 15
-    yalign 0.55 xalign 0.4 rotate 3        
-    alpha 0
-    pause 0.05
-    alpha 0.7
-    pause 0.05    
-    alpha 0.3
-    pause 0.05    
-    alpha 0.7
-    pause 0.05 
-    alpha 0.2
-    pause 0.2
-    linear 0.7 alpha 0.7
-    pause 0.6
-    ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
-    pause 0.7
-    linear 1.0 blur 5 zoom 1.03
-    pause 0.2
-    linear 0.2 blur 3 zoom 1.015
-    pause 0.4
-    linear 0.2 blur 0 zoom 1
-
-
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
@@ -92,13 +66,13 @@ init python:
         persistent.baseAlpha = 0.0
         persistent.secondaryAlpha = 0.0
         persistent.overExposureBrightness = 0.0
-        persistent.pendingJump = False
+        persistent.endingDevelopment = False
         persistent.endTarget = endTarget
         persistent.doubleExposing = False
 
     def stopDeveloping():
         print("Flagging to end development after the next line")
-        persistent.pendingJump = True
+        persistent.endingDevelopment = True
         persistent.canStopDeveloping = False
 
     def startDoubleExposing(endTarget):
@@ -106,9 +80,9 @@ init python:
         persistent.doubleExposing = True
 
     def develop(baseDeveloped: int):
-        print("checking if there is a jump pending, ", persistent.pendingJump)
-        if(persistent.pendingJump == True):
-            persistent.pendingJump = False
+        print("checking if there is a jump pending, ", persistent.endingDevelopment)
+        if(persistent.endingDevelopment == True):
+            persistent.endingDevelopment = False
             renpy.jump(persistent.endTarget)
             return
 
@@ -134,6 +108,78 @@ init python:
         else:
             persistent.canStopDeveloping = False
 
+init python:
+
+    DEVELOP_LABEL_PREFIX = "develop_"
+    
+    class EnlargerImage:
+        def __init__(self, label, path, description):
+            self.label = label
+            self.path = path
+            self.description = description
+
+        def __eq__(self, other): 
+            if not isinstance(other, EnlargerImage):
+                return False
+
+            return self.label == other.label and self.path == other.path
+    
+    class Days(Enum):
+        DAY_ONE=0
+
+    BASE_IMAGES_DAY_ONE = [
+        EnlargerImage("house", 
+            "exposuretest/bakgroundimage.png",
+            "An image of a house"),
+        EnlargerImage("face", 
+            "exposuretest/face_bg.png",
+            "An image of a face"),
+    ]
+
+    OBJECT_IMAGES_DAY_ONE = [
+        EnlargerImage("mask", 
+            "exposuretest/pallid_mask_nobpg.png",
+            "An image of a mask"),
+        EnlargerImage("face", 
+            "exposuretest/guy.png",
+            "It's a guy"),
+    ]
+
+    BASE_IMAGES = {
+        Days.DAY_ONE: BASE_IMAGES_DAY_ONE,
+    }   
+
+    OBJECT_IMAGES = {
+        Days.DAY_ONE: OBJECT_IMAGES_DAY_ONE,
+    }
+
+    def stop_enlarger():
+        baseImages = BASE_IMAGES[Days(persistent.currentDay)]
+        persistent.exposedBaseImage = baseImages[persistent.imageIndex]
+
+    def populate_enlarger_data():
+        baseImages = BASE_IMAGES[Days(persistent.currentDay)]
+        persistent.exposingImagePath = baseImages[persistent.imageIndex].path
+        persistent.exposingImageText = baseImages[persistent.imageIndex].description
+        persistent.enlargerJumpLabel = DEVELOP_LABEL_PREFIX + baseImages[persistent.imageIndex].label
+
+    def start_enlarger_selection(day: Days):
+        persistent.currentDay = day.value
+        persistent.imageIndex = 0
+        populate_enlarger_data()
+
+    def cycle_enlarger(sign: int):
+        baseImages = BASE_IMAGES[Days(persistent.currentDay)]
+
+        persistent.imageIndex += sign
+        persistent.imageIndex = persistent.imageIndex % len(baseImages)
+
+        populate_enlarger_data()
+
+        print("Cycling ", sign, ": ", persistent.imageIndex, "/ ", len(baseImages))
+        renpy.hide_screen("enlarger_select_photo")
+        renpy.show_screen("enlarger_select_photo")
+
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
@@ -145,15 +191,14 @@ label projector_select_base:
     $ renpy.block_rollback()
     scene black_background
     "Now a projection"
-    show BG1 at project
-        
-    "The goal was to capture some of the effect of projecting a negative onto a paper"
-    "I was thinking the initial scene could be show like this, in negative"
-    "you stay here for however long and see the normal conversation"
-    "We may need a background or something, even if it is very subtle"
+    $ start_enlarger_selection(Days.DAY_ONE)
+    #There needs to be text here
+    "Begin enlarging"
+    $ target_label = renpy.call_screen("enlarger_select_photo")        
     $ renpy.block_rollback()
+    jump expression target_label
 
-label develop_base:
+label develop_house:
     scene black_background with fade
     $ startDeveloping("projector_select_double")
     show screen develop_photo("exposuretest/bakgroundimage.png")
@@ -176,7 +221,7 @@ label develop_base:
     $ develop(60)
     "One line"
     "two lines"
-    if(persistent.pendingJump == False):
+    if(persistent.endingDevelopment == False):
         "Are you ready to overexpose?"
     $ develop(70)
     "One line"
@@ -200,11 +245,11 @@ label projector_select_double:
     "Adding more text here helps with skipping"
     scene black_background with fade
     show screen develop_photo("exposuretest/bakgroundimage.png", "exposuretest/pallid_mask_nobpg.png")
-    $ jumptarget = "develop_double_" + str(persistent.baseDeveloped)
-    $ print("jumping to evaluate jumpTarget: ", jumptarget, ", baseDeveloped: ", persistent.baseDeveloped )
+    $ target_label = "develop_double_" + str(persistent.baseDeveloped)
+    $ print("jumping to evaluate jumpTarget: ", target_label, ", baseDeveloped: ", persistent.baseDeveloped )
     $ renpy.block_rollback()
     $ startDoubleExposing("complete_image")
-    jump expression jumptarget
+    jump expression target_label
 
 label develop_double_30:
     $ develop(40)
@@ -215,7 +260,7 @@ label develop_double_40:
 label develop_double_50:
     $ develop(60)
     "60 double"
-    if(persistent.pendingJump == False):
+    if(persistent.endingDevelopment == False):
         "Are you willing to overexpose?" 
 label develop_double_60:
     $ develop(70)
@@ -228,7 +273,6 @@ label develop_double_60:
 label complete_image:  
     $ renpy.block_rollback()
     hide screen develop_photo
-    "Complete"
     show BG1 at truecenter:
         matrixcolor None
     show Mask at truecenter:

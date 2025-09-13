@@ -75,13 +75,37 @@ style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
 
-
-
 transform developingImage(a, b):
     xalign 0.5 
     yalign 0.5
+    zoom 0.7
     matrixcolor TintMatrix("#f00") * BrightnessMatrix(b)
     linear a alpha a
+
+transform enlarger_project_image:
+    matrixcolor InvertMatrix()
+    zoom .8
+    blur 15
+    yalign 0.55 xalign 0.4 rotate 3        
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    pause 0.6
+    ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
+    pause 0.7
+    linear 1.0 blur 5 zoom .73
+    pause 0.2
+    linear 0.2 blur 3 zoom .715
+    pause 0.4
+    linear 0.2 blur 0 zoom .7
 
     
 ################################################################################
@@ -89,7 +113,7 @@ transform developingImage(a, b):
 ################################################################################
 
 screen develop_photo(base_image, secondary_image=None):
-    frame id "photodevelopment":
+    frame id "photo_development":
         add base_image at developingImage(persistent.baseAlpha, persistent.overExposureBrightness)
 
         if(secondary_image):
@@ -97,13 +121,26 @@ screen develop_photo(base_image, secondary_image=None):
 
         vbox:
             text "[persistent.baseDeveloped]"
-            if(persistent.pendingJump):
+            if(persistent.endingDevelopment):
                 text "Stopping Development"
             else:
                 textbutton "Stop Developing":
                     sensitive(persistent.canStopDeveloping)
                     action Function(stopDeveloping)
 
+
+screen enlarger_select_photo():
+    key "focus_left" action Function(cycle_enlarger, sign=-1)
+    key "focus_right" action Function(cycle_enlarger, sign=1)
+    frame id "enlarger_selection":
+        xalign 0.5 yalign 0.5
+
+        add persistent.exposingImagePath at enlarger_project_image
+        
+        vbox:
+            text "[persistent.exposingImageText]"
+            textbutton "Select Image" action [Function(stop_enlarger), Return(persistent.enlargerJumpLabel)]
+            
 
 ## Say screen ##################################################################
 ##
