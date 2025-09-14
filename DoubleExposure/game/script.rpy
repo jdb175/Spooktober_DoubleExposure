@@ -86,6 +86,24 @@ label post_image_completion_dayone:
     "You're out of paper"
     jump introScene
 
+# this system works by jumping to known labels
+# == Projector ==~
+# projector_select_double_<DAY>
+
+# === Base image development ==
+# develop_<BASETAG>
+# develop_<BASETAG>_overexposed
+
+# === For every object image + base image combo
+# develop_<BASETAG>_<OBJECTTAG>
+# develop_<BASETAG>_<OBJECTTAG>_overexposed
+# complete_<BASETAG>_<OBJECTTAG>
+
+# image definitions are in daysconfig, you can expand by following the pattern in the current ones. Any amount of dialogue should work
+
+# TODO: easier display of the completed image
+
+
 #region day one - house base
 label develop_house:
     scene black_background with fade
