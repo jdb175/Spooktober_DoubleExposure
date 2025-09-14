@@ -112,21 +112,26 @@ transform enlarger_project_image:
 ## In-game screens
 ################################################################################
 
-screen develop_photo(base_image, secondary_image=None):
+screen develop_photo():
     frame id "photo_development":
-        add base_image at developingImage(persistent.baseAlpha, persistent.overExposureBrightness)
+        python:
+            over_exposure_brightness = persistent.over_exposure / MAX_DEVELOP_TIME
+            base_alpha = min(persistent.base_development / MAX_DEVELOP_TIME, 1.0)
+            secondary_alpha = min(persistent.secondary_development / MAX_DEVELOP_TIME, 1.0)
 
-        if(secondary_image):
-            add secondary_image at developingImage(persistent.secondaryAlpha, persistent.overExposureBrightness)
+        add persistent.current_base_image.path at developingImage(base_alpha, over_exposure_brightness)
+
+        if(persistent.is_double_exposing):
+            add persistent.current_secondary_image.path at developingImage(secondary_alpha, over_exposure_brightness)
 
         vbox:
-            text "[persistent.baseDeveloped]"
-            if(persistent.endingDevelopment):
+            text "[persistent.base_development]"
+            if(persistent.development_end_signalled):
                 text "Stopping Development"
             else:
                 textbutton "Stop Developing":
-                    sensitive(persistent.canStopDeveloping)
-                    action Function(stopDeveloping)
+                    sensitive(persistent.can_stop_developing)
+                    action Function(stop_developing)
 
 
 screen enlarger_select_photo():
@@ -135,14 +140,14 @@ screen enlarger_select_photo():
     frame id "enlarger_selection":
         xalign 0.5 yalign 0.5
 
-        if(persistent.exposedBaseImage):
-            add persistent.exposedBaseImage.path at center
+        if(persistent.current_base_image):
+            add persistent.current_base_image.path at center
 
-        add persistent.exposingImage.path at enlarger_project_image
+        add persistent.projected_image.path at enlarger_project_image
         
         vbox:
-            text "[persistent.exposingImage.description]"
-            textbutton "Select Image" action [Function(stop_enlarger), Return(persistent.enlargerJumpLabel)]
+            text "[persistent.projected_image.description]"
+            textbutton "Select Image" action [Function(stop_enlarger), Return(persistent.enlarger_jump_label)]
             
 
 ## Say screen ##################################################################

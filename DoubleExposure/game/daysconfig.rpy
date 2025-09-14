@@ -19,7 +19,7 @@ python early:
             return self.label == other.label and self.path == other.path
     
     class Days(Enum):
-        DAY_ONE=0
+        DAY_ONE="dayone"
 
     #endregion
 

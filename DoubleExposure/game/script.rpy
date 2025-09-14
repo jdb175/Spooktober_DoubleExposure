@@ -58,21 +58,18 @@ label start:
     return
 
 label day_one:
-    $ beginDay(Days.DAY_ONE)
+    $ begin_day(Days.DAY_ONE)
     "Start exposing an image"
 
-label projector_select_base:
-    $ renpy.block_rollback()
+label projector_select_base_dayone:
     scene black_background
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
-    $ renpy.block_rollback()
     jump expression target_label
 
 label develop_house:
     scene black_background with fade
-    $ startDeveloping("projector_select_double", "develop_house_overexposed")
-    show screen develop_photo("exposuretest/bakgroundimage.png")
+    $ start_developing(BASE_IMAGE_HOUSE)
     $ develop(10)
     "One line"
     "two lines"
@@ -82,7 +79,7 @@ label develop_house:
     $ develop(30)
     "One line"
     "two lines"
-    if(persistent.endingDevelopment == False):
+    if(persistent.development_end_signalled == False):
         "You know that this is when you are meant to take the photo out, if you want enough time to expose the negative"
     $ develop(40)
     "One line"
@@ -93,7 +90,7 @@ label develop_house:
     $ develop(60)
     "One line"
     "two lines"
-    if(persistent.endingDevelopment == False):
+    if(persistent.development_end_signalled == False):
         "If you keep this in any longer, you'll overexpose it"
 
 label develop_house_overexposed:
@@ -106,21 +103,16 @@ label develop_house_overexposed:
     $ develop_overexposed(30)
     "One line"
     "two lines"
-    
 
-label projector_select_double:
-    hide screen develop_photo
-    $ renpy.block_rollback()
+label projector_select_double_dayone:
     scene black_background
-    "Now project the double exposure"
+    "Now project the double exposure, it is day one"
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
-    $ renpy.block_rollback()
     jump expression target_label
 
 label develop_house_mask:
-    $ startDoubleExposing("complete_image_house_mask", "develop_house_mask_overexposed")
-    show screen develop_photo("exposuretest/bakgroundimage.png", "exposuretest/pallid_mask_nobpg.png")
+    $ start_double_exposing(OBJECT_IMAGE_MASK)
     $ develop_double(10)
     "one"
     $ develop_double(20)
@@ -137,7 +129,7 @@ label develop_house_mask_overexposed:
     $ develop_overexposed(30)
     "60+30 double"
 
-label complete_image_house_mask:  
+label complete_house_mask:  
     $ renpy.block_rollback()
     hide screen develop_photo
     show BG1 at truecenter:
@@ -149,12 +141,12 @@ label complete_image_house_mask:
 
 label post_image_completion_dayone:
     scene black_background
-    if(persistent.photoPaper > 0):
-        if(persistent.photoPaper == 1):
+    if(persistent.current_photo_paper > 0):
+        if(persistent.current_photo_paper == 1):
             "You have just 1 piece of photo paper left"
         else:
-            "You have [persistent.photoPaper] pieces of photo paper left"
-        jump projector_select_base
+            "You have [persistent.current_photo_paper] pieces of photo paper left"
+        jump projector_select_base_dayone
     "You're out of paper"
 
 label introScene:
