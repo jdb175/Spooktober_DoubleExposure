@@ -90,7 +90,6 @@ init python:
                 
                 persistent.can_stop_developing = persistent.base_development >= MIN_DEVELOP_TIME
 
-
     def develop_overexposed(overexposure: int):
         _checkPendingJump(False)
         persistent.can_stop_developing = False

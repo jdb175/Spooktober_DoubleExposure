@@ -60,6 +60,7 @@ label start:
 label day_one:
     $ begin_day(Days.DAY_ONE)
     "Start exposing an image"
+    jump projector_select_base_dayone
 
 label projector_select_base_dayone:
     scene black_background
@@ -67,6 +68,24 @@ label projector_select_base_dayone:
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     jump expression target_label
 
+label projector_select_double_dayone:
+    scene black_background
+    "Now project the double exposure, it is day one"
+    $ start_enlarger()
+    $ target_label = renpy.call_screen("enlarger_select_photo")        
+    jump expression target_label
+
+label post_image_completion_dayone:
+    scene black_background
+    if(persistent.current_photo_paper > 0):
+        if(persistent.current_photo_paper == 1):
+            "You have just 1 piece of photo paper left"
+        else:
+            "You have [persistent.current_photo_paper] pieces of photo paper left"
+        jump projector_select_base_dayone
+    "You're out of paper"
+
+#region day one - house base
 label develop_house:
     scene black_background with fade
     $ start_developing(BASE_IMAGE_HOUSE)
@@ -104,13 +123,7 @@ label develop_house_overexposed:
     "One line"
     "two lines"
 
-label projector_select_double_dayone:
-    scene black_background
-    "Now project the double exposure, it is day one"
-    $ start_enlarger()
-    $ target_label = renpy.call_screen("enlarger_select_photo")        
-    jump expression target_label
-
+#region mask
 label develop_house_mask:
     $ start_double_exposing(OBJECT_IMAGE_MASK)
     $ develop_double(10)
@@ -138,16 +151,8 @@ label complete_house_mask:
         matrixcolor None
     "Here is the completed image"
     jump post_image_completion_dayone
-
-label post_image_completion_dayone:
-    scene black_background
-    if(persistent.current_photo_paper > 0):
-        if(persistent.current_photo_paper == 1):
-            "You have just 1 piece of photo paper left"
-        else:
-            "You have [persistent.current_photo_paper] pieces of photo paper left"
-        jump projector_select_base_dayone
-    "You're out of paper"
+#endregion
+#endregion
 
 label introScene:
     scene black
