@@ -103,7 +103,7 @@ init python:
         _develop(base_development = development)
 
     def finish_development():
-        persistent.current_base_image = image
+        persistent.current_base_image = None
         persistent.current_secondary_image = None
 
 #endregion
@@ -121,7 +121,7 @@ init python:
 
     def start_enlarger():
         renpy.block_rollback()
-        if not (persistent.is_double_exposing):
+        if not (persistent.current_base_image):
             persistent.current_photo_paper-= 1
 
         persistent.enlarger_image_index = 0

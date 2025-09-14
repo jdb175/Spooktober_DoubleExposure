@@ -84,6 +84,7 @@ label post_image_completion_dayone:
             "You have [persistent.current_photo_paper] pieces of photo paper left"
         jump projector_select_base_dayone
     "You're out of paper"
+    jump introScene
 
 #region day one - house base
 label develop_house:
@@ -150,6 +151,33 @@ label complete_house_mask:
     show Mask at truecenter:
         matrixcolor None
     "Here is the completed image"
+    $ finish_development()
+    jump post_image_completion_dayone
+#endregion
+
+#region guy
+label develop_house_guy:
+    $ start_double_exposing(OBJECT_IMAGE_GUY)
+    $ develop_double(10)
+    "(guy) one"
+    $ develop_double(20)
+    "(guy) two"
+    $ develop_double(30)
+    "(guy) three"
+
+label develop_house_guy_overexposed:
+    "(guy) You know that if you keep this photo in any longer you will overexpose it"
+    $ develop_overexposed(10)
+    "(guy) 60+10 double"
+    $ develop_overexposed(20)
+    "(guy) 60+20 double"
+    $ develop_overexposed(30)
+    "(guy) 60+30 double"
+
+label complete_house_guy:  
+    $ renpy.block_rollback()
+    hide screen develop_photo
+    "(guy) Here is the completed image"
     $ finish_development()
     jump post_image_completion_dayone
 #endregion
