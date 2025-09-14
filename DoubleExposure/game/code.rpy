@@ -27,7 +27,7 @@ init python:
 
     def begin_day(day : Days):
         persistent.current_day = day.value
-        persistent.current_photo_paper = PHOTO_PAPER[day]
+        persistent.current_photo_paper = DAY_CONFIGS[Days(day)].photo_paper
 
 #region development
     def start_developing(image : EnlargerImage):
@@ -100,16 +100,21 @@ init python:
 
     def develop(development: int):
         _develop(base_development = development)
+
+    def finish_development():
+        persistent.current_base_image = image
+        persistent.current_secondary_image = None
+
 #endregion
 
 #region enlarger
     def populate_enlarger_data():
         if(persistent.current_base_image):
-            objectImages = OBJECT_IMAGES[Days(persistent.current_day)]
+            objectImages = DAY_CONFIGS[Days(persistent.current_day)].object_images
             persistent.projected_image = objectImages[persistent.enlarger_image_index]
             persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + persistent.current_base_image.label + "_" + objectImages[persistent.enlarger_image_index].label
         else:
-            base_images = BASE_IMAGES[Days(persistent.current_day)]
+            base_images = DAY_CONFIGS[Days(persistent.current_day)].base_images
             persistent.projected_image = base_images[persistent.enlarger_image_index]
             persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + base_images[persistent.enlarger_image_index].label
 
@@ -125,14 +130,18 @@ init python:
         renpy.block_rollback()
 
     def cycle_enlarger(sign: int):
-        base_images = BASE_IMAGES[Days(persistent.current_day)]
+        images = []
+        if(persistent.current_base_image):
+            images = DAY_CONFIGS[Days(persistent.current_day)].object_images
+        else:
+            images = DAY_CONFIGS[Days(persistent.current_day)].base_images
 
         persistent.enlarger_image_index += sign
-        persistent.enlarger_image_index = persistent.enlarger_image_index % len(base_images)
+        persistent.enlarger_image_index = persistent.enlarger_image_index % len(images)
 
         populate_enlarger_data()
 
-        print("Cycling ", sign, ": ", persistent.enlarger_image_index, "/ ", len(base_images))
+        print("Cycling ", sign, ": ", persistent.enlarger_image_index, "/ ", len(images))
         renpy.hide_screen("enlarger_select_photo")
         renpy.show_screen("enlarger_select_photo")
 #endregion

@@ -17,6 +17,16 @@ python early:
                 return False
 
             return self.label == other.label and self.path == other.path
+
+    class DayConfig:
+        def __init__(self, 
+            photo_paper, 
+            base_images,
+            object_images
+        ):
+            self.photo_paper = photo_paper
+            self.base_images = base_images
+            self.object_images = object_images
     
     class Days(Enum):
         DAY_ONE="dayone"
@@ -49,22 +59,21 @@ python early:
 
     ### Day Configurations
 
-    PHOTO_PAPER = {
-        Days.DAY_ONE: 3
+    DAY_CONFIGS = {
+        Days.DAY_ONE: DayConfig(
+            photo_paper = 3,
+            base_images = [
+                BASE_IMAGE_HOUSE,
+                BASE_IMAGE_FACE
+            ],
+            object_images = [
+                OBJECT_IMAGE_MASK,
+                OBJECT_IMAGE_GUY
+            ])
     }
 
-    BASE_IMAGES = {
-        Days.DAY_ONE: [
-            BASE_IMAGE_HOUSE,
-            BASE_IMAGE_FACE
-        ]
-    }   
-
-    OBJECT_IMAGES = {
-        Days.DAY_ONE: [
-            OBJECT_IMAGE_MASK,
-            OBJECT_IMAGE_GUY
-        ]
-    }
+    if config.developer:
+        print("Checking for required labels")
+        #foreach (key)
 
     #endregion

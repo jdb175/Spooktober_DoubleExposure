@@ -150,6 +150,7 @@ label complete_house_mask:
     show Mask at truecenter:
         matrixcolor None
     "Here is the completed image"
+    $ finish_development()
     jump post_image_completion_dayone
 #endregion
 #endregion
