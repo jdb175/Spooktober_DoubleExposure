@@ -1,25 +1,26 @@
-# general control flow variables
-default persistent.current_day = Days.DAY_ONE
-default persistent.current_photo_paper = 0
-default persistent.current_base_image = None
-default persistent.current_secondary_image = None
+init python:   
+    # These are fake persistents, to avoid that renpy seems to rollback variable states on backtrack which we don't want
+    # general control flow variables
+    persistent.current_day = Days.DAY_ONE
+    persistent.current_photo_paper = 0
+    persistent.current_base_image = None
+    persistent.current_secondary_image = None
 
-# development state
-default persistent.base_development = 0 # Current level of base photo development, when it exceeds MAX_DEVELOP_TIME we jump to overexposure
-default persistent.secondary_development = 0 # Current level of secondary photo development, used for visual effects
-default persistent.over_exposure = 0 # Current level of overexposure for visual effects
-default persistent.can_stop_developing = False # Whether the "stop developing" button should be active
-default persistent.development_end_signalled = False # Whether there is a pening request to stop development. Used because hitting the button doesn't jump out of in-process dialogue
-default persistent.is_double_exposing = False # Whether we are developing a double exposure
-default persistent.development_end_target = "DEFAULT_DEVELOPMENT_END_LABEL" # The label that will be jumped to when current development is ended
-default persistent.development_overexpose_target = "DEFAULT_OVEREXPOSE_LABEL" # The label that will be jumped to when current development overexposes
+    # development state
+    persistent.base_development = 0 # Current level of base photo development, when it exceeds MAX_DEVELOP_TIME we jump to overexposure
+    persistent.secondary_development = 0 # Current level of secondary photo development, used for visual effects
+    persistent.over_exposure = 0 # Current level of overexposure for visual effects
+    persistent.can_stop_developing = False # Whether the "stop developing" button should be active
+    persistent.development_end_signalled = False # Whether there is a pening request to stop development. Used because hitting the button doesn't jump out of in-process dialogue
+    persistent.is_double_exposing = False # Whether we are developing a double exposure
+    persistent.development_end_target = "DEFAULT_DEVELOPMENT_END_LABEL" # The label that will be jumped to when current development is ended
+    persistent.development_overexpose_target = "DEFAULT_OVEREXPOSE_LABEL" # The label that will be jumped to when current development overexposes
 
-# enlarger state
-default persistent.projected_image = None # The image that is currently selected in the enlarger
-default persistent.enlarger_image_index = 0 # The image of the current selection in the enlarger
-default persistent.enlarger_jump_label = "DEFAULT_ENLARGER_JUMP_LABEL" # The label to jump to after completing the current enlarger session
+    # enlarger state
+    persistent.projected_image = None # The image that is currently selected in the enlarger
+    persistent.enlarger_image_index = 0 # The image of the current selection in the enlarger
+    persistent.enlarger_jump_label = "DEFAULT_ENLARGER_JUMP_LABEL" # The label to jump to after completing the current enlarger session
 
-init python:
     MIN_DEVELOP_TIME = 30
     MAX_DEVELOP_TIME = 60
     ENLARGER_LABEL_BASE = "projector_select_base"

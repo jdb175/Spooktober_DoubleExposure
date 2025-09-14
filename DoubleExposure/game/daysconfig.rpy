@@ -37,25 +37,26 @@ python early:
     ### Base Images ###
 
     BASE_IMAGE_HOUSE = EnlargerImage(
-            "house", 
-            "exposuretest/bakgroundimage.png",
-            "An image of a house")
+            label = "house", 
+            path = "exposuretest/bakgroundimage.png",
+            description = "An image of a house")
 
     BASE_IMAGE_FACE = EnlargerImage(
-            "face", 
-            "exposuretest/face_bg.png",
-            "An image of a face")
+            label = "face", 
+            path = "exposuretest/face_bg.png",
+            description = "An image of a face")
 
     ### Object Images ###
 
     OBJECT_IMAGE_MASK = EnlargerImage(
-            "mask", 
-            "exposuretest/pallid_mask_nobpg.png",
-            "An image of a mask")
+            label = "mask", 
+            path = "exposuretest/pallid_mask_nobpg.png",
+            description = "An image of a mask")
 
-    OBJECT_IMAGE_GUY = EnlargerImage("guy", 
-            "exposuretest/guy.png",
-            "It's a guy")
+    OBJECT_IMAGE_GUY = EnlargerImage(
+            label = "guy", 
+            path = "exposuretest/guy.png",
+            description = "It's a guy")
 
     ### Day Configurations
 
@@ -71,9 +72,5 @@ python early:
                 OBJECT_IMAGE_GUY
             ])
     }
-
-    if config.developer:
-        print("Checking for required labels")
-        #foreach (key)
 
     #endregion
