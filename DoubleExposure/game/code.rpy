@@ -22,6 +22,7 @@ init python:
         persistent.development_end_signalled = False # Whether there is a pening request to stop development. Used because hitting the button doesn't jump out of in-process dialogue
         persistent.is_double_exposing = False # Whether we are developing a double exposure
         persistent.development_end_target = "DEFAULT_DEVELOPMENT_END_LABEL" # The label that will be jumped to when current development is ended
+        persistent.development_double_end_target = "DEFAULT_DEVELOPMENT_END_LABEL" # The label that will be jumped to when current development is ended
         persistent.development_overexpose_target = "DEFAULT_OVEREXPOSE_LABEL" # The label that will be jumped to when current development overexposes
 
         # enlarger state
@@ -32,6 +33,7 @@ init python:
 
 #region development
     def start_developing(image : EnlargerImage):
+        renpy.block_rollback()
         persistent.current_base_image = image
         persistent.current_secondary_image = None
         persistent.base_development = 0
@@ -50,10 +52,12 @@ init python:
         persistent.can_stop_developing = False
 
     def start_double_exposing(image : EnlargerImage):
+        renpy.block_rollback()
         renpy.show_screen("develop_photo")
         persistent.current_secondary_image = image
         persistent.development_overexpose_target = "develop_" + persistent.current_base_image.label + "_" + image.label + "_overexposed"
-        persistent.development_end_target = "complete_" + persistent.current_base_image.label + "_" + image.label
+        persistent.development_end_target =  "complete_" + persistent.current_base_image.label
+        persistent.development_double_end_target = "complete_" + persistent.current_base_image.label + "_" + image.label
         persistent.is_double_exposing = True
 
     def _checkPendingJump(checkExposure = True):
@@ -88,6 +92,7 @@ init python:
 
                 if(persistent.is_double_exposing):
                     persistent.secondary_development += increment
+                    persistent.development_end_target = persistent.development_double_end_target
                 
                 persistent.can_stop_developing = persistent.base_development >= MIN_DEVELOP_TIME
 
@@ -103,6 +108,8 @@ init python:
         _develop(base_development = development)
 
     def finish_development():
+        renpy.block_rollback()
+        renpy.hide_screen("develop_photo")
         persistent.current_base_image = None
         persistent.current_secondary_image = None
 

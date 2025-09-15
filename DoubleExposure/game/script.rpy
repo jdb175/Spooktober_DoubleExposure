@@ -142,6 +142,7 @@ label develop_house_overexposed:
     $ develop_overexposed(30)
     "One line"
     "two lines"
+    jump complete_house
 
 #region mask
 label develop_house_mask:
@@ -152,6 +153,7 @@ label develop_house_mask:
     "two"
     $ develop_double(30)
     "three"
+    jump complete_house_mask
 
 label develop_house_mask_overexposed:
     "You know that if you keep this photo in any longer you will overexpose it"
@@ -161,14 +163,22 @@ label develop_house_mask_overexposed:
     "60+20 double"
     $ develop_overexposed(30)
     "60+30 double"
+    jump complete_house_mask
+
+label complete_house:  
+    $ finish_development()
+    show BG1 at truecenter:
+        matrixcolor None
+    "Here is the completed image"    
+    jump post_image_completion_dayone
 
 label complete_house_mask:  
+    $ finish_development()
     show BG1 at truecenter:
         matrixcolor None
     show Mask at truecenter:
         matrixcolor None
     "Here is the completed image"
-    $ finish_development()
     jump post_image_completion_dayone
 #endregion
 
@@ -190,10 +200,11 @@ label develop_house_guy_overexposed:
     "(guy) 60+20 double"
     $ develop_overexposed(30)
     "(guy) 60+30 double"
+    jump complete_house_guy
 
-label complete_house_guy:  
+label complete_house_guy: 
+    $ finish_development() 
     "(guy) Here is the completed image"
-    $ finish_development()
     jump post_image_completion_dayone
 #endregion
 #endregion
