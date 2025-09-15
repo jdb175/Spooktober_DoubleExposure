@@ -1,6 +1,15 @@
 ﻿#Importing libraries
 init python:
     import math
+    #audio channels
+    renpy.music.register_channel("ambiance_1", "sfx")
+    renpy.music.register_channel("ambiance_2", "sfx")
+    renpy.music.register_channel("ambiance_3", "sfx")
+    renpy.music.register_channel("sound_2", "sfx")
+    renpy.music.register_channel("augment_1", "music")
+    renpy.music.register_channel("augment_2", "music")
+    renpy.music.register_channel("augment_3", "music")
+    renpy.music.register_channel("melody", "music")
 
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
@@ -51,7 +60,9 @@ label start:
 
 label introScene:
     #Open on black?
+    play sound "breath-1.mp3"
     "Erin Darabondi."
+    play music 'piano-underscore.mp3'
     show Erin_headshot
     temp "SHOW: headshot of Erin" #Show a headshot photo of Erin
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
@@ -61,18 +72,27 @@ label introScene:
     temp "SHOW: one of Erin's works, if we have the art budget" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "But Erin's love of double exposure, in particular, stuck with you."
+    play augment_1 'piano-underscore-spook-1.mp3'
     temp "SHOW: Something new exposed over the current art piece" #Show something exposed over the piece.
     "Taking two images and making them one."
     "Maybe that's what caught the eye of the Darabondi Foundation."
     #Stretch goal – show a drawing of a letter in hand, or SOMETHING
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
+    play augment_2 'piano-underscore-spook-2.mp3'
     temp "SHOW: The darkroom photo exposing view. A photo is developing." #show the darkroom.
     "A chance to work - to be *paid* to work - in Erin's old studio. To create works inspired by her."
     "By her legacy."
+    play augment_3 'piano-underscore-spook-3.mp3'
     temp "SHOW: as the photo develops, a terrifying face comes into view, one we will soon learn to be that of the Porter" #show the Porter appearing in the photo
     "A legacy which, for better or for worse, you are now a part of..."
     #TRANSITION TIME!
+    stop music
+    stop augment_1
+    stop augment_2
+    stop augment_3
+    play sound 'ding-1.mp3'
+    play ambiance_1 'ambient-birds.mp3' fadein 1.0
     "THREE DAYS EARLIER..."
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     temp "SHOW: Bud. If we can create a background elsewhere in Erin's house, this is happening there. Otherwise, it is happening in the wide of the darkroom."
@@ -129,6 +149,7 @@ default traysFirst = True
 default deskFirst = True
 
 label darkroomIntro:
+    stop ambiance_1
     show darkroom_workspace
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
@@ -185,6 +206,8 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
+            play sound 'light-click.mp3'
+            play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
             temp "We'd switch from the full-light version of the scene to the red light version here."
             $ lightOn = True
             jump darkroomIntro2
@@ -214,9 +237,11 @@ label photo1_firstDev:
     "If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
     #Beginning default scene
     show photo1
+    play music "photo-underscore-1.mp3" fadein 5.0
     "The image begins to emerge, slowly at first."
     "Then, something else starts to happen."
     "Erin's lips part. Subtly, but unmistakably"
+    play sound "breath-1.mp3" volume 0.8
     "You hear her voice. Whether it's from the photo or in your head you can't quite tell."
     show Erin_headshot
     Erin "Everything we did was wrong. From the start."
@@ -238,6 +263,7 @@ label photo1_firstDev:
             $ curDevLevel = 50
             jump photo1_firstDouble
         "Keep watching":
+            play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
             "Your heart pounding, you try to focus back on what you are seeing and hearing."
             "You can always decide to pull it out later, even if it ruins the image a bit."
     Erin "But it scares me."
@@ -285,6 +311,8 @@ label photo1_ruined:
     jump photo1_secondBase
 
 label photo1_firstDouble:
+    stop augment_1 fadeout 1.0
+    stop augment_2 fadeout 1.0
     "You grab your tongs and pull out the photo."
     "Immediately, whatever it was you were watching stops completely."
     "The photo looks as it should - a half-developed print of the negative you saw earlier."
@@ -317,6 +345,7 @@ label firstDoubleText:
 
 label photo1_addSiob:
     call firstDoubleText
+    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
     show photo1
     show Erin_headshot at left
     show Siob_headshot at right
@@ -351,6 +380,7 @@ label photo1_addSiob:
             jump photo1_addSiob_past100
 
 label photo1_addSiob_past100:
+    play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
     $ corruption += 5
     Siob "When I see it, I will, yeah."
     Siob "'The Porter.' Did Peter come up with that name?"
@@ -358,10 +388,16 @@ label photo1_addSiob_past100:
     Siob "It is His Function."
     Erin "It was taken From Him"
     Siob "BUT HE WILL NOT BE CONTAINED"
+    play augment_2 "guitar-Ab.mp3" noloop
+    play sound "gong-1.mp3" noloop volume 0.6
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     hide Siob_headshot
     hide Erin_headshot
     hide photo1
+    play sound "splash-small-1.mp3" volume 0.5
+    stop augment_1 fadeout 0.5
+    stop music fadeout 4.0
+    stop melody fadeout 4.0
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump photo1_secondBase
@@ -417,7 +453,7 @@ label photo1_addGunnar_past100:
     hide Gunnar_headshot
     hide Erin_headshot
     hide photo1
-    "Almost without thinking, you grab the tongs and pull out the image."
+    "Almost without thinking, you grab the tongs and pull out the image."    
     "You feel like SOMETHING TERRIBLE has happened."
     jump photo1_secondBase
 
@@ -473,6 +509,12 @@ label photo1_addPeter_past100:
 
 
 label photo1_secondBase:
+    stop melody fadeout 0.5
+    stop augment_1 fadeout 0.5
+    stop augment_2 fadeout 0.5
+    play sound "breath-2.mp3" noloop
+    play ambiance_2 "ambient-darkroom-light.mp3" fadein 1.0 # make sure light buzz is playing
+    play ambiance_2 "ambient-darkroom-rumble.mp3" fadein 0.5
     hide Erin_headshot
     hide photo1
     $ papersRemaining -= 1 #not the best place for this, but again, this is a hack
