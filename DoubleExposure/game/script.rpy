@@ -100,6 +100,7 @@ label post_image_completion_dayone:
 # complete_<BASETAG>_<OBJECTTAG>
 
 # image definitions are in daysconfig, you can expand by following the pattern in the current ones. Any amount of dialogue should work
+# you can develop at any increments, but 60 is currently the max value beyond which you overexpose.
 
 # TODO: easier display of the completed image
 
@@ -162,8 +163,6 @@ label develop_house_mask_overexposed:
     "60+30 double"
 
 label complete_house_mask:  
-    $ renpy.block_rollback()
-    hide screen develop_photo
     show BG1 at truecenter:
         matrixcolor None
     show Mask at truecenter:
@@ -193,8 +192,6 @@ label develop_house_guy_overexposed:
     "(guy) 60+30 double"
 
 label complete_house_guy:  
-    $ renpy.block_rollback()
-    hide screen develop_photo
     "(guy) Here is the completed image"
     $ finish_development()
     jump post_image_completion_dayone
