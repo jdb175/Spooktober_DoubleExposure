@@ -1,6 +1,7 @@
 #all of day2 goes in here
 ##day 2 vars
-default budWatching = False
+default photoFirst = False
+default paperFirst = False
 
 label day2Start:
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
@@ -82,22 +83,39 @@ label day2BudConvo:
     if corruption >= 10:
         bud "... be careful."
     hide buddy
-    "As the words leave your mouth, you instintively glance towards the devlopment trays"
-    "Sitting nearly on the corner of the desk is a small package."
-    "Bud watches as you pick it up and read the note."
-    #stretch goal this is an art asset but we can just describe it if necessary. 
-    #We could also have Bud say in the phone call that they met with someone from the foundation yestereay who asked them to bring paper.
-    you "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
-    bud "Must be from the grant?"
-    you "You open the package and discover a small strip of negatives..."
-    you "And another small, hand-wrapped package of photo paper. The same paper you used last night."
-    #How TF do I get bud OUT of this scene lol. Or just own them being present.
-        
+    "As Bud leaves, you start to think about your next move."
+    "As you gaze around the room, two things catch your eye."
     jump day2_darkroom
 
-label day2_darkroom:
-    scene bg darkroom1
-    "The room is much as you left it yesterday."
-    "The photos you developed yesterday lay on the desk, motionless, quiet. You know, like a photograph ought to be."
-    "Then, something catches your eye - sitting by the photo trays."
-    "Another package of photo paper. Wrapped neatly. Ready for you to use"
+label day2_darkroomIntro:
+    menu:
+        set menuset
+        "The desk":
+            "Sitting nearly on the corner of the desk is a small package, with a note on it."
+            "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
+            "Must be from the grant?"
+            "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
+            "And there's more of it this time - four whole sheets."
+            if photoFirst == True:
+                jump day2_printOne
+            else:
+                $ paperFirst = True
+                jump day2_darkroomIntro
+        "The photo on the wall":
+            "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
+            "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
+            temp "SHOW a mask photo here, not as a negative but a print"
+            "The whole series was like this - various masks, shown in a presentational style. You never liked this one. Something about it felt unsettling."
+            "You ponder the image for a minute before turning it over."
+            "On a hunch, you pull off the back of the frame. Tucked inside are two strips of photo negatives."
+            "One appears to be the original negatives from 'seen' itself - four masks in all."
+            "For a moment, you forget the strange circumstances you are in. "
+            "Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
+            if paperFirst == True:
+                jump day2_printOne
+            else:
+                $ photoFirst = True
+                jump day2_darkroomIntro
+
+label day2_printOne:
+    ""

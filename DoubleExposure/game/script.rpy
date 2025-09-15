@@ -652,7 +652,7 @@ label night1_intro:
     temp "SHOW Porter."
     temp "ZOOM forwards through its mouth, into the darkroom scene."
     #I want these to be burned somewhere, which would require art of a trash bin or oven or something, but we can just hide them in the enlarger for now.
-    temp "ZOOM into a detail in the scene - a photo on the wall."
+    temp "ZOOM into a detail in the scene - a specific photo on the wall."
     temp "FLASH out of the scene"
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
     if photoFound == True:
