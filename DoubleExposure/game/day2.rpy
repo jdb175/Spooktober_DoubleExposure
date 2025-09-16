@@ -59,7 +59,7 @@ label day2BudConvo:
         you "Run by some guy named Peter."
     if porterKnown == True:
         you "Working with, or using, or calling upon, some sort of spirit called the Porter."
-    if houseKnnown == True:
+    if houseKnown == True:
         you "They had plans to go *through* something or *to* something. Some other place."
     else:
         you "They were planning to *do* something together. I don't really know what."
@@ -100,7 +100,7 @@ label day2BudConvo:
     "As you gaze around the room, two things catch your eye."
     jump day2_darkroom
 
-label day2_darkroomIntro:
+label day2_darkroom:
     menu:
         set menuset
         "The desk":
@@ -114,7 +114,7 @@ label day2_darkroomIntro:
                 jump day2_printOne
             else:
                 $ paperFirst = True
-                jump day2_darkroomIntro
+                jump day2_darkroom
         "The photo on the wall":
             "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
@@ -141,7 +141,7 @@ label day2_printOne:  #needs to be renamed like photo2_print or something
     else:
         "This is your last piece of photo paper."
     temp "We'd let you click through these two as you'd like in the real interface"
-    temp "NOTE: As of this writing, I'm not going to bother with 50/80/100% breakpoints for pulling the photo out of the developer.Waiting for the real interface to be done."
+    temp "NOTE: As of this writing, I'm not going to bother with 50/80/100 percent breakpoints for pulling the photo out of the developer.Waiting for the real interface to be done."
     menu:
         "PHOTO: Two robed figures, shot candidly from someone in hiding. One wears an owl mask.":
             $ papersRemaining -= 1
