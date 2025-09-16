@@ -22,6 +22,7 @@ define spirit = Character("Spirit?") #The porter if we don't know its name
 define Erin = Character("Erin") #Erin Darabondi
 define Siob = Character("Siobhan") #Siobhan
 define Peter = Character("Peter") #Peter
+define Gunnar = Character("Gunnar") #Gunnar
 
 #Utility "characters"
 define tutorial = Character("", color = "#c8580d")
