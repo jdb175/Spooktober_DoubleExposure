@@ -1,7 +1,20 @@
 #all of day2 goes in here
+
+##day 2 chars
+define owl = Character("Owl") #Owl mask is Siobhan
+define doubOwl = Character("Second Owl") #if we allow this, owl mask talking to owl mask
+define flame = Character("Flame") #Flame mask is Peter
+define doubFlame = Character("Second Flame") #if we allow this, flame mask talking to flame mask
+define frog = Character("Frog") #Frog is Gunnar
+define archer = Character("Archer") #Archer is Erin 
+#I hate this archer mask, maybe it will change
+
 ##day 2 vars
 default photoFirst = False
 default paperFirst = False
+default doneAPrint = False
+default donePhoto2 = False
+default donePhoto3 = False
 
 label day2Start:
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
@@ -91,6 +104,7 @@ label day2_darkroomIntro:
     menu:
         set menuset
         "The desk":
+            $ papersRemaining = 4
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
             "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
             "Must be from the grant?"
@@ -109,7 +123,7 @@ label day2_darkroomIntro:
             "You ponder the image for a minute before turning it over."
             "On a hunch, you pull off the back of the frame. Tucked inside are two strips of photo negatives."
             "One appears to be the original negatives from 'seen' itself - four masks in all."
-            "For a moment, you forget the strange circumstances you are in. "
+            "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
             "Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
             if paperFirst == True:
                 jump day2_printOne
@@ -117,5 +131,209 @@ label day2_darkroomIntro:
                 $ photoFirst = True
                 jump day2_darkroomIntro
 
-label day2_printOne:
-    ""
+label day2_printOne:  #needs to be renamed like photo2_print or something
+    $ curDevLevel = 0
+    "You make your way to the enlarger."
+    if doneAPrint == False:
+        "You decide to start with the burnt negatives, since you have no idea what they are."
+    elif papersRemaining > 1:
+        "You have {papersRemaining} papers left"
+    else:
+        "This is your last piece of photo paper."
+    temp "We'd let you click through these two as you'd like in the real interface"
+    temp "NOTE: As of this writing, I'm not going to bother with 50/80/100% breakpoints for pulling the photo out of the developer.Waiting for the real interface to be done."
+    menu:
+        "PHOTO: Two robed figures, shot candidly from someone in hiding. One wears an owl mask.":
+            $ papersRemaining -= 1
+            $ doneAPrint = True
+            jump photo2_firstDev
+        "PHOTO: Two robed figures, standing before a doorway with a strange shimmer in it. One wears a mask that looks like flame":
+            temp "Not yet written!"
+            jump day2_printOne
+
+label photo2_firstDev:
+    "Something about the seemingly candid nature of this photo intrigues you."
+    "You slide in a piece of photo paper and start to print the image."
+    temp "SHOW development interface"
+    "It begins to happen again..."
+    if donePhoto2:
+        "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
+        jump photo2_double
+    else:
+        $ donePhoto2 = True
+    temp "Zoom in as the photo comes to life"
+    #This is GUNNAR in my headcannon
+    show owl at right
+    owl "Where your mask?"
+    show blank at left
+    unk "It's in my room. Where it ought to be."
+    owl "So what you're saying is that you're not going through with me tonight?"
+    owl "Or do you not believe Peter that we need our masks?"
+    unk "I'm sorry, but I trust Peter more than you."
+    unk "But more than that, I don't believe it pays to be reckless with these things."
+    unk "He knows far more than us, and whatever you think you may have picked up these last few days, more than you too."
+    owl "..."
+    owl "It has only been days, hasn't it?"
+    owl "It feels so much longer."
+    unk "..."
+    owl "So, are you going to turn me in?"
+    #50% breakpoint!
+    "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
+    temp "currently you pull it out now or not at all, sorry player. will change w/real implementation"
+    menu:
+        "Pull it out":
+            jump photo2_double
+        "Keep watching":
+            "Keeping one eye on the clock, you let the figures in the photo carry on."
+    unk "Not a chance. I may even still come on one of your nighttime jaunts in the future, if you'll let me."
+    unk "But not yet."
+    owl "How indecisive of you."
+    owl "You must know that, as an artist, indecision is a killer."
+    owl "One of the few things that is truly deadly to us."
+    owl "You must know that."
+    owl "So keep stringing things along, if you'd like. Delaying every decision"
+    owl "But the opportunity may not always be here."
+    unk "..."
+    unk "Wait here. I'll come."
+    #100% exposeed
+    hide blank
+    owl "Soon we will transgress"
+    owl "Soon, the bright will spill"
+    owl "The guardian, the warden, the Porter will fall"
+    owl "BUT HE SHALL RETURN"
+    #using boilerplate language for now, will change this.
+    "An icy chill grips your heart and you feel the room start to spin."
+    "Almost without thinking, you grab the tongs and pull out the image."
+    hide owl
+    "You feel like SOMETHING TERRIBLE has happened."
+    jump photo2_ruined
+
+#bet this could be made generic?
+label photo2_ruined:
+    #FIX ME!!!
+    "Well, you've ruined this photo, but that hardly matters."
+    "Hopefully you learned something useful."
+    jump day2_printOne #This will change in the real implementation
+
+label photo2_double:
+    "You pull out the photo."
+    "The image stills, the voices quiet."
+    "You take the now frozen scene to the enlarger"
+    "You see an opportunity to use the negatives from Erin's mask series here."
+    temp "here are the choices the interface will present to you, all options superimposed over the unmasked figure."
+    menu:
+        "Owl mask":
+            jump photo2_addOwl
+        "Flame mask":
+            jump photo2_addFlame
+        "Archer mask":
+            jump photo2_addArcher
+        "Frog mask":
+            jump photo2_addFrog
+
+#Siobhan, a double, we may decide to disallow this
+label photo2_addOwl:
+    "As your photo develops, you heart begins to quicken, almost uncontrollably."
+    "The two robed figures, each wearing the same mask, begin to come to life"
+    show owl at right
+    show owl2 at left
+    doubOwl "..."
+    owl "Is this some kind of joke?"
+    owl "Who are you?"
+    owl "Why are you wearing my mask?"
+    doubOwl "..."
+    owl "I thought they were meant to be unique? Was that a lie?"
+    doubOwl "..."
+    owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
+    doubOwl "This corruption of the truth should not be possible."
+    doubOwl "You have strayed beyond your limits, human."
+    doubOwl "Given a gift, you were unsatisfied."
+    doubOwl "Your hunger is your unmaking"
+    hide owl2
+    show porter at left
+    temp "Fade/transition the second owl into the Porter!"
+    porter "Your judgement was made long ago, transgressor."
+    owl "This isn't... this isn't possible."
+    owl "When is this? When is this happening?"
+    owl "We haven't even killed you yet! The idea had not yet taken root in-"
+    porter "This cannot be understood. And it will end."
+    porter "NOW"
+    "An icy chill grips your heart and you feel the room start to spin."
+    "Almost without thinking, you grab the tongs and pull out the image."
+    hide owl
+    hide porter
+    "What even was that?!"
+    jump day2_printOne
+
+label photo2_addFlame:
+    show owl at right
+    show flame at left
+    "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
+    "This time, the figure in the owl mask does not seem to want to talk."
+    "They hurry into the shadows, as if they do not want to be seen."
+    hide owl
+    flame "What are you doing sneaking around in the dark?"
+    flame "I've already seen you, Siobhan." #this may be too much? But I think Peter would say it.
+    show owl at right
+    flame "Do you think I didn't notice someone has been going through my papers?"
+    flame "I had very much hoped to catch you in the act."
+    flame "But I didn't expect to catch you trying to sneak into the Bright House on your own."
+    flame "Well? Speak."
+    #leaving in this stub in case it is useful – this would be a great place to learn some magic if we go that route
+    #hide owl
+    #flame "You can't run."
+    #flame "AIN'KA ARRAN"
+    #the porter appears or some shit, idk. Just here as an example
+    owl "I don't know what you think I'm doing, or what you think I've done."
+    owl "But I do know you've been keeping a lot of secrets from us."
+    flame "I've said many times that as we continue to explore together, I will share more of what I know."
+    flame "That is entirely because I wanted to ensure I was working with people I could trust."
+    flame "And here you are, living proof that I was right to be cautious."
+    owl "I think you like holding all the power, stringing us along."
+    owl "I think you want to keep the Bright House all to yourself."
+    owl "You're only sharing it because of your own inability to understand it."
+    flame "Don't be stupid! You had so much you could have gained from this!"
+    flame "Your art, your insight, your abilities, in just a few days you have grown more than you might in months of toil!"
+    flame "This is the light of creativity itself."
+    flame "And now it will be shut to you forever."
+    flame "I have summoned the Porter and told it that you summon it with stolen magic. That you intend to use to transgress its boundries"
+    flame "It will open no more doors for you."
+    "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
+    menu:
+        "Pull it out":
+            hide owl
+            hide flame
+            jump day2_printOne
+    flame "Your time here is done, Siobhan. In this house, and the Other."
+    owl "Blind in art, blind in all things but money."
+    owl "BLIND TO THE DEPTHS OF MY TREACHERY"
+    owl "THE HAND OF PORTER DRAWS THE DOORS"
+    owl "THE DOORS ARE DRAWN BY THE HAND"
+    owl "GIVE ME BACK MY HAND"
+    "An icy chill grips your heart and you feel the room start to spin."
+    "Almost without thinking, you grab the tongs and pull out the image."
+    hide owl
+    hide flame
+    jump day2_printOne
+
+label photo2_addArcher:
+    "From the strange masked figures, you see faint movement and hear whispers, growing stronger, growing bolder."
+    owl ""
+
+label photo2_addFrog:
+    "While it's clear that this photo wasn't taken to be a piece of art, there's an incredible energy you feel watching the masked figures shiver to life."
+    "Like you are stealing a glimpse at some great secret."
+    show frog at left
+    show owl at right
+    frog "Alright, I am ready."
+    owl "You're making the right choice."
+    frog "So, what comes now? Have you learned how to summon him, or..."
+    owl "I have."
+    frog "I see. I have to admit, I'm quite impressed. It's one thing to pick up a stray scrap of knowledge here or there, but-"
+    owl "Can it. If you want to talk, let's talk in the Bright."
+    frog "No offense, but the last thing I want to do there is hang around and *talk*"
+    frog "I want to see something new. Something truly inspiring. Something that will finally spark that flame in me."
+    frog "I envy you tremendously, you know. Sight, vision, comes so naturally to people that it is easy to pull meaning from what we see."
+    frog "But words, there is this whole extra layer of processing that we have to do to understand words."
+    "The figure in the owl mask doesn't seem to pay much mind. They move about, doing *something* in the dark."
+    "Then, a bright light flashes briefly."

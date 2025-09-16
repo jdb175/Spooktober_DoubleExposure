@@ -6,6 +6,8 @@ init python:
 #Modern day
 define you = Character("You") #You, the player!
 define bud = Character("Buddy") #Your present day friend, will rename this later
+define porter = Character("The Porter") #the Porter itself!
+define spirit = Character("Spirit?") #The porter if we don't know its name
 
 #Now, photo world/90s people
 define Erin = Character("Erin") #Erin Darabondi
@@ -309,6 +311,7 @@ label photo1_firstDev:
     return
     
 label photo1_ruined:
+    #FIX ME!!!
     "Well, you've ruined this photo, but that hardly matters."
     jump photo1_secondBase
 
@@ -390,7 +393,7 @@ label photo1_addSiob:
     #Now we hit 100%
     "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     menu:
-        "pull it out":
+        "Pull it out":
             hide Siob_headshot
             jump photo1_secondBase
         "Keep watching":
@@ -608,6 +611,7 @@ label endOfDayOneChoices:
                 "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
                 "And then, tucked away in the back of a file nestled among old tax documents, you find something."
                 temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
+                temp "Double exposed over it are the faces that you've come to know from the negatives. They are overlayed strangely over the creature"
                 $ photoFound = True
                 "Something unsettling indeed."
                 "The photo is printed on similar paper to the photos you found."
