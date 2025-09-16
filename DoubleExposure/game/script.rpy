@@ -59,11 +59,12 @@ image darkroom_workspace = "placeholders/darkroom_temp1@2.jpg"
 image darkroom_trays = "placeholders/darkroom_temp2.png"
 image background_negative = "placeholders/darkroom_temp2.png" #not sure why this image is used twice. Probably becuase of merge with Jason. Leaving it for now, bigger fish to fry
 image Erin_headshot = "placeholders/Erin_temp1.png"
+#image Erin = "placeholders/Erin.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 
 
 #characters
-#image Siob_headshot = "placeholders/Siob_temp1.jpg"
+#image Siobhan = "placeholders/siobhan.jpg"
 #image Peter_headshot = "placeholders/Peter_temp1.png"
 #image Gunnar_headshot = "placeholders/Gunnar_temp1.png"
 
@@ -373,7 +374,7 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         temp "ZOOM INTO PHOTO BACKGROUND"
-        show Erin_headshot
+        show Erin
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sound "breath-1.mp3" volume 0.8
@@ -381,11 +382,11 @@ label develop_kitchen:
         $ develop(15)
         Erin "Something like that..."
         "She walks towards the camera, disappearing out of frame."
-        hide Erin_headshot
+        hide Erin
         Erin "Well shit, I do believe that's going to do it."
         $ develop(20)
         Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-        show Erin_headshot
+        show Erin
         Erin "I should probably shoot a few takes. Different expressions."
         $ develop(25)
         Erin "Since I have no idea how I'm going to be feeling after all of this."
@@ -452,7 +453,7 @@ label develop_kitchen_siobhan:
     $ develop_double(5)
     show Siob_headshot at right
     Siob "*I* don't know. I trust Peter. Something about his energy."
-    show Erin_headshot at left
+    show Erin at left
     Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
     Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
     Siob "But if I do... well, I just want to say, I love your work."
@@ -507,7 +508,7 @@ label develop_kitchen_siobhan_overexposed:
     stop music fadeout 4.0
     stop melody fadeout 4.0
     hide Siob_headshot
-    hide Erin_headshot
+    hide Erin
     hide photo1
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -543,7 +544,7 @@ label develop_kitchen_gunnar:
     show Gunnar_headshot at right
     unk "I'm sure you've heard this before, but I will say it again."
     unk "Fame is the *worst* thing that could happen to you."
-    show Erin_headshot at left
+    show Erin at left
     Erin "You're right. I *have* heard that before."
     unk "Oh don't get me wrong, I understand you."
     $ develop_double(10)
@@ -595,7 +596,7 @@ label develop_kitchen_gunnar_overexposed:
     $ develop_overexposed(30)
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     hide Gunnar_headshot
-    hide Erin_headshot
+    hide Erin
     jump complete_kitchen_gunnar
 
 label complete_kitchen_gunnar: 
