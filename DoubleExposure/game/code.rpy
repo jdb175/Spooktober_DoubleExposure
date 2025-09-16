@@ -5,12 +5,13 @@ init python:
     ENLARGER_LABEL_DOUBLE = "projector_select_double"
 
     def begin_day(day : Days):
+        print("Beginning Day")
         # These are fake persistents, to avoid that renpy seems to rollback variable states on backtrack which we don't want
         # The only downside seems to be dev reloading is broken...
 
         # general control flow variables
         persistent.current_day = day.value
-        persistent.current_photo_paper = DAY_CONFIGS[Days(day)].photo_paper
+        persistent.current_photo_paper = DAY_CONFIGS[Days(day)].photo_paper        
         persistent.current_base_image = None
         persistent.current_secondary_image = None
 
@@ -33,6 +34,9 @@ init python:
 
 #region development
     def start_developing(image : EnlargerImage):
+        print("starting development for ", image.label)
+        renpy.scene()
+        renpy.show("black")
         renpy.block_rollback()
         persistent.current_base_image = image
         persistent.current_secondary_image = None
@@ -44,7 +48,7 @@ init python:
         persistent.development_end_target = ENLARGER_LABEL_DOUBLE + "_" + persistent.current_day
         persistent.development_overexpose_target = "develop_" + image.label + "_overexposed"
         persistent.is_double_exposing = False
-        renpy.show_screen("develop_photo")
+        renpy.show_screen("develop_photo", _layer="master")
 
     def stop_developing():
         print("Flagging to end development after the next line")
@@ -52,8 +56,11 @@ init python:
         persistent.can_stop_developing = False
 
     def start_double_exposing(image : EnlargerImage):
+        print("starting double exposure for ", image.label, ", base image is ", persistent.current_base_image.label)
+        renpy.scene()
+        renpy.show("black")
+        renpy.show_screen("develop_photo", _layer="master")
         renpy.block_rollback()
-        renpy.show_screen("develop_photo")
         persistent.current_secondary_image = image
         persistent.development_overexpose_target = "develop_" + persistent.current_base_image.label + "_" + image.label + "_overexposed"
         persistent.development_end_target =  "complete_" + persistent.current_base_image.label
@@ -61,20 +68,27 @@ init python:
         persistent.is_double_exposing = True
 
     def _checkPendingJump(checkExposure = True):
-        print("checking if there is a jump pending, ", persistent.development_end_signalled)
+        print("checking if there is a jump pending, ", persistent.development_end_signalled, ", checKExposure is ", checkExposure)
 
         if(persistent.development_end_signalled):
             persistent.development_end_signalled = False
             persistent.can_stop_developing = True
-            renpy.hide_screen("develop_photo")
-            renpy.block_rollback()
+            renpy.hide_screen("develop_photo")      
+            renpy.scene()
+            renpy.show("black")
+            renpy.block_rollback()  
             renpy.jump(persistent.development_end_target)
     
-        if(persistent.base_development == MAX_DEVELOP_TIME and checkExposure):
+        if(persistent.base_development >= MAX_DEVELOP_TIME and checkExposure):
             persistent.development_end_signalled = False
+            renpy.scene()
+            renpy.show("black")
+            renpy.show_screen("develop_photo")
+            renpy.block_rollback()  
             renpy.jump(persistent.development_overexpose_target)
 
     def _develop(base_development: int = -1, secondary_development: int = -1):
+        print("developing base:", base_development, ", secondary", secondary_development)
         _checkPendingJump()
 
         increment : int = 0
@@ -97,6 +111,7 @@ init python:
                 persistent.can_stop_developing = persistent.base_development >= MIN_DEVELOP_TIME
 
     def develop_overexposed(overexposure: int):
+        print("overexposing:", overexposure)
         _checkPendingJump(False)
         persistent.can_stop_developing = False
         persistent.over_exposure = overexposure #/ MAX_DEVELOP_TIME
@@ -108,8 +123,11 @@ init python:
         _develop(base_development = development)
 
     def finish_development():
-        renpy.block_rollback()
+        print("Finishing Development")
+        renpy.scene()
+        renpy.show("black")
         renpy.hide_screen("develop_photo")
+        renpy.block_rollback()
         persistent.current_base_image = None
         persistent.current_secondary_image = None
 
@@ -117,6 +135,7 @@ init python:
 
 #region enlarger
     def populate_enlarger_data():
+        print("Populating enlarger data")
         if(persistent.current_base_image):
             objectImages = DAY_CONFIGS[Days(persistent.current_day)].object_images
             persistent.projected_image = objectImages[persistent.enlarger_image_index]
@@ -127,6 +146,7 @@ init python:
             persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + base_images[persistent.enlarger_image_index].label
 
     def start_enlarger():
+        print("Starting enlarger")
         renpy.block_rollback()
         if not (persistent.current_base_image):
             persistent.current_photo_paper-= 1
@@ -135,9 +155,11 @@ init python:
         populate_enlarger_data()
     
     def stop_enlarger():
+        print("Stopping enlarger")
         renpy.block_rollback()
 
-    def cycle_enlarger(sign: int):
+    def cycle_enlarger(sign: int):     
+        print("Cycling enlarger")
         images = []
         if(persistent.current_base_image):
             images = DAY_CONFIGS[Days(persistent.current_day)].object_images
