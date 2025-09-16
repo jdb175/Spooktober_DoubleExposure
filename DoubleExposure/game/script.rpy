@@ -1,4 +1,4 @@
-#### Defining characters. Characters are global, so all files can see them ####
+﻿#### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
 define bud = Character("Buddy") #Your present day friend, will rename this later
@@ -74,12 +74,27 @@ label day_one:
 label projector_select_base_dayone:
     scene black_background
     $ start_enlarger()
-    $ target_label = renpy.call_screen("enlarger_select_photo")        
+    $ target_label = renpy.call_screen("enlarger_select_photo")   
+    "You expose the paper, starting a print of 'day and night'"
+    "Next comes the developing liquid. You drop the print in the bath and wait."
+    "If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
     jump expression target_label
 
+#jumps here afer you're done with the base image
 label projector_select_double_dayone:
+    scene black_background #or something else
+    if onFirstBase == True:
+        "You grab your tongs and pull out the photo."
+        "Immediately, whatever it was you were watching stops completely."
+        "The photo looks as it should - a half-developed print of the negative you saw earlier."
+        "The room is quiet, except for the sound of your heart pounding in your chest."
+        "You don't know what you just saw but you're absolutely certain you saw it."
+        "Right?"
+        $ onFirstBase = False
+    else:
+        "You grab your tongs and pull out the photo."
     scene black_background
-    "Now project the double exposure, it is day one"
+    "You make your way back to the enlarger. There were several negatives that you could overlay over this photo pretty easily."
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     jump expression target_label
@@ -114,86 +129,171 @@ label post_image_completion_dayone:
 # TODO: easier display of the completed image
 
 
-#region day one - house base
-label develop_house:
+#region day one - kitchen base
+label develop_kitchen:
     scene black_background with fade
-    $ start_developing(BASE_IMAGE_HOUSE)
+    $ start_developing(BASE_IMAGE_KITCHEN)
+    $ develop(5)
+    "The image begins to emerge, slowly at first."
+    "Then, something else starts to happen."
     $ develop(10)
-    "One line"
-    "two lines"
+    "In the photo, the figure by the window starts to move."
+    temp "ZOOM INTO PHOTO BACKGROUND"
+    show Erin_headshot
+    "Erin."
+    "She turns towards the camera and somehow, you hear her muttering to herself"
+    $ develop(15)
+    Erin "Something like that..."
+    "She walks towards the camera, disappearing out of frame."
+    hide Erin_headshot
+    Erin "Well shit, I do believe that's going to do it."
     $ develop(20)
-    "One line"
-    "two lines"
+    Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
+    show Erin_headshot
+    Erin "I should probably shoot a few takes. Different expressions."
+    $ develop(25)
+    Erin "Since I have no idea how I'm going to be feeling after all of this."
+    Erin "That's assuming, of course, you even come back at all..."
+    if(persistent.development_end_signalled == False):
+        "You pull your gaze away for a moment to check the clock. It's halfway done."
+        "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
+        "But... what if it stops?"
+        "Or what if it doesn't stop?"
+        "What is even happening here?!"
     $ develop(30)
-    "One line"
-    "two lines"
-    if(persistent.development_end_signalled == False):
-        "You know that this is when you are meant to take the photo out, if you want enough time to expose the negative"
+    Erin "Shit. Erin, you're shaking."
+    Erin "Well, if this is going to be my last photograph, it may as well be a good one."
+    $ develop(35)
+    "She turns and looks at the doorway."
+    Erin "Maybe Peter is completely full of shit."
     $ develop(40)
-    "One line"
-    "two lines"
+    Erin "..."
+    Erin "I don't think he is though."
+    $ develop(45)
+    Erin "And you've come too far to back out now. Whatever happens..."
+    "Erin sighs."
     $ develop(50)
-    "One line"
-    "two lines"
-    $ develop(60)
-    "One line"
-    "two lines"
     if(persistent.development_end_signalled == False):
-        "If you keep this in any longer, you'll overexpose it"
+        "Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
+        "There's still a chance to expose something over the image, although aleady it'll likely be a bit overdeveloped."
+        "But does that even matter anymore?"
+    $ develop(55)
+    Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
+    $ develop(60)
+    "The image is getting darker now. You're about to ruin it."
 
-label develop_house_overexposed:
+label develop_kitchen_overexposed:
+    $ develop_overexposed(5)
+    temp "As this scene continues - as in any 'overexposed scene' - glitches start to appear. Music warps. Her smile changes."
+    $ corruption += 5
+    Erin "You don't seem to care much about your images, do you?"
+    Erin "Ruining a good print opportunity like this."
     $ develop_overexposed(10)
-    "One line"
-    "two lines"
+    Erin "I wouldn't make that mistake."
+    "This is getting weird..."
+    $ develop_overexposed(15)
+    Erin "It's not your fault... but you should know..."
+    Erin "that there is ONLY SO MUCH SKIN"
     $ develop_overexposed(20)
-    "One line"
-    "two lines"
-    $ develop_overexposed(30)
-    "One line"
-    "two lines"
-    jump complete_house
+    Erin "ONLY SO MANY EYES"
+    Erin "AND THE THINGS TAKEN WILL BE RETURNED"
+    $ develop_overexposed(25)
+    "An icy chill grips your heart and you feel the room start to spin."
+    "Almost without thinking, you grab the tongs and pull out the image."
+    "You feel like SOMETHING TERRIBLE has happened."
+    jump complete_kitchen
 
-#region mask
-label develop_house_mask:
-    $ start_double_exposing(OBJECT_IMAGE_MASK)
+#region Siobhan
+label develop_kitchen_siobhan:
+    "You lower the print into the developing fluid, filled with a nervous anticipation."
+    "Will it happen again?"
+    $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
+    "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
+    "Then, she starts to move. Her feet, partially suspended, touch the ground."
+    "Like she's there."
+    $ develop_double(5)
+    show Siob_headshot at right
+    Siob "*I* don't know. I trust Peter. Something about his energy."
+    show Erin_headshot at left
+    Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
+    Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
+    Siob "But if I do... well, I just want to say, I love your work."
     $ develop_double(10)
-    "one"
-    $ develop_double(20)
-    "two"
-    $ develop_double(30)
-    "three"
-    jump complete_house_mask
+    Erin "Admit it, you'd never heard of me."
+    Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
+    Siob "I guess he's like, famous famous. Did you know?"
 
-label develop_house_mask_overexposed:
+    Erin "Yeah."
+    Erin "You seem excited for tomorrow."
+    Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
+    $ develop_double(15)
+    Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
+    Siob "Like, what should he be telling us?"
+    Erin "Well, so, what *is* the Porter? Like how did he find it? Why should he trust it?"
+    $ porterKnown = True
+    Erin "He calls it a spirit but couldn't it be a demon or something?"
+    Siob "Oh, yeah, I was worried about that too."
+    $ develop_double(20)
+    Siob "But I did some um, some digging. While you guys were doing that bonefire thing last night."
+    Siob "I figured a guy like Peter writes absolutely everything down."
+    Siob "To be fair, I also thought he'd like, lock all that shit up in a secret library or something."
+    Siob "But it was all just out in his office."
+    $ develop_double(25)
+    Erin "You read his stuff??"
+    Siob "SHHH!"
+    Siob "But, yeah."
+    Siob "You want me to tell you or what?"
+    Eirn "... yeah, I do."
+    $ develop_double(30)
+    Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
+    Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
+    jump complete_kitchen_siobhan
+
+label develop_kitchen_siobhan_overexposed:
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    "60+10 double"
+    $ corruption += 5
+    Erin "'The Porter.' Did Peter come up with that name?"
+    Siob "No. It is His Name."
+    Siob "It is His Function."
     $ develop_overexposed(20)
-    "60+20 double"
+    Siob "It was taken From Him"
+    Siob "BUT HE WILL NOT BE CONTAINED"
+    Erin "HE WILL HAVE WHAT IS HIS"
     $ develop_overexposed(30)
-    "60+30 double"
-    jump complete_house_mask
+    "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
+    hide Siob_headshot
+    hide Erin_headshot
+    hide photo1
+    "Almost without thinking, you grab the tongs and pull out the image."
+    "You feel like SOMETHING TERRIBLE has happened."
+    jump complete_kitchen_siobhan
 
-label complete_house:  
+label complete_kitchen:  
     $ finish_development()
     show BG1 at truecenter:
         matrixcolor None
-    "Here is the completed image"    
+    "You grab your tongs and pull out the photo."
+    "Immediately, whatever it was you were watching stops completely."
+    "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    "The room is quiet, except for the sound of your heart pounding in your chest."
+    "You don't know what you just saw but you're absolutely certain you saw it."
+    "Right?"
     jump post_image_completion_dayone
 
-label complete_house_mask:  
+label complete_kitchen_siobhan:  
     $ finish_development()
     show BG1 at truecenter:
         matrixcolor None
     show Mask at truecenter:
         matrixcolor None
-    "Here is the completed image"
+    "As you pull out the image, it ceases to move."
     jump post_image_completion_dayone
 #endregion
 
-#region guy
-label develop_house_guy:
-    $ start_double_exposing(OBJECT_IMAGE_GUY)
+#region gunnar
+label develop_kitchen_gunnar:
+    $ start_double_exposing(OBJECT_IMAGE_GUNNAR)
     $ develop_double(10)
     "(guy) one"
     $ develop_double(20)
@@ -201,7 +301,7 @@ label develop_house_guy:
     $ develop_double(30)
     "(guy) three"
 
-label develop_house_guy_overexposed:
+label develop_kitchen_gunnar_overexposed:
     "(guy) You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     "(guy) 60+10 double"
@@ -209,9 +309,35 @@ label develop_house_guy_overexposed:
     "(guy) 60+20 double"
     $ develop_overexposed(30)
     "(guy) 60+30 double"
-    jump complete_house_guy
+    jump complete_kitchen_gunnar
 
-label complete_house_guy: 
+label complete_kitchen_gunnar: 
+    $ finish_development() 
+    "(guy) Here is the completed image"
+    jump post_image_completion_dayone
+#endregion
+
+#region peter
+label develop_kitchen_peter:
+    $ start_double_exposing(OBJECT_IMAGE_PETER)
+    $ develop_double(10)
+    "(guy) one"
+    $ develop_double(20)
+    "(guy) two"
+    $ develop_double(30)
+    "(guy) three"
+
+label develop_kitchen_peter_overexposed:
+    "(guy) You know that if you keep this photo in any longer you will overexpose it"
+    $ develop_overexposed(10)
+    "(guy) 60+10 double"
+    $ develop_overexposed(20)
+    "(guy) 60+20 double"
+    $ develop_overexposed(30)
+    "(guy) 60+30 double"
+    jump complete_kitchen_peter
+
+label complete_kitchen_peter: 
     $ finish_development() 
     "(guy) Here is the completed image"
     jump post_image_completion_dayone
@@ -306,6 +432,8 @@ default enlargeFirst = True
 default traysFirst = True
 default deskFirst = True
 
+default onFirstBase = True
+
 label darkroomIntro:
     show darkroom_workspace
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
@@ -388,140 +516,139 @@ label darkroomIntro2:
 label photo1_firstDev:
     "You slide one of the two pieces of photo paper under the enlarger."
     "It feels coarse to the touch. Strangely thick."
-    "You expose the paper, starting a print of 'day and night'"
-    scene darkroom_trays with flash
-    "Next comes the developing liquid. You drop the print in the bath and wait."
-    "If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
-    #Beginning default scene
-    show photo1
-    "The image begins to emerge, slowly at first."
-    "Then, something else starts to happen."
-    "In the photo, the figure by the window starts to move."
-    show Erin_headshot
-    "Erin."
-    "She turns towards the camera and somehow, you hear her muttering to herself."
-    Erin "Something like that..."
-    "She walks towards the camera, disappearing out of frame."
-    hide Erin_headshot with fade
-    Erin "Well shit, I do believe that's going to do it."
-    Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-    show Erin_headshot
-    Erin "I should probably shoot a few takes. Different expressions."
-    Erin "Since I have no idea how I'm going to be feeling after all of this."
-    Erin "That's assuming, of course, you even come back at all..."
-    "You pull your gaze away for a moment to check the clock. It's halfway done."
-    "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
-    "But... what if it stops?"
-    "Or what if it doesn't stop?"
-    "What is even happening here?!"
+    $ begin_day(Days.DAY_ONE)
+    jump projector_select_base_dayone
+    #"You expose the paper, starting a print of 'day and night'"
+    #"Next comes the developing liquid. You drop the print in the bath and wait."
+    #"If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
+    #"The image begins to emerge, slowly at first."
+    #"Then, something else starts to happen."
+    #"In the photo, the figure by the window starts to move."
+    #show Erin_headshot
+    #"Erin."
+    #"She turns towards the camera and somehow, you hear her muttering to herself."
+    #Erin "Something like that..."
+    #"She walks towards the camera, disappearing out of frame."
+    #hide Erin_headshot with fade
+    #Erin "Well shit, I do believe that's going to do it."
+    #Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
+    #show Erin_headshot
+    #Erin "I should probably shoot a few takes. Different expressions."
+    #Erin "Since I have no idea how I'm going to be feeling after all of this."
+    #Erin "That's assuming, of course, you even come back at all..."
+    #"You pull your gaze away for a moment to check the clock. It's halfway done."
+    #"Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
+    #"But... what if it stops?"
+    #"Or what if it doesn't stop?"
+    #"What is even happening here?!"
     #50% breakpoint!
-    menu:
-        "Pull out the photo":
-            hide photo1
-            "You grab your tongs and pull out the photo."
-            "Immediately, whatever it was you were watching stops completely."
-            "The photo looks as it should - a half-developed print of the negative you saw earlier."
-            "The room is quiet, except for the sound of your heart pounding in your chest."
-            jump photo1_firstDouble
-        "Keep watching":
-            "Your heart pounding, you try to focus back on what you are seeing and hearing."
-            "You can always decide to pull it out later, even if it ruins the image a bit."
-    Erin "Shit. Erin, you're shaking."
-    Erin "Well, if this is going to be my last photograph, it may as well be a good one."
-    "She turns and looks at the doorway."
-    Erin "Maybe Peter is completely full of shit."
-    Erin "..."
-    Erin "I don't think he is though."
-    Erin "And you've come too far to back out now. Whatever happens..."
-    Erin "..."
-    Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
+    #menu:
+    #    "Pull out the photo":
+    #        hide photo1
+    #        "You grab your tongs and pull out the photo."
+    #        "Immediately, whatever it was you were watching stops completely."
+    #        "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    #        "The room is quiet, except for the sound of your heart pounding in your chest."
+    #        jump photo1_firstDouble
+    #    "Keep watching":
+    #        "Your heart pounding, you try to focus back on what you are seeing and hearing."
+    #        "You can always decide to pull it out later, even if it ruins the image a bit."
+    #Erin "Shit. Erin, you're shaking."
+    #Erin "Well, if this is going to be my last photograph, it may as well be a good one."
+    #"She turns and looks at the doorway."
+    #Erin "Maybe Peter is completely full of shit."
+    #Erin "..."
+    #Erin "I don't think he is though."
+    #Erin "And you've come too far to back out now. Whatever happens..."
+    #Erin "..."
+    #Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
     #80% breakpoint
-    "Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
-    "You'd guess it is 80 percent of the way to fully developed - 30 percent more than you'd hoped for your double-exposure plan."
-    "But does that even matter anymore? You already missed the window to do your original plan."
-    menu:
-        "Pull it out and salvage the print":
-            hide photo1
-            hide Erin_headshot
-            $ curDevLevel = 80
-            jump photo1_firstDouble
-        "Keep watching":
-            "You know that this will ruin the image... but to hell with the image!"
-    temp "As this scene continues - as in any 'overexposed scene' - glitches start to appear. Music warps. Her smile changes."
-    $ corruption += 5
-    Erin "... I know I shouldn't be using the paper."
-    Erin "I know I shouldn't be making it."
-    Erin "And you shouldn't be using it..."
-    "This is getting weird..."
-    menu:
-        "Pull out the print":
-            hide photo1
-            hide Erin_headshot
-            jump photo1_ruined
-        "Keep watching":
-            "... its almost like she's talking to you now..."
-    Erin "It's not your fault... but you should know..."
-    Erin "that there is ONLY SO MUCH SKIN"
-    Erin "ONLY SO MANY EYES"
-    Erin "AND THE THINGS TAKEN WILL BE RETURNED"
-    $ corruption += 10
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
-    jump photo1_ruined
-    return
+    #"Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
+    #"You'd guess it is 80 percent of the way to fully developed - 30 percent more than you'd hoped for your double-exposure plan."
+    #"But does that even matter anymore? You already missed the window to do your original plan."
+    #menu:
+    #    "Pull it out and salvage the print":
+    #        hide photo1
+    #        hide Erin_headshot
+    #        $ curDevLevel = 80
+    #        jump photo1_firstDouble
+    #    "Keep watching":
+    #        "You know that this will ruin the image... but to hell with the image!"
+    #temp "As this scene continues - as in any 'overexposed scene' - glitches start to appear. Music warps. Her smile changes."
+    #$ corruption += 5
+    #Erin "... I know I shouldn't be using the paper."
+    #Erin "I know I shouldn't be making it."
+    #Erin "And you shouldn't be using it..."
+    #"This is getting weird..."
+    #menu:
+    #    "Pull out the print":
+    #        hide photo1
+    #        hide Erin_headshot
+    #        jump photo1_ruined
+    #    "Keep watching":
+    #        "... its almost like she's talking to you now..."
+    #Erin "It's not your fault... but you should know..."
+    #Erin "that there is ONLY SO MUCH SKIN"
+    #Erin "ONLY SO MANY EYES"
+    #Erin "AND THE THINGS TAKEN WILL BE RETURNED"
+    #$ corruption += 10
+    #"An icy chill grips your heart and you feel the room start to spin."
+    #"Almost without thinking, you grab the tongs and pull out the image."
+    #"You feel like SOMETHING TERRIBLE has happened."
+    #jump photo1_ruined
+    #return
     
-label photo1_ruined:
-    #FIX ME!!!
-    "Well, you've ruined this photo, but that hardly matters."
-    jump photo1_secondBase
+#label photo1_ruined:
+#    #FIX ME!!!
+#    "Well, you've ruined this photo, but that hardly matters."
+#    jump photo1_secondBase
 
-label photo1_firstDouble:
-    "You grab your tongs and pull out the photo."
-    "Immediately, whatever it was you were watching stops completely."
-    "The photo looks as it should - a half-developed print of the negative you saw earlier."
-    "The room is quiet, except for the sound of your heart pounding in your chest."
-    "You don't know what you just saw but you're absolutely certain you saw it."
-    "Right?"
-    menu:
-        "Finish the print":
-            "Either way, it's clear - you have to learn more. And the best way to do that is to continue with your plan"
-            "If Erin was doing... whatever this is... and she made double exposures... well, it's that all the more reason to make one too?"
-    jump photo1_doubleMenu
+#label photo1_firstDouble:
+#    "You grab your tongs and pull out the photo."
+#    "Immediately, whatever it was you were watching stops completely."
+#    "The photo looks as it should - a half-developed print of the negative you saw earlier."
+#    "The room is quiet, except for the sound of your heart pounding in your chest."
+#    "You don't know what you just saw but you're absolutely certain you saw it."
+#    "Right?"
+#    menu:
+#        "Finish the print":
+#            "Either way, it's clear - you have to learn more. And the best way to do that is to continue with your plan"
+#            "If Erin was doing... whatever this is... and she made double exposures... well, it's that all the more reason to make one too?"
+#    jump photo1_doubleMenu
 
 
-label photo1_doubleMenu:
-    "You make your way back to the enlarger. There were several negatives that you could overlay over this photograph pretty easily."
-    "The question is, which one?"
-    menu:
-        "The image of Siobhan":
-            jump photo1_addSiob
-        "The image of the scruffy man":
-            jump photo1_addGunnar
-        "The image of the younger man":
-            jump photo1_addPeter
+#label photo1_doubleMenu:
+#    "You make your way back to the enlarger. There were several negatives that you could overlay over this photograph pretty easily."
+#    "The question is, which one?"
+#    menu:
+#        "The image of Siobhan":
+#            jump photo1_addSiob
+#        "The image of the scruffy man":
+#            jump photo1_addGunnar
+#        "The image of the younger man":
+#            jump photo1_addPeter
 
-label firstDoubleText:
-    scene darkroom_trays with flash
-    "You lower the print into the developing fluid, filled with a nervous anticipation."
-    "Will it happen again?"
-    return
+#label firstDoubleText:
+#    scene darkroom_trays with flash
+#    "You lower the print into the developing fluid, filled with a nervous anticipation."
+#    "Will it happen again?"
+#    return
 
 label photo1_addSiob:
-    call firstDoubleText
-    show photo1
-    show Erin_headshot at left
-    show Siob_headshot at right
-    "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
-    "Then, she starts to move. Her feet, partially suspended, touch the ground."
-    "Like she's there."
-    Siob "*I* don't know. I trust Peter. Something about his energy."
-    Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
-    Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
-    Siob "But if I do... well, I just want to say, I love your work."
-    Erin "Admit it, you'd never heard of me."
-    Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
-    Siob "I guess he's like, famous famous. Did you know?"
+    #call firstDoubleText
+    #show photo1
+    #show Erin_headshot at left
+    #show Siob_headshot at right
+    #"For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
+    #"Then, she starts to move. Her feet, partially suspended, touch the ground."
+    #"Like she's there."
+    #Siob "*I* don't know. I trust Peter. Something about his energy."
+    #Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
+    #Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
+    #Siob "But if I do... well, I just want to say, I love your work."
+    #Erin "Admit it, you'd never heard of me."
+    #Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
+    #Siob "I guess he's like, famous famous. Did you know?"
     Erin "Yeah."
     Erin "You seem excited for tomorrow."
     Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
