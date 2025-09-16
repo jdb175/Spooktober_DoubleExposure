@@ -83,7 +83,6 @@ init python:
             persistent.development_end_signalled = False
             renpy.scene()
             renpy.show("black")
-            print("We're calling scene here")
             renpy.show_screen("develop_photo")
             renpy.block_rollback()  
             renpy.jump(persistent.development_overexpose_target)
