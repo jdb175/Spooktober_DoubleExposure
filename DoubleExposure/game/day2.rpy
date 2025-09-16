@@ -129,7 +129,7 @@ label day2_darkroom:
                 jump day2_printOne
             else:
                 $ photoFirst = True
-                jump day2_darkroomIntro
+                jump day2_darkroom
 
 label day2_printOne:  #needs to be renamed like photo2_print or something
     $ curDevLevel = 0
