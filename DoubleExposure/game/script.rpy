@@ -1,7 +1,3 @@
-﻿#Importing libraries
-init python:
-    import math
-
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
@@ -40,11 +36,24 @@ image darkroom_workspace = "placeholders/darkroom_temp1@2.jpg"
 image darkroom_trays = "placeholders/darkroom_temp2.png"
 #image photo1 = "placeholders/photo1_temp"
 
+
+image background_negative = "placeholders/darkroom_temp2.png"
+
 #characters
-image Erin_headshot = "placeholders/Erin_temp1.png"
 #image Siob_headshot = "placeholders/Siob_temp1.jpg"
 #image Peter_headshot = "placeholders/Peter_temp1.png"
 #image Gunnar_headshot = "placeholders/Gunnar_temp1.png"
+
+#exposure
+image BG1 = "exposuretest/bakgroundimage.png"
+image Mask = "exposuretest/pallid_mask_nobpg.png" 
+image BG1_WithMask = Composite(
+    (1191,647),
+    (0,0), "exposuretest/bakgroundimage.png",
+    (0,0), "exposuretest/pallid_mask_nobpg.png" 
+)
+image black_background = Solid("#000000") 
+image white_background = Solid("#fff")  
 
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -57,8 +66,160 @@ label start:
     jump introScene
     return
 
+label day_one:
+    $ begin_day(Days.DAY_ONE)
+    "Start exposing an image"
+    jump projector_select_base_dayone
+
+label projector_select_base_dayone:
+    scene black_background
+    $ start_enlarger()
+    $ target_label = renpy.call_screen("enlarger_select_photo")        
+    jump expression target_label
+
+label projector_select_double_dayone:
+    scene black_background
+    "Now project the double exposure, it is day one"
+    $ start_enlarger()
+    $ target_label = renpy.call_screen("enlarger_select_photo")        
+    jump expression target_label
+
+label post_image_completion_dayone:
+    scene black_background
+    if(persistent.current_photo_paper > 0):
+        if(persistent.current_photo_paper == 1):
+            "You have just 1 piece of photo paper left"
+        else:
+            "You have [persistent.current_photo_paper] pieces of photo paper left"
+        jump projector_select_base_dayone
+    "You're out of paper"
+    jump introScene
+
+# this system works by jumping to known labels
+# == Projector ==~
+# projector_select_double_<DAY>
+
+# === Base image development ==
+# develop_<BASETAG>
+# develop_<BASETAG>_overexposed
+
+# === For every object image + base image combo
+# develop_<BASETAG>_<OBJECTTAG>
+# develop_<BASETAG>_<OBJECTTAG>_overexposed
+# complete_<BASETAG>_<OBJECTTAG>
+
+# image definitions are in daysconfig, you can expand by following the pattern in the current ones. Any amount of dialogue should work
+# you can develop at any increments, but 60 is currently the max value beyond which you overexpose.
+
+# TODO: easier display of the completed image
+
+
+#region day one - house base
+label develop_house:
+    scene black_background with fade
+    $ start_developing(BASE_IMAGE_HOUSE)
+    $ develop(10)
+    "One line"
+    "two lines"
+    $ develop(20)
+    "One line"
+    "two lines"
+    $ develop(30)
+    "One line"
+    "two lines"
+    if(persistent.development_end_signalled == False):
+        "You know that this is when you are meant to take the photo out, if you want enough time to expose the negative"
+    $ develop(40)
+    "One line"
+    "two lines"
+    $ develop(50)
+    "One line"
+    "two lines"
+    $ develop(60)
+    "One line"
+    "two lines"
+    if(persistent.development_end_signalled == False):
+        "If you keep this in any longer, you'll overexpose it"
+
+label develop_house_overexposed:
+    $ develop_overexposed(10)
+    "One line"
+    "two lines"
+    $ develop_overexposed(20)
+    "One line"
+    "two lines"
+    $ develop_overexposed(30)
+    "One line"
+    "two lines"
+    jump complete_house
+
+#region mask
+label develop_house_mask:
+    $ start_double_exposing(OBJECT_IMAGE_MASK)
+    $ develop_double(10)
+    "one"
+    $ develop_double(20)
+    "two"
+    $ develop_double(30)
+    "three"
+    jump complete_house_mask
+
+label develop_house_mask_overexposed:
+    "You know that if you keep this photo in any longer you will overexpose it"
+    $ develop_overexposed(10)
+    "60+10 double"
+    $ develop_overexposed(20)
+    "60+20 double"
+    $ develop_overexposed(30)
+    "60+30 double"
+    jump complete_house_mask
+
+label complete_house:  
+    $ finish_development()
+    show BG1 at truecenter:
+        matrixcolor None
+    "Here is the completed image"    
+    jump post_image_completion_dayone
+
+label complete_house_mask:  
+    $ finish_development()
+    show BG1 at truecenter:
+        matrixcolor None
+    show Mask at truecenter:
+        matrixcolor None
+    "Here is the completed image"
+    jump post_image_completion_dayone
+#endregion
+
+#region guy
+label develop_house_guy:
+    $ start_double_exposing(OBJECT_IMAGE_GUY)
+    $ develop_double(10)
+    "(guy) one"
+    $ develop_double(20)
+    "(guy) two"
+    $ develop_double(30)
+    "(guy) three"
+
+label develop_house_guy_overexposed:
+    "(guy) You know that if you keep this photo in any longer you will overexpose it"
+    $ develop_overexposed(10)
+    "(guy) 60+10 double"
+    $ develop_overexposed(20)
+    "(guy) 60+20 double"
+    $ develop_overexposed(30)
+    "(guy) 60+30 double"
+    jump complete_house_guy
+
+label complete_house_guy: 
+    $ finish_development() 
+    "(guy) Here is the completed image"
+    jump post_image_completion_dayone
+#endregion
+#endregion
 
 label introScene:
+    scene black
     #Open on black?
     "Erin Darabondi."
     show Erin_headshot
