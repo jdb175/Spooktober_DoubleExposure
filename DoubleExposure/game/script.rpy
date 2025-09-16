@@ -222,7 +222,6 @@ label develop_kitchen_siobhan:
     Erin "Admit it, you'd never heard of me."
     Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
     Siob "I guess he's like, famous famous. Did you know?"
-
     Erin "Yeah."
     Erin "You seem excited for tomorrow."
     Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
@@ -294,26 +293,70 @@ label complete_kitchen_siobhan:
 #region gunnar
 label develop_kitchen_gunnar:
     $ start_double_exposing(OBJECT_IMAGE_GUNNAR)
+    "As the man begins to fade into the doorway, his mouth immediately begins to move"
+    $ develop_double(5)
+    show Gunnar_headshot at right
+    unk "I'm sure you've heard this before, but I will say it again."
+    unk "Fame is the *worst* thing that could happen to you."
+    show Erin_headshot at left
+    Erin "You're right. I *have* heard that before."
+    unk "Oh don't get me wrong, I understand you."
     $ develop_double(10)
-    "(guy) one"
+    Erin "Do you?"
+    unk "The fire to prove yourself. To do something great. It's pointless to ignore it."
+    unk "I'm not saying you should stop chasing fame. May as well tell a moth to steer clear of candles."
+    unk "I'm just telling you that you won't like it." #Note, I think Erin actually kinda thinks this is funny now. It was annoying at first.
+    Erin "So what, embrace the flame"
+    unk "Isn't that what we're doing here?"
+    unk "Chasing somthing that could very well destroy us?"
+    $ develop_double(15)
+    Erin "I'm not going to get destroyed. That's why I'm not going first."
+    Erin "Is that what you're doing?"
+    unk "Hah!"
+    unk "Well..."
+    unk "If Peter is right and this... place... really exists, then someone should to write about it."
+    $ houseKnown = True
     $ develop_double(20)
-    "(guy) two"
+    unk "And I suppose I can't stand the thought of it being anyone other than me."
+    Erin "I think you might be vain, Gunnar. Has anyone ever told you that?"
+    $ gunnarKnown = True
+    Gunnar "I've seen your work. Very psychological, very personal. You must think your head is a very interesting place to be."
+    Gunnar "My books have multiple points of view. And I try *very* hard to make sure none of them are my own."
+    Erin "So you're saying I'm going to be in your book?"
+    Gunnar "Who knows what's going to come out of this. Book. Poem. Alien scribblings. The Truth about the Creation of Time."
+    Gunnar "But if you end up being interesting enough... sure, I might put you in."
+    $ develop_double(25)
+    Gunnar "But enough ramblings of a vain man. What drive Erin Darabondi to step through the threshold of the so-called Bright House?"
+    Erin "..."
+    Erin "I have no idea."
+    Gunnar "Bullshit."
+    Erin "Do you really trust Peter?"
+    Gunnar "If he tells us this Bright House is safe, well, I trust he believes that."
+    Gunnar "I know you - both of you - have just met him, but I've known him a long time. He knows what he's doing."
+    Gunnar "Not in all things. I pray to God you never have to see his personal attempts at art."
     $ develop_double(30)
-    "(guy) three"
+    Gunnar "He's got no talent of his own, but damned if he can't see it in others."
 
 label develop_kitchen_gunnar_overexposed:
-    "(guy) You know that if you keep this photo in any longer you will overexpose it"
+    "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    "(guy) 60+10 double"
+    $ corruption += 5
+    Gunnar "There's a lot that he sees, Erin."
+    Gunnar "But he can't see enough. Not what he needs to."
+    Gunnar "He is BLIND, just as I AM BLIND."
     $ develop_overexposed(20)
-    "(guy) 60+20 double"
+    Gunnar "WHERE ARE MY EYES, ERIN?"
+    Gunnar "WHERE ARE MY EYES, INTERLOPER?"
     $ develop_overexposed(30)
-    "(guy) 60+30 double"
+    "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
+    hide Gunnar_headshot
+    hide Erin_headshot
     jump complete_kitchen_gunnar
 
 label complete_kitchen_gunnar: 
-    $ finish_development() 
-    "(guy) Here is the completed image"
+    $ finish_development()
+    "Almost without thinking, you grab the tongs and pull out the image."
+    "You feel like SOMETHING TERRIBLE has happened."
     jump post_image_completion_dayone
 #endregion
 
