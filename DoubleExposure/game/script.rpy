@@ -137,6 +137,8 @@ label introScene:
         "I've got some ideas.":
             bud "Okay, keep your secrets then."
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
+    stop ambiance_1 fadeout 4.0
+    play sound "step-and-door.mp3" fadein 1.0
     "You should probably get to work too."
     jump darkroomIntro
 
@@ -149,7 +151,6 @@ default traysFirst = True
 default deskFirst = True
 
 label darkroomIntro:
-    stop ambiance_1
     show darkroom_workspace
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
@@ -389,12 +390,12 @@ label photo1_addSiob_past100:
     Erin "It was taken From Him"
     Siob "BUT HE WILL NOT BE CONTAINED"
     play augment_2 "guitar-Ab.mp3" noloop
-    play sound "gong-1.mp3" noloop volume 0.6
+    play augment_3 "gong-1.mp3" noloop volume 0.6
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     hide Siob_headshot
     hide Erin_headshot
     hide photo1
-    play sound "splash-small-1.mp3" volume 0.5
+    play sound_2 "splash-small-1.mp3" noloop volume 0.5
     stop augment_1 fadeout 0.5
     stop music fadeout 4.0
     stop melody fadeout 4.0
