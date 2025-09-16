@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+.DS_Store
+DoubleExposure/.DS_Store
+DoubleExposure/game/.DS_Store
+=======
 # Directories that Ren'Py changes files in.
 /DoubleExposure/game/saves
 /DoubleExposure/game/cache
@@ -30,3 +35,4 @@
 
 #VS code
 **/.vscode/*
+>>>>>>> origin/main
