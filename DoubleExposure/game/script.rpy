@@ -1,4 +1,17 @@
-﻿#### Defining characters. Characters are global, so all files can see them ####
+﻿#Importing libraries
+init python:
+    import math
+    #audio channels
+    renpy.music.register_channel("ambiance_1", "sfx")
+    renpy.music.register_channel("ambiance_2", "sfx")
+    renpy.music.register_channel("ambiance_3", "sfx")
+    renpy.music.register_channel("sound_2", "sfx")
+    renpy.music.register_channel("augment_1", "music")
+    renpy.music.register_channel("augment_2", "music")
+    renpy.music.register_channel("augment_3", "music")
+    renpy.music.register_channel("melody", "music")
+
+#### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
 define bud = Character("Buddy") #Your present day friend, will rename this later
@@ -447,7 +460,9 @@ label complete_kitchen_peter:
 label introScene:
     scene black
     #Open on black?
+    play sound "breath-1.mp3"
     "Erin Darabondi."
+    play music 'piano-underscore.mp3'
     show Erin_headshot
     temp "SHOW: headshot of Erin" #Show a headshot photo of Erin
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
@@ -459,7 +474,8 @@ label introScene:
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
     "Which some days feels crazy, like you're a *real artist*"
     "And some days feels like you're so far from real success."
-    "Erin's love of double exposure, in particular, stuck with you."
+    "But Erin's love of double exposure, in particular, stuck with you."
+    play augment_1 'piano-underscore-spook-1.mp3'
     temp "SHOW: Something new exposed over the current art piece" #Show something exposed over the piece.
     "Partially developing one photo, and then"
     "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
@@ -467,15 +483,22 @@ label introScene:
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
     #Stretch goal – show a drawing of a letter in hand, or SOMETHING
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
-    "You could hardly believe it when you found out."
-    "You were chosen as a recipient of their first ever Young Artist Grant"
+    "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
+    play augment_2 'piano-underscore-spook-2.mp3'
     temp "SHOW: The darkroom photo exposing view. A photo is developing." #show the darkroom.
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     "By her legacy."
+    play augment_3 'piano-underscore-spook-3.mp3'
     temp "SHOW: as the photo develops, a terrifying face comes into view, one we will soon learn to be that of the Porter" #show the Porter appearing in the photo
     "A legacy which, for better or for worse, you are now a part of..."
     #TRANSITION TIME!
-    temp "THREE DAYS EARLIER..."
+    stop music
+    stop augment_1
+    stop augment_2
+    stop augment_3
+    play sound 'ding-1.mp3'
+    play ambiance_1 'ambient-birds.mp3' fadein 1.0
+    "THREE DAYS EARLIER..."
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     temp "SHOW: Bud. If we can create a background elsewhere in Erin's house, this is happening there. Otherwise, it is happening in the wide of the darkroom."
     bud "I don't think she's dead."
@@ -521,6 +544,8 @@ label introScene:
         "I've got some ideas.":
             bud "Okay, keep your secrets then."
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
+    stop ambiance_1 fadeout 4.0
+    play sound "step-and-door.mp3" fadein 1.0
     "You should probably get to work too."
     jump darkroomIntro
 
@@ -591,6 +616,8 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
+            play sound 'light-click.mp3'
+            play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
             temp "We'd switch from the full-light version of the scene to the red light version here."
             $ lightOn = True
             jump darkroomIntro2
@@ -618,50 +645,47 @@ label photo1_firstDev:
     "It feels coarse to the touch. Strangely thick."
     $ begin_day(Days.DAY_ONE)
     jump projector_select_base_dayone
-    #"You expose the paper, starting a print of 'day and night'"
-    #"Next comes the developing liquid. You drop the print in the bath and wait."
-    #"If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
-    #"The image begins to emerge, slowly at first."
-    #"Then, something else starts to happen."
-    #"In the photo, the figure by the window starts to move."
-    #show Erin_headshot
-    #"Erin."
-    #"She turns towards the camera and somehow, you hear her muttering to herself."
-    #Erin "Something like that..."
-    #"She walks towards the camera, disappearing out of frame."
-    #hide Erin_headshot with fade
-    #Erin "Well shit, I do believe that's going to do it."
-    #Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-    #show Erin_headshot
-    #Erin "I should probably shoot a few takes. Different expressions."
-    #Erin "Since I have no idea how I'm going to be feeling after all of this."
-    #Erin "That's assuming, of course, you even come back at all..."
-    #"You pull your gaze away for a moment to check the clock. It's halfway done."
-    #"Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
-    #"But... what if it stops?"
-    #"Or what if it doesn't stop?"
-    #"What is even happening here?!"
-    #50% breakpoint!
-    #menu:
-    #    "Pull out the photo":
-    #        hide photo1
-    #        "You grab your tongs and pull out the photo."
-    #        "Immediately, whatever it was you were watching stops completely."
-    #        "The photo looks as it should - a half-developed print of the negative you saw earlier."
-    #        "The room is quiet, except for the sound of your heart pounding in your chest."
-    #        jump photo1_firstDouble
-    #    "Keep watching":
-    #        "Your heart pounding, you try to focus back on what you are seeing and hearing."
-    #        "You can always decide to pull it out later, even if it ruins the image a bit."
-    #Erin "Shit. Erin, you're shaking."
-    #Erin "Well, if this is going to be my last photograph, it may as well be a good one."
-    #"She turns and looks at the doorway."
-    #Erin "Maybe Peter is completely full of shit."
-    #Erin "..."
-    #Erin "I don't think he is though."
-    #Erin "And you've come too far to back out now. Whatever happens..."
-    #Erin "..."
-    #Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
+### Temporarily leaving this in until I migrate Kyle's music calls. This label has already been butchered (intentionally) in the merge
+    "You slide one of the two pieces of photo paper under the enlarger and start a print of 'day and night'"
+    scene darkroom_trays with flash
+    "Next comes the developing liquid. You drop the print in the bath and wait."
+    "If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
+    #Beginning default scene
+    show photo1
+    play music "photo-underscore-1.mp3" fadein 5.0
+    "The image begins to emerge, slowly at first."
+    "Then, something else starts to happen."
+    "Erin's lips part. Subtly, but unmistakably"
+    play sound "breath-1.mp3" volume 0.8
+    "You hear her voice. Whether it's from the photo or in your head you can't quite tell."
+    show Erin_headshot
+    Erin "Everything we did was wrong. From the start."
+    Erin "The Bright House. The Porter. I see that now."
+    Erin "But there is a part of me that can hardly stop myself."
+    Erin "When I picture that glorious light leaking into our world, I almost shudder with the rapture of the thought."
+    Erin "I see our world for the dark place it is. Even in the bright of day it is filled with shadows."
+    Erin "I would see it filled with light."
+    #50% exposed
+    "You pull your gaze away for a moment to check the clock. It's halfway done."
+    "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
+    "But... what if it stops?"
+    "Or what if it doesn't stop?"
+    "What is even happening here?!"
+    menu:
+        "Pull out the photo":
+            hide photo1
+            hide Erin_headshot
+            $ curDevLevel = 50
+            jump photo1_firstDouble
+        "Keep watching":
+            play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
+            "Your heart pounding, you try to focus back on what you are seeing and hearing."
+            "You can always decide to pull it out later, even if it ruins the image a bit."
+    Erin "But it scares me."
+    Erin "Because I am supposed to love this world. The world. My world."
+    Erin "And with every day that passes I find it harder to see it for anything other than a shadow."
+    Erin "The light within me makes all else dark."
+    Erin "That is what I will show with this piece."
     #80% breakpoint
     #"Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
     #"You'd guess it is 80 percent of the way to fully developed - 30 percent more than you'd hoped for your double-exposure plan."
@@ -703,18 +727,20 @@ label photo1_firstDev:
 #    "Well, you've ruined this photo, but that hardly matters."
 #    jump photo1_secondBase
 
-#label photo1_firstDouble:
-#    "You grab your tongs and pull out the photo."
-#    "Immediately, whatever it was you were watching stops completely."
-#    "The photo looks as it should - a half-developed print of the negative you saw earlier."
-#    "The room is quiet, except for the sound of your heart pounding in your chest."
-#    "You don't know what you just saw but you're absolutely certain you saw it."
-#    "Right?"
-#    menu:
-#        "Finish the print":
-#            "Either way, it's clear - you have to learn more. And the best way to do that is to continue with your plan"
-#            "If Erin was doing... whatever this is... and she made double exposures... well, it's that all the more reason to make one too?"
-#    jump photo1_doubleMenu
+label photo1_firstDouble:
+    stop augment_1 fadeout 1.0
+    stop augment_2 fadeout 1.0
+    "You grab your tongs and pull out the photo."
+    "Immediately, whatever it was you were watching stops completely."
+    "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    "The room is quiet, except for the sound of your heart pounding in your chest."
+    "You don't know what you just saw but you're absolutely certain you saw it."
+    "Right?"
+    menu:
+        "Finish the print":
+            "Either way, it's clear - you have to learn more. And the best way to do that is to continue with your plan"
+            "If Erin was doing... whatever this is... and she made double exposures... well, it's that all the more reason to make one too?"
+    jump photo1_doubleMenu
 
 
 #label photo1_doubleMenu:
@@ -735,25 +761,16 @@ label photo1_firstDev:
 #    return
 
 label photo1_addSiob:
-    #call firstDoubleText
-    #show photo1
-    #show Erin_headshot at left
-    #show Siob_headshot at right
-    #"For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
-    #"Then, she starts to move. Her feet, partially suspended, touch the ground."
-    #"Like she's there."
-    #Siob "*I* don't know. I trust Peter. Something about his energy."
-    #Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
-    #Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
-    #Siob "But if I do... well, I just want to say, I love your work."
-    #Erin "Admit it, you'd never heard of me."
-    #Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
-    #Siob "I guess he's like, famous famous. Did you know?"
-    Erin "Yeah."
-    Erin "You seem excited for tomorrow."
-    Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
-    Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
-    Siob "Like, what should he be telling us?"
+    call firstDoubleText
+    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
+    show photo1
+    show Erin_headshot at left
+    show Siob_headshot at right
+    "As Siobhan's head beings to appear, her lips begin to move, just as Erin's did."
+    Siob "*I* don't know. I trust Peter. Something about his energy."
+    Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
+    Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
+    Siob "But if I do... well, I just want to say, I love your work."
     if curDevLevel >= 80: # won't be hardcoded in real system, this is to cut you off if you took the other scene too far
         "The photo is starting to get overexposed. You ought to pull it out. If you think that matters anymore."
         menu:
@@ -788,17 +805,23 @@ label photo1_addSiob:
             jump photo1_addSiob_past100
 
 label photo1_addSiob_past100:
+    play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
     $ corruption += 5
     Erin "'The Porter.' Did Peter come up with that name?"
     Siob "No. It is His Name."
     Siob "It is His Function."
     Siob "It was taken From Him"
     Siob "BUT HE WILL NOT BE CONTAINED"
-    Erin "HE WILL HAVE WHAT IS HIS"
+    play augment_2 "guitar-Ab.mp3" noloop
+    play augment_3 "gong-1.mp3" noloop volume 0.6
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     hide Siob_headshot
     hide Erin_headshot
     hide photo1
+    play sound_2 "splash-small-1.mp3" noloop volume 0.5
+    stop augment_1 fadeout 0.5
+    stop music fadeout 4.0
+    stop melody fadeout 4.0
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump photo1_secondBase
@@ -875,7 +898,7 @@ label photo1_addGunnar_past100:
     hide Gunnar_headshot
     hide Erin_headshot
     hide photo1
-    "Almost without thinking, you grab the tongs and pull out the image."
+    "Almost without thinking, you grab the tongs and pull out the image."    
     "You feel like SOMETHING TERRIBLE has happened."
     jump photo1_secondBase
 
@@ -953,6 +976,12 @@ label photo1_addPeter_past100:
 
 
 label photo1_secondBase:
+    stop melody fadeout 0.5
+    stop augment_1 fadeout 0.5
+    stop augment_2 fadeout 0.5
+    play sound "breath-2.mp3" noloop
+    play ambiance_2 "ambient-darkroom-light.mp3" fadein 1.0 # make sure light buzz is playing
+    play ambiance_2 "ambient-darkroom-rumble.mp3" fadein 0.5
     hide Erin_headshot
     hide photo1
     $ papersRemaining -= 1 #not the best place for this, but again, this is a hack
