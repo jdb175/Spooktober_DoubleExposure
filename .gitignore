@@ -1,3 +1,38 @@
+<<<<<<< HEAD
 .DS_Store
 DoubleExposure/.DS_Store
 DoubleExposure/game/.DS_Store
+=======
+# Directories that Ren'Py changes files in.
+/DoubleExposure/game/saves
+/DoubleExposure/game/cache
+
+# Compiled script files. These are important for saving, and so should
+# be preserved by developer and build systems after the game has been released.
+/DoubleExposure/game/**/*.rpyc
+/DoubleExposure/game/**/*.rpymc
+
+# Files Ren'Py can generate.
+/DoubleExposure/game/**/*.bak
+/DoubleExposure/game/**/*.new
+/DoubleExposure/game/**/*.old
+
+# Error, log, and output files.
+/DoubleExposure/errors.txt
+/DoubleExposure/files.txt
+/DoubleExposure/image_cache.txt
+/DoubleExposure/log.txt
+/DoubleExposure/save_dump.txt
+/DoubleExposure/traceback.txt
+
+# Launcher-generated files.
+/DoubleExposure/dialogue.tab
+/DoubleExposure/dialogue.txt
+/DoubleExposure/strings.json
+
+#Mac things
+.DS_Store
+
+#VS code
+**/.vscode/*
+>>>>>>> origin/main
