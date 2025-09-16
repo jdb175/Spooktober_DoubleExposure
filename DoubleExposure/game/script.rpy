@@ -125,6 +125,9 @@ label post_image_completion_dayone:
 # develop_<BASETAG>_<OBJECTTAG>_overexposed
 # complete_<BASETAG>_<OBJECTTAG>
 
+# The first call to develop_overexposed() will check if there is a pending exit, so you can put
+# any message related to "watch out you're about to overexpose" there
+
 # image definitions are in daysconfig, you can expand by following the pattern in the current ones. Any amount of dialogue should work
 # you can develop at any increments, but 60 is currently the max value beyond which you overexpose.
 
