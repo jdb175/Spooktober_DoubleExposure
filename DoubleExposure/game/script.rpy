@@ -28,6 +28,7 @@ default peterKnown = False #You know Peter's name
 default houseKnown = False #You've heard them talk about going 'through a gate'
 default porterKnown = False #You've heard them talk about the Porter
 default photoFound = False #You found the hidden photo in Erin's house.
+default seenPhoto1 = False #Have you already watched the first scene?
 
 ###images### 
 #We may decide not to define these but just to use filenames later
@@ -101,6 +102,7 @@ label projector_select_double_dayone:
 
 label post_image_completion_dayone:
     scene black_background
+    $ seenPhoto1 = True
     if(persistent.current_photo_paper > 0):
         if(persistent.current_photo_paper == 1):
             "You have just 1 piece of photo paper left"
@@ -133,36 +135,45 @@ label post_image_completion_dayone:
 label develop_kitchen:
     scene black_background with fade
     $ start_developing(BASE_IMAGE_KITCHEN)
-    $ develop(5)
-    "The image begins to emerge, slowly at first."
-    "Then, something else starts to happen."
-    $ develop(10)
-    "In the photo, the figure by the window starts to move."
-    temp "ZOOM INTO PHOTO BACKGROUND"
-    show Erin_headshot
-    "Erin."
-    "She turns towards the camera and somehow, you hear her muttering to herself"
-    $ develop(15)
-    Erin "Something like that..."
-    "She walks towards the camera, disappearing out of frame."
-    hide Erin_headshot
-    Erin "Well shit, I do believe that's going to do it."
-    $ develop(20)
-    Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-    show Erin_headshot
-    Erin "I should probably shoot a few takes. Different expressions."
-    $ develop(25)
-    Erin "Since I have no idea how I'm going to be feeling after all of this."
-    Erin "That's assuming, of course, you even come back at all..."
-    if(persistent.development_end_signalled == False):
-        "You pull your gaze away for a moment to check the clock. It's halfway done."
-        "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
-        "But... what if it stops?"
-        "Or what if it doesn't stop?"
-        "What is even happening here?!"
-    $ develop(30)
-    Erin "Shit. Erin, you're shaking."
-    Erin "Well, if this is going to be my last photograph, it may as well be a good one."
+    if seenPhoto1 == True:
+        "As you develop the scene from 'night and day' for a second time, the same thing happens."
+        $ develop(10)
+        "Erin begins to move and speak, the same motions and words as she did before."
+        $ develop(20)
+        "The same little pagent."
+        $ develop(30)
+        "This time, you decide to pull the photo out as soon as possible." #note, I want to find a more elegant way to force this to happen or make it clear
+    else:
+        $ develop(5)
+        "The image begins to emerge, slowly at first."
+        "Then, something else starts to happen."
+        $ develop(10)
+        "In the photo, the figure by the window starts to move."
+        temp "ZOOM INTO PHOTO BACKGROUND"
+        show Erin_headshot
+        "Erin."
+        "She turns towards the camera and somehow, you hear her muttering to herself"
+        $ develop(15)
+        Erin "Something like that..."
+        "She walks towards the camera, disappearing out of frame."
+        hide Erin_headshot
+        Erin "Well shit, I do believe that's going to do it."
+        $ develop(20)
+        Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
+        show Erin_headshot
+        Erin "I should probably shoot a few takes. Different expressions."
+        $ develop(25)
+        Erin "Since I have no idea how I'm going to be feeling after all of this."
+        Erin "That's assuming, of course, you even come back at all..."
+        if(persistent.development_end_signalled == False):
+            "You pull your gaze away for a moment to check the clock. It's halfway done."
+            "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
+            "But... what if it stops?"
+            "Or what if it doesn't stop?"
+            "What is even happening here?!"
+        $ develop(30)
+        Erin "Shit. Erin, you're shaking."
+        Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     $ develop(35)
     "She turns and looks at the doorway."
     Erin "Maybe Peter is completely full of shit."
@@ -268,7 +279,7 @@ label develop_kitchen_siobhan_overexposed:
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen_siobhan
 
-label complete_kitchen:  
+label complete_kitchen:
     $ finish_development()
     show BG1 at truecenter:
         matrixcolor None
@@ -363,21 +374,64 @@ label complete_kitchen_gunnar:
 #region peter
 label develop_kitchen_peter:
     $ start_double_exposing(OBJECT_IMAGE_PETER)
+    "The man from the negative begins to appear, fitting almost naturally into the scene."
+    $ develop_double(5)
+    show Peter_headshot at right
+    unk "I've spoken with Siobhan. She'll be going through tonight. Gunnar is happy to go tomorrow, unless you'd prefer his spot."
+    Erin "That's fine with me."
+    unk "I'm pleased to see you're already working. And I'm honored that my kitchen is going to be a part of some great work of art."
+    unk "This is what impresses me the most about you creative types. I'd assume a kitchen is just... boring, I don't know."
+    unk "But I guess you see something in it."
     $ develop_double(10)
-    "(guy) one"
+    Erin "Maybe it'll make more sense when you see the piece."
+    Erin "Honestly, I don't even know what this piece is going to be either. Usually I've got something more like a plan."
+    Erin "But I think it'll be interesting to capture these images of *before*. And then, once we go through... to the ..."
+    unk "Bright House, yes."
+    Erin "To the Bright House. To show how we see things after."
+    Erin "If I go. You know I still - "
+    unk "It's okay. You don't have to be here if you don't want to. And you don't have to decide anything now."
+    Erin "Thank you, Mr. Carlson"
+    $ peterKnown = True
+    $ develop_double(15)
+    Peter "Please, just Peter is fine."
+    Peter "Anyway, I'll leave you to your work. Dinner's at 5 if you want it and then Siobhan's going through at 7:00PM sharp. In the Grand hall."
+    hide Peter_headshot
+    Erin "Peter, wait!"
+    show Peter_headshot
+    Erin "I have a question."
+    Peter "I hope I have an answer."
     $ develop_double(20)
-    "(guy) two"
+    Erin "What is the Porter? I know you said a 'helper spirit' but I mean, how do you know that?"
+    $ porterKnown = True
+    Peter "Incredible amounts of research. And a good deal of personal experience."
+    Peter "You will see it yourself, you know. Tonight. 7:00PM sharp, in fact."
+    Peter "..."
+    Peter "I know that is not adequate. But the truth is I don't think anything I say could be enough. You either believe me or don't."
+    Peter "Or do several years of your own painstaking research."
+    $ develop_double(25)
+    Erin "Fine. But I still don't fully understand why you need us here."
+    Erin "I mean, I guess I can understand. You find something incredible, you want to share it."
+    Erin "But is that really it?"
+    Peter "This place is not just incredible. It would be incredible no matter what it looked like, of course. Another world, apart from our own..."
+    $ houseKnown = True
+    Peter "But I promise you, Erin, it is so much more. And that's the problem."
+    Peter "If I had Gunnar's way with words, I could describe it to you so you'd understand."
+    Peter "Or if I had your grasp of the symbolic image, or Siobhan's power to capture emotion..."
     $ develop_double(30)
-    "(guy) three"
+    Peter "I found the Bright House through nothing more than pure, stupid curiosity."
 
 label develop_kitchen_peter_overexposed:
     "(guy) You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    "(guy) 60+10 double"
+    Peter "But now that I've found it, I find myself feeling so... inadequate before it."
+    Peter "Inadequate like the foolish, weak thing that I am."
     $ develop_overexposed(20)
-    "(guy) 60+20 double"
+    Peter "The Worm, the Thief, a Thief among Theives"
+    hide Peter_headshot
+    hide photo1
     $ develop_overexposed(30)
-    "(guy) 60+30 double"
+    Peter "He will Find me. He will find You too."
+    Peter "THIS ALL MUST BE UNDONE."
     jump complete_kitchen_peter
 
 label complete_kitchen_peter: 

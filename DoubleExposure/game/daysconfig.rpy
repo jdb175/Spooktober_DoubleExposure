@@ -82,7 +82,7 @@ python early:
 
     DAY_CONFIGS = {
         Days.DAY_ONE: DayConfig(
-            photo_paper = 3,
+            photo_paper = 2,
             base_images = [
                 BASE_IMAGE_KITCHEN
             ],
