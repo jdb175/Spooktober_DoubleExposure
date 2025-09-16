@@ -63,7 +63,6 @@ image Erin_headshot = "placeholders/Erin_temp1.png"
 #image Erin = "placeholders/Erin.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 
-
 #characters
 #image Siobhan = "placeholders/siobhan.jpg"
 #image Peter_headshot = "placeholders/Peter_temp1.png"
@@ -482,7 +481,7 @@ label develop_kitchen_siobhan:
     Siob "SHHH!"
     Siob "But, yeah."
     Siob "You want me to tell you or what?"
-    Eirn "... yeah, I do."
+    Erin "... yeah, I do."
     $ develop_double(30)
     Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
