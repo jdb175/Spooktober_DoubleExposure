@@ -35,7 +35,7 @@ python early:
 
     #region image configurations
     ### Base Images ###
-
+    #TESTING
     BASE_IMAGE_HOUSE = EnlargerImage(
             label = "house", 
             path = "exposuretest/bakgroundimage.png",
@@ -45,9 +45,14 @@ python early:
             label = "face", 
             path = "exposuretest/face_bg.png",
             description = "An image of a face")
+    #DAY ONE
+    BASE_IMAGE_KITCHEN = EnlargerImage(
+        label = "kitchen",
+        path = "placeholders/kitchen_temp.png",
+        description = "The kitchen from 'night and day'")
 
     ### Object Images ###
-
+    #TESTING
     OBJECT_IMAGE_MASK = EnlargerImage(
             label = "mask", 
             path = "exposuretest/pallid_mask_nobpg.png",
@@ -57,19 +62,34 @@ python early:
             label = "guy", 
             path = "exposuretest/guy.png",
             description = "It's a guy")
+    #DAY ONE
+    OBJECT_IMAGE_GUNNAR = EnlargerImage(
+        label = "gunnar",
+        path = "placeholders/gunnar_temp.png",
+        description = "Portrait, pensive man")
+
+    OBJECT_IMAGE_SIOBHAN = EnlargerImage(
+        label = "siobhan",
+        path = "placeholders/siobhan.png",
+        description = "A portrait of Sioban Kent")
+    
+    OBJECT_IMAGE_PETER = EnlargerImage(
+        label = "peter",
+        path = "exposuretest/guy.png",
+        description = "Portrait, moustache man")
 
     ### Day Configurations
 
     DAY_CONFIGS = {
         Days.DAY_ONE: DayConfig(
-            photo_paper = 3,
+            photo_paper = 2,
             base_images = [
-                BASE_IMAGE_HOUSE,
-                BASE_IMAGE_FACE
+                BASE_IMAGE_KITCHEN
             ],
             object_images = [
-                OBJECT_IMAGE_MASK,
-                OBJECT_IMAGE_GUY
+                OBJECT_IMAGE_GUNNAR,
+                OBJECT_IMAGE_SIOBHAN,
+                OBJECT_IMAGE_PETER
             ])
     }
 
