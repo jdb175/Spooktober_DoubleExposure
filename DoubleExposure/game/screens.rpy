@@ -75,18 +75,28 @@ style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
 
-transform developingImage(a, b):
+transform developingImage(a_start, a_target, b):
     xalign 0.5 
     yalign 0.5
     zoom 0.7
     matrixcolor TintMatrix("#f00") * BrightnessMatrix(b)
-    linear a alpha a
+    alpha a_start
+    linear (a_target-a_start)*1.5 alpha a_target
+    shader "MakeVisualNovels.Static"
+    #See #Color section at the bottom for details.
+    u_color (1.0, 1.0, 1.0, 1.0)
+    u_intensity (b)
+    # 0 for additive(brightening) static, 1 for multiplicative(darkening) static
+    # When 0, intensity is inversed and higher numbers are less pronounced.
+    # When 1, intensity is normal, and higher numbers are more pronounced.
+    # Why? Because math.
+    u_mode (1.0)
 
-transform enlarger_project_image:
+transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale):
     matrixcolor InvertMatrix()
     zoom .8
     blur 15
-    yalign 0.55 xalign 0.4 rotate 3        
+    yalign 0.5+y_scale xalign 0.5+x_scale rotate r        
     alpha 0
     pause 0.05
     alpha 0.7
@@ -98,13 +108,13 @@ transform enlarger_project_image:
     alpha 0.2
     pause 0.2
     linear 0.7 alpha 0.7
-    pause 0.6
-    ease 0.8 yalign 0.5 xalign 0.5 rotate 0 
-    pause 0.7
-    linear 1.0 blur 5 zoom .73
-    pause 0.2
+    pause 0.6 * delay_scale
+    ease 0.8 * move_scale yalign 0.5 xalign 0.5 rotate 0 
+    pause 0.7 * delay_scale
+    linear 1.0 * focus_scale blur 5 zoom .73
+    pause 0.2 * delay_scale
     linear 0.2 blur 3 zoom .715
-    pause 0.4
+    pause 0.4 * delay_scale
     linear 0.2 blur 0 zoom .7
 
     
@@ -115,14 +125,22 @@ transform enlarger_project_image:
 screen develop_photo():
     frame id "photo_development":
         python:
-            over_exposure_brightness = persistent.over_exposure / MAX_DEVELOP_TIME
-            base_alpha = min(persistent.base_development / MAX_DEVELOP_TIME, 1.0)
-            secondary_alpha = min(persistent.secondary_development / MAX_DEVELOP_TIME, 1.0)
+            over_exposure_brightness = persistent.over_exposure / MAX_OVEREXPOSURE_TIME / 3
+            base_alpha = .2 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.8
+            secondary_alpha = .2 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
 
-        add persistent.current_base_image.path at developingImage(base_alpha, over_exposure_brightness)
+            alpha_delta = persistent.base_development - persistent.last_base_development
+
+            print("alpha delta: ", alpha_delta, ", last_base: ", persistent.last_base_development, ", base: ", persistent.base_development)
+            base_alpha_start = .2 + min((persistent.base_development - alpha_delta) / MAX_DEVELOP_TIME, 1.0) *.8
+            secondary_alpha_start = .2 + min((persistent.secondary_development - alpha_delta) / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
+
+            print("alpha start: ", base_alpha_start, ", secondary start: ", secondary_alpha_start)
+
+        add persistent.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
 
         if(persistent.is_double_exposing):
-            add persistent.current_secondary_image.path at developingImage(secondary_alpha, over_exposure_brightness)
+            add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
 
         vbox:
             text "[persistent.base_development]"
@@ -135,15 +153,23 @@ screen develop_photo():
 
 
 screen enlarger_select_photo():
-    key "focus_left" action Function(cycle_enlarger, sign=-1)
-    key "focus_right" action Function(cycle_enlarger, sign=1)
+    if(persistent.enable_cycling):
+        key "focus_left" action Function(cycle_enlarger, sign=-1)
+        key "focus_right" action Function(cycle_enlarger, sign=1)
     frame id "enlarger_selection":
         xalign 0.5 yalign 0.5
+        python:
+            x_scale = (random.random() - 0.5) * .15
+            y_scale = (random.random() - 0.5) * .15
+            rotation = (random.random() - 0.5) * 5
+            move_scale = (abs(x_scale) + abs(y_scale))/.1
+            delay_scale = move_scale * 0.5 + 0.5
+            focus_scale = random.random() * 0.3 + .7
 
         if(persistent.current_base_image):
             add persistent.current_base_image.path at center
 
-        add persistent.projected_image.path at enlarger_project_image
+        add persistent.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
         
         vbox:
             text "[persistent.projected_image.description]"
