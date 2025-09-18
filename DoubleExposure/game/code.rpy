@@ -1,6 +1,8 @@
 init python:   
     MIN_DEVELOP_TIME = 30
+    MAX_OVEREXPOSURE_TIME = 30
     MAX_DEVELOP_TIME = 60
+    SECONDARY_MAX_DEVELOP_TIME = 30
     ENLARGER_LABEL_BASE = "projector_select_base"
     ENLARGER_LABEL_DOUBLE = "projector_select_double"
 
@@ -17,6 +19,7 @@ init python:
 
         # development state
         persistent.base_development = 0 # Current level of base photo development, when it exceeds MAX_DEVELOP_TIME we jump to overexposure
+        persistent.last_base_development = 0 # Previous level of base development, used for visual effects
         persistent.secondary_development = 0 # Current level of secondary photo development, used for visual effects
         persistent.over_exposure = 0 # Current level of overexposure for visual effects
         persistent.can_stop_developing = False # Whether the "stop developing" button should be active
@@ -41,6 +44,7 @@ init python:
         persistent.current_base_image = image
         persistent.current_secondary_image = None
         persistent.base_development = 0
+        persistent.last_base_development = 0
         persistent.secondary_development = 0
         persistent.over_exposure = 0.0
         persistent.can_stop_developing = False
@@ -102,6 +106,7 @@ init python:
             persistent.can_stop_developing = False
         else:
             if(increment > 0):
+                persistent.last_base_development = persistent.base_development
                 persistent.base_development += increment
 
                 if(persistent.is_double_exposing):
@@ -158,13 +163,16 @@ init python:
         print("Stopping enlarger")
         renpy.block_rollback()
 
-    def cycle_enlarger(sign: int):     
+    def cycle_enlarger(sign: int):   
         print("Cycling enlarger")
         images = []
         if(persistent.current_base_image):
             images = DAY_CONFIGS[Days(persistent.current_day)].object_images
         else:
             images = DAY_CONFIGS[Days(persistent.current_day)].base_images
+
+        if(len(images) == 1):
+            return
 
         persistent.enlarger_image_index += sign
         persistent.enlarger_image_index = persistent.enlarger_image_index % len(images)
