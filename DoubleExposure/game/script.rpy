@@ -1,7 +1,6 @@
 ﻿#Importing libraries
 init python:
     import math
-    import random
     #audio channels
     renpy.music.register_channel("ambiance_1", "sfx")
     renpy.music.register_channel("ambiance_2", "sfx")
@@ -89,7 +88,7 @@ label start:
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
     $ budLevel = 0
-    jump photo1_firstDev
+    jump introScene
     return
 
 label introScene:

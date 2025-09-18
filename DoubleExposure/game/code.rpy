@@ -1,4 +1,5 @@
 init python:   
+    import random
     MIN_DEVELOP_TIME = 30
     MAX_OVEREXPOSURE_TIME = 30
     MAX_DEVELOP_TIME = 60
@@ -33,6 +34,7 @@ init python:
         persistent.projected_image = None # The image that is currently selected in the enlarger
         persistent.enlarger_image_index = 0 # The image of the current selection in the enlarger
         persistent.enlarger_jump_label = "DEFAULT_ENLARGER_JUMP_LABEL" # The label to jump to after completing the current enlarger session
+        persistent.enable_cycling = False # should cycling be enabled
 
 
 #region development
@@ -141,14 +143,19 @@ init python:
 #region enlarger
     def populate_enlarger_data():
         print("Populating enlarger data")
+        images_len = 0
         if(persistent.current_base_image):
-            objectImages = DAY_CONFIGS[Days(persistent.current_day)].object_images
-            persistent.projected_image = objectImages[persistent.enlarger_image_index]
-            persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + persistent.current_base_image.label + "_" + objectImages[persistent.enlarger_image_index].label
+            object_images = DAY_CONFIGS[Days(persistent.current_day)].object_images
+            images_len = len(object_images)
+            persistent.projected_image = object_images[persistent.enlarger_image_index]
+            persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + persistent.current_base_image.label + "_" + object_images[persistent.enlarger_image_index].label
         else:
             base_images = DAY_CONFIGS[Days(persistent.current_day)].base_images
+            images_len = len(base_images)
             persistent.projected_image = base_images[persistent.enlarger_image_index]
             persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + base_images[persistent.enlarger_image_index].label
+
+        persistent.enable_cycling = (images_len > 1)
 
     def start_enlarger():
         print("Starting enlarger")

@@ -153,8 +153,9 @@ screen develop_photo():
 
 
 screen enlarger_select_photo():
-    key "focus_left" action Function(cycle_enlarger, sign=-1)
-    key "focus_right" action Function(cycle_enlarger, sign=1)
+    if(persistent.enable_cycling):
+        key "focus_left" action Function(cycle_enlarger, sign=-1)
+        key "focus_right" action Function(cycle_enlarger, sign=1)
     frame id "enlarger_selection":
         xalign 0.5 yalign 0.5
         python:
