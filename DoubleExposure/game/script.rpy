@@ -97,11 +97,11 @@ label introScene:
     play sound "breath-1.mp3"
     "Erin Darabondi."
     play music 'piano-underscore.mp3'
-    show Erin_headshot
+    show erin one
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
     "The 'truth' of photography used to present impossibilities."
-    hide Erin_headshot
+    hide erin one
     show face_bg
     temp "SHOW: one of Erin's works, if we have the art budget" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
@@ -119,7 +119,7 @@ label introScene:
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
     play augment_2 'piano-underscore-spook-2.mp3'
-    scene darkroom_temp2
+    show bg machine 
     temp "SHOW: The darkroom photo exposing view. A photo is developing." #show the darkroom.
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     "By her legacy."
@@ -189,7 +189,7 @@ label introScene:
     jump darkroomIntro
 
 label darkroomIntro:
-    show darkroom_workspace
+    show bg dark room
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
     "They were hoping to turn the house into a museum but it never came through."
@@ -206,18 +206,18 @@ label darkroomIntro2:
                 "Oh wow, it looks like there are already some negatives in here!"
                 tutorial "Use the arrow keys to change the active negative"
                 temp "once this is working, you'll be able to see the following negatives:"
-                show Siob_headshot at center:
+                show siobhan one at center:
                     matrixcolor InvertMatrix(1.0)
                 "Oh, I think I know this person! Siobhan Kent. A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
-                hide Siob_headshot
+                hide siobhan one
                 show Gunnar_headshot at center:
                     matrixcolor InvertMatrix(1.0)
                 "No idea who this is. This looks more like a personal shot than an art piece though."
                 hide Gunnar_headshot
-                show Peter_headshot at center:
+                show peter one at center:
                     matrixcolor InvertMatrix(1.0)
                 "Same with this one."
-                hide Peter_headshot
+                hide peter one
                 show photo1
                 temp "SHOW: A dramantically lit and composed photograph of a kitchen, with Erin looking out the window"
                 "Oh, wow. Now *this* is a find!"
@@ -245,8 +245,10 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
+
             play sound 'light-click.mp3'
             play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
+            scene bg dark room red
             temp "We'd switch from the full-light version of the scene to the red light version here."
             $ lightOn = True
             jump darkroomIntro2
