@@ -61,6 +61,16 @@ init python:
         persistent.development_end_signalled = True
         persistent.can_stop_developing = False
 
+    def stop_developing_instant():
+        if(persistent.base_development < MIN_DEVELOP_TIME):
+            persistent.last_base_development = MIN_DEVELOP_TIME
+            persistent.base_development = MIN_DEVELOP_TIME
+        
+        persistent.development_end_signalled = True
+        persistent.can_stop_developing = False
+        _checkPendingJump()
+
+
     def start_double_exposing(image : EnlargerImage):
         print("starting double exposure for ", image.label, ", base image is ", persistent.current_base_image.label)
         renpy.scene()

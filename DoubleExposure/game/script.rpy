@@ -361,12 +361,13 @@ label develop_kitchen:
     play music "photo-underscore-1.mp3" fadein 5.0
     if seenPhoto1 == True:
         "As you develop the scene from 'night and day' for a second time, the same thing happens."
-        $ develop(10)
+        $ develop(5)
         "Erin begins to move and speak, the same motions and words as she did before."
-        $ develop(20)
-        "The same little pagent."
-        $ develop(30)
+        $ develop(10)
+        "The same little pageant."
+        $ develop(15)
         "This time, you decide to pull the photo out as soon as possible." #note, I want to find a more elegant way to force this to happen or make it clear
+        $ stop_developing_instant()
     else:
         $ develop(5)
         "The image begins to emerge, slowly at first."
