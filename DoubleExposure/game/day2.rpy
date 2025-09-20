@@ -102,10 +102,10 @@ label day2BudConvo:
 
 #region darkroom
 label day2_darkroom:
+    $ papersRemaining = 5 #not actually used anymore
     menu:
         set menuset
         "The desk":
-            $ papersRemaining = 4
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
             "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
             "Must be from the grant?"
@@ -134,6 +134,9 @@ label day2_darkroom:
 
 label day2_printOne:  #needs to be renamed like photo2_print or something
     $ curDevLevel = 0
+    if papersRemaining == 0:
+        "That's it for photos today. You're out of paper."
+        jump endOfDay2
     "You make your way to the enlarger."
     if doneAPrint == False:
         "You decide to start with the burnt negatives, since you have no idea what they are."
@@ -247,9 +250,9 @@ label photo2_addOwl:
     owl "Who are you?"
     owl "Why are you wearing my mask?"
     doubOwl "..."
-    owl "I thought they were meant to be unique? Was that a lie?"
     doubOwl "..."
     owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
+    owl "Or is this another one of those nightmares??"
     doubOwl "This corruption of the truth should not be possible."
     doubOwl "You have strayed beyond your limits, human."
     doubOwl "Given a gift, you were unsatisfied."
@@ -260,7 +263,7 @@ label photo2_addOwl:
     porter "Your judgement was made long ago, transgressor."
     owl "This isn't... this isn't possible."
     owl "When is this? When is this happening?"
-    owl "We haven't even killed you yet! The idea had not yet taken root in-"
+    owl "We haven't even killed you yet! I've got no hand to give you yet!"
     porter "This cannot be understood. And it will end."
     porter "NOW"
     "An icy chill grips your heart and you feel the room start to spin."
@@ -327,6 +330,7 @@ label photo2_addFlame:
 
 #region photo2 erin/archer
 label photo2_addArcher:
+    #This scene needs more information
     "From the strange masked figures, you see faint movement and hear whispers, growing stronger, growing bolder."
     show archer at left
     show owl at right
@@ -349,7 +353,7 @@ label photo2_addArcher:
     owl "Maybe not for poor Gunnar. I looked in his notebook. It's like the shining, writing the same sentence over and over again."
     owl "Not literally, like, he's not crazy. I don't think. But it's just first sentence, second sentence, cross it out."
     owl "I liked your kitchen thing. I think you're better at this than you think. The idea of using the masks is cool too. Not sure what Peter will think."
-    archer "See? This is what I mean. I think my art sucks, you think your art sucks, but to the outside it's working."
+    archer "See? This is what I mean. I think my art sucks, you think your art sucks, but to the outside world it's good."
     owl "Maybe..."
     owl "..."
     owl "Do you really trust Peter and that... creature?"
@@ -500,7 +504,7 @@ label photo3_firstDev:
     flame "Not that I blame them. What could be more dull than sitting around *working* when you could be in another world."
     porter "..."
     flame "Go. Take them to the vestibule. Show them the statue garden."
-    hide porder with moveoutleft
+    hide porter with moveoutleft
     "From the other side of the portal - for that is what it must be - the Porter steps through"
     "Then, the spirit raises a trembling, withered hand. It traces some kind of shape in the air."
     temp "The portal disappears"
@@ -539,9 +543,7 @@ label photo3_double:
         "Flame mask":
             jump photo3_addFlame
         "Archer mask":
-            temp "not yet written"
-            jump photo3_double
-            #jump photo3_addArcher
+            jump photo3_addArcher
         "Frog mask":
             jump photo3_addFrog
 
@@ -593,6 +595,7 @@ label photo3_addOwl:
     "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat mirthless chuckle escapes your lips" #-_-
     "The sound in the empty darkroom is jarring and jolts you back to your senses."
     "You pull out the photo, feeling suddenly uncomfortable."
+    jump day2_printOne
 #endregion
 
 #region photo3 peter/flame
@@ -609,12 +612,14 @@ label photo3_addFlame:
     doubFlame "It's me. You."
     doubFlame "Not as you are, but as you will be."
     doubFlame "I'm the one who lives in your house. I am in your skin and your thoughts are my thoughts."
-    flame "Why are you here?"
-    doubFlame "I am not here. It will be many years until I am here. Decades."
+    flame "Is this another one of those fucking nightmares?"
+    flame "Or... are you really here?"
+    doubFlame "I am not here."
+    doubFlame "It will be many years until I am here. Decades."
     doubFlame "But when the time comes and I am here, it will be by the magic you are about to discover here. This week."
     flame "This is some cryptic bullcrap. You don't sound like me at all. Do your homework before trying to impersonate me."
     doubFlame "You change, Peter. You betray your friend, you betray yourself, and you betray your flesh."
-    doubFlame "You traded your heart for Power, Peter."
+    doubFlame "You traded your heart for power, Peter."
     doubFlame "And now what beats in your chest is a vacancy. A hole."
     doubFlame "And then you begin to hollow out others, trying to fill this hole you have created."
     flame "So... so... so what is this, like some kind of warning?"
@@ -632,14 +637,61 @@ label photo3_addFlame:
     #I want to put more of an ending clue here but need to write that first.
     hide flame2
     hide flame
+    jump day2_printOne
 #endregion
 
 #region photo3 erin/archer
 label photo3_addArcher:
+    #This slot gives a HELL of a lot away, almost feels like it should be saved for day3 somehow.
+    #This is also set way in the future, I'm leaving it that way for now but it may make more sense to make it happen later
     "You take a deep breath and prepare yourself, focusing intently on the image fading into view."
     "The two robed figures begin to come to life."
-    #Erin realizes she can see brightness after the plot is kicked into gear
-    
+    #Scene possibilities for this slot:
+    #Flame convinces Erin to join in the plot to take the eyes
+    #Flame and Erin discuss the nightmares they've been having and how to stop them
+    show archer at left
+    show flame at right
+    flame "I'm glad you changed your mind."
+    flame "I'd like to ask why, but I'm afraid it'll only make you run away again."
+    archer "..."
+    flame "Of course, you don't have to say anything."
+    flame "I have to be honest. When I pulled this little group together I had no idea what was going to happen."
+    flame "When it all started to go wrong, I felt like I had made a terrible mistake."
+    flame "Now I see that everything that happened was all in service of something greater."
+    flame "So. Here is my guess. You've come to see that too."
+    archer "That's not it."
+    archer "I wanted nothing to do with what you two had done. Honestly, I still don't."
+    archer "But I started having these... terrible, realistic nightmares. About the Porter."
+    archer "Started seeing it in real life, started feeling this icy pain that would grip my heart at random times."
+    archer "I spoke to Siobhan. Before she died. She wasn't easy to find, always with one foot in some other world."
+    archer "I wanted her to undo what'd she'd done. She didn't listen. She wasn't afraid of the Porter."
+    archer "I spoke to Gunnar. He was easy enough to find. He doesn't leave his apartment at all anymore, the nurse said."
+    archer "The walls, the floors, every square inch covered in mad writings. I could read enough to know the dreams were coming for him too."
+    archer "So if I'm going to be hounded by some nightmare thing for all the shit you lot got up to..."
+    archer "...I'd like to at least get something out of it."
+    flame "I understand that logic. I'm a bit disappointed that an artist such as yourself has such a... selfish perspective."
+    flame "We all burn out sometime. What matters is what we produce, what we *do*."
+    flame "So, what will you take into yourself?"
+    show porter wounded at center
+    "The figure in the flame mask makes a gesture and the portal darkens."
+    "In it can be seen the figure of the Porter, laying still and motionless."
+    archer "... I want its eyes."
+    flame "Done."
+    "Yellow light begins to form around the Porter's eyes."
+    "The eyes of the archer mask, too, begin to glow."
+    #100 percent dev
+    menu:
+        "Pull it out, it's at 100 percent":
+            hide frog
+            hide porter wounded
+            hide flame
+            jump day2_printOne
+    flame "What do you see?"
+    archer "bright."
+    archer "BRIGHT"
+    archer "And I see..."
+    archer "I see a way out."
+    jump day2_printOne
 #endregion
 
 #region photo3 gunnar/Frog
@@ -678,13 +730,13 @@ label photo3_addFrog:
     "The figure with the flame mask sits motionless."
     flame "It is done."
     flame "Your turn."
+    flame "Take what you will from this husk."
     menu:
         "Pull it out, it's at 100 percent":
             hide frog
             hide porter wounded
             hide flame
             jump day2_printOne
-    flame "Take what you will from this husk. Anything but the eyes. Those are for another."
     frog "How... how does it feel?"
     flame "I can feel its power."
     frog "What should it be?"
@@ -693,10 +745,41 @@ label photo3_addFrog:
     flame "IT MATTERS NOT"
     flame "ALL WILL BE RETURNED"
     flame "ALL MUST BE RETURNED"
+    jump day2_printOne
 #endregion
 #endregion
 
 #region end of day 2
-label night2:
-    temp "To be written, but you get some weird dreams, you feel threatened by the spirit, and then you wake up."
+
+label endOfDay2:
+    "You wipe the sweat from your brow and sit in Erin's chair, thought swirling."
+    "Trying to make sense of the events you've seen. To piece together the timeline."
+    "You can't be sure that everything you've seen is real, or was real, but at the same time it almost adds up."
+    "Your phone buzzes. It's Bud. They're outside."
+    #Okay, so there are two ending possibilities I see here:
+    #First ending, Erin created the foundation to put an end to this. Strongly hinted by the fact that she has been trying to cure the Porter
+    #Second ending, Erin was trying to do good, but Peter runs the foundation. We are offered a second photo from Peter, and choose whether to use his or Erin's
+    bud "So I looked into Peter Carlson..."
+    bud "Um, it got weird."
+    bud "So he's the guy who runs this foundation."
+    bud "Also, there used to be a Siobhan Kent young artists grant. A lot of the recipients, uh, seem to have died."
+    bud "Same for the, uh Gunnar Olsen young poet award award winners."
+    if porterKnown == true:
+        bud "I didn't have a lot of luck looking up any kind of a spirit called the Porter."
+        bud "That's probably just because like, where the hell do you even start with something like that."
+        bud "But it did come up in some of Gunnar's unfinished works. And the works of the poet award winners."
+        bud "It's either some sort of like, vengeful killer or some sort of guardian angel."
+        you "That's super helpful..."
+        bud "Right?"
+    you "Bud... did you have any nightmares last night?"
+    bud "Kinda, yeah, actually. I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
+    bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods."
+    bud "Oh god then he ate his own eyes."
+    bud "How did you know?"
+    you "I had one too. About the porter."
+    you "I don't know what Peter's game is here but I think we need to get out of all of this."
+    bud "So we just quit?"
+    bud "..."
+    bud "It's too late for that, isn't it?"
+    "You fill Bud in on everything you've seen."
 #endregion
