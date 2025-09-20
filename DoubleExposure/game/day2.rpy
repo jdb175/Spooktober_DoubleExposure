@@ -102,10 +102,10 @@ label day2BudConvo:
 
 #region darkroom
 label day2_darkroom:
+    $ papersRemaining = 5 #not actually used anymore
     menu:
         set menuset
         "The desk":
-            $ papersRemaining = 5 #not actually used anymore
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
             "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
             "Must be from the grant?"
