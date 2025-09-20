@@ -1,6 +1,9 @@
 init python:   
+    import random
     MIN_DEVELOP_TIME = 30
+    MAX_OVEREXPOSURE_TIME = 30
     MAX_DEVELOP_TIME = 60
+    SECONDARY_MAX_DEVELOP_TIME = 30
     ENLARGER_LABEL_BASE = "projector_select_base"
     ENLARGER_LABEL_DOUBLE = "projector_select_double"
 
@@ -17,6 +20,7 @@ init python:
 
         # development state
         persistent.base_development = 0 # Current level of base photo development, when it exceeds MAX_DEVELOP_TIME we jump to overexposure
+        persistent.last_base_development = 0 # Previous level of base development, used for visual effects
         persistent.secondary_development = 0 # Current level of secondary photo development, used for visual effects
         persistent.over_exposure = 0 # Current level of overexposure for visual effects
         persistent.can_stop_developing = False # Whether the "stop developing" button should be active
@@ -30,6 +34,7 @@ init python:
         persistent.projected_image = None # The image that is currently selected in the enlarger
         persistent.enlarger_image_index = 0 # The image of the current selection in the enlarger
         persistent.enlarger_jump_label = "DEFAULT_ENLARGER_JUMP_LABEL" # The label to jump to after completing the current enlarger session
+        persistent.enable_cycling = False # should cycling be enabled
 
 
 #region development
@@ -41,6 +46,7 @@ init python:
         persistent.current_base_image = image
         persistent.current_secondary_image = None
         persistent.base_development = 0
+        persistent.last_base_development = 0
         persistent.secondary_development = 0
         persistent.over_exposure = 0.0
         persistent.can_stop_developing = False
@@ -54,6 +60,16 @@ init python:
         print("Flagging to end development after the next line")
         persistent.development_end_signalled = True
         persistent.can_stop_developing = False
+
+    def stop_developing_instant():
+        if(persistent.base_development < MIN_DEVELOP_TIME):
+            persistent.last_base_development = MIN_DEVELOP_TIME
+            persistent.base_development = MIN_DEVELOP_TIME
+        
+        persistent.development_end_signalled = True
+        persistent.can_stop_developing = False
+        _checkPendingJump()
+
 
     def start_double_exposing(image : EnlargerImage):
         print("starting double exposure for ", image.label, ", base image is ", persistent.current_base_image.label)
@@ -102,6 +118,7 @@ init python:
             persistent.can_stop_developing = False
         else:
             if(increment > 0):
+                persistent.last_base_development = persistent.base_development
                 persistent.base_development += increment
 
                 if(persistent.is_double_exposing):
@@ -136,14 +153,19 @@ init python:
 #region enlarger
     def populate_enlarger_data():
         print("Populating enlarger data")
+        images_len = 0
         if(persistent.current_base_image):
-            objectImages = DAY_CONFIGS[Days(persistent.current_day)].object_images
-            persistent.projected_image = objectImages[persistent.enlarger_image_index]
-            persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + persistent.current_base_image.label + "_" + objectImages[persistent.enlarger_image_index].label
+            object_images = DAY_CONFIGS[Days(persistent.current_day)].object_images
+            images_len = len(object_images)
+            persistent.projected_image = object_images[persistent.enlarger_image_index]
+            persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + persistent.current_base_image.label + "_" + object_images[persistent.enlarger_image_index].label
         else:
             base_images = DAY_CONFIGS[Days(persistent.current_day)].base_images
+            images_len = len(base_images)
             persistent.projected_image = base_images[persistent.enlarger_image_index]
             persistent.enlarger_jump_label = DEVELOP_LABEL_PREFIX + base_images[persistent.enlarger_image_index].label
+
+        persistent.enable_cycling = (images_len > 1)
 
     def start_enlarger():
         print("Starting enlarger")
@@ -158,13 +180,16 @@ init python:
         print("Stopping enlarger")
         renpy.block_rollback()
 
-    def cycle_enlarger(sign: int):     
+    def cycle_enlarger(sign: int):   
         print("Cycling enlarger")
         images = []
         if(persistent.current_base_image):
             images = DAY_CONFIGS[Days(persistent.current_day)].object_images
         else:
             images = DAY_CONFIGS[Days(persistent.current_day)].base_images
+
+        if(len(images) == 1):
+            return
 
         persistent.enlarger_image_index += sign
         persistent.enlarger_image_index = persistent.enlarger_image_index % len(images)

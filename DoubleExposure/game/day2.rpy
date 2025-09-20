@@ -750,6 +750,7 @@ label photo3_addFrog:
 #endregion
 
 #region end of day 2
+
 label endOfDay2:
     "You wipe the sweat from your brow and sit in Erin's chair, thought swirling."
     "Trying to make sense of the events you've seen. To piece together the timeline."
