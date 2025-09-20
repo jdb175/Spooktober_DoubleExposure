@@ -543,9 +543,7 @@ label photo3_double:
         "Flame mask":
             jump photo3_addFlame
         "Archer mask":
-            temp "not yet written"
-            jump photo3_double
-            #jump photo3_addArcher
+            jump photo3_addArcher
         "Frog mask":
             jump photo3_addFrog
 
@@ -597,6 +595,7 @@ label photo3_addOwl:
     "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat mirthless chuckle escapes your lips" #-_-
     "The sound in the empty darkroom is jarring and jolts you back to your senses."
     "You pull out the photo, feeling suddenly uncomfortable."
+    jump day2_printOne
 #endregion
 
 #region photo3 peter/flame
@@ -638,6 +637,7 @@ label photo3_addFlame:
     #I want to put more of an ending clue here but need to write that first.
     hide flame2
     hide flame
+    jump day2_printOne
 #endregion
 
 #region photo3 erin/archer
@@ -691,6 +691,7 @@ label photo3_addArcher:
     archer "BRIGHT"
     archer "And I see..."
     archer "I see a way out."
+    jump day2_printOne
 #endregion
 
 #region photo3 gunnar/Frog
@@ -744,6 +745,7 @@ label photo3_addFrog:
     flame "IT MATTERS NOT"
     flame "ALL WILL BE RETURNED"
     flame "ALL MUST BE RETURNED"
+    jump day2_printOne
 #endregion
 #endregion
 
