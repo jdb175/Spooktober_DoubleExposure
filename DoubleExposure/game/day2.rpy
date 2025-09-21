@@ -268,7 +268,6 @@ label photo2_addOwl:
     doubOwl "..."
     owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
     owl "Or is this another one of those nightmares??"
-    #$ nightmareRefs += 1
     doubOwl "This corruption of the truth should not be possible."
     doubOwl "You have strayed beyond your limits, human."
     doubOwl "Given a gift, you were unsatisfied."
@@ -276,13 +275,12 @@ label photo2_addOwl:
     hide owl2
     show porter at left
     temp "Fade/transition the second owl into the Porter!"
-    porter "Your judgement was made long ago, transgressor."
+    porter "{sc=2}Your judgement was made long ago, transgressor.{/sc}"
     owl "This isn't... this isn't possible."
     owl "When is this? When is this happening?"
     owl "We haven't even killed you yet! I've got no hand to give you yet!"
-    #$ siobhanHand = True
-    porter "This cannot be understood. And it will end."
-    porter "NOW"
+    porter "{sc=2}This cannot be understood. And it will end.{/sc}"
+    porter "{sc=2}NOW{/sc}"
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
@@ -860,4 +858,4 @@ label night2:
     porter "You must GO NOW."
     porter "NOW!"
     "You wake up and your body is already halfway out of bed. You throw on clothes and rush out the door."
-    
+#endregion
