@@ -827,6 +827,7 @@ label endOfDay2:
     bud "Hey, I gotta get some sleep. I'm going to be totally dead tomorrow otherwise."
     bud "But I'll come by first thing in the morning?"
     "You nod and thank Bud for their help. You're pretty tired as well."
+    "Before you go, you grab all the prints you took today and shove them in your bag."
     jump night2
 #endregion
 
@@ -852,5 +853,11 @@ label night2:
         porter "..."
         porter "I see now you are BRIGHT"
         porter "But that does not mean it is too late to RIGHT what is WRONG"
-        porter "Like the ARCHER DID. She returned my vision, and was so freed."
+        porter "Like the ARCHER DID. She returned my eyes, and was so freed."
+    temp "SHOW: Darkroom"
+    temp "FADE: A shadowy figure (existing art made dim) fading into the darkroom"
+    porter "HE has final piece."
+    porter "You must GO NOW."
+    porter "NOW!"
+    "You wake up and your body is already halfway out of bed. You throw on clothes and rush out the door."
     
