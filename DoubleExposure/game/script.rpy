@@ -102,7 +102,7 @@ label introScene:
     "Through her lens, strange and fantastic scenes became real."
     "The 'truth' of photography used to present impossibilities."
     hide erin one
-    show face_bg
+    show kitchen erin
     temp "SHOW: one of Erin's works, if we have the art budget" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
@@ -110,6 +110,7 @@ label introScene:
     "And some days feels like you're so far from real success."
     "But Erin's love of double exposure, in particular, stuck with you."
     play augment_1 'piano-underscore-spook-1.mp3'
+    show erin original one
     temp "SHOW: Something new exposed over the current art piece" #Show something exposed over the piece.
     "Partially developing one photo, and then exposing another over it, creating a new image."
     "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
@@ -137,32 +138,46 @@ label introScene:
     scene black_background
     "THREE DAYS EARLIER..."
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
-    show buddy with moveinleft
+    scene bg dark room 
+    show buddy smile with moveinleft
     temp "SHOW: Bud. If we can create a background elsewhere in Erin's house, this is happening there. Otherwise, it is happening in the wide of the darkroom."
+    show buddy tricky
     bud "I don't think she's dead."
+    show buddy amused
     bud "No way."
+    show buddy talkhand
     bud "This 'Young Artist Foundation?' She runs it. She just got tired of the limelight."
+    show buddy listen
     you "She wasn't *that* big."
     you "And she had already started talking about her next series. Does that sound like someone ready to disappear?"
+    show buddy amused
     bud "Ready or not, that's what happened."
+    show buddy laughs
     bud "Without a trace..."
+    show buddy smile
     "Bud is the *other* grant winner. A collage artist, whose work, despite not being photography, much more closely mirrors Erin's."
     "Surreal themes and imagery, symbols dripping with meaning. Uncommon juxtapositions."
     "You thought it was a bit derivative at first. Now you're starting to think they're a bit obsessed."
+    show buddy question
     bud "Don't tell me you've never wondered what happened to her!"
     menu:
         "I prefer to focus on the art, not the artist":
             #show bud dejected or pensive
+            show buddy sad
             bud "Yeah, of course. Me too. That's why we're here."
         "Of course. I've read some pretty crazy theories":
             $ budLevel += 1
+            show buddy tricky
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
         "Why would she need to fake her disappearence to run her own foundation? You have to admit that makes no sense.":
             #show bud dejected or pensive
+            show buddy sad
             bud "Yeah, I know. I just prefer to imagine everything has a happy ending, you know?"
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
+    show buddy amused
     bud "I was just thinking about maybe doing some sort of piece around her. Like, Erin."
+    show buddy question
     bud "What happened, or didn't happen. Putting her in places she isn't, but could have been."
     bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
     bud "Especially since I'm getting paid now."
