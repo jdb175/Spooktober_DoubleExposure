@@ -703,21 +703,19 @@ label endOfDayOneChoices:
             "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
             "And then, tucked away in the back of a file nestled among old tax documents, you find something."
             temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
-            temp "Double exposed over it are the faces that you've come to know from the negatives. They are overlayed strangely over the creature"
+            temp "Double exposed over its face, the face of Erin..."
+            #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
             $ photoFound = True
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
-            "There is no note, no explanation."
+            "Scribbled hastily on the back in ballpoint pen, a title."
+            "'restitution. atonement?'"
             "You slip it into your bag."
-            jump night1
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
             "You pull it out of your back and attempt another exposure."
             "Nothing. Just a photo."
-            jump endOfDayOneChoices
-        "Go home. Make sense of this tomorrow":
-            "It's late. You're alone in a creepy darkroom. You don't know what's happening. And frankly, none of this technically concerns you."
-            jump night1
+    jump night1
 
 label night1:
     hide darkroom_trays with dissolve
