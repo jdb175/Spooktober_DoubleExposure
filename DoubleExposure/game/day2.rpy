@@ -260,12 +260,12 @@ label photo2_addOwl:
     hide owl2
     show porter at left
     temp "Fade/transition the second owl into the Porter!"
-    porter "Your judgement was made long ago, transgressor."
+    porter "{sc=2}Your judgement was made long ago, transgressor.{/sc}"
     owl "This isn't... this isn't possible."
     owl "When is this? When is this happening?"
     owl "We haven't even killed you yet! I've got no hand to give you yet!"
-    porter "This cannot be understood. And it will end."
-    porter "NOW"
+    porter "{sc=2}This cannot be understood. And it will end.{/sc}"
+    porter "{sc=2}NOW{/sc}"
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
