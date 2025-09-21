@@ -714,6 +714,9 @@ label endOfDayOneChoices:
     if corruption > 10:
         "You start to feel the hairs on the back of your neck raise. Like something is watching you."
         "Like something is in the darkroom with you."
+    jump findPhoto
+
+label findPhoto:
     menu:
         set menuset
         "Search the room for further clues":
@@ -727,25 +730,25 @@ label endOfDayOneChoices:
             "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
             "And then, tucked away in the back of a file nestled among old tax documents, you find something."
             temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
-            temp "Double exposed over it are the faces that you've come to know from the negatives. They are overlayed strangely over the creature"
+            temp "Double exposed over its face, the face of Erin..."
+            #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
             $ photoFound = True
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
-            "There is no note, no explanation."
+            "Scribbled hastily on the back in ballpoint pen, a title."
+            "'restitution. atonement?'"
             "You slip it into your bag."
-            jump night1
+            jump findPhoto
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
             "You pull it out of your back and attempt another exposure."
             "Nothing. Just a photo."
-            jump endOfDayOneChoices
-        "Go home. Make sense of this tomorrow":
-            "It's late. You're alone in a creepy darkroom. You don't know what's happening. And frankly, none of this technically concerns you."
-            jump night1
+            jump findPhoto
+    jump night1
 
 label night1:
     hide darkroom_trays with dissolve
-    "Your head swirling with questions, you head home to try and get some sleep."
+    "With your head swirling with questions, you head home to try and get some sleep."
     "It comes slowly, but sleep does come."
     "..."
     temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
