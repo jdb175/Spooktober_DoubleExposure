@@ -16,6 +16,17 @@ default doneAPrint = False
 default donePhoto2 = False
 default donePhoto3 = False
 
+
+##These variables track what you've learned. Full disclosure, not sure if I will end up using these. But it's a way to keep track of what is in what scene in a way that could be referenced in code.
+#default someoneTeamup = False #base photo2
+#default gunnarTeamup = False #photo2 + Frog
+#default porterFallHints = 0 #vague hints the porter is messed with
+default siobhanHand = False
+default peterHeart = False
+default gunnarTongue = False
+default robbery = False
+#default nightmareRefs = 0
+
 label day2Start:
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
     "You wake up feeling like you've hardly slept at all."
@@ -177,8 +188,11 @@ label photo2_firstDev:
     owl "So what you're saying is that you're not going through with me tonight?"
     owl "Or do you not believe Peter that we need our masks?"
     unk "I'm sorry, but I trust Peter more than you."
-    unk "But more than that, I don't believe it pays to be reckless with these things."
-    unk "He knows far more than us, and whatever you think you may have picked up these last few days, more than you too."
+    unk "Don't get me wrong. I've... seriously been considering it."
+    unk "I may even come with you on one of your future jaunts..."
+    #$ someoneTeamup = True
+    unk "But if I may speak frankly, I don't believe it pays to be reckless with these things."
+    unk "Peter knows far more than me, and whatever you think you may have picked up these last few days, more than you too."
     owl "..."
     owl "It has only been days, hasn't it?"
     owl "It feels so much longer."
@@ -192,7 +206,7 @@ label photo2_firstDev:
             jump photo2_double
         "Keep watching":
             "Keeping one eye on the clock, you let the figures in the photo carry on."
-    unk "Not a chance. I may even still come on one of your nighttime jaunts in the future, if you'll let me."
+    unk "Not a chance. As I said, I may change my mind and go through with you one of these evenings."
     unk "But not yet."
     owl "How indecisive of you."
     owl "You must know that, as an artist, indecision is a killer."
@@ -207,6 +221,7 @@ label photo2_firstDev:
     owl "Soon we will transgress"
     owl "Soon, the bright will spill"
     owl "The guardian, the warden, the Porter will fall"
+    #$ porterFallHints += 1
     owl "BUT HE SHALL RETURN"
     #using boilerplate language for now, will change this.
     "An icy chill grips your heart and you feel the room start to spin."
@@ -774,7 +789,7 @@ label endOfDay2:
     you "Bud... did you have any nightmares last night?"
     bud "Kinda, yeah, actually. I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
     bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods."
-    bud "Oh god then he ate his own eyes."
+    bud "Oh god then he ate his heart!? Damn, I almost forgot how messed up it was."
     bud "How did you know?"
     you "I had one too. About the porter."
     you "I don't know what Peter's game is here but I think we need to get out of all of this."
@@ -782,4 +797,65 @@ label endOfDay2:
     bud "..."
     bud "It's too late for that, isn't it?"
     "You fill Bud in on everything you've seen."
+    "Bud sighs."
+    bud "I feel crazy."
+    bud "Like, this is starting to make sense, but where the hell do we fit in?"
+    you "I think the spirit wants something from us."
+    you "In my dream, it showed me where to find some photos. Photos that Erin, or someone, had hidden."
+    bud "Yeah but like, it showed me all these random body parts getting ripped apart."
+    you "It talked to me about body parts as well..."
+    you "A heart, a hand, a tongue, and eyes."
+    bud "..."
+    if photoFound:
+        bud "Can I see that photo you found again?"
+        bud "Look at the exposure. Erin's face over the porter's face."
+        bud "Why would Erin do that?"
+    "You look at the photo for a moment."
+    you "Not her face over his face."
+    you "Her eyes over its eyes."
+    bud "Oh. Now *that* is interesting."
+    bud "In the negative here, the spirit has no eys..."
+    bud "But in your dream, it did, right?"
+    you "Yeah."
+    bud "..."
+    bud "I think we need to find the negative of this photograph."
+    bud "Do you think it could be hidden somewhere here?"
+    "Your search the other day was quick. As the photos hidden behind the picture frame made clear, you hadn't done a truly deep search."
+    "The hours go by. The sun sets. There's so much stuff not just in the studio but the rest of the house that you realize this could take all night."
+    bud "Hey, I gotta get some sleep. I'm going to be totally dead tomorrow otherwise."
+    bud "But I'll come by first thing in the morning?"
+    "You nod and thank Bud for their help. You're pretty tired as well."
+    "Before you go, you grab all the prints you took today and shove them in your bag."
+    jump night2
+#endregion
+
+#region night2
+label night2:
+    "The fear of the dreams keeps you up for a while..."
+    "But sometime around two in the morning sleep finds you."
+    "And so do the dreams"
+    porter "Now you know their TRANSGRESSION"
+    porter "Until it is UNDONE..."
+    porter "Undone in FULL"
+    porter "I will not let you rest."
+    porter "KNOW THIS"
+    if corruption >= 10: #FIX NUMBERS, but this should be low
+        porter "You are not yet SO BRIGHT as to be LOST"
+        porter "But if you are not quick, you will be soon."
+        porter "Like the ARCHER was. She undid her wrong and returned my eyes, but it was too late for her."
+    if corruption >= 20: #Medium
+        porter "You are SO BRIGHT that I fear you are NEARLY LOST"
+        porter "You have little time before it is too late."
+        porter "Like the ARCHER was. She undid her wrong and returned my eyes, but it was too late for her."
+    if corruption >= 30: #High
+        porter "..."
+        porter "I see now you are BRIGHT"
+        porter "But that does not mean it is too late to RIGHT what is WRONG"
+        porter "Like the ARCHER DID. She returned my eyes, and was so freed."
+    temp "SHOW: Darkroom"
+    temp "FADE: A shadowy figure (existing art made dim) fading into the darkroom"
+    porter "HE has final piece."
+    porter "You must GO NOW."
+    porter "NOW!"
+    "You wake up and your body is already halfway out of bed. You throw on clothes and rush out the door."
 #endregion
