@@ -143,31 +143,43 @@ label introScene:
     "THREE DAYS EARLIER..."
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
-    show buddy with moveinleft
+    show buddy smile with moveinleft
     bud "I don't think she's dead."
+    show buddy amused
     bud "No way."
+    show buddy talkhand
     bud "This 'Young Artist Foundation?' She runs it. She just got tired of the limelight."
+    show buddy listen
     you "She wasn't *that* big."
     you "And she had already started talking about her next series. Does that sound like someone ready to disappear?"
+    show buddy amused
     bud "Ready or not, that's what happened."
+    show buddy laughs
     bud "Without a trace..."
+    show buddy smile
     "Bud is the *other* grant winner. A collage artist, whose work, despite not being photography, much more closely mirrors Erin's."
     "Surreal themes and imagery, symbols dripping with meaning. Uncommon juxtapositions."
     "You thought it was a bit derivative at first. Now you're starting to think they're a bit obsessed."
+    show buddy question
     bud "Don't tell me you've never wondered what happened to her!"
     menu:
         "I prefer to focus on the art, not the artist":
             #show bud dejected or pensive
+            show buddy sad
             bud "Yeah, of course. Me too. That's why we're here."
         "Of course. I've read some pretty crazy theories":
             $ budLevel += 1
+            show buddy tricky
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
         "Why would she need to fake her disappearence to run her own foundation? You have to admit that makes no sense.":
             #show bud dejected or pensive
+            show buddy sad
             bud "Yeah, I know. I just prefer to imagine everything has a happy ending, you know?"
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
+    show buddy amused
     bud "I was just thinking about maybe doing some sort of piece around her. Like, Erin."
+    show buddy question
     bud "What happened, or didn't happen. Putting her in places she isn't, but could have been."
     bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
     bud "Especially since I'm getting paid now."
