@@ -56,12 +56,14 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
-image darkroom_workspace = "placeholders/darkroom_temp1@2.jpg"
+image darkroom_workspace bright = "bg/bg dark room.png"
+image darkroom_workspace red = "bg/bg dark room red.png"
 image darkroom_trays = "placeholders/darkroom_temp2.png"
 image background_negative = "placeholders/darkroom_temp2.png" #not sure why this image is used twice. Probably becuase of merge with Jason. Leaving it for now, bigger fish to fry
 image Erin_headshot = "placeholders/Erin_temp1.png"
-#image Erin = "placeholders/Erin.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
+image nightAndDayPartial = "photos/kitchen erin.png"
+image nightAndDay = "photos/erin original two.png"
 
 #characters
 #image Siobhan = "placeholders/siobhan.jpg"
@@ -103,15 +105,18 @@ label introScene:
     "The 'truth' of photography used to present impossibilities."
     hide erin one
     show face_bg
-    temp "SHOW: one of Erin's works, if we have the art budget" #Show a piece here, if we can.
+    temp "(NOTE - cmaybe we can actually use this?!)" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
     "Which some days feels crazy, like you're a *real artist*"
     "And some days feels like you're so far from real success."
     "But Erin's love of double exposure, in particular, stuck with you."
     play augment_1 'piano-underscore-spook-1.mp3'
-    temp "SHOW: Something new exposed over the current art piece" #Show something exposed over the piece.
-    "Partially developing one photo, and then exposing another over it, creating a new image."
+    show nightAndDayPartial:
+        matrixcolor BrightnessMatrix(-0.1)
+    "Partially developing one photo..."
+    show nightAndDay with dissolve
+    "...and then exposing another over it, creating a new image."
     "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
     "You still do it the old fashioned way, too. Film. A darkroom."
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
@@ -119,14 +124,14 @@ label introScene:
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
     play augment_2 'piano-underscore-spook-2.mp3'
-    show bg machine 
-    temp "SHOW: The darkroom photo exposing view. A photo is developing." #show the darkroom.
+    show bg dark room red with dissolve
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
+    show bg machine with dissolve
     "By her legacy."
-    show porterPhoto with fade
+    show bg enlarger red with dissolve
     play augment_3 'piano-underscore-spook-3.mp3'
-    temp "SHOW: as the photo develops, a terrifying face comes into view, one we will soon learn to be that of the Porter" #show the Porter appearing in the photo
     "A legacy which, for better or for worse, you are now a part of..."
+    show porterPhoto with fade
     #TRANSITION TIME!
     stop music
     stop augment_1
@@ -137,8 +142,8 @@ label introScene:
     scene black_background
     "THREE DAYS EARLIER..."
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
+    scene darkroom_workspace bright
     show buddy with moveinleft
-    temp "SHOW: Bud. If we can create a background elsewhere in Erin's house, this is happening there. Otherwise, it is happening in the wide of the darkroom."
     bud "I don't think she's dead."
     bud "No way."
     bud "This 'Young Artist Foundation?' She runs it. She just got tired of the limelight."
@@ -178,7 +183,6 @@ label introScene:
             bud "Well, you can always start with the basics. You do photography, have you done much double exposure."
             "Not really, actually"
             bud "Hey, maybe start there!"
-            temp "I'd like friendship with Bud to get you some clues or something... Maybe they stick with you during day 1 if you're nice, or you get their phone number..."
         "I've got some ideas.":
             bud "Okay, keep your secrets then."
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
@@ -198,9 +202,17 @@ label darkroomIntro:
     #temp "Clickables are highlighted (no looking for secrets) and the scene would continue until you had clicked everything"
 
 label darkroomIntro2:
+    if lightOn:
+        show bg dark room red
+    else:
+        show bg dark room
     menu:
         "Check out the enlarger":
             #First time here
+            if lightOn:
+                show bg enlarger red
+            else:
+                show bg enlarger
             if enlargeFirst == True:
                 "The enlarger is an older model, old even for the 90s when Erin was working."
                 "Oh wow, it looks like there are already some negatives in here!"
@@ -245,11 +257,9 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
-
             play sound 'light-click.mp3'
             play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
             scene bg dark room red
-            temp "We'd switch from the full-light version of the scene to the red light version here."
             $ lightOn = True
             jump darkroomIntro2
         "Check out the trays" if papersGrabbed == False:

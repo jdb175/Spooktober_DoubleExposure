@@ -48,7 +48,7 @@ python early:
     #DAY ONE
     BASE_IMAGE_KITCHEN = EnlargerImage(
         label = "kitchen",
-        path = "placeholders/kitchen_temp.png",
+        path = "photos/kitchen erin.png",
         description = "The kitchen from 'night and day'")
 
     ### Object Images ###
@@ -70,12 +70,12 @@ python early:
 
     OBJECT_IMAGE_SIOBHAN = EnlargerImage(
         label = "siobhan",
-        path = "placeholders/siobhan.png",
+        path = "photos/kitchen siobhan.png",
         description = "A portrait of Sioban Kent")
     
     OBJECT_IMAGE_PETER = EnlargerImage(
         label = "peter",
-        path = "exposuretest/guy.png",
+        path = "photos/kitchen peter.png",
         description = "Portrait, moustache man")
 
     ### Day Configurations
