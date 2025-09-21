@@ -690,6 +690,9 @@ label endOfDayOneChoices:
     if corruption > 10:
         "You start to feel the hairs on the back of your neck raise. Like something is watching you."
         "Like something is in the darkroom with you."
+    jump findPhoto
+
+label findPhoto:
     menu:
         set menuset
         "Search the room for further clues":
@@ -711,15 +714,17 @@ label endOfDayOneChoices:
             "Scribbled hastily on the back in ballpoint pen, a title."
             "'restitution. atonement?'"
             "You slip it into your bag."
+            jump findPhoto
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
             "You pull it out of your back and attempt another exposure."
             "Nothing. Just a photo."
+            jump findPhoto
     jump night1
 
 label night1:
     hide darkroom_trays with dissolve
-    "Your head swirling with questions, you head home to try and get some sleep."
+    "With your head swirling with questions, you head home to try and get some sleep."
     "It comes slowly, but sleep does come."
     "..."
     temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
