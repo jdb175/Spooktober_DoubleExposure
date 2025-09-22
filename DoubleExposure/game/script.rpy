@@ -65,11 +65,7 @@ image Erin_headshot = "placeholders/Erin_temp1.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
-
-#characters
-#image Siobhan = "placeholders/siobhan.jpg"
-#image Peter_headshot = "placeholders/Peter_temp1.png"
-#image Gunnar_headshot = "placeholders/Gunnar_temp1.png"
+image fakeClock = "clock/clock dark.png" #unlike many of these, actually needs to be defined.
 
 #exposure
 image BG1 = "exposuretest/bakgroundimage.png"
@@ -323,6 +319,19 @@ label projector_select_base_dayone:
     "Next comes the developing liquid. You drop the print in the bath and wait."
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
     "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
+    show fakeClock:
+        zoom .12
+        xanchor 0.5
+        yanchor 0.575
+        xpos 140
+        yalign 0.5
+    show clock pointer aligned:
+        zoom .12
+        xanchor 0.5
+        yanchor 0.575
+        xpos 140
+        yalign 0.5
+    with dissolve
     "You make sure your watch is in easy view as you submerge the photos."
     jump expression target_label
 
