@@ -75,10 +75,10 @@ style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
 
-transform developingImage(a_start, a_target, b):
+transform developingImage(a_start, a_target, b, z=1):
     xalign 0.5 
     yalign 0.5
-    zoom 0.7
+    zoom 0.7*z
     matrixcolor TintMatrix("#f00") * BrightnessMatrix(b)
     alpha a_start
     linear (a_target-a_start)*1.5 alpha a_target
@@ -176,10 +176,16 @@ screen develop_photo():
 
             print("alpha start: ", base_alpha_start, ", secondary start: ", secondary_alpha_start)
 
-        add persistent.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
+        if(zoom_development):
+            add persistent.current_base_image.empty_path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness, 1.2)
 
-        if(persistent.is_double_exposing):
-            add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+            #if(persistent.is_double_exposing):
+            #    add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+        else:
+            add persistent.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
+
+            if(persistent.is_double_exposing):
+                add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
 
         add "clock/clock dark.png" at clock_bg
         if(persistent.over_exposure > 0):

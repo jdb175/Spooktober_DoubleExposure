@@ -7,16 +7,17 @@ python early:
     
     #region classes
     class EnlargerImage:
-        def __init__(self, label, path, description):
+        def __init__(self, label, path, description, empty_path=""):
             self.label = label
             self.path = path
             self.description = description
+            self.empty_path = empty_path
 
         def __eq__(self, other): 
             if not isinstance(other, EnlargerImage):
                 return False
 
-            return self.label == other.label and self.path == other.path
+            return self.label == other.label
 
     class DayConfig:
         def __init__(self, 
@@ -49,6 +50,7 @@ python early:
     BASE_IMAGE_KITCHEN = EnlargerImage(
         label = "kitchen",
         path = "photos/kitchen erin.png",
+        empty_path = "photos/kitchen.png",
         description = "The kitchen from 'night and day'")
 
     ### Object Images ###

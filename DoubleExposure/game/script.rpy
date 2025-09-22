@@ -35,6 +35,7 @@ default menuset = set() #we initialize this every time we have a menu set (see R
 default corruption = 0 #incremented as you overexpose photos. Checked whenever we feel like it.
 default curDevLevel = 0 #used as a placeholder for how developed your current photo is. Will be replaced when the real photo system is added.
 default budLevel = 0 #friendship level with bud.
+default zoom_development = False
 
 #Branching story related variables
 default gunnarKnown = False #You know Gunnar's name
@@ -368,7 +369,7 @@ label develop_kitchen:
         "Then, something else starts to happen."
         $ develop(10)
         "In the photo, the figure by the window starts to move."
-        temp "ZOOM INTO PHOTO BACKGROUND"
+        $ zoom_development = True
         show Erin
         "Erin."
         "Her lips part. Subtly, but unmistakably"

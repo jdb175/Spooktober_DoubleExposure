@@ -43,6 +43,7 @@ init python:
         renpy.scene()
         renpy.show("black")
         renpy.block_rollback()
+        zoom_development = False
         persistent.current_base_image = image
         persistent.current_secondary_image = None
         persistent.base_development = 0
@@ -77,6 +78,7 @@ init python:
         renpy.show("black")
         renpy.show_screen("develop_photo", _layer="master")
         renpy.block_rollback()
+        zoom_development = False
         persistent.current_secondary_image = image
         persistent.development_overexpose_target = "develop_" + persistent.current_base_image.label + "_" + image.label + "_overexposed"
         persistent.development_end_target =  "complete_" + persistent.current_base_image.label
@@ -126,7 +128,7 @@ init python:
                     persistent.development_end_target = persistent.development_double_end_target
                 
                 persistent.can_stop_developing = persistent.base_development >= MIN_DEVELOP_TIME
-
+    
     def develop_overexposed(overexposure: int):
         print("overexposing:", overexposure)
         _checkPendingJump(False)
