@@ -276,12 +276,6 @@ label photo1_firstDev:
     $ begin_day(Days.DAY_ONE)
     jump projector_select_base_dayone
 
-
-label day_one:
-    $ begin_day(Days.DAY_ONE)
-    "Start exposing an image"
-    jump projector_select_base_dayone
-
 label projector_select_base_dayone:
     scene black_background
     $ start_enlarger()
