@@ -61,7 +61,7 @@ python early:
         description = "A clandestine photo of people in robes")
     BASE_IMAGE_PORTAL = EnlargerImage(
         label = "portal",
-        path = "exposuretest/bakgroundimage.png",
+        path = "exposuretest/face_bg.png",
         empty_path = "exposuretest/face_bg.png",
         description = "Robed people and a... portal??"
     )

@@ -16,7 +16,6 @@ default doneAPrint = False
 default donePhoto2 = False
 default donePhoto3 = False
 
-
 ##These variables track what you've learned. Full disclosure, not sure if I will end up using these. But it's a way to keep track of what is in what scene in a way that could be referenced in code.
 #default someoneTeamup = False #base photo2
 #default gunnarTeamup = False #photo2 + Frog
@@ -128,7 +127,7 @@ label day2_darkroom:
             else:
                 $ paperFirst = True
                 #jump day2_darkroom
-                jump day2_print
+                jump day2_darkroom
         "The photo on the wall":
             "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
@@ -140,7 +139,7 @@ label day2_darkroom:
             "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
             "Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
             if paperFirst == True:
-                jump day2_printOne
+                jump day2_print
             else:
                 $ photoFirst = True
                 jump day2_darkroom
@@ -150,6 +149,13 @@ label day2_darkroom:
 label day2_print:
     $ begin_day(Days.DAY_TWO)
     $ onFirstBase = True #changes dialogue in select double
+    "With these negatives, and more paper, you realize you have a chance to learn more about what is really going on."
+    "You of course have some doubts - whatever forces you are playing with you don't understand."
+    "And this paper being here is... suspicious..."
+    if corruption >= 10:
+        "But you find your heart quickening at the thought of seeing these photos come to life again"
+    else:
+        "But you know this might be the best path to understanding."
     jump projector_select_base_daytwo
 
 label projector_select_base_daytwo:
@@ -236,7 +242,7 @@ label day2_printOne:  #needs to be renamed like photo2_print or something
             jump photo3_firstDev
 #endregion
 
-#region photo2 (secret meeting)
+#region sneaky (secret meeting)
 label develop_sneaky:
     scene black_background with fade
     $ start_developing(BASE_IMAGE_SNEAKY)
@@ -318,6 +324,7 @@ label complete_sneaky:
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 
+##NOW UNUSED
 label photo2_ruined:
     #FIX ME!!!
     "Well, you've ruined this photo, but that hardly matters."
@@ -341,7 +348,7 @@ label photo2_double:
         "Frog mask":
             jump photo2_addFrog
 
-#region photo2 siobhan/owl
+#region sneaky siobhan/owl
 label develop_sneaky_owl:
     $ start_double_exposing(OBJECT_IMAGE_OWL)
     "As your photo develops, you heart begins to quicken, almost uncontrollably."
@@ -395,7 +402,7 @@ label complete_sneaky_owl:
     jump post_image_completion_daytwo
 #endregion
 
-#region photo2 peter/flame
+#region sneaky peter/flame
 label develop_sneaky_flame:
     $ start_double_exposing(OBJECT_IMAGE_FLAME)
     "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
@@ -459,7 +466,7 @@ label complete_sneaky_flame:
     jump post_image_completion_daytwo
 #endregion
 
-#region photo2 erin/archer
+#region sneaky erin/archer
 label develop_sneaky_archer:
     #This scene needs more information
     $ start_double_exposing(OBJECT_IMAGE_ARCHER)
@@ -531,7 +538,7 @@ label complete_sneaky_archer:
     jump post_image_completion_daytwo
 #endregion
 
-#region photo2 gunnar/frog
+#region sneaky gunnar/frog
 label develop_sneaky_frog: #This scene is hella long but needs to be...
     $ start_double_exposing(OBJECT_IMAGE_FROG)
     "While it's clear that this photo wasn't taken to be a piece of art, there's an incredible energy you feel watching the masked figures shiver to life."
@@ -624,19 +631,22 @@ label complete_sneaky_frog:
 #endregion
 #endregion
 
-#region photo 3 (portal opens)
+#region portal (portal opens)
 #may have to use porter name variable
-label photo3_firstDev:
+label develop_portal:
+    scene black_background with fade
+    $ start_developing(BASE_IMAGE_PORTAL)
+    #NOTE: Add "if seen this photo already" code in once we standardize how it works.
     "It's hard not to be intrigued by the strange, surreal glow in this image. Was this really an undoctored photo?"
     "You slide in a piece of photo paper and start to print the image."
-    temp "SHOW development interface"
+    $ develop(5)
     "It begins to happen again..."
-    if donePhoto3:
-        "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
-        jump photo3_double
-    else:
-        $ donePhoto3 = True
-    temp "Zoom in as the photo comes to life"
+    #if donePhoto3:
+    #    "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
+    #    jump photo3_double
+    #else:
+    #    $ donePhoto3 = True
+    $ zoom_development = True
     show flame at right
     show generic_robed at left
     flame "THE DOOR IS OPEN. Step through, quickly!"
@@ -644,53 +654,72 @@ label photo3_firstDev:
     unk "Will you follow them?"
     show porter with moveinleft
     porter "Or shall I?"
+    $ develop(10)
     flame "You should follow. I will wait here."
     porter "As you wish."
+    $ develop(15)
     flame "I think you can take them to the Vestibule today."
     flame "I wonder if they will find the statuary there as inspiring as I do." #deliberate reference to Piranisi here, hope it's not seen as copying.
+    $ develop(20)
     porter "The Vestibule sits near the Windows of the Garden. I would not take them somewhere so bright."
     porter "They have stepped through so many times so quickly already."
+    $ develop(25)
     porter "Even the service I owe to you to you cannot override my purpose."
+    $ develop(30)
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
-    #50% breakpoint!
-    "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
-    temp "currently you pull it out now or not at all, sorry player. will change w/real implementation"
-    menu:
-        "Pull it out":
-            jump photo2_double
-        "Keep watching":
-            "Keeping one eye on the clock, you let the figures in the photo carry on."
+    if(persistent.development_end_signalled == False):
+        "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
+    $ develop(35)
     flame "Yes, of course, of course. They need to actually start producing some art at some point anyway."
     flame "Not that I blame them. What could be more dull than sitting around *working* when you could be in another world."
     porter "..."
     flame "Go. Take them to the vestibule. Show them the statue garden."
     hide porter with moveoutleft
+    $ develop(40)
     "From the other side of the portal - for that is what it must be - the Porter steps through"
     "Then, the spirit raises a trembling, withered hand. It traces some kind of shape in the air."
     temp "The portal disappears"
+    $ develop(45)
     "The figure in the flame mask sighs deeply."
     flame "Now the waiting."
+    $ develop(50)
     flame "..."
-    flame "Loyal little spirit, is it not."
-    #100% exposeed
+    $ develop(55)
+    "The figure in the flame mask sighs."
+    $ develop(60)
+    flame "Loyal little spirit, is it not?"
+
+label develop_portal_overexposed:
+    "If you don't pull the photo out now, it will be overexposed."
+    $ develop_overexposed(5)
+    $ corruption += 5
     flame "Foolish little thing. Blind little thing."
+    $ develop_overexposed(10)
     flame "Mute little thing. Bloodless little thing."
+    $ develop_overexposed(15)
     flame "TRAPPED little thing. BETRAYED little thing."
+    $ develop_overexposed(20)
     flame "BUT IT WILL BE MADE WHOLE."
     flame "AND BRIGHT THINGS WILL BE CONTAINED."
-    #using boilerplate language for now, will change this.
+    $ develop_overexposed(25)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
-    jump photo3_ruined
+    jump complete_portal
 
-#bet this could be made generic?
+label complete_portal:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
+
+##NOW UNUSED
 label photo3_ruined:
     #FIX ME!!!
     "Well, you've ruined this photo, but that hardly matters."
     "Hopefully you learned something useful."
     jump day2_printOne #This will change in the real implementation
 
+##NOW UNUSED
 label photo3_double:
     "You pull out the photo."
     "The image stills, the voices quiet."
@@ -707,10 +736,12 @@ label photo3_double:
         "Frog mask":
             jump photo3_addFrog
 
-#region photo3 siobhan/owl
-label photo3_addOwl:
+#region portal siobhan/owl
+label develop_portal_owl:
+    $ start_double_exposing(OBJECT_IMAGE_OWL)
     "As the owl mask begins to fade into view, you feel like the whole character of the light has shifted."
-    #Siobhan is denied entry by the porter
+    $ develop_double(5)
+    $ zoom_development = True
     show owl at left
     show flame at right
     flame "Wait. Something is wrong."
@@ -718,16 +749,19 @@ label photo3_addOwl:
     show porter at center
     porter "She carries too much brightness. This one remains today."
     flame "I see. Of course."
+    $ develop_double(10)
     "The lumbering thing moves its hand in a strange, purposeful motion. The light flickers and the portal vanishes."
     "It's hard to shake the momentary feeling that the spirit was looking at you."
     flame "I'm sorry."
     flame "Maybe we can look at some of your work. I was so enchanted with your collage concept from last night."
     flame "It's the first thing anyone here has made that feels like it tells the story of THAT world as the story of THIS world"
+    $ develop_double(15)
     flame "Or, that both worlds are cousin worlds. Or, twins, in a way."
     owl "I don't think that deeply about it, to be honest. I just go with my gut."
     flame "Of course. That's what makes you great."
     flame "... maybe you can help Gunnar with that while you're at it."
     owl "Too bright.."
+    $ develop_double(20)
     flame "I imagine it's because you're simply more open to the truth of that place. Because of your artistic temperment."
     flame "It's a good thing."
     owl "Is it? Your little butler doesn't seem to think so."
@@ -735,34 +769,47 @@ label photo3_addOwl:
     owl "Does that mean you don't know the answer?"
     flame "Why do think I chose the flame as my mask?"
     owl "Because it's an obvious metaphor?"
+    $ develop_double(25)
     flame "Because it's an accurate metaphor."
     flame "Many good things become harmful if you get too close."
     owl "Of course."
     owl "Sorry for the commentary. It just sucks not going in."
+    $ develop_double(30)
     flame "Let's get some food. Maybe you can tell me more about your thoughts about the Orrery and it's Door?"
-    menu:
-        "Pull it out, it's at 100 percent":
-            hide owl
-            hide flame
-            jump day2_printOne
+
+label develop_portal_owl_overexposed:
+    "If you don't pull the photo out now, it will be overexposed."
+    $ develop_overexposed(10)
+    $ corruption += 5
     hide owl with moveoutleft
     hide flame with moveoutleft
-    "Only the subtle shifting of the light tells you this photograph is still animate."
+    "With the frame now empty, only the subtle shifting of the light tells you this photograph is still animate."
+    $ develop_overexposed(15)
     "The colors burn into nothing, slowly making the photo unrecognizable."
+    $ develop_overexposed(20)
     "Then, something strange starts to happen."
     "You start to percieve that in the brightness of the photograph there is a pattern"
+    $ develop_overexposed(25)
     "That your MISTAKE has been not making your previous exposures BRIGHT ENOUGH."
+    $ develop_overexposed(30)
     "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat mirthless chuckle escapes your lips" #-_-
     "The sound in the empty darkroom is jarring and jolts you back to your senses."
     "You pull out the photo, feeling suddenly uncomfortable."
-    jump day2_printOne
+    jump complete_portal_owl
+
+label complete_portal_owl:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 
 #region photo3 peter/flame
-label photo3_addFlame:
+label develop_portal_flame:
+    $ start_double_exposing(OBJECT_IMAGE_FLAME)
     "As your photo develops, the light of the portal flickers and dims."
     "The two robed figures, each wearing the same mask, begin to come to life."
-    #Peter reckons with his own ambition and folly in agreeing to split the spirit
+    $ develop_double(5)
+    $ zoom_development = True
     show flame at left
     show flame2 at right
     flame "Where did you get that mask?"
@@ -770,45 +817,59 @@ label photo3_addFlame:
     doubFlame "..."
     flame "Or have I finally gone too far? Unmask, and show me your face!"
     doubFlame "It's me. You."
+    $ develop_double(10)
     doubFlame "Not as you are, but as you will be."
     doubFlame "I'm the one who lives in your house. I am in your skin and your thoughts are my thoughts."
     flame "Is this another one of those fucking nightmares?"
+    $ develop_double(15)
     flame "Or... are you really here?"
     doubFlame "I am not here."
     doubFlame "It will be many years until I am here. Decades."
     doubFlame "But when the time comes and I am here, it will be by the magic you are about to discover here. This week."
+    $ develop_double(20)
     flame "This is some cryptic bullcrap. You don't sound like me at all. Do your homework before trying to impersonate me."
     doubFlame "You change, Peter. You betray your friend, you betray yourself, and you betray your flesh."
     doubFlame "You traded your heart for power, Peter."
+    $ develop_double(25)
     doubFlame "And now what beats in your chest is a vacancy. A hole."
     doubFlame "And then you begin to hollow out others, trying to fill this hole you have created."
+    $ develop_double(30)
     flame "So... so... so what is this, like some kind of warning?"
-    menu:
-        "Pull it out, it's at 100 percent":
-            hide flame
-            hide flame2
-            jump day2_printOne
+
+label develop_portal_flame_overexposed:
+    "If you don't pull the photo out now, it will be overexposed."
+    $ develop_overexposed(10)
+    $ corruption += 5
     doubFlame "Yes, but not for you."
+    $ develop_overexposed(20)
     doubFlame "For the one who is watching us."
-    if corruption >= 10:
+    if corruption >= 15:
         doubFlame "The one who is bright"
     else:
         doubFlame "The one who is not yet too bright."
     #I want to put more of an ending clue here but need to write that first.
+    "An icy chill grips your heart and you feel the room start to spin."
+    "Almost without thinking, you grab the tongs and pull out the image."
     hide flame2
     hide flame
-    jump day2_printOne
+    "You feel like SOMETHING TERRIBLE has happened."
+    jump complete_portal_flame
+
+label complete_portal_flame:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 
 #region photo3 erin/archer
-label photo3_addArcher:
+label develop_portal_archer:
+    $ start_double_exposing(OBJECT_IMAGE_ARCHER)
     #This slot gives a HELL of a lot away, almost feels like it should be saved for day3 somehow.
     #This is also set way in the future, I'm leaving it that way for now but it may make more sense to make it happen later
     "You take a deep breath and prepare yourself, focusing intently on the image fading into view."
     "The two robed figures begin to come to life."
-    #Scene possibilities for this slot:
-    #Flame convinces Erin to join in the plot to take the eyes
-    #Flame and Erin discuss the nightmares they've been having and how to stop them
+    $ develop_double(5)
+    $ zoom_development = True
     show archer at left
     show flame at right
     flame "I'm glad you changed your mind."
@@ -817,16 +878,19 @@ label photo3_addArcher:
     flame "Of course, you don't have to say anything."
     flame "I have to be honest. When I pulled this little group together I had no idea what was going to happen."
     flame "When it all started to go wrong, I felt like I had made a terrible mistake."
+    $ develop_double(10)
     flame "Now I see that everything that happened was all in service of something greater."
     flame "So. Here is my guess. You've come to see that too."
     archer "That's not it."
     archer "I wanted nothing to do with what you two had done. Honestly, I still don't."
     archer "But I started having these... terrible, realistic nightmares. About the Porter."
     archer "Started seeing it in real life, started feeling this icy pain that would grip my heart at random times."
+    $ develop_double(15)
     archer "I spoke to Siobhan. Before she died. She wasn't easy to find, always with one foot in some other world."
     archer "I wanted her to undo what'd she'd done. She didn't listen. She wasn't afraid of the Porter."
     archer "I spoke to Gunnar. He was easy enough to find. He doesn't leave his apartment at all anymore, the nurse said."
     archer "The walls, the floors, every square inch covered in mad writings. I could read enough to know the dreams were coming for him too."
+    $ develop_double(20)
     archer "So if I'm going to be hounded by some nightmare thing for all the shit you lot got up to..."
     archer "...I'd like to at least get something out of it."
     flame "I understand that logic. I'm a bit disappointed that an artist such as yourself has such a... selfish perspective."
@@ -834,30 +898,43 @@ label photo3_addArcher:
     flame "So, what will you take into yourself?"
     show porter wounded at center
     "The figure in the flame mask makes a gesture and the portal darkens."
+    $ develop_double(25)
     "In it can be seen the figure of the Porter, laying still and motionless."
     archer "... I want its eyes."
     flame "Done."
     "Yellow light begins to form around the Porter's eyes."
+    $ develop_double(30)
     "The eyes of the archer mask, too, begin to glow."
-    #100 percent dev
-    menu:
-        "Pull it out, it's at 100 percent":
-            hide frog
-            hide porter wounded
-            hide flame
-            jump day2_printOne
+
+label develop_portal_archer_overexposed:
+    "If you don't pull the photo out now, it will be overexposed."
+    $ develop_overexposed(10)
+    $ corruption += 5
     flame "What do you see?"
     archer "bright."
+    $ develop_overexposed(15)
     archer "BRIGHT"
     archer "And I see..."
+    $ develop_overexposed(20)
     archer "I see a way out."
-    jump day2_printOne
+    "An icy chill grips your heart and you feel the room start to spin."
+    hide archer
+    "Almost without thinking, you grab the tongs and pull out the image."
+    "You feel like SOMETHING TERRIBLE has happened."
+    jump complete_portal_archer
+
+label complete_portal_archer:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 
 #region photo3 gunnar/Frog
-label photo3_addFrog:
+label develop_portal_frog:
+    $ start_double_exposing(OBJECT_IMAGE_FROG)
     "You stare intently, aware of the eerie quiet of the darkroom. A quiet you know will soon be filled with voices."
-    #Gunnar suggests the entire plot.
+    $ develop_double(5)
+    $ zoom_development = True
     show frog at left
     show flame at right
     frog "I can't believe that worked."
@@ -866,6 +943,7 @@ label photo3_addFrog:
     "Instead of the brightness we see shadow. And in it, the strange figure from our dreams." #Yes, this does mean another asset for dark portal. Hopefully just an easy palette swap:(
     "The porter."
     show porter wounded at center
+    $ develop_double(10)
     flame "Can you hear me?"
     porter "..."
     flame "What did she do to you?"
@@ -874,6 +952,7 @@ label photo3_addFrog:
     flame "Quiet."
     frog "If we're going to do this, Peter..."
     flame "I wish we knew where she went."
+    $ develop_double(15)
     frog "You think she's even in this world? Even in the Bright House? She could be anywhere."
     frog "A few simple gestures not just from the Bright House, but from the Garden, from... Hell, Peter, I wonder if you even know what else could be out there."
     flame "This feels wrong."
@@ -881,31 +960,47 @@ label photo3_addFrog:
     frog "As for me, I just want to write."
     frog "I was so close to something great, Peter. Isn't that all you wanted to come out of this? Something truly great for humanity?"
     flame "..."
+    $ develop_double(20)
     flame "Alright. Hand me the stone."
     "The frog passes a small, dark object to Peter, who grips it in his left palm."
     "He then traces some kind of design over his chest."
     "Holding out both hands, a yellow glow appears in the chest of the spirit."
     "The light forms a thin thread, connecting Peter's chest with the spirit's"
+    $ develop_double(25)
     flame "Good god..."
     "The figure with the flame mask sits motionless."
     flame "It is done."
     flame "Your turn."
     flame "Take what you will from this husk."
-    menu:
-        "Pull it out, it's at 100 percent":
-            hide frog
-            hide porter wounded
-            hide flame
-            jump day2_printOne
+    $ develop_double(30)
+
+label develop_portal_frog_overexposed:
+    "If you don't pull the photo out now, it will be overexposed."
+    $ develop_overexposed(10)
+    $ corruption += 5
     frog "How... how does it feel?"
     flame "I can feel its power."
+    $ develop_overexposed(15)
     frog "What should it be?"
+    $ develop_overexposed(20)
     frog "Do words live in the tongue? Or the mind? Do I want to see what is in that mind? Could I even comprehend it?"
     flame "FOOL"
+    $ develop_overexposed(25)
     flame "IT MATTERS NOT"
     flame "ALL WILL BE RETURNED"
+    $ develop_overexposed(30)
     flame "ALL MUST BE RETURNED"
-    jump day2_printOne
+    "An icy chill grips your heart and you feel the room start to spin."
+    hide flame
+    hide frog
+    "Almost without thinking, you grab the tongs and pull out the image."
+    "You feel like SOMETHING TERRIBLE has happened."
+    jump complete_portal_frog
+
+label complete_portal_frog:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 #endregion
 
@@ -924,7 +1019,7 @@ label endOfDay2:
     bud "So he's the guy who runs this foundation."
     bud "Also, there used to be a Siobhan Kent young artists grant. A lot of the recipients, uh, seem to have died."
     bud "Same for the, uh Gunnar Olsen young poet award award winners."
-    if porterKnown == true:
+    if porterKnown == True:
         bud "I didn't have a lot of luck looking up any kind of a spirit called the Porter."
         bud "That's probably just because like, where the hell do you even start with something like that."
         bud "But it did come up in some of Gunnar's unfinished works. And the works of the poet award winners."
@@ -1003,4 +1098,5 @@ label night2:
     porter "You must GO NOW."
     porter "NOW!"
     "You wake up and your body is already halfway out of bed. You throw on clothes and rush out the door."
+    jump day3Start
 #endregion
