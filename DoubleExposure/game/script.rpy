@@ -80,6 +80,13 @@ image white_background = Solid("#fff")
 
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
+transform ZoomInto:
+    easein 20.0 zoom 10
+
+transform ZoomToHidden:
+    anchor(.5, .5),
+    easein 20.0 zoom 10
+
 
 
 #transitions
@@ -99,21 +106,22 @@ label introScene:
     #add a vignette effect
     play sound "breath-1.mp3"
     "{size=+10}Erin Darabondi."
+    $_window_hide()
     show nightAndDay with Dissolve(1.5):
-        xalign 1
+        xalign .1
         yalign .19
         zoom 2
     play music 'piano-underscore.mp3'
+    pause 1.0
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
+    $_window_hide()
     show nightAndDay with Dissolve(.8):
         xalign 0
         yalign 0
         zoom 1
+    pause 1.0
     "The 'truth' of photography used to present impossibilities."
-    #hide erin one
-    #show face_bg with dissolve
-    #temp "(NOTE - maybe we can actually use this art for this?!)" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
     "Which some days feels crazy, like you're a *real artist*"
@@ -126,6 +134,8 @@ label introScene:
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
     show nightAndDay with Dissolve(1)
+    $_window_hide
+    pause 1.0
     "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
     "You still do it the old fashioned way, too. Film. A darkroom."
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
@@ -191,9 +201,12 @@ label introScene:
     bud "I was just thinking about maybe doing some sort of piece around her. Like, Erin."
     show buddy question
     bud "What happened, or didn't happen. Putting her in places she isn't, but could have been."
+    show buddy tricky
     bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
+    show buddy talkhand
     bud "Especially since I'm getting paid now."
     bud "This is my first grant, actually."
+    show buddy question
     bud "What are you going to make? Do you know?"
     "Ah shit. To be honest, you've been struggling with that too."
     menu:
@@ -201,12 +214,17 @@ label introScene:
             $ budLevel += 1
             "I know the grant stipulates that we can make whatever we want, so long as it is *in dialogue with Erin's work*"
             "Just specific enough to make things harder, but vague enough to get drowned in options"
+            show buddy laughs
             bud "Dude, it's freaking HARD, right? It's like, suddenly there's all this pressure."
+            show buddy amused
             bud "Well, you can always start with the basics. You do photography, have you done much double exposure."
             "Not really, actually"
+            show buddy laughs
             bud "Hey, maybe start there!"
         "I've got some ideas.":
+            show buddy sad
             bud "Okay, keep your secrets then."
+            show buddy smile
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
     hide buddy with moveoutleft
     stop ambiance_1 fadeout 4.0
@@ -357,7 +375,7 @@ label projector_select_double_dayone:
     jump expression target_label
 
 label post_image_completion_dayone:
-    scene black_background
+    scene darkroom_workspace red
     $ seenPhoto1 = True
     stop melody fadeout 0.5
     stop augment_1 fadeout 0.5
@@ -419,7 +437,7 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show erin smile
+        show erin smile with moveinleft
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sound "breath-1.mp3" volume 0.8
@@ -674,14 +692,14 @@ label develop_kitchen_gunnar_overexposed:
     Gunnar "WHERE ARE MY EYES, INTERLOPER?"
     $ develop_overexposed(30)
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
+    "You feel like SOMETHING TERRIBLE has happened."
     hide Gunnar_headshot
     hide Erin
     jump complete_kitchen_gunnar
 
 label complete_kitchen_gunnar: 
     $ finish_development()
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    "You grab the tongs and pull out the image."
     jump post_image_completion_dayone
 #endregion
 
@@ -757,6 +775,7 @@ label complete_kitchen_peter:
 
 #region endofday1
 label endOfDayOneChoices:
+    scene darkroom_workspace red
     "You stand in the darkroom for a minute, dumbfounded, still processing what just happened."
     if corruption > 5:
         "You look at the photos you just printed. Out the corner of your eye you feel like you can see them moving still. But they aren't."
@@ -801,10 +820,18 @@ label findPhoto:
     jump night1
 
 label night1:
-    hide darkroom_trays with dissolve
+    scene bg bedroom light with dissolve
     "With your head swirling with questions, you head home to try and get some sleep."
+    show bg bedroom sleep with Dissolve(1)
     "It comes slowly, but sleep does come."
+    scene bg nightmare:
+        RaveLights
+    with Dissolve(2.0)
     "..."
+    show porter temp:
+        yalign .03
+        xalign .5
+    with moveinbottom
     temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
     unk "..."
     unk "i see you" #Could we do a cool text effect here?
@@ -826,11 +853,14 @@ label night1:
     temp "SHOW tongue"
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     unk "they could not run. and neither can you."
-    temp "SHOW Porter."
-    temp "ZOOM forwards through its mouth, into the darkroom scene."
-    #I want these to be burned somewhere, which would require art of a trash bin or oven or something, but we can just hide them in the enlarger for now.
-    temp "ZOOM into a detail in the scene - a specific photo on the wall."
-    temp "FLASH out of the scene"
+    $_window_hide
+    show porter temp at ZoomInto
+    pause 1
+    scene darkroom_workspace red with Dissolve(1)
+    pause 1
+    show darkroom_workspace red at ZoomToHidden
+    pause 2
+    show bg bedroom light with flash
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
     if photoFound == True:
         "The face from the photo you found."
