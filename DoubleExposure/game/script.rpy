@@ -86,6 +86,7 @@ transform ZoomToHidden:
 #region intro
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
+    stop music fadeout 1.0
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
     $ budLevel = 0
@@ -98,11 +99,11 @@ label introScene:
     play sfx_1 "breath-1.mp3"
     "{size=+10}Erin Darabondi."
     $_window_hide()
+    play music 'piano-underscore.mp3'
     show nightAndDay with Dissolve(1.5):
         xalign .1
         yalign .19
         zoom 2
-    play music 'piano-underscore.mp3'
     pause 1.0
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
@@ -138,20 +139,29 @@ label introScene:
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     show bg machine with Dissolve(.7)
     "By her legacy."
-    play sfx_1 "gong-1.mp3"
-    play photo_3 'piano-underscore-spook-3.mp3'
+    play drone_1 "eerie-1.mp3" volume 0.2 noloop fadein 2
+    play drone_2 "bass-drone-2.mp3" volume 0.2 fadein 4
     show bg enlarger red with Dissolve(.7)
     "A legacy which, for better or for worse..."
+    play sfx_1 "gong-1.mp3"
+    play photo_3 'piano-underscore-spook-3.mp3'
     show porterPhoto with Dissolve(1)
     "...you are now a part of."
     #TRANSITION TIME!
+    play drone_3 'porter-drums-1.mp3' fadein 0.5
+    play sfx_2 'porter-wail.mp3'
+    play audio ['<silence 2.1>', 'ding-1.mp3']
+    #play ambiance_1 ['<silence 2.1>', 'ambient-birds.mp3'] fadein 2.0
+    pause 2.2
     stop music
+    stop sfx_1
     stop photo_1
     stop photo_2
     stop photo_3
-    play sfx_1 'ding-1.mp3'
-    play ambiance_1 'ambient-birds.mp3' fadein 1.0
-    show twodays with Dissolve(.5)
+    stop drone_1
+    stop drone_2
+    stop drone_3
+    show twodays with Dissolve(0.0)
     ""
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
@@ -220,7 +230,7 @@ label introScene:
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
     hide buddy with moveoutleft
     stop ambiance_1 fadeout 4.0
-    play sfx_1 "step-and-door.mp3" fadein 1.0
+    #play sfx_1 "step-and-door.mp3" fadein 1.0
     "You should probably get to work too."
     jump darkroomIntro
 

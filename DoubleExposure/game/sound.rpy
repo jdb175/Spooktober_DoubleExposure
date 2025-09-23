@@ -39,6 +39,8 @@ init python:
     def play_slide_ratchet_short(trans, st, at):
         renpy.play(renpy.random.choice(slide_rachet_short_fx), channel="sfx_3", relative_volume=0.6)
 
+define config.main_menu_music = "ambient-darkroom-light.mp3"
+
 define slide_place_fx = [
     "slides/place-1.mp3",
     "slides/place-2.mp3"
