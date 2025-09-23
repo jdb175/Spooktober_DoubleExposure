@@ -20,15 +20,26 @@ label day2Start:
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
     "You wake up feeling like you've hardly slept at all."
     "Grabbing your phone, you see a text from Bud."
+    window hide
+    scene bg bedroom light
+    $ reset_phone_data()
+    $ phone_start()
+    show screen phone_ui with dissolve
+    $ switch_channel_view("bud_dm")
+    $ lock_phone_screen()
     if budLevel == 0:
-        bud "yo sorry to bother you"
-        bud "but could i come by the darkroom today?"
+        $ send_phone_message("Bud", "yo sorry to bother you", "bud_dm")
+        $ send_phone_message("Bud", "but could i come by the darkroom today?", "bud_dm")
     else:
-        bud "Hey can i come by the darkroom"
-    bud "had a weird day yesterday and learned some weird stuff you might be interested in"
-    bud "also got some cool ideas."
-    bud "ever heard of an artist called siohan kent?"
-    bud "siobhan*"
+        $ send_phone_message("Bud", "Hey can  come by the darkroom?", "bud_dm")
+    window hide
+    $ send_phone_message("Bud", "had a weird day yesterday and learned some weird stuff you might be interested in", "bud_dm")
+    $ send_phone_message("Bud", "also got some cool ideas.", "bud_dm")
+    $ send_phone_message("Bud", "ever heard of an artist called siohan kent?", "bud_dm")
+    $ send_phone_message("Bud", "siobhan*", "bud_dm")
+    hide screen phone_ui
+    $ phone_end()
+    window show
     "You throw on some clothes and tell Bud to meet you in an hour."
     #we move to the studio
     scene darkroom_workspace bright
@@ -674,30 +685,6 @@ label complete_portal:
     $ finish_development()
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
-
-##NOW UNUSED
-label photo3_ruined:
-    #FIX ME!!!
-    "Well, you've ruined this photo, but that hardly matters."
-    "Hopefully you learned something useful."
-    jump day2_printOne #This will change in the real implementation
-
-##NOW UNUSED
-label photo3_double:
-    "You pull out the photo."
-    "The image stills, the voices quiet."
-    "You take the now frozen scene to the enlarger"
-    "You see an opportunity to use the negatives from Erin's mask series here."
-    temp "here are the choices the interface will present to you, all options superimposed over the unmasked figure."
-    menu:
-        "Owl mask":
-            jump photo3_addOwl
-        "Flame mask":
-            jump photo3_addFlame
-        "Archer mask":
-            jump photo3_addArcher
-        "Frog mask":
-            jump photo3_addFrog
 
 #region portal siobhan/owl
 label develop_portal_owl:

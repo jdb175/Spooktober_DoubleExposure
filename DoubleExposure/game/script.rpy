@@ -14,7 +14,7 @@ init python:
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
-define bud = Character("Bud") #Your present day friend, will rename this later?
+define bud = Character("Bud", color="#0ea321") #Your present day friend, will rename this later?
 define porter = Character("The Porter") #the Porter itself!
 define spirit = Character("Spirit?") #The porter if we don't know its name
 
@@ -77,6 +77,25 @@ image white_background = Solid("#fff")
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 transform ZoomInto:
     easein 20.0 zoom 10
+transform smallNegativePerson:
+    fit("scale-down")
+    xsize .6
+    ysize .6
+    ypos .8
+    matrixcolor InvertMatrix(1.0)
+    alpha .5
+
+transform smallNegativeBase:
+    fit("scale-down")
+    xsize .6
+    ysize .6
+    ypos .25
+    xpos .25
+    matrixcolor InvertMatrix(1.0)
+    alpha .5
+
+transform offsetStoryEnlarger:
+    zoom 1.15
 
 #transform ZoomToHidden:
 #    easein 20.0 zoom 10
@@ -128,7 +147,8 @@ label introScene:
     show nightAndDay with Dissolve(1)
     $_window_hide
     pause 1.0
-    "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
+    "When Erin was doing it in the early 90s, we couldn't all just photoshop whatever we wanted."
+    "Her imagery stood out."
     "You still do it the old fashioned way, too. Film. A darkroom."
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
     #Stretch goal – show a drawing of a letter in hand, or SOMETHING
@@ -218,8 +238,8 @@ label introScene:
         "I've got some ideas.":
             show buddy sad
             bud "Okay, keep your secrets then."
-            show buddy smile
-            bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
+    show buddy smile
+    bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
     hide buddy with moveoutleft
     stop ambiance_1 fadeout 4.0
     play sound "step-and-door.mp3" fadein 1.0
@@ -237,36 +257,36 @@ label darkroomIntro:
 
 label darkroomIntro2:
     if lightOn:
-        show bg dark room red
+        scene bg dark room red
     else:
-        show bg dark room
+        scene bg dark room
     menu:
         "Check out the enlarger":
             #First time here
             if lightOn:
-                show bg enlarger red
+                show bg enlarger red at offsetStoryEnlarger
             else:
-                show bg enlarger
+                show bg enlarger at offsetStoryEnlarger
             if enlargeFirst == True:
                 "The enlarger is an older model, old even for the 90s when Erin was working."
                 "Oh wow, it looks like there are already some negatives in here!"
-                tutorial "Use the arrow keys to change the active negative"
-                temp "once this is working, you'll be able to see the following negatives:"
                 show siobhan one at center:
-                    matrixcolor InvertMatrix(1.0)
-                "Oh, I think I know this person! Siobhan Kent. A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
+                    smallNegativePerson
+                "Oh, I think I know this person! Siobhan Kent."
+                "A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
                 hide siobhan one
                 show Gunnar_headshot at center:
-                    matrixcolor InvertMatrix(1.0)
-                "No idea who this is. This looks more like a personal shot than an art piece though."
+                    smallNegativePerson
+                "No idea who this is."
+                "This looks more like a personal shot than an art piece though."
                 hide Gunnar_headshot
                 show peter one at center:
-                    matrixcolor InvertMatrix(1.0)
-                "Same with this one."
+                    smallNegativePerson
+                "Another mystery person"
+                "A friend, maybe?"
                 hide peter one
                 show kitchen erin:
-                    matrixcolor InvertMatrix(1.0)
-                temp "SHOW: A dramantically lit and composed photograph of a kitchen, with Erin looking out the window"
+                    smallNegativeBase
                 "Oh, wow. Now *this* is a find!"
                 "This photo was used to make her famous piece 'night and day.' The final version had a this crazy blazing sun images exposed over it, in the doorway."
                 "So this is like, the original negative from that work. That's crazy!"
