@@ -165,6 +165,7 @@ label introScene:
     ""
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
+    play music "lil-guitar-loop.mp3" volume 0.2 fadein 1
     show buddy smile with moveinleft
     bud "I don't think she's dead."
     show buddy amused
@@ -229,7 +230,7 @@ label introScene:
             show buddy smile
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
     hide buddy with moveoutleft
-    stop ambiance_1 fadeout 4.0
+    stop music fadeout 4.0
     #play sfx_1 "step-and-door.mp3" fadein 1.0
     "You should probably get to work too."
     jump darkroomIntro
