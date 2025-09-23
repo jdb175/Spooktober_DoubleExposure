@@ -158,3 +158,31 @@ label photo1_firstDevOOD2:
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump photo1_ruined
+
+
+
+##BEING REPLACED
+#label day2_printOne:  #needs to be renamed like photo2_print or something
+#    $ curDevLevel = 0
+#    if papersRemaining == 0:
+#        "That's it for photos today. You're out of paper."
+#        jump endOfDay2
+#    "You make your way to the enlarger."
+#    if doneAPrint == False:
+#        "You decide to start with the burnt negatives, since you have no idea what they are."
+#    elif papersRemaining > 1:
+#        "You have {papersRemaining} papers left"
+#    else:
+#        "This is your last piece of photo paper."
+#    temp "We'd let you click through these two as you'd like in the real interface"
+##    temp "NOTE: As of this writing, I'm not going to bother with 50/80/100 percent breakpoints for pulling the photo out of the developer.Waiting for the real interface to be done."
+#    menu:
+#        "PHOTO: Two robed figures, shot candidly from someone in hiding. One wears an owl mask.":
+#            $ papersRemaining -= 1
+#            $ doneAPrint = True
+##            jump photo2_firstDev
+#        "PHOTO: Two robed figures, standing before a doorway with a strange shimmer in it. One wears a mask that looks like flame":
+#            $ papersRemaining -= 1
+#            $ doneAPrint = True
+#            jump photo3_firstDev
+##endregion

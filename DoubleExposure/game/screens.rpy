@@ -102,7 +102,8 @@ transform enlarger_base_image(a):
     alpha a
     matrixcolor TintMatrix("#f00")
 
-transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale):  
+transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale): 
+    function play_slide_place
     matrixcolor SaturationMatrix(0) * InvertMatrix()
     zoom .61
     blur 15
@@ -119,12 +120,16 @@ transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, f
     pause 0.2
     linear 0.7 alpha 0.7
     pause 0.6 * delay_scale
+    function play_slide_move
     ease 0.8 * move_scale yalign 0.18 xalign .54 rotate 0 
     pause 0.7 * delay_scale
+    function play_slide_ratchet
     linear 1.0 * focus_scale blur 5 zoom .6
     pause 0.2 * delay_scale
+    function play_slide_ratchet_short
     linear 0.2 blur 3 zoom .58
     pause 0.4 * delay_scale
+    function play_slide_ratchet_short
     linear 0.2 blur 0 zoom .55
 
 transform clock_bg:
@@ -254,20 +259,26 @@ screen enlarger_select_photo():
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
 screen say(who, what):
+    style_prefix "say"
 
     window:
         id "window"
 
-        if who is not None:
+        background (None if phone_mode else Image("gui/textbox.png", xalign=0.5, yalign=1.0))
+        xalign 0.5
+        xfill True
+        yalign gui.textbox_yalign
+        ysize gui.textbox_height
 
+        if who is not None:
             window:
                 id "namebox"
                 style "namebox"
                 text who id "who"
+            #text who id "who"
 
         text what id "what"
-
-
+    
     ## If there's a side image, display it above the text. Do not display on
     ## the phone variant - there's no room.
     if not renpy.variant("small"):

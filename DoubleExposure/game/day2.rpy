@@ -7,7 +7,6 @@ define flame = Character("Flame") #Flame mask is Peter
 define doubFlame = Character("Second Flame") #if we allow this, flame mask talking to flame mask
 define frog = Character("Frog") #Frog is Gunnar
 define archer = Character("Archer") #Archer is Erin 
-#I hate this archer mask, maybe it will change
 
 ##day 2 vars
 default photoFirst = False
@@ -16,52 +15,73 @@ default doneAPrint = False
 default donePhoto2 = False
 default donePhoto3 = False
 
-##These variables track what you've learned. Full disclosure, not sure if I will end up using these. But it's a way to keep track of what is in what scene in a way that could be referenced in code.
-#default someoneTeamup = False #base photo2
-#default gunnarTeamup = False #photo2 + Frog
-#default porterFallHints = 0 #vague hints the porter is messed with
-default siobhanHand = False
-default peterHeart = False
-default gunnarTongue = False
-default robbery = False
-#default nightmareRefs = 0
-
+#region start of day 2
 label day2Start:
+    stop music fadeout 2.0 
+    stop ambiance_1 fadeout 2.0
+    stop ambiance_2 fadeout 2.0
+    stop ambiance_3 fadeout 2.0
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
     "You wake up feeling like you've hardly slept at all."
+    play sound "text-vibrate.mp3" volume 0.4
     "Grabbing your phone, you see a text from Bud."
+    window hide
+    scene bg bedroom light
+    $ reset_phone_data()
+    $ phone_start()
+    show screen phone_ui with dissolve
+    $ switch_channel_view("bud_dm")
+    $ lock_phone_screen()
     if budLevel == 0:
-        bud "yo sorry to bother you"
-        bud "but could i come by the darkroom today?"
+        $ send_phone_message("Bud", "yo sorry to bother you", "bud_dm")
+        $ send_phone_message("Bud", "but could i come by the darkroom today?", "bud_dm")
     else:
-        bud "Hey can i come by the darkroom"
-    bud "had a weird day yesterday and learned some weird stuff you might be interested in"
-    bud "also got some cool ideas."
-    bud "ever heard of an artist called siohan kent?"
-    bud "siobhan*"
+        $ send_phone_message("Bud", "Hey can  come by the darkroom?", "bud_dm")
+    window hide
+    $ send_phone_message("Bud", "had a weird day yesterday and learned some weird stuff you might be interested in", "bud_dm")
+    $ send_phone_message("Bud", "also got some cool ideas.", "bud_dm")
+    $ send_phone_message("Bud", "ever heard of an artist called siohan kent?", "bud_dm")
+    $ send_phone_message("Bud", "siobhan*", "bud_dm")
+    hide screen phone_ui
+    $ phone_end()
+    window show
+    play sound ["text-type.mp3"]
+    queue sound "text-send.mp3" volume 0.2
     "You throw on some clothes and tell Bud to meet you in an hour."
     #we move to the studio
-    show darkroom_workspace
-    show buddy
+    stop sound
+    scene darkroom_workspace bright
+    show buddy question
     bud "So I kept thinking about like, my piece, what I was going to do."
+    show buddy talkhand
     bud "I think I told you I was thinking of doing something like, on her disappearance, like what happened to her."
+    show buddy sad
     bud "But then I decided that would probably be seen as kinda trashy."
+    show buddy question
     bud "So I was looking at her life as a whole, maybe something about that."
+    show buddy amused
     bud "And discovered she'd dedicated one of her pieces to this artist I'd never heard of. Siobhan Kent"
+    show buddy question
     bud "Mixed media artist. A lot of similar themes."
+    show buddy talkhand
     bud "But there was not really any record of them interacting or anything, you know? Like, they never did a showing together."
+    show buddy sad
     bud "Here's the crazy part. Siobhan? *Disappeared.* A few months before Erin did." #same day? What's better for us?
+    show buddy talkhand
     bud "So... it begs the question, how did they know each other?"
 
 label day2BudConvo:
-    #menu:
-    #    set menuset
-    #    "I thought you said you weren't going to do something on her disappearance":
-    #        bud "I wasn't! I swear! I was looking for just, you know, generic inspiration!"
-    #        jump day2BudConvo
-    #    "I think I know how they knew each other":
-    you "I think I know how they knew each other"
-    bud "Oh shit, really?"
+    show buddy listen
+    menu:
+        set menuset
+        "I thought you said you weren't going to do something on her disappearance":
+            show buddy question
+            bud "I wasn't! I swear! I was looking for just, you know, generic inspiration!"
+            jump day2BudConvo
+        "I think I know how they knew each other":
+            show buddy question
+            bud "Oh shit, really?"
+    show buddy listen
     you "They were both in some sort of... magical organization? Cult?" #Ugh I hate how this scene makes overexplaining hard to avoid
     if peterKnown == True:
         you "Run by this guy Peter Carlson" #keep double checking what info is given at this point
@@ -73,60 +93,72 @@ label day2BudConvo:
         you "They had plans to go *through* something or *to* something. Some other place."
     else:
         you "They were planning to *do* something together. I don't really know what."
+    show buddy sad
     bud "..."
     if budLevel <= 5:
         bud "..."
+        show buddy question
         bud "Okay, fine, I get it. You think I'm crazy."
     else:
         bud "..."
-        bud "Are you serious? That sounds crazy."
+        show buddy laughs
+        bud "Are you serious? That's... absolutely wild!"
     you "I am being completely serious."
+    show buddy question
     bud "How could you know all of that?"
     #Stretch goal is make this a choice, create a second route.
+    show buddy listen
     "This is way too much to keep all to yourself. You decide to tell Bud everything."
     "Any fear you had that the story would be too strange to believe evaporates instantly."
+    show buddy talkhand
     "They're hanging on to your every word."
     bud "You have to show me."
     #FIX: this doesn't work 100%, you need to make the choice to try other photo paper earlier manditory
+    show buddy listen
     you "I would, but there's no more photo paper."
     if corruption >= 10:
         you "Besides, I... think it might be dangerous."
         "Bud's eyes go wide, but they don't say anything."
     if peterKnown == True:
+        show buddy question
         bud "Okay, well, I guess in the meantime I should look up this uh, Peter Carlson"
     else:
+        show buddy question
         bud "Okay, well, I guess in the meantime I should look up this, uh, Peter guy"
     if porterKnown == True:
+        show buddy talkhand
         bud "And some sort of spirit called a Porter?"
     if gunnarKnown:
+        show buddy listen
         you "Look up someone named Gunnar too. I think they're famous. Possibly a writer?"
+    show buddy question
     bud "Okay, yeah, I'll try."
+    show buddy tricky
     bud "This is fucking crazy"
+    show buddy talkhand
     bud "I'll come by later? Or call you if anything super interesting comes up."
     if corruption >= 10:
+        show buddy sad
         bud "... be careful."
-    hide buddy
+    hide buddy with moveoutleft
     "As Bud leaves, you start to think about your next move."
     "As you gaze around the room, two things catch your eye."
     jump day2_darkroom
 
 #region darkroom
 label day2_darkroom:
-    $ papersRemaining = 5 #not actually used anymore
     menu:
         set menuset
         "The desk":
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
-            "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
+            "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
             "Must be from the grant?"
             "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
             "And there's more of it this time - five whole sheets." #NOTE: this being hardcoded is a challenge if we change it.
             if photoFirst == True:
-                #jump day2_printOne
                 jump day2_print
             else:
                 $ paperFirst = True
-                #jump day2_darkroom
                 jump day2_darkroom
         "The photo on the wall":
             "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
@@ -216,32 +248,6 @@ label post_image_completion_daytwo:
     jump endOfDay2
 #endregion
 
-##BEING REPLACED
-label day2_printOne:  #needs to be renamed like photo2_print or something
-    $ curDevLevel = 0
-    if papersRemaining == 0:
-        "That's it for photos today. You're out of paper."
-        jump endOfDay2
-    "You make your way to the enlarger."
-    if doneAPrint == False:
-        "You decide to start with the burnt negatives, since you have no idea what they are."
-    elif papersRemaining > 1:
-        "You have {papersRemaining} papers left"
-    else:
-        "This is your last piece of photo paper."
-    temp "We'd let you click through these two as you'd like in the real interface"
-    temp "NOTE: As of this writing, I'm not going to bother with 50/80/100 percent breakpoints for pulling the photo out of the developer.Waiting for the real interface to be done."
-    menu:
-        "PHOTO: Two robed figures, shot candidly from someone in hiding. One wears an owl mask.":
-            $ papersRemaining -= 1
-            $ doneAPrint = True
-            jump photo2_firstDev
-        "PHOTO: Two robed figures, standing before a doorway with a strange shimmer in it. One wears a mask that looks like flame":
-            $ papersRemaining -= 1
-            $ doneAPrint = True
-            jump photo3_firstDev
-#endregion
-
 #region sneaky (secret meeting)
 label develop_sneaky:
     scene black_background with fade
@@ -323,30 +329,6 @@ label complete_sneaky:
     $ finish_development()
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
-
-##NOW UNUSED
-label photo2_ruined:
-    #FIX ME!!!
-    "Well, you've ruined this photo, but that hardly matters."
-    "Hopefully you learned something useful."
-    jump day2_printOne #This will change in the real implementation
-
-##NOW UNUSED
-label photo2_double:
-    "You pull out the photo."
-    "The image stills, the voices quiet."
-    "You take the now frozen scene to the enlarger"
-    "You see an opportunity to use the negatives from Erin's mask series here."
-    temp "here are the choices the interface will present to you, all options superimposed over the unmasked figure."
-    menu:
-        "Owl mask":
-            jump photo2_addOwl
-        "Flame mask":
-            jump photo2_addFlame
-        "Archer mask":
-            jump photo2_addArcher
-        "Frog mask":
-            jump photo2_addFrog
 
 #region sneaky siobhan/owl
 label develop_sneaky_owl:
@@ -712,30 +694,6 @@ label complete_portal:
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 
-##NOW UNUSED
-label photo3_ruined:
-    #FIX ME!!!
-    "Well, you've ruined this photo, but that hardly matters."
-    "Hopefully you learned something useful."
-    jump day2_printOne #This will change in the real implementation
-
-##NOW UNUSED
-label photo3_double:
-    "You pull out the photo."
-    "The image stills, the voices quiet."
-    "You take the now frozen scene to the enlarger"
-    "You see an opportunity to use the negatives from Erin's mask series here."
-    temp "here are the choices the interface will present to you, all options superimposed over the unmasked figure."
-    menu:
-        "Owl mask":
-            jump photo3_addOwl
-        "Flame mask":
-            jump photo3_addFlame
-        "Archer mask":
-            jump photo3_addArcher
-        "Frog mask":
-            jump photo3_addFrog
-
 #region portal siobhan/owl
 label develop_portal_owl:
     $ start_double_exposing(OBJECT_IMAGE_OWL)
@@ -1011,92 +969,158 @@ label endOfDay2:
     "Trying to make sense of the events you've seen. To piece together the timeline."
     "You can't be sure that everything you've seen is real, or was real, but at the same time it almost adds up."
     "Your phone buzzes. It's Bud. They're outside."
-    #Okay, so there are two ending possibilities I see here:
-    #First ending, Erin created the foundation to put an end to this. Strongly hinted by the fact that she has been trying to cure the Porter
-    #Second ending, Erin was trying to do good, but Peter runs the foundation. We are offered a second photo from Peter, and choose whether to use his or Erin's
+    show buddy question with moveinleft
     bud "So I looked into Peter Carlson..."
+    show buddy sad
     bud "Um, it got weird."
+    show buddy question
     bud "So he's the guy who runs this foundation."
+    show buddy sad
     bud "Also, there used to be a Siobhan Kent young artists grant. A lot of the recipients, uh, seem to have died."
+    show buddy question
     bud "Same for the, uh Gunnar Olsen young poet award award winners."
     if porterKnown == True:
+        show buddy talkhand
         bud "I didn't have a lot of luck looking up any kind of a spirit called the Porter."
         bud "That's probably just because like, where the hell do you even start with something like that."
+        show buddy question
         bud "But it did come up in some of Gunnar's unfinished works. And the works of the poet award winners."
+        show buddy talkhand
         bud "It's either some sort of like, vengeful killer or some sort of guardian angel."
+        show buddy sad
         you "That's super helpful..."
+        show buddy listen
         bud "Right?"
     you "Bud... did you have any nightmares last night?"
+    show buddy question
     bud "Kinda, yeah, actually. I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
-    bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods."
+    bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods." #NOTE: ARCHER REFERENCE
+    show buddy talkhand
     bud "Oh god then he ate his heart!? Damn, I almost forgot how messed up it was."
+    show buddy question
     bud "How did you know?"
+    show buddy listen
     you "I had one too. About the porter."
     you "I don't know what Peter's game is here but I think we need to get out of all of this."
+    show buddy question
     bud "So we just quit?"
+    show buddy sad
     bud "..."
+    show buddy talkhand
     bud "It's too late for that, isn't it?"
+    show buddy listen
     "You fill Bud in on everything you've seen."
+    show buddy sad
     "Bud sighs."
     bud "I feel crazy."
+    show buddy question
     bud "Like, this is starting to make sense, but where the hell do we fit in?"
+    show buddy sad
     you "I think the spirit wants something from us."
+    show buddy listen
     you "In my dream, it showed me where to find some photos. Photos that Erin, or someone, had hidden."
+    show buddy question
     bud "Yeah but like, it showed me all these random body parts getting ripped apart."
+    show buddy listen
     you "It talked to me about body parts as well..."
     you "A heart, a hand, a tongue, and eyes."
+    show buddy sad
     bud "..."
-    if photoFound:
-        bud "Can I see that photo you found again?"
-        bud "Look at the exposure. Erin's face over the porter's face."
-        bud "Why would Erin do that?"
+    show buddy question
+    bud "Can I see that photo you found again?"
+    show buddy talkhand
+    bud "Look at the exposure. Erin's face over the porter's face."
+    bud "Why would Erin do that?"
+    show buddy listen
     "You look at the photo for a moment."
     you "Not her face over his face."
     you "Her eyes over its eyes."
+    show buddy amused
     bud "Oh. Now *that* is interesting."
-    bud "In the negative here, the spirit has no eys..."
+    show buddy question
+    bud "In the negative here, the spirit has no eyes..."
     bud "But in your dream, it did, right?"
+    show buddy listen
     you "Yeah."
     bud "..."
+    show buddy talkhand
     bud "I think we need to find the negative of this photograph."
+    show buddy amused
     bud "Do you think it could be hidden somewhere here?"
+    show buddy listen
     "Your search the other day was quick. As the photos hidden behind the picture frame made clear, you hadn't done a truly deep search."
+    scene darkroom_workspace bright with Fade(.7, .5, .4)
     "The hours go by. The sun sets. There's so much stuff not just in the studio but the rest of the house that you realize this could take all night."
+    show buddy question
     bud "Hey, I gotta get some sleep. I'm going to be totally dead tomorrow otherwise."
+    show buddy amused
     bud "But I'll come by first thing in the morning?"
-    "You nod and thank Bud for their help. You're pretty tired as well."
+    show buddy listen
+    "You nod and thank Bud for their help."
+    hide buddy with dissolve
+    "You're pretty tired as well."
     "Before you go, you grab all the prints you took today and shove them in your bag."
     jump night2
 #endregion
 
 #region night2
 label night2:
+    scene bg bedroom light with Dissolve(1)
+    pause .3
     "The fear of the dreams keeps you up for a while..."
+    $_window_show()
+    show bg bedroom sleep with dissolve
     "But sometime around two in the morning sleep finds you."
+    show bg nightmare:
+        RaveLights
+    with Dissolve(2.0)
     "And so do the dreams"
-    porter "Now you know their TRANSGRESSION"
+    show porter temp:
+        yalign .03
+        xalign .5
+    with moveinbottom
+    porter "Now you know their {sc=4}TRANSGRESSION{/sc}"
     porter "Until it is UNDONE..."
     porter "Undone in FULL"
     porter "I will not let you rest."
     porter "KNOW THIS"
-    if corruption >= 10: #FIX NUMBERS, but this should be low
-        porter "You are not yet SO BRIGHT as to be LOST"
+    if corruption <= 10: #FIX NUMBERS, but this should be low
+        porter "You are not yet {sc=4}SO BRIGHT{/sc} as to be {sc=4}LOST{/sc}"
         porter "But if you are not quick, you will be soon."
-        porter "Like the ARCHER was. She undid her wrong and returned my eyes, but it was too late for her."
-    if corruption >= 20: #Medium
-        porter "You are SO BRIGHT that I fear you are NEARLY LOST"
+        porter "Like the {sc=4}ARCHER{/sc} was. She undid her wrong, but it was too late for her."
+    if corruption <= 20: #Medium
+        porter "You are {sc=4}SO BRIGHT{/sc} that I fear you are {sc=4}NEARLY LOST"
         porter "You have little time before it is too late."
-        porter "Like the ARCHER was. She undid her wrong and returned my eyes, but it was too late for her."
-    if corruption >= 30: #High
+        porter "Like the {sc=4}ARCHER{/sc} was. She undid her wrong and returned my eyes, but it was too late for her."
+    else: #High
         porter "..."
-        porter "I see now you are BRIGHT"
-        porter "But that does not mean it is too late to RIGHT what is WRONG"
-        porter "Like the ARCHER DID. She returned my eyes, and was so freed."
-    temp "SHOW: Darkroom"
-    temp "FADE: A shadowy figure (existing art made dim) fading into the darkroom"
+        porter "I see now you are {sc=4}BRIGHT{/sc}"
+        porter "But that does not mean it is too late to RIGHT what is {sc=4}WRONG"
+        porter "Like the {sc=4}ARCHER DID{/sc}. She returned my eyes, and was so freed."
+    show porter temp at ZoomInto:
+        WhiteNoise
+    pause 1.1
+    scene darkroom_workspace bright:
+        WhiteNoise
+        matrixcolor BrightnessMatrix(-0.7)
+    show peter one:
+        size(402, 540)
+        xalign .44
+        yalign .3
+        ysize .3
+        #crop(0, 0, 402, 540)
+        fit("contain")
+        matrixcolor TintMatrix("#171717")
+    with Fade(0, 0, .6)
+    pause .6
     porter "HE has final piece."
+    show bg nightmare
     porter "You must GO NOW."
-    porter "NOW!"
+    show bg nightmare:
+        size(1920, 1080) crop (0, 0, 1920, 1080)
+        linear .6 crop(1130, 310, 360, 240)
+    porter "NOW!!{nw=.6}"
+    scene bg bedroom light with flash
     "You wake up and your body is already halfway out of bed. You throw on clothes and rush out the door."
     jump day3Start
 #endregion

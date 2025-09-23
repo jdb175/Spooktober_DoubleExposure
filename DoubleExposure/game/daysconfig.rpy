@@ -91,12 +91,12 @@ python early:
     ##DAY TWO
     OBJECT_IMAGE_OWL = EnlargerImage(
         label = "owl",
-        path = "placeholders/owl temp.png",
+        path = "masks/owl mask.png",
         description = "Owl mask"
     )
     OBJECT_IMAGE_FLAME = EnlargerImage(
         label = "flame",
-        path = "placeholders/flame temp.png",
+        path = "masks/flame mask.png",
         description = "Flame mask"
     )
     OBJECT_IMAGE_ARCHER = EnlargerImage(
@@ -106,7 +106,7 @@ python early:
     )
     OBJECT_IMAGE_FROG = EnlargerImage(
         label = "frog",
-        path = "placeholders/frog temp.png",
+        path = "masks/frog mask.png",
         description = "Frog mask"
     )
 

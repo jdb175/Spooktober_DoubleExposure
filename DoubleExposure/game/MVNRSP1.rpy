@@ -93,7 +93,7 @@ init python:
 
     perlinFunctions = """
     //Perlin Noise functions here
-     float rand(vec2 c)
+    float rand(vec2 c)
     {
         return fract(sin(dot(c.xy, vec2(12.9898, 78.233))) *
                         43758.5453123);
@@ -189,7 +189,7 @@ init python:
         color += vec4(0.125,0.125,0.125, 0.0);
         color.rgb = floor(color.rgb * 8.0) / 8.0;
         gl_FragColor = color;
-   """
+    """
 
 
     colorDepth256Shader="""

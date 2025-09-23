@@ -1,20 +1,11 @@
 ﻿#Importing libraries
 init python:
     import math
-    #audio channels
-    renpy.music.register_channel("ambiance_1", "sfx")
-    renpy.music.register_channel("ambiance_2", "sfx")
-    renpy.music.register_channel("ambiance_3", "sfx")
-    renpy.music.register_channel("sound_2", "sfx")
-    renpy.music.register_channel("augment_1", "music")
-    renpy.music.register_channel("augment_2", "music")
-    renpy.music.register_channel("augment_3", "music")
-    renpy.music.register_channel("melody", "music")
 
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
-define bud = Character("Buddy") #Your present day friend, will rename this later
+define bud = Character("Bud", color="#0ea321") #Your present day friend, will rename this later?
 define porter = Character("The Porter") #the Porter itself!
 define spirit = Character("Spirit?") #The porter if we don't know its name
 
@@ -33,7 +24,6 @@ define unk2 = Character("???", color = "#b59cd8") #second unknown, in case two u
 ### Defining Variables ###
 default menuset = set() #we initialize this every time we have a menu set (see Ren'Py docs for more info)
 default corruption = 0 #incremented as you overexpose photos. Checked whenever we feel like it.
-default curDevLevel = 0 #used as a placeholder for how developed your current photo is. Will be replaced when the real photo system is added.
 default budLevel = 0 #friendship level with bud.
 default zoom_development = False
 
@@ -48,7 +38,6 @@ default seenPhoto1 = False #Have you already watched the first scene?
 ### darkroom exploration vars
 default lightOn = False
 default papersGrabbed = False
-default papersRemaining = 0 
 default enlargeFirst = True
 default traysFirst = True
 default deskFirst = True
@@ -59,9 +48,6 @@ default onFirstBase = True
 #BGs
 image darkroom_workspace bright = "bg/bg dark room.png"
 image darkroom_workspace red = "bg/bg dark room red.png"
-image darkroom_trays = "placeholders/darkroom_temp2.png"
-image background_negative = "placeholders/darkroom_temp2.png" #not sure why this image is used twice. Probably becuase of merge with Jason. Leaving it for now, bigger fish to fry
-image Erin_headshot = "placeholders/Erin_temp1.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
@@ -80,14 +66,47 @@ image white_background = Solid("#fff")
 
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
+transform ZoomInto:
+    easein 20.0 zoom 10
+transform smallNegativePerson:
+    fit("scale-down")
+    xsize .6
+    ysize .6
+    ypos .8
+    matrixcolor InvertMatrix(1.0)
+    alpha .5
 
+transform smallNegativeBase:
+    fit("scale-down")
+    xsize .6
+    ysize .6
+    ypos .25
+    xpos .25
+    matrixcolor InvertMatrix(1.0)
+    alpha .5
+
+transform offsetStoryEnlarger:
+    zoom 1.15
+
+#transform ZoomToHidden:
+#    easein 20.0 zoom 10
 
 #transitions
 #$ renpy.transition(Dissolve(1.0), layer="master")
 
 #region intro
+#This will be replaced by something more official
+#label splashscreen:
+#    scene black
+#    with Pause(1)
+#    show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
+#    with Pause(2)
+#    hide text
+#    return
+
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
+    stop music fadeout 1.0
     $ config.developer = True #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
     $ budLevel = 0
@@ -97,62 +116,79 @@ label start:
 label introScene:
     #show erin one with dissolve
     #add a vignette effect
-    play sound "breath-1.mp3"
+    play sfx_1 "breath-1.mp3"
     "{size=+10}Erin Darabondi."
+    $_window_hide()
+    play music 'piano-underscore.mp3'
     show nightAndDay with Dissolve(1.5):
-        xalign 1
+        xalign .1
         yalign .19
         zoom 2
-    play music 'piano-underscore.mp3'
+    pause 1.0
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
+    $_window_hide()
     show nightAndDay with Dissolve(.8):
         xalign 0
         yalign 0
         zoom 1
+    pause 1.0
     "The 'truth' of photography used to present impossibilities."
-    #hide erin one
-    #show face_bg with dissolve
-    #temp "(NOTE - maybe we can actually use this art for this?!)" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
     "Which some days feels crazy, like you're a *real artist*"
     "And some days feels like you're so far from real success."
     "But Erin's love of double exposure, in particular, stuck with you."
-    play augment_1 'piano-underscore-spook-1.mp3'
+    play photo_1 'piano-underscore-spook-1.mp3'
     hide nightAndDay
     show nightAndDayPartial with flash:
         matrixcolor BrightnessMatrix(-0.4)
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
     show nightAndDay with Dissolve(1)
-    "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
+    $_window_hide
+    pause 1.0
+    "When Erin was doing it in the early 90s, we couldn't all just photoshop whatever we wanted."
+    "Her imagery stood out."
     "You still do it the old fashioned way, too. Film. A darkroom."
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
     #Stretch goal – show a drawing of a letter in hand, or SOMETHING
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
-    play augment_2 'piano-underscore-spook-2.mp3'
+    play photo_2 'piano-underscore-spook-2.mp3'
     show bg dark room red with Dissolve(.7)
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     show bg machine with Dissolve(.7)
     "By her legacy."
+    play drone_1 "eerie-1.mp3" volume 0.2 noloop fadein 2
+    play drone_2 "bass-drone-2.mp3" volume 0.2 fadein 4
     show bg enlarger red with Dissolve(.7)
-    play augment_3 'piano-underscore-spook-3.mp3'
     "A legacy which, for better or for worse..."
+    play sfx_1 "gong-1.mp3"
+    play photo_3 'piano-underscore-spook-3.mp3'
     show porterPhoto with Dissolve(1)
     "...you are now a part of."
     #TRANSITION TIME!
+    play drone_3 'porter-drums-1.mp3' fadein 0.5
+    play sfx_2 'porter-wail.mp3'
+    play audio ['<silence 2.1>', 'ding-1.mp3']
+    #play ambiance_1 ['<silence 2.1>', 'ambient-birds.mp3'] fadein 2.0
+    pause 2.2
     stop music
-    stop augment_1
-    stop augment_2
-    stop augment_3
-    play sound 'ding-1.mp3'
-    play ambiance_1 'ambient-birds.mp3' fadein 1.0
-    show twodays with Dissolve(.5)
+    stop sfx_1
+    stop photo_1
+    stop photo_2
+    stop photo_3
+    stop drone_1
+    stop drone_2
+    stop drone_3
+    show twodays with Dissolve(0.0)
     ""
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
+    play music "lil-guitar-loop.mp3" volume 0.2 fadein 1
+    "It's your first day at Erin's studio. You're excited to poke around, maybe start to sketch out some ideas."
+    "Although at the moment it's a bit hard to focus."
     show buddy smile with moveinleft
     bud "I don't think she's dead."
     show buddy amused
@@ -191,9 +227,12 @@ label introScene:
     bud "I was just thinking about maybe doing some sort of piece around her. Like, Erin."
     show buddy question
     bud "What happened, or didn't happen. Putting her in places she isn't, but could have been."
+    show buddy tricky
     bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
+    show buddy talkhand
     bud "Especially since I'm getting paid now."
     bud "This is my first grant, actually."
+    show buddy question
     bud "What are you going to make? Do you know?"
     "Ah shit. To be honest, you've been struggling with that too."
     menu:
@@ -201,16 +240,21 @@ label introScene:
             $ budLevel += 1
             "I know the grant stipulates that we can make whatever we want, so long as it is *in dialogue with Erin's work*"
             "Just specific enough to make things harder, but vague enough to get drowned in options"
+            show buddy laughs
             bud "Dude, it's freaking HARD, right? It's like, suddenly there's all this pressure."
+            show buddy amused
             bud "Well, you can always start with the basics. You do photography, have you done much double exposure."
             "Not really, actually"
+            show buddy laughs
             bud "Hey, maybe start there!"
         "I've got some ideas.":
+            show buddy sad
             bud "Okay, keep your secrets then."
-            bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
+    show buddy smile
+    bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
     hide buddy with moveoutleft
-    stop ambiance_1 fadeout 4.0
-    play sound "step-and-door.mp3" fadein 1.0
+    stop music fadeout 4.0
+    #play sfx_1 "step-and-door.mp3" fadein 1.0
     "You should probably get to work too."
     jump darkroomIntro
 
@@ -225,36 +269,40 @@ label darkroomIntro:
 
 label darkroomIntro2:
     if lightOn:
-        show bg dark room red
+        scene bg dark room red
     else:
-        show bg dark room
+        scene bg dark room
     menu:
         "Check out the enlarger":
             #First time here
             if lightOn:
-                show bg enlarger red
+                show bg enlarger red at offsetStoryEnlarger
             else:
-                show bg enlarger
+                show bg enlarger at offsetStoryEnlarger
             if enlargeFirst == True:
                 "The enlarger is an older model, old even for the 90s when Erin was working."
                 "Oh wow, it looks like there are already some negatives in here!"
-                tutorial "Use the arrow keys to change the active negative"
-                temp "once this is working, you'll be able to see the following negatives:"
+                play audio "slides/sweep-1.mp3"
                 show siobhan one at center:
-                    matrixcolor InvertMatrix(1.0)
-                "Oh, I think I know this person! Siobhan Kent. A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
+                    smallNegativePerson
+                "Oh, I think I know this person! Siobhan Kent."
+                "A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
                 hide siobhan one
+                play audio "slides/sweep-2.mp3"
                 show Gunnar_headshot at center:
-                    matrixcolor InvertMatrix(1.0)
-                "No idea who this is. This looks more like a personal shot than an art piece though."
+                    smallNegativePerson
+                "No idea who this is."
+                "This looks more like a personal shot than an art piece though."
                 hide Gunnar_headshot
+                play audio "slides/sweep-3.mp3"
                 show peter one at center:
-                    matrixcolor InvertMatrix(1.0)
-                "Same with this one."
+                    smallNegativePerson
+                "Another mystery person"
+                "A friend, maybe?"
                 hide peter one
+                play audio "slides/sweep-4.mp3"
                 show kitchen erin:
-                    matrixcolor InvertMatrix(1.0)
-                temp "SHOW: A dramantically lit and composed photograph of a kitchen, with Erin looking out the window"
+                    smallNegativeBase
                 "Oh, wow. Now *this* is a find!"
                 "This photo was used to make her famous piece 'night and day.' The final version had a this crazy blazing sun images exposed over it, in the doorway."
                 "So this is like, the original negative from that work. That's crazy!"
@@ -280,7 +328,7 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
-            play sound 'light-click.mp3'
+            play sfx_1 'light-click.mp3'
             play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
             scene bg dark room red
             $ lightOn = True
@@ -297,10 +345,10 @@ label darkroomIntro2:
                 else:
                     "Once the safe light is on you can open the package of photo paper."
             else:
+                play audio "slides/remove-2.mp3"
                 "You carefully unwrap the parcel and discover two luxurious pieces of print paper."
                 "It feels a bit wrong, but the grant was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
                 $ papersGrabbed = True
-                $ papersRemaining = 2
             jump darkroomIntro2
 #endregion
 
@@ -333,17 +381,22 @@ label projector_select_base_dayone:
         yalign 0.5
     with dissolve
     "You make sure your watch is in easy view as you submerge the photos."
+    play ambiance_1 "clock-fast.mp3" volume 0.1 fadein 2.0
     jump expression target_label
 
 #jumps here afer you're done with the base image
 label projector_select_double_dayone:
     scene black_background #or something else
-    stop augment_1 fadeout 1.0
-    stop augment_2 fadeout 1.0
+    stop ambiance_1 fadeout 1.0
+    stop ambiance_2 fadeout 1.0
+    stop photo_1 fadeout 1.0
+    stop photo_2 fadeout 1.0
+    stop photo_3 fadeout 1.0
     if onFirstBase == True:
         "You grab your tongs and pull out the photo."
         "Immediately, whatever it was you were watching stops completely."
         "The photo looks as it should - a half-developed print of the negative you saw earlier."
+        play sfx_2 "heartbeat.mp3" volume 0.6 fadein 2.0 loop
         "The room is quiet, except for the sound of your heart pounding in your chest."
         "You don't know what you just saw but you're absolutely certain you saw it."
         "Right?"
@@ -351,19 +404,21 @@ label projector_select_double_dayone:
     else:
         "You grab your tongs and pull out the photo."
     scene black_background
+    stop sfx_2 fadeout 2.0
     "You make your way back to the enlarger. There were several negatives that you could overlay over this photo pretty easily."
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     jump expression target_label
 
 label post_image_completion_dayone:
-    scene black_background
+    scene darkroom_workspace red
     $ seenPhoto1 = True
+    stop sfx_2 fadeout 2.0
     stop melody fadeout 0.5
-    stop augment_1 fadeout 0.5
-    stop augment_2 fadeout 0.5
-    play sound "breath-2.mp3" noloop
-    play ambiance_2 "ambient-darkroom-light.mp3" fadein 1.0 # make sure light buzz is playing
+    stop photo_1 fadeout 0.5
+    stop photo_2 fadeout 0.5
+    play sfx_1 "breath-2.mp3" noloop
+    play ambiance_1 "ambient-darkroom-light.mp3" fadein 1.0 # make sure light buzz is playing
     play ambiance_2 "ambient-darkroom-rumble.mp3" fadein 0.5
     if(persistent.current_photo_paper > 0):
         if(persistent.current_photo_paper == 1):
@@ -402,7 +457,7 @@ label post_image_completion_dayone:
 label develop_kitchen:
     scene black_background with fade
     $ start_developing(BASE_IMAGE_KITCHEN)
-    play music "photo-underscore-1.mp3" fadein 5.0
+    play photo_1 "photo-underscore-1.mp3" fadein 5.0
     if seenPhoto1 == True:
         "As you develop the scene from 'night and day' for a second time, the same thing happens."
         $ develop(5)
@@ -419,10 +474,10 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show erin smile
+        show erin smile with moveinleft
         "Erin."
         "Her lips part. Subtly, but unmistakably"
-        play sound "breath-1.mp3" volume 0.8
+        play sfx_1 "breath-1.mp3" volume 0.8
         "She turns towards the camera and begins to mutter to herself"
         $ develop(15)
         show erin ponder
@@ -438,14 +493,16 @@ label develop_kitchen:
         show erin ponder
         Erin "Since I have no idea how I'm going to be feeling after all of this."
         Erin "That's assuming, of course, you even come back at all..."
-        play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
         $ develop(30)
         if(persistent.development_end_signalled == False):
+            play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
+            stop ambiance_1 fadeout 1.0
             "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
             "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
             "But... what if it stops?"
             "Or what if it doesn't stop?"
             "What is even happening here?!"
+        play photo_2 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
         Erin "Shit. Erin, you're shaking."
         Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     $ develop(35)
@@ -503,6 +560,7 @@ label complete_kitchen:
     "You grab your tongs and pull out the photo."
     "Immediately, whatever it was you were watching stops completely."
     "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    play sfx_2 "heartbeat.mp3" volume 0.6 fadein 2.0 loop
     "The room is quiet, except for the sound of your heart pounding in your chest."
     "You don't know what you just saw but you're absolutely certain you saw it."
     "Right?"
@@ -512,9 +570,10 @@ label complete_kitchen:
 label develop_kitchen_siobhan:
     "You lower the print into the developing fluid, filled with a nervous anticipation."
     "Will it happen again?"
+    play ambiance_1 "clock-fast.mp3" volume 0.5 fadein 1.0
     $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
-    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
     "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
+    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
     "Then, she starts to move. Her feet, partially suspended, touch the ground."
     "Like she's there."
     $ develop_double(5)
@@ -540,7 +599,7 @@ label develop_kitchen_siobhan:
     show erin smile
     show siobhan talk
     Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
-    $ develop_double(15)
+    $ develop_double(15)    
     show erin ponder
     show siobhan one
     Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
@@ -579,9 +638,11 @@ label develop_kitchen_siobhan:
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
 
 label develop_kitchen_siobhan_overexposed:
+    play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
+    stop ambiance_1 fadeout 1.0
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
+    play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
     $ corruption += 5
     Erin "'The Porter.' Did Peter come up with that name?"
     Siob "No. It is His Name."
@@ -589,13 +650,18 @@ label develop_kitchen_siobhan_overexposed:
     $ develop_overexposed(20)
     Siob "It was taken From Him"
     Siob "BUT HE WILL NOT BE CONTAINED"
-    play augment_2 "guitar-Ab.mp3" noloop
-    play augment_3 "gong-1.mp3" noloop volume 0.6
+    play audio "guitar-Ab.mp3" noloop
+    play photo_3 "gong-3.mp3" noloop volume 0.6
+    play drone_1 "bass-drone-1.mp3" fadein 3
     Erin "HE WILL HAVE WHAT IS HIS"
     $ develop_overexposed(30)
+    play drone_1 "bass-drone-2.mp3" fadein 1
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
-    play sound_2 "splash-small-1.mp3" noloop volume 0.5
-    stop augment_1 fadeout 0.5
+    play sfx_2 "splash-small-1.mp3" noloop volume 0.5
+    stop ambiance_1
+    stop ambiance_2
+    stop drone_1
+    stop photo_1 fadeout 0.5
     stop music fadeout 4.0
     stop melody fadeout 4.0
     hide Siob_headshot
@@ -670,14 +736,14 @@ label develop_kitchen_gunnar_overexposed:
     Gunnar "WHERE ARE MY EYES, INTERLOPER?"
     $ develop_overexposed(30)
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
+    "You feel like SOMETHING TERRIBLE has happened."
     hide Gunnar_headshot
     hide Erin
     jump complete_kitchen_gunnar
 
 label complete_kitchen_gunnar: 
     $ finish_development()
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    "You grab the tongs and pull out the image."
     jump post_image_completion_dayone
 #endregion
 
@@ -753,6 +819,10 @@ label complete_kitchen_peter:
 
 #region endofday1
 label endOfDayOneChoices:
+    stop photo_1
+    stop photo_2
+    stop photo_3
+    scene darkroom_workspace red
     "You stand in the darkroom for a minute, dumbfounded, still processing what just happened."
     if corruption > 5:
         "You look at the photos you just printed. Out the corner of your eye you feel like you can see them moving still. But they aren't."
@@ -762,6 +832,7 @@ label endOfDayOneChoices:
     "And you have no choice to believe that understanding what she was up to could explain what you've just seen."
     "On the other hand, Erin disappeared without a trace. Knowing more might be a very bad idea."
     if corruption > 10:
+        play sfx_1 "guitar-Ab.mp3" volume 0.6
         "You start to feel the hairs on the back of your neck raise. Like something is watching you."
         "Like something is in the darkroom with you."
     jump findPhoto
@@ -782,11 +853,10 @@ label findPhoto:
             temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
             temp "Double exposed over its face, the face of Erin..."
             #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
-            $ photoFound = True
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
-            "'restitution. atonement?'"
+            "'restitution. atonement?'" #handwritten font?
             "You slip it into your bag."
             jump findPhoto
         "Try printing another photograph":
@@ -797,13 +867,33 @@ label findPhoto:
     jump night1
 
 label night1:
-    hide darkroom_trays with dissolve
+    stop ambiance_1 fadeout 2
+    stop ambiance_2 fadeout 2
+    scene bg bedroom light with dissolve
     "With your head swirling with questions, you head home to try and get some sleep."
+    play ambiance_3 "crickets-1.mp3" volume 0.1 fadein 2 loop
+    show bg bedroom sleep with Dissolve(1)
     "It comes slowly, but sleep does come."
-    "..."
-    temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
+    play sfx_1 "gong-3.mp3"
+    play drone_1 "eerie-1.mp3" volume 0.4 fadein 4 noloop
+    play nightmare_1 "<loop 3>porter-drone.mp3" fadein 3 volume 0.4
+    play sfx_2 "heavy-breathing.mp3" volume 0.1 loop fadein 4.0
+    scene bg nightmare:
+        RaveLights
+    with Dissolve(2.0)
+    "..."    
+    play drone_2 "bass-drone-1.mp3" volume 0.5 fadein 2
+    play sound "gong-1.mp3"
+    play sfx_3 ["<silence 2>", "guitar-Ab.mp3"] volume 0.5
+    play audio "porter-wail.mp3" volume 1.0
+    show porter temp:
+        yalign .03
+        xalign .5
+    with moveinbottom
+    play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     unk "..."
-    unk "i see you" #Could we do a cool text effect here?
+    stop ambiance_3 fadeout 4.0
+    unk "{sc=4}i see you{/sc}" #Could we do a cool text effect here?
     unk "return what is mine"
     unk "you WILL return what is mine"
     if corruption >= 5:
@@ -813,25 +903,50 @@ label night1:
         unk "you are already {sc=4}TOO BRIGHT{/sc}"
     else:
         unk "before you are tainted"
+    play nightmare_2 ["porter-drums-1.mp3"] fadein 10 volume 1
     temp "we SHOW the eyes"
     unk "{sc=4}my eyes{/sc}... kept in anothers head"
     temp "SHOW heart"
     unk "{sc=4}my blood{/sc} thick in anothers veins"
+    play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
     temp "SHOW hand"
     unk "{sc=4}my hand{/sc} joined to another's arm"
     temp "SHOW tongue"
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
+    play sound "porter-single-voice-higher.mp3" volume 0.2
+    play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
+    play drone_3 "bass-drone-2.mp3" volume 1 fadein 6
     unk "they could not run. and neither can you."
-    temp "SHOW Porter."
-    temp "ZOOM forwards through its mouth, into the darkroom scene."
-    #I want these to be burned somewhere, which would require art of a trash bin or oven or something, but we can just hide them in the enlarger for now.
-    temp "ZOOM into a detail in the scene - a specific photo on the wall."
-    temp "FLASH out of the scene"
+    $_window_hide
+    play sfx_1 "guitar-Ab.mp3"
+    show porter temp at ZoomInto:
+        WhiteNoise
+    pause 1.1
+    play sfx_3 "duet-Bb.mp3"
+    scene darkroom_workspace red:
+        WhiteNoise
+        size(1920, 1080) crop (0, 0, 1920, 1080)
+        pause 1 #should be dissolve length
+        linear 3 crop(1400, 250, 360, 240)
+    with Dissolve(1)
+    play sfx_2 "gong-1.mp3"
+    play sound "porter-wail.mp3"
+    play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
+    pause 2
+    stop ambiance_1 fadeout 1
+    stop nightmare_1 fadeout 1
+    stop nightmare_2 fadeout 1
+    stop nightmare_3 fadeout 1
+    stop drone_1
+    stop drone_2
+    stop drone_3
+    show bg bedroom light with flash
+    play audio "breath-2.mp3"
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
-    if photoFound == True:
-        "The face from the photo you found."
+    "The face from the photo you found."
     "Like it is burned into your vision."
     "Was it trying to show you something?"
+    stop music fadeout 2.0
     jump day2Start
     return
 #endregion

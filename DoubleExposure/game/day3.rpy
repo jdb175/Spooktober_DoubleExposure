@@ -2,16 +2,30 @@ default heardSpeech = False
 default heardSpirit = False
 
 label day3Start:
+    scene darkroom_workspace bright:
+        matrixcolor BrightnessMatrix(-0.6)
     "It isn't until you reach the door to the darkroom and swing it open that you begin to feel afraid."
     "On the way you had sent a text to Bud, explaining the whole situation, but you don't know if they got it."
-    "You didn't turn on any lights, so the darkroom is cloaked in shadow."
-    "But in the dimness, you can recognize that, just like in your dream, there is someone in here with you."
+    "When you arrive, the darkroom is cloaked in shadow."
+    "Just like in your dream"
+    "And in the dimness, you can recognize that there is someone in here with you."
+    show peter one:
+        size(402, 540)
+        xalign .44
+        yalign .3
+        ysize .3
+        #crop(0, 0, 402, 540)
+        fit("contain")
+        matrixcolor TintMatrix("#171717")
+    with dissolve
     "If they heard you come in, they don't react."
     "As your eyes adjust, your heart stops as you realize the figure is carrying a small knife."
     "With a slight flick of their wrist they make a cut on their arm."
     "The blood drips onto the desk, where you see several pieces of photo paper have been placed."
     "You can't help but gasp."
     "The figure turns around."
+    hide peter one
+    show peter one with dissolve
     Peter "You've come rather early."
     Peter "I suppose you were curious about who was leaving you your photo paper."
     Peter "I hope you don't find it too unseemly."
@@ -150,6 +164,7 @@ label peterCalmEnding:
     Peter "But I could see their artistic applications... yes. I suppose."
     "Peter removes from his pocket a small envelope and hands it to you."
     Peter "I imagine you want to get to work. I will return this afternoon to see what you create."
+    hide peter with moveoutleft
     jump negativesReceived
 
 label negativesReceived:
@@ -157,10 +172,12 @@ label negativesReceived:
     "Things Peter wanted to keep close... or keep secret for some reason."
     "Most of them you don't understand. But one thing you do recognize - a negative for a photo of the Porter itself."
     "A sorry looking thing, blind and mutilated. The same photo Erin had exposed her face over."
+    scene darkroom_workspace red
     "You make your way over to the enlarger and begin to develop the photo"
 
 label photoFinal_firstDev:
     "The spirit shudders to life. With no eyes to open, it simply tilts its head."
+    #This is the porter IN the image. I think we'd rather not pull it out for this?
     porter "The image is old... but it will do."
     porter "It should be like so."
     temp "The porter's eyes fade back into its head"
@@ -217,16 +234,18 @@ label finalJudgement:
     porter "Humanity will regain my service again."
     porter "With perhaps more caution."
     #values broken
-    if corruption <= 5:
-        porter "I see little brightness in you. Go. Live your life freely."
-    elif corruption <= 10:
+    if corruption <= 10:
+        porter "I see little brightness in you."
+        porter "Go. Live."
+    elif corruption <= 20:
         porter "Now, for you, there will be pain."
         porter "As the brightness in you must be scraped out"
         temp "show corruption effects, then a screen flash"
         you "AAH"
-        porter "You are lucky. Go. Live your life. Do not create art again."
-        porter "It may awake the danger."
-    elif corruption <= 15:
+        porter "You are lucky. Go. Live."
+        porter "But leave your artistic ambitions behind... at least for a time."
+        porter "Or you may reawake the danger."
+    elif corruption >= 25:
         porter "..."
         porter "It is possible you have predicted what must come next."
         porter "You are a flame, little one. A flame that could catch the world."
@@ -236,6 +255,27 @@ label finalJudgement:
         "Coiling around your organs. The cold begins to burn and you pass out, and in your sudden sleep you see its face."
         "The cold is now touching every part of you, it is everywhere inside you."
         "You are gone."
+        jump theEnd
+    else:
+        #This, mathematically, should never happen.
+        porter "Go. Return to life."
+    #only the corrupted ending skips this
+    scene bg bedroom bright
+    "The rest of the day passes without a single strange occurance."
+    "Buddy arrived a few minutes after the exposure was done, exceedingly worried about you."
+    "You worried about Peter's return."
+    "But he never showed up."
+    "And that night, when sleep finally comes"
+    show bg bedroom sleep
+    "It is empty. No dark dreams."
+    if corruption >= 15:
+        show bg bedroom sleep:
+            matrixcolor BrightnessMatrix(1.1)
+        "Only a little brightness in the corners"
+    "Peter's death makes the papers the next day. 'Man found dead without heart. Psycho on the loose?"
+    "But you know the truth."
+    "Or, some of it anyway..."
 
 label theEnd:
-    temp "DISPLAY - THE END"
+    scene thankyouforplaying
+    ""
