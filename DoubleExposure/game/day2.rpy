@@ -27,8 +27,13 @@ default robbery = False
 #default nightmareRefs = 0
 
 label day2Start:
+    stop music fadeout 2.0 
+    stop ambiance_1 fadeout 2.0
+    stop ambiance_2 fadeout 2.0
+    stop ambiance_3 fadeout 2.0
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
     "You wake up feeling like you've hardly slept at all."
+    play sound "text-vibrate.mp3" volume 0.4
     "Grabbing your phone, you see a text from Bud."
     if budLevel == 0:
         bud "yo sorry to bother you"
@@ -39,8 +44,11 @@ label day2Start:
     bud "also got some cool ideas."
     bud "ever heard of an artist called siohan kent?"
     bud "siobhan*"
+    play sound ["text-type.mp3"]
+    queue sound "text-send.mp3" volume 0.2
     "You throw on some clothes and tell Bud to meet you in an hour."
     #we move to the studio
+    stop sound
     show darkroom_workspace
     show buddy
     bud "So I kept thinking about like, my piece, what I was going to do."
