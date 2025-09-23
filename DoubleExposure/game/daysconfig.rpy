@@ -31,12 +31,13 @@ python early:
     
     class Days(Enum):
         DAY_ONE="dayone"
+        DAY_TWO="daytwo"
 
     #endregion
 
     #region image configurations
     ### Base Images ###
-    #TESTING
+    ##TESTING
     BASE_IMAGE_HOUSE = EnlargerImage(
             label = "house", 
             path = "exposuretest/bakgroundimage.png",
@@ -46,15 +47,27 @@ python early:
             label = "face", 
             path = "exposuretest/face_bg.png",
             description = "An image of a face")
-    #DAY ONE
+    ##DAY ONE
     BASE_IMAGE_KITCHEN = EnlargerImage(
         label = "kitchen",
         path = "photos/kitchen erin.png",
         empty_path = "photos/kitchen.png",
         description = "The kitchen from 'night and day'")
+    ##DAY TWO
+    BASE_IMAGE_SNEAKY = EnlargerImage(
+        label = "sneaky",
+        path = "exposuretest/bakgroundimage.png",
+        empty_path = "exposuretest/bakgroundimage.png",
+        description = "A clandestine photo of people in robes")
+    BASE_IMAGE_PORTAL = EnlargerImage(
+        label = "portal",
+        path = "exposuretest/face_bg.png",
+        empty_path = "exposuretest/face_bg.png",
+        description = "Robed people and a... portal??"
+    )
 
     ### Object Images ###
-    #TESTING
+    ##TESTING
     OBJECT_IMAGE_MASK = EnlargerImage(
             label = "mask", 
             path = "exposuretest/pallid_mask_nobpg.png",
@@ -64,7 +77,8 @@ python early:
             label = "guy", 
             path = "exposuretest/guy.png",
             description = "It's a guy")
-    #DAY ONE
+
+    ##DAY ONE
     OBJECT_IMAGE_SIOBHAN = EnlargerImage(
         label = "siobhan",
         path = "photos/kitchen siobhan.png",
@@ -74,6 +88,28 @@ python early:
         label = "peter",
         path = "photos/kitchen peter.png",
         description = "Portrait, moustache man")
+    ##DAY TWO
+    OBJECT_IMAGE_OWL = EnlargerImage(
+        label = "owl",
+        path = "placeholders/owl temp.png",
+        description = "Owl mask"
+    )
+    OBJECT_IMAGE_FLAME = EnlargerImage(
+        label = "flame",
+        path = "placeholders/flame temp.png",
+        description = "Flame mask"
+    )
+    OBJECT_IMAGE_ARCHER = EnlargerImage(
+        label = "archer",
+        path = "placeholders/archer temp.png",
+        description = "Archer mask"
+    )
+    OBJECT_IMAGE_FROG = EnlargerImage(
+        label = "frog",
+        path = "placeholders/frog temp.png",
+        description = "Frog mask"
+    )
+
 
     ### Day Configurations
 
@@ -86,6 +122,18 @@ python early:
             object_images = [
                 OBJECT_IMAGE_SIOBHAN,
                 OBJECT_IMAGE_PETER
+            ]),
+        Days.DAY_TWO: DayConfig(
+            photo_paper = 5,
+            base_images = [
+                BASE_IMAGE_SNEAKY,
+                BASE_IMAGE_PORTAL
+            ],
+            object_images = [
+                OBJECT_IMAGE_OWL,
+                OBJECT_IMAGE_FLAME,
+                OBJECT_IMAGE_ARCHER,
+                OBJECT_IMAGE_FROG
             ])
     }
 

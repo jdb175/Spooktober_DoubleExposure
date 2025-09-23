@@ -57,17 +57,15 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
-image darkroom_workspace = "placeholders/darkroom_temp1@2.jpg"
+image darkroom_workspace bright = "bg/bg dark room.png"
+image darkroom_workspace red = "bg/bg dark room red.png"
 image darkroom_trays = "placeholders/darkroom_temp2.png"
 image background_negative = "placeholders/darkroom_temp2.png" #not sure why this image is used twice. Probably becuase of merge with Jason. Leaving it for now, bigger fish to fry
 image Erin_headshot = "placeholders/Erin_temp1.png"
-#image Erin = "placeholders/Erin.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
-
-#characters
-#image Siobhan = "placeholders/siobhan.jpg"
-#image Peter_headshot = "placeholders/Peter_temp1.png"
-#image Gunnar_headshot = "placeholders/Gunnar_temp1.png"
+image nightAndDayPartial = "photos/kitchen erin.png"
+image nightAndDay = "photos/erin original two.png"
+image fakeClock = "clock/clock dark.png" #unlike many of these, actually needs to be defined.
 
 #exposure
 image BG1 = "exposuretest/bakgroundimage.png"
@@ -83,6 +81,10 @@ image white_background = Solid("#fff")
 #effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
+
+#transitions
+#$ renpy.transition(Dissolve(1.0), layer="master")
+
 #region intro
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
@@ -93,26 +95,37 @@ label start:
     return
 
 label introScene:
-    scene black
-    #Open on black?
+    #show erin one with dissolve
+    #add a vignette effect
     play sound "breath-1.mp3"
-    "Erin Darabondi."
+    "{size=+10}Erin Darabondi."
+    show nightAndDay with Dissolve(1.5):
+        xalign 1
+        yalign .19
+        zoom 2
     play music 'piano-underscore.mp3'
-    show Erin_headshot
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
+    show nightAndDay with Dissolve(.8):
+        xalign 0
+        yalign 0
+        zoom 1
     "The 'truth' of photography used to present impossibilities."
-    hide Erin_headshot
-    show face_bg
-    temp "SHOW: one of Erin's works, if we have the art budget" #Show a piece here, if we can.
+    #hide erin one
+    #show face_bg with dissolve
+    #temp "(NOTE - maybe we can actually use this art for this?!)" #Show a piece here, if we can.
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
     "Which some days feels crazy, like you're a *real artist*"
     "And some days feels like you're so far from real success."
     "But Erin's love of double exposure, in particular, stuck with you."
     play augment_1 'piano-underscore-spook-1.mp3'
-    temp "SHOW: Something new exposed over the current art piece" #Show something exposed over the piece.
-    "Partially developing one photo, and then exposing another over it, creating a new image."
+    hide nightAndDay
+    show nightAndDayPartial with flash:
+        matrixcolor BrightnessMatrix(-0.4)
+    "Partially developing one photo..."
+    "...and then exposing another over it, creating a new image."
+    show nightAndDay with Dissolve(1)
     "When Erin was doing it in the 90s, digital wasn't a thing. Her imagery stood out."
     "You still do it the old fashioned way, too. Film. A darkroom."
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
@@ -120,14 +133,15 @@ label introScene:
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
     play augment_2 'piano-underscore-spook-2.mp3'
-    scene darkroom_temp2
-    temp "SHOW: The darkroom photo exposing view. A photo is developing." #show the darkroom.
+    show bg dark room red with Dissolve(.7)
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
+    show bg machine with Dissolve(.7)
     "By her legacy."
-    show porterPhoto with fade
+    show bg enlarger red with Dissolve(.7)
     play augment_3 'piano-underscore-spook-3.mp3'
-    temp "SHOW: as the photo develops, a terrifying face comes into view, one we will soon learn to be that of the Porter" #show the Porter appearing in the photo
-    "A legacy which, for better or for worse, you are now a part of..."
+    "A legacy which, for better or for worse..."
+    show porterPhoto with Dissolve(1)
+    "...you are now a part of."
     #TRANSITION TIME!
     stop music
     stop augment_1
@@ -135,35 +149,47 @@ label introScene:
     stop augment_3
     play sound 'ding-1.mp3'
     play ambiance_1 'ambient-birds.mp3' fadein 1.0
-    scene black_background
-    "THREE DAYS EARLIER..."
+    show twodays with Dissolve(.5)
+    ""
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
-    show buddy with moveinleft
-    temp "SHOW: Bud. If we can create a background elsewhere in Erin's house, this is happening there. Otherwise, it is happening in the wide of the darkroom."
+    scene darkroom_workspace bright
+    show buddy smile with moveinleft
     bud "I don't think she's dead."
+    show buddy amused
     bud "No way."
+    show buddy talkhand
     bud "This 'Young Artist Foundation?' She runs it. She just got tired of the limelight."
+    show buddy listen
     you "She wasn't *that* big."
     you "And she had already started talking about her next series. Does that sound like someone ready to disappear?"
+    show buddy amused
     bud "Ready or not, that's what happened."
+    show buddy laughs
     bud "Without a trace..."
+    show buddy smile
     "Bud is the *other* grant winner. A collage artist, whose work, despite not being photography, much more closely mirrors Erin's."
     "Surreal themes and imagery, symbols dripping with meaning. Uncommon juxtapositions."
     "You thought it was a bit derivative at first. Now you're starting to think they're a bit obsessed."
+    show buddy question
     bud "Don't tell me you've never wondered what happened to her!"
     menu:
         "I prefer to focus on the art, not the artist":
             #show bud dejected or pensive
+            show buddy sad
             bud "Yeah, of course. Me too. That's why we're here."
         "Of course. I've read some pretty crazy theories":
             $ budLevel += 1
+            show buddy tricky
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
         "Why would she need to fake her disappearence to run her own foundation? You have to admit that makes no sense.":
             #show bud dejected or pensive
+            show buddy sad
             bud "Yeah, I know. I just prefer to imagine everything has a happy ending, you know?"
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
+    show buddy amused
     bud "I was just thinking about maybe doing some sort of piece around her. Like, Erin."
+    show buddy question
     bud "What happened, or didn't happen. Putting her in places she isn't, but could have been."
     bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
     bud "Especially since I'm getting paid now."
@@ -179,7 +205,6 @@ label introScene:
             bud "Well, you can always start with the basics. You do photography, have you done much double exposure."
             "Not really, actually"
             bud "Hey, maybe start there!"
-            temp "I'd like friendship with Bud to get you some clues or something... Maybe they stick with you during day 1 if you're nice, or you get their phone number..."
         "I've got some ideas.":
             bud "Okay, keep your secrets then."
             bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
@@ -190,7 +215,7 @@ label introScene:
     jump darkroomIntro
 
 label darkroomIntro:
-    show darkroom_workspace
+    show bg dark room
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
     "They were hoping to turn the house into a museum but it never came through."
@@ -199,27 +224,36 @@ label darkroomIntro:
     #temp "Clickables are highlighted (no looking for secrets) and the scene would continue until you had clicked everything"
 
 label darkroomIntro2:
+    if lightOn:
+        show bg dark room red
+    else:
+        show bg dark room
     menu:
         "Check out the enlarger":
             #First time here
+            if lightOn:
+                show bg enlarger red
+            else:
+                show bg enlarger
             if enlargeFirst == True:
                 "The enlarger is an older model, old even for the 90s when Erin was working."
                 "Oh wow, it looks like there are already some negatives in here!"
                 tutorial "Use the arrow keys to change the active negative"
                 temp "once this is working, you'll be able to see the following negatives:"
-                show Siob_headshot at center:
+                show siobhan one at center:
                     matrixcolor InvertMatrix(1.0)
                 "Oh, I think I know this person! Siobhan Kent. A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
-                hide Siob_headshot
+                hide siobhan one
                 show Gunnar_headshot at center:
                     matrixcolor InvertMatrix(1.0)
                 "No idea who this is. This looks more like a personal shot than an art piece though."
                 hide Gunnar_headshot
-                show Peter_headshot at center:
+                show peter one at center:
                     matrixcolor InvertMatrix(1.0)
                 "Same with this one."
-                hide Peter_headshot
-                show photo1
+                hide peter one
+                show kitchen erin:
+                    matrixcolor InvertMatrix(1.0)
                 temp "SHOW: A dramantically lit and composed photograph of a kitchen, with Erin looking out the window"
                 "Oh, wow. Now *this* is a find!"
                 "This photo was used to make her famous piece 'night and day.' The final version had a this crazy blazing sun images exposed over it, in the doorway."
@@ -228,7 +262,7 @@ label darkroomIntro2:
                 "Put my own spin on the image..."
                 "Create dialog *with* Erin through fusing her art with mine."
                 "Yeah, that sounds amazing!"
-                hide photo1
+                hide kitchen erin
                 $ enlargeFirst = False
             #Second time here
             else:
@@ -248,7 +282,7 @@ label darkroomIntro2:
             "May as well turn this on now."
             play sound 'light-click.mp3'
             play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
-            temp "We'd switch from the full-light version of the scene to the red light version here."
+            scene bg dark room red
             $ lightOn = True
             jump darkroomIntro2
         "Check out the trays" if papersGrabbed == False:
@@ -283,7 +317,22 @@ label projector_select_base_dayone:
     $ target_label = renpy.call_screen("enlarger_select_photo")   
     "You expose the paper, starting a print of 'day and night'"
     "Next comes the developing liquid. You drop the print in the bath and wait."
-    "If you're going to expose another photo, you'll want to pull this one out when it is half-developed."
+    "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
+    "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
+    show fakeClock:
+        zoom .12
+        xanchor 0.5
+        yanchor 0.575
+        xpos 140
+        yalign 0.5
+    show clock pointer aligned:
+        zoom .12
+        xanchor 0.5
+        yanchor 0.575
+        xpos 140
+        yalign 0.5
+    with dissolve
+    "You make sure your watch is in easy view as you submerge the photos."
     jump expression target_label
 
 #jumps here afer you're done with the base image
@@ -358,53 +407,60 @@ label develop_kitchen:
         "As you develop the scene from 'night and day' for a second time, the same thing happens."
         $ develop(5)
         "Erin begins to move and speak, the same motions and words as she did before."
-        $ develop(10)
-        "The same little pageant."
         $ develop(15)
+        "The same little pageant."
+        $ develop(30)
         "This time, you decide to pull the photo out as soon as possible." #note, I want to find a more elegant way to force this to happen or make it clear
-        $ stop_developing_instant()
+        $ stop_developing_instant()  #NOTE: This is still broken!!
     else:
-        $ develop(5)
         "The image begins to emerge, slowly at first."
+        $ develop(5)
         "Then, something else starts to happen."
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show Erin
+        show erin smile
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sound "breath-1.mp3" volume 0.8
         "She turns towards the camera and begins to mutter to herself"
         $ develop(15)
+        show erin ponder
         Erin "Something like that..."
+        hide erin
         "She walks towards the camera, disappearing out of frame."
-        hide Erin
         Erin "Well shit, I do believe that's going to do it."
         $ develop(20)
         Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-        show Erin
+        show erin smile
         Erin "I should probably shoot a few takes. Different expressions."
         $ develop(25)
+        show erin ponder
         Erin "Since I have no idea how I'm going to be feeling after all of this."
         Erin "That's assuming, of course, you even come back at all..."
+        play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
+        $ develop(30)
         if(persistent.development_end_signalled == False):
-            "You pull your gaze away for a moment to check the clock. It's halfway done."
-            "Technically you should be pulling the photo out now. The longer you leave it, the closer to overexposure it gets."
+            "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
+            "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
             "But... what if it stops?"
             "Or what if it doesn't stop?"
             "What is even happening here?!"
-        play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
-        $ develop(30)
         Erin "Shit. Erin, you're shaking."
         Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     $ develop(35)
+    show erin think
     "She turns and looks at the doorway."
+    show erin ponder
     Erin "Maybe Peter is completely full of shit."
     $ develop(40)
+    show erin think
     Erin "..."
+    show erin ponder
     Erin "I don't think he is though."
     $ develop(45)
     Erin "And you've come too far to back out now. Whatever happens..."
+    show erin think
     "Erin sighs."
     $ develop(50)
     if(persistent.development_end_signalled == False):
@@ -412,30 +468,45 @@ label develop_kitchen:
         "There's still a chance to expose something over the image, although aleady it'll likely be a bit overdeveloped."
         "But does that even matter anymore?"
     $ develop(55)
+    show erin ponder
     Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
     $ develop(60)
     "The image is getting darker now. You're about to ruin it."
 
 label develop_kitchen_overexposed:
     $ develop_overexposed(5)
-    temp "As this scene continues - as in any 'overexposed scene' - glitches start to appear. Music warps. Her smile changes."
     $ corruption += 5
     Erin "You don't seem to care much about your images, do you?"
     Erin "Ruining a good print opportunity like this."
     $ develop_overexposed(10)
     Erin "I wouldn't make that mistake."
+    show erin smile
     "This is getting weird..."
+    show erin ponder
     $ develop_overexposed(15)
     Erin "It's not your fault... but you should know..."
     Erin "that there is ONLY SO MUCH SKIN"
     $ develop_overexposed(20)
     Erin "ONLY SO MANY EYES"
     Erin "AND THE THINGS TAKEN WILL BE RETURNED"
+    show erin smile
     $ develop_overexposed(25)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen
+
+label complete_kitchen:
+    $ finish_development()
+    show BG1 at truecenter:
+        matrixcolor None
+    "You grab your tongs and pull out the photo."
+    "Immediately, whatever it was you were watching stops completely."
+    "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    "The room is quiet, except for the sound of your heart pounding in your chest."
+    "You don't know what you just saw but you're absolutely certain you saw it."
+    "Right?"
+    jump post_image_completion_dayone
 
 #region Siobhan
 label develop_kitchen_siobhan:
@@ -447,25 +518,42 @@ label develop_kitchen_siobhan:
     "Then, she starts to move. Her feet, partially suspended, touch the ground."
     "Like she's there."
     $ develop_double(5)
-    show Siob_headshot at right
+    show siobhan one at right
     Siob "*I* don't know. I trust Peter. Something about his energy."
-    show Erin at left
+    show erin ponder at left
     Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
+    show erin think
+    show siobhan talk
     Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
     Siob "But if I do... well, I just want to say, I love your work."
     $ develop_double(10)
+    show siobhan one
+    show erin smile
     Erin "Admit it, you'd never heard of me."
+    show siobhan talk
     Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
     Siob "I guess he's like, famous famous. Did you know?"
+    show siobhan one
+    show erin ponder
     Erin "Yeah."
     Erin "You seem excited for tomorrow."
+    show erin smile
+    show siobhan talk
     Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
     $ develop_double(15)
+    show erin ponder
+    show siobhan one
     Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
+    show siobhan talk
+    show erin ponder
     Siob "Like, what should he be telling us?"
+    show erin ponder
+    show siobhan one
     Erin "Well, so, what *is* the Porter? Like how did he find it? Why should he trust it?"
     $ porterKnown = True
     Erin "He calls it a spirit but couldn't it be a demon or something?"
+    show erin smile
+    show siobhan talk
     Siob "Oh, yeah, I was worried about that too."
     $ develop_double(20)
     Siob "But I did some um, some digging. While you guys were doing that bonefire thing last night."
@@ -473,15 +561,22 @@ label develop_kitchen_siobhan:
     Siob "To be fair, I also thought he'd like, lock all that shit up in a secret library or something."
     Siob "But it was all just out in his office."
     $ develop_double(25)
+    show erin ponder
+    show siobhan one
     Erin "You read his stuff??"
+    show erin smile
+    show siobhan talk
     Siob "SHHH!"
     Siob "But, yeah."
     Siob "You want me to tell you or what?"
+    show erin ponder
+    show siobhan one
     Erin "... yeah, I do."
     $ develop_double(30)
+    show erin smile
+    show siobhan talk
     Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
-    jump complete_kitchen_siobhan
 
 label develop_kitchen_siobhan_overexposed:
     "You know that if you keep this photo in any longer you will overexpose it"
@@ -509,16 +604,6 @@ label develop_kitchen_siobhan_overexposed:
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen_siobhan
-
-label complete_kitchen:
-    $ finish_development()
-    "You grab your tongs and pull out the photo."
-    "Immediately, whatever it was you were watching stops completely."
-    "The photo looks as it should - a half-developed print of the negative you saw earlier."
-    "The room is quiet, except for the sound of your heart pounding in your chest."
-    "You don't know what you just saw but you're absolutely certain you saw it."
-    "Right?"
-    jump post_image_completion_dayone
 
 label complete_kitchen_siobhan:  
     $ finish_development()

@@ -91,7 +91,6 @@ transform developedImage(a, b, z=1):
     matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
     alpha a
 
-
 transform enlarger_bg:
     xalign 0.5
     yalign 0.5
