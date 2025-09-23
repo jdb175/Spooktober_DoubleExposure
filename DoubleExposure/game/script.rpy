@@ -918,16 +918,15 @@ label night1:
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"
-    
     scene darkroom_workspace red:
         WhiteNoise
         size(1920, 1080) crop (0, 0, 1920, 1080)
         pause 1 #should be dissolve length
-        play sfx_2 "gong-1.mp3"
-        play sound "porter-wail.mp3"
-        play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
         linear 3 crop(1400, 250, 360, 240)
     with Dissolve(1)
+    play sfx_2 "gong-1.mp3"
+    play sound "porter-wail.mp3"
+    play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
     pause 2
     stop ambiance_1 fadeout 1
     stop nightmare_1 fadeout 1
