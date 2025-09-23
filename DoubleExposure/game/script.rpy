@@ -673,10 +673,6 @@ label develop_kitchen_siobhan_overexposed:
 
 label complete_kitchen_siobhan:  
     $ finish_development()
-    show BG1 at truecenter:
-        matrixcolor None
-    show Mask at truecenter:
-        matrixcolor None
     "As you pull out the image, it ceases to move."
     jump post_image_completion_dayone
 #endregion

@@ -77,6 +77,7 @@ python early:
             label = "guy", 
             path = "exposuretest/guy.png",
             description = "It's a guy")
+
     ##DAY ONE
     OBJECT_IMAGE_SIOBHAN = EnlargerImage(
         label = "siobhan",
