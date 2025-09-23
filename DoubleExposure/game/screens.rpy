@@ -79,7 +79,7 @@ transform developingImage(a_start, a_target, b, z=1):
     xalign 0.5 
     yalign 0.5
     zoom 0.7*z
-    matrixcolor TintMatrix("#f00") * BrightnessMatrix(b)
+    matrixcolor TintMatrix("#f00") * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
     alpha a_start
     linear (a_target-a_start)*1.5 alpha a_target
     shader "MakeVisualNovels.Static"
@@ -91,6 +91,23 @@ transform developingImage(a_start, a_target, b, z=1):
     # When 1, intensity is normal, and higher numbers are more pronounced.
     # Why? Because math.
     u_mode (1.0)
+
+transform developedImage(a, b, z=1):
+    xalign 0.5 
+    yalign 0.5
+    zoom 0.7*z
+    matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
+    alpha a
+    shader "MakeVisualNovels.Static"
+    #See #Color section at the bottom for details.
+    u_color (1.0, 1.0, 1.0, 1.0)
+    u_intensity (b)
+    # 0 for additive(brightening) static, 1 for multiplicative(darkening) static
+    # When 0, intensity is inversed and higher numbers are less pronounced.
+    # When 1, intensity is normal, and higher numbers are more pronounced.
+    # Why? Because math.
+    u_mode (1.0)
+
 
 transform enlarger_bg:
     xalign 0.5
@@ -104,7 +121,7 @@ transform enlarger_base_image(a):
     matrixcolor TintMatrix("#f00")
 
 transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale):  
-    matrixcolor InvertMatrix()
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
     zoom .61
     blur 15
     yalign 0.18 - y_scale  xalign .54 + x_scale  rotate r        
@@ -160,10 +177,23 @@ transform clock_hand_overexpose(speed):
 ## In-game screens
 ################################################################################
 
+screen final_photo(base_image, secondary_image, base_development, secondary_development, overexposure):
+    frame id "photo_display":
+        python:
+            over_exposure_brightness = overexposure / MAX_OVEREXPOSURE_TIME
+            base_alpha = .2 + min(base_development / MAX_DEVELOP_TIME, 1.0) *.8
+            secondary_alpha = .2 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
+
+        add base_image.path at developedImage(base_alpha, over_exposure_brightness)
+
+        if(secondary_image):
+            add secondary_image.path at developedImage(secondary_alpha, over_exposure_brightness)
+
+
 screen develop_photo():
     frame id "photo_development":
         python:
-            over_exposure_brightness = persistent.over_exposure / MAX_OVEREXPOSURE_TIME / 3
+            over_exposure_brightness = persistent.over_exposure / MAX_OVEREXPOSURE_TIME
             base_alpha = .2 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.8
             secondary_alpha = .2 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
             clock_seconds = persistent.base_development % 60
