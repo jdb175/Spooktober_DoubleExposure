@@ -82,15 +82,7 @@ transform developingImage(a_start, a_target, b, z=1):
     matrixcolor TintMatrix("#f00") * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
     alpha a_start
     linear (a_target-a_start)*1.5 alpha a_target
-    shader "MakeVisualNovels.Static"
-    #See #Color section at the bottom for details.
-    u_color (1.0, 1.0, 1.0, 1.0)
-    u_intensity (b)
-    # 0 for additive(brightening) static, 1 for multiplicative(darkening) static
-    # When 0, intensity is inversed and higher numbers are less pronounced.
-    # When 1, intensity is normal, and higher numbers are more pronounced.
-    # Why? Because math.
-    u_mode (1.0)
+
 
 transform developedImage(a, b, z=1):
     xalign 0.5 
@@ -98,15 +90,6 @@ transform developedImage(a, b, z=1):
     zoom 0.7*z
     matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
     alpha a
-    shader "MakeVisualNovels.Static"
-    #See #Color section at the bottom for details.
-    u_color (1.0, 1.0, 1.0, 1.0)
-    u_intensity (b)
-    # 0 for additive(brightening) static, 1 for multiplicative(darkening) static
-    # When 0, intensity is inversed and higher numbers are less pronounced.
-    # When 1, intensity is normal, and higher numbers are more pronounced.
-    # Why? Because math.
-    u_mode (1.0)
 
 
 transform enlarger_bg:
