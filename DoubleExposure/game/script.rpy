@@ -407,14 +407,14 @@ label develop_kitchen:
         "As you develop the scene from 'night and day' for a second time, the same thing happens."
         $ develop(5)
         "Erin begins to move and speak, the same motions and words as she did before."
-        $ develop(10)
-        "The same little pageant."
         $ develop(15)
+        "The same little pageant."
+        $ develop(30)
         "This time, you decide to pull the photo out as soon as possible." #note, I want to find a more elegant way to force this to happen or make it clear
         $ stop_developing_instant()  #NOTE: This is still broken!!
     else:
-        $ develop(5)
         "The image begins to emerge, slowly at first."
+        $ develop(5)
         "Then, something else starts to happen."
         $ develop(10)
         "In the photo, the figure by the window starts to move."
@@ -475,7 +475,6 @@ label develop_kitchen:
 
 label develop_kitchen_overexposed:
     $ develop_overexposed(5)
-    temp "As this scene continues - as in any 'overexposed scene' - glitches start to appear. Music warps. Her smile changes."
     $ corruption += 5
     Erin "You don't seem to care much about your images, do you?"
     Erin "Ruining a good print opportunity like this."
@@ -496,6 +495,18 @@ label develop_kitchen_overexposed:
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen
+
+label complete_kitchen:
+    $ finish_development()
+    show BG1 at truecenter:
+        matrixcolor None
+    "You grab your tongs and pull out the photo."
+    "Immediately, whatever it was you were watching stops completely."
+    "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    "The room is quiet, except for the sound of your heart pounding in your chest."
+    "You don't know what you just saw but you're absolutely certain you saw it."
+    "Right?"
+    jump post_image_completion_dayone
 
 #region Siobhan
 label develop_kitchen_siobhan:
@@ -566,7 +577,6 @@ label develop_kitchen_siobhan:
     show siobhan talk
     Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
-    jump complete_kitchen_siobhan
 
 label develop_kitchen_siobhan_overexposed:
     "You know that if you keep this photo in any longer you will overexpose it"
@@ -594,18 +604,6 @@ label develop_kitchen_siobhan_overexposed:
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen_siobhan
-
-label complete_kitchen:
-    $ finish_development()
-    show BG1 at truecenter:
-        matrixcolor None
-    "You grab your tongs and pull out the photo."
-    "Immediately, whatever it was you were watching stops completely."
-    "The photo looks as it should - a half-developed print of the negative you saw earlier."
-    "The room is quiet, except for the sound of your heart pounding in your chest."
-    "You don't know what you just saw but you're absolutely certain you saw it."
-    "Right?"
-    jump post_image_completion_dayone
 
 label complete_kitchen_siobhan:  
     $ finish_development()

@@ -121,12 +121,14 @@ label day2_darkroom:
             "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'"
             "Must be from the grant?"
             "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
-            "And there's more of it this time - four whole sheets."
+            "And there's more of it this time - five whole sheets." #NOTE: this being hardcoded is a challenge if we change it.
             if photoFirst == True:
-                jump day2_printOne
+                #jump day2_printOne
+                jump day2_print
             else:
                 $ paperFirst = True
-                jump day2_darkroom
+                #jump day2_darkroom
+                jump day2_print
         "The photo on the wall":
             "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
@@ -142,7 +144,73 @@ label day2_darkroom:
             else:
                 $ photoFirst = True
                 jump day2_darkroom
+#endregion
 
+#region projector basics
+label day2_print:
+    $ begin_day(Days.DAY_TWO)
+    $ onFirstBase = True #changes dialogue in select double
+    jump projector_select_base_daytwo
+
+label projector_select_base_daytwo:
+    scene black_background
+    $ start_enlarger()
+    $ target_label = renpy.call_screen("enlarger_select_photo")
+    "You make your way to the enlarger."
+    show fakeClock:
+        zoom .12
+        xanchor 0.5
+        yanchor 0.575
+        xpos 140
+        yalign 0.5
+    show clock pointer aligned:
+        zoom .12
+        xanchor 0.5
+        yanchor 0.575
+        xpos 140
+        yalign 0.5
+    with dissolve
+    "Once again you set out your watch. {b}30 seconds{/b} to maximize the double exposure, {b}60 seconds{/b} until it's done."
+    jump expression target_label
+
+    label projector_select_double_daytwo:
+    scene black_background
+    if onFirstBase == True:
+        "You grab your tongs and pull out the photo."
+        "Then, you make your way to the enlarger."
+        "You're eager to see what you might be able to learn from these negatives you found."
+        $ onFirstBase = False
+    else:
+        "You grab your tongs and pull out the photo."
+        if corruption <= 15:
+            "Then it's back to the enlarger, ready to see what the next negative might reveal..."
+        else:
+            "Then it's back to the enlarger. You're already thinking of the next negative, what kind of beautiful imagery it could create..."
+            "No, wait, this is about learning, not creating... Right?"
+    $ start_enlarger()
+    $ target_label = renpy.call_screen("enlarger_select_photo")        
+    jump expression target_label
+
+label post_image_completion_daytwo:
+    scene black_background
+    if(persistent.current_photo_paper > 0):
+        if(persistent.current_photo_paper == 1):
+            "You have a single piece of photo paper left."
+            if corruption >= 20:
+                "You feel a strange pang of sorrow in your chest. You don't want this to end."
+                "You want to make more photos..."
+                "Then you remember what it is you're really trying to do."
+                "Figure out what's going on. Nothing more."
+            else:
+                "You think carefully about what you still need to learn..."
+        else:
+            "You have [persistent.current_photo_paper] pieces of photo paper left."
+            "Which is good, because you still have so many questions to answer."
+        jump projector_select_base_daytwo
+    jump endOfDay2
+#endregion
+
+##BEING REPLACED
 label day2_printOne:  #needs to be renamed like photo2_print or something
     $ curDevLevel = 0
     if papersRemaining == 0:
@@ -169,74 +237,94 @@ label day2_printOne:  #needs to be renamed like photo2_print or something
 #endregion
 
 #region photo2 (secret meeting)
-label photo2_firstDev:
+label develop_sneaky:
+    scene black_background with fade
+    $ start_developing(BASE_IMAGE_SNEAKY)
+    #NOTE: Add "if seen this photo already" code in once we standardize how it works.
     "Something about the seemingly candid nature of this photo intrigues you."
     "You slide in a piece of photo paper and start to print the image."
-    temp "SHOW development interface"
+    $ develop(5)
     "It begins to happen again..."
-    if donePhoto2:
-        "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
-        jump photo2_double
-    else:
-        $ donePhoto2 = True
-    temp "Zoom in as the photo comes to life"
-    #This is GUNNAR in my headcannon
+    #NOTE: Add "if seen this photo already" code in once we standardize how it works.
+    #if donePhoto2:
+    #    "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
+    #    jump photo2_double
+    #else:
+    #    $ donePhoto2 = True
+    #This is GUNNAR, officially
     show owl at right
+    $ zoom_development = True
     owl "Where your mask?"
     show blank at left
+    $ develop(10)
     unk "It's in my room. Where it ought to be."
     owl "So what you're saying is that you're not going through with me tonight?"
     owl "Or do you not believe Peter that we need our masks?"
+    $ develop(15)
     unk "I'm sorry, but I trust Peter more than you."
     unk "Don't get me wrong. I've... seriously been considering it."
     unk "I may even come with you on one of your future jaunts..."
-    #$ someoneTeamup = True
+    $ develop(20)
     unk "But if I may speak frankly, I don't believe it pays to be reckless with these things."
     unk "Peter knows far more than me, and whatever you think you may have picked up these last few days, more than you too."
     owl "..."
     owl "It has only been days, hasn't it?"
     owl "It feels so much longer."
+    $ develop(25)
     unk "..."
     owl "So, are you going to turn me in?"
-    #50% breakpoint!
-    "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
-    temp "currently you pull it out now or not at all, sorry player. will change w/real implementation"
-    menu:
-        "Pull it out":
-            jump photo2_double
-        "Keep watching":
-            "Keeping one eye on the clock, you let the figures in the photo carry on."
+    $ develop(30)
+    if(persistent.development_end_signalled == False):
+        "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     unk "Not a chance. As I said, I may change my mind and go through with you one of these evenings."
     unk "But not yet."
     owl "How indecisive of you."
+    $ develop(35)
     owl "You must know that, as an artist, indecision is a killer."
     owl "One of the few things that is truly deadly to us."
     owl "You must know that."
     owl "So keep stringing things along, if you'd like. Delaying every decision"
+    $ develop(40)
     owl "But the opportunity may not always be here."
+    $ develop(45)
     unk "..."
+    $ develop(50)
     unk "Wait here. I'll come."
-    #100% exposeed
+    $ develop(55)
+    owl "Good. Be quick. He's a heavy sleeper but wakes early."
+    $ develop(60)
+    "The image is getting darker now, becoming overdeveloped"
+
+label develop_sneaky_overexposed:
+    $ develop_overexposed(5)
+    $ corruption += 5
     hide blank
     owl "Soon we will transgress"
     owl "Soon, the bright will spill"
+    $ develop_overexposed(10)
     owl "The guardian, the warden, the Porter will fall"
     #$ porterFallHints += 1
+    $ develop_overexposed(15)
     owl "BUT HE SHALL RETURN"
     #using boilerplate language for now, will change this.
+    $ develop_overexposed(20)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
-    hide owl
     "You feel like SOMETHING TERRIBLE has happened."
-    jump photo2_ruined
+    jump complete_sneaky
 
-#bet this could be made generic?
+label complete_sneaky:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
+
 label photo2_ruined:
     #FIX ME!!!
     "Well, you've ruined this photo, but that hardly matters."
     "Hopefully you learned something useful."
     jump day2_printOne #This will change in the real implementation
 
+##NOW UNUSED
 label photo2_double:
     "You pull out the photo."
     "The image stills, the voices quiet."
@@ -254,101 +342,132 @@ label photo2_double:
             jump photo2_addFrog
 
 #region photo2 siobhan/owl
-#Siobhan, a double, we may decide to disallow this
-label photo2_addOwl:
+label develop_sneaky_owl:
+    $ start_double_exposing(OBJECT_IMAGE_OWL)
     "As your photo develops, you heart begins to quicken, almost uncontrollably."
+    $ zoom_development = True
     "The two robed figures, each wearing the same mask, begin to come to life"
     show owl at right
     show owl2 at left
+    $ develop_double(5)
     doubOwl "..."
     owl "Is this some kind of joke?"
     owl "Who are you?"
     owl "Why are you wearing my mask?"
+    $ develop_double(10)
     doubOwl "..."
-    doubOwl "..."
+    doubOwl "... ..."
+    $ develop_double(15)
     owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
     owl "Or is this another one of those nightmares??"
     doubOwl "This corruption of the truth should not be possible."
     doubOwl "You have strayed beyond your limits, human."
+    $ develop_double(20)
     doubOwl "Given a gift, you were unsatisfied."
     doubOwl "Your hunger is your unmaking"
     hide owl2
     show porter at left
     temp "Fade/transition the second owl into the Porter!"
+    $ develop_double(25)
     porter "{sc=2}Your judgement was made long ago, transgressor.{/sc}"
     owl "This isn't... this isn't possible."
+    $ develop_double(30)
     owl "When is this? When is this happening?"
     owl "We haven't even killed you yet! I've got no hand to give you yet!"
+
+label develop_sneaky_owl_overexposed:
+    $ develop_overexposed(10)
+    $ corruption += 5
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
+    $ develop_overexposed(20)
     porter "{sc=2}NOW{/sc}"
+    $ develop_overexposed(30)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
     hide porter
     "What even was that?!"
-    jump day2_printOne
+    jump complete_sneaky_owl
+
+label complete_sneaky_owl:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 
 #region photo2 peter/flame
-label photo2_addFlame:
+label develop_sneaky_flame:
+    $ start_double_exposing(OBJECT_IMAGE_FLAME)
+    "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
+    $ zoom_development = True
     show owl at right
     show flame at left
-    "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
     "This time, the figure in the owl mask does not seem to want to talk."
+    hide owl with moveoutright
+    $ develop_double(5)
     "They hurry into the shadows, as if they do not want to be seen."
-    hide owl
     flame "What are you doing sneaking around in the dark?"
     flame "I've already seen you, Siobhan." #this may be too much? But I think Peter would say it.
     show owl at right
+    with moveinright
+    $ develop_double(10)
     flame "Do you think I didn't notice someone has been going through my papers?"
     flame "I had very much hoped to catch you in the act."
     flame "But I didn't expect to catch you trying to sneak into the Bright House on your own."
     flame "Well? Speak."
-    #leaving in this stub in case it is useful – this would be a great place to learn some magic if we go that route
-    #hide owl
-    #flame "You can't run."
-    #flame "AIN'KA ARRAN"
-    #the porter appears or some shit, idk. Just here as an example
     owl "I don't know what you think I'm doing, or what you think I've done."
     owl "But I do know you've been keeping a lot of secrets from us."
+    $ develop_double(15)
     flame "I've said many times that as we continue to explore together, I will share more of what I know."
     flame "That is entirely because I wanted to ensure I was working with people I could trust."
     flame "And here you are, living proof that I was right to be cautious."
     owl "I think you like holding all the power, stringing us along."
     owl "I think you want to keep the Bright House all to yourself."
+    $ develop_double(20)
     owl "You're only sharing it because of your own inability to understand it."
     flame "Don't be stupid! You had so much you could have gained from this!"
     flame "Your art, your insight, your abilities, in just a few days you have grown more than you might in months of toil!"
     flame "This is the light of creativity itself."
     flame "And now it will be shut to you forever."
+    $ develop_double(25)
     flame "I have summoned the Porter and told it that you summon it with stolen magic. That you intend to use to transgress its boundries"
     flame "It will open no more doors for you."
+
+label develop_sneaky_flame_overexposed:
+    "You know that if you keep this photo in any longer you will overexpose it"
+    $ develop_overexposed(10)
+    $ corruption += 5
     flame "Collect your things and go."
-    "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
-    menu:
-        "Pull it out":
-            hide owl
-            hide flame
-            jump day2_printOne
     flame "Your time here is done, Siobhan. In this house, and the Other."
+    $ develop_overexposed(15)
     owl "Blind in art, blind in all things but money."
     owl "BLIND TO THE DEPTHS OF MY TREACHERY"
+    $ develop_overexposed(20)
     owl "THE HAND OF PORTER DRAWS THE DOORS"
     owl "THE DOORS ARE DRAWN BY THE HAND"
+    $ develop_overexposed(25)
     owl "GIVE ME BACK MY HAND"
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
     hide flame
-    jump day2_printOne
+    jump complete_sneaky_flame
+
+label complete_sneaky_flame:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 
 #region photo2 erin/archer
-label photo2_addArcher:
+label develop_sneaky_archer:
     #This scene needs more information
+    $ start_double_exposing(OBJECT_IMAGE_ARCHER)
     "From the strange masked figures, you see faint movement and hear whispers, growing stronger, growing bolder."
+    $ zoom_development = True
     show archer at left
     show owl at right
+    $ develop_double(5)
     owl "Oh!"
     owl "It's... what are you doing here?"
     archer "I could ask you the same question."
@@ -357,6 +476,7 @@ label photo2_addArcher:
     owl "Because it's like, after that first day. When I came back through. It all made so much sense."
     owl "I could see the threads connecting *there* to *here*. I felt like I'd just taken a tour backstage at a play I'd seen a thousand times."
     owl "But it fades so fast, doesn't it?"
+    $ develop_double(10)
     archer "It does."
     archer "I think it's meant to. Or, I think we're not meant to understand."
     owl "Oh, that's definitely what *they* think. Peter and his freaky little dog. Keeping tabs on us. Telling us where we can and can't go."
@@ -364,46 +484,60 @@ label photo2_addArcher:
     archer "Although what do I know. I envy you. Your recent work has been... incredible. I don't know how to describe it."
     archer "But it feels like I can see a bit of that place when I look at it."
     owl "Who knows if anyone else will. Every piece I make just immediately feels like it's shit. Like it's so far from what I meant."
+    $ develop_double(15)
     owl "But don't you think if you could just get a little further you could figure it out? If you feel stuck too, well, there's answers deeper for you, aren't there?"
     owl "Maybe not for poor Gunnar. I looked in his notebook. It's like the shining, writing the same sentence over and over again."
     owl "Not literally, like, he's not crazy. I don't think. But it's just first sentence, second sentence, cross it out."
     owl "I liked your kitchen thing. I think you're better at this than you think. The idea of using the masks is cool too. Not sure what Peter will think."
     archer "See? This is what I mean. I think my art sucks, you think your art sucks, but to the outside world it's good."
     owl "Maybe..."
+    $ develop_double(20)
     owl "..."
     owl "Do you really trust Peter and that... creature?"
     archer "I don't know. I trust him not to get us killed or anything."
     archer "But I still don't feel like I understand what he's trying to do. Or why that spirit helps him."
     archer "I'm debating doing what you did..."
     archer "Trying to read some of Peter's notes and stuff."
+    $ develop_double(25)
     owl "Yeah. Me too."
     owl "..."
     owl "I wonder where he keeps his... you know, his spells and stuff."
     owl "I wonder if we could find those too."
     archer "I think that's a bad idea."
     owl "Yeah, you're probably right."
-    menu:
-        "Pull it out, it's at 100 percent":
-            hide owl
-            hide archer
-            jump day2_printOne
+    $ develop_double(30)
+
+label develop_sneaky_archer_overexposed:
+    "You know that if you keep this photo in any longer you will overexpose it"
+    $ develop_overexposed(10)
+    $ corruption += 5
     #This is crappy because it gives you no clues and maybe even throws you down an incorrect path.
     owl "... wait, you never answered me. What *are* you doing out here? Dressed like you're going through."
     archer "Oh."
     archer "I... I don't know."
     archer "Wait, why is that I don't know?"
+    $ develop_overexposed(15)
     archer "I was walking at night, but I don't remember putting on my mask. My robes."
     archer "Did I really DO THAT?"
+    $ develop_overexposed(20)
     archer "HOW MUCH OF THIS IS REAL?"
+    $ develop_overexposed(25)
     archer "IS ANY OF THIS REAL??"
-    jump day2_printOne
-    
+    jump complete_sneaky_archer
+
+label complete_sneaky_archer:  
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 
 #region photo2 gunnar/frog
-label photo2_addFrog: #This scene is hella long but needs to be...
+label develop_sneaky_frog: #This scene is hella long but needs to be...
+    $ start_double_exposing(OBJECT_IMAGE_FROG)
     "While it's clear that this photo wasn't taken to be a piece of art, there's an incredible energy you feel watching the masked figures shiver to life."
     "Like you are stealing a glimpse at some great secret."
+    $ zoom_development = True
+    $ develop_double(5)
     show frog at left
     show owl at right
     frog "You're still here. I wasn't expecting to see you. Didn't Peter tell you to clear out?"
@@ -412,6 +546,7 @@ label photo2_addFrog: #This scene is hella long but needs to be...
     frog "And if you can't get in, I can't get in, so I'm afraid our midnight jaunts have come to a close."
     owl "What makes you think the Poter will let you in? I'm sure Peter instructed it to prevent *any* of us from getting in alone."
     frog "No harm in trying, is there?"
+    $ develop_double(10)
     frog "But not with you here. That definitely won't fly"
     owl "You know if you get the ritual wrong there can be consequences. If you attempt it without my help, it could go bad for you."
     owl "Are you really sure you've got it down?"
@@ -419,6 +554,7 @@ label photo2_addFrog: #This scene is hella long but needs to be...
     owl "So you know what to keep hidden in your left hand and what to trace on your right?"
     frog "..."
     frog "You're making things up."
+    $ develop_double(15)
     owl "I'm trying to help you."
     owl "Let me show you. And then I'll get out of your way."
     owl "Keep learning about this place. You and I have come to understand how *important* it is. What's hidden within."
@@ -432,6 +568,7 @@ label photo2_addFrog: #This scene is hella long but needs to be...
     temp "FLASH! Maybe superimpose a the portal image from the other base photo?" #If we can make it animated that would be so cool.
     show porter at left
     porter "You."
+    $ develop_double(20)
     porter "Peter has told me that you wander where you are not meant to wander"
     porter "Beyond the walls of the House and into the Gardens. That you have even gazed into the Well."
     porter "You will not ent-"
@@ -440,6 +577,7 @@ label photo2_addFrog: #This scene is hella long but needs to be...
     frog "What is... what? This"
     "They open their left palm and reveal the object pressed within."
     porter "WHAT HAVE YOU DONE?"
+    $ develop_double(25)
     "The spirit's thin legs seem to collapse under it. It begins to shake."
     "Its arm begins to glow, consumed by a sickly yellow light."
     "The light travels through the air and into the darkness, travelling towards the hand of another."
@@ -450,15 +588,15 @@ label photo2_addFrog: #This scene is hella long but needs to be...
     owl "Go. Your part is done here."
     frog "Aaaahh!"
     hide frog
+    $ develop_double(30)
     "Their hand now glowing with the same sickly light, the figure in the owl shuts the portal with a gesture."
     "Then, carefully, they place their hand on the floor and begin to trace a circle around the Porter"
     "As they close the loop, a gate opens in the floor and the now-convulsing spirit falls in."
+
+label develop_sneaky_frog_overexposed:
     "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
-    menu:
-        "Pull it out, it's at 100 percent":
-            hide owl
-            hide flame
-            jump day2_printOne
+    $ develop_overexposed(10)
+    $ corruption += 5
     "The figure in the owl mask walks into the shadows, leaving the image eerily quiet."
     "In the silence you are able to hear something behind you. Breathing?"
     "You turn around"
@@ -471,11 +609,18 @@ label photo2_addFrog: #This scene is hella long but needs to be...
     "Full of dread, you turn back to the image, careful not to fully take your eye off the rest of the room."
     hide bg darkroom_workspace
     show owl at center
+    $ develop_overexposed(15)
     "They are weeping."
+    $ develop_overexposed(20)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
-    jump day2_printOne
+    jump complete_sneaky_frog
+
+label complete_sneaky_frog:
+    $ finish_development()
+    "As you pull out the image, it ceases to move."
+    jump post_image_completion_daytwo
 #endregion
 #endregion
 
