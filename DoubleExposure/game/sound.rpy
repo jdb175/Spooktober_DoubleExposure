@@ -1,8 +1,8 @@
 init python:
     #audio channels
-    renpy.music.register_channel("ambiance_1", "sfx")
-    renpy.music.register_channel("ambiance_2", "sfx")
-    renpy.music.register_channel("ambiance_3", "sfx")
+    renpy.music.register_channel("ambiance_1", "sfx", synchro_start=True)
+    renpy.music.register_channel("ambiance_2", "sfx", synchro_start=True)
+    renpy.music.register_channel("ambiance_3", "sfx", synchro_start=True)
 
     renpy.music.register_channel("sfx_1", "sfx", loop=False)
     renpy.music.register_channel("sfx_2", "sfx", loop=False)

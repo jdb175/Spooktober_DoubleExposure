@@ -261,18 +261,22 @@ label darkroomIntro2:
                 "Oh wow, it looks like there are already some negatives in here!"
                 tutorial "Use the arrow keys to change the active negative"
                 temp "once this is working, you'll be able to see the following negatives:"
+                play audio "slides/sweep-1.mp3"
                 show siobhan one at center:
                     matrixcolor InvertMatrix(1.0)
                 "Oh, I think I know this person! Siobhan Kent. A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
                 hide siobhan one
+                play audio "slides/sweep-2.mp3"
                 show Gunnar_headshot at center:
                     matrixcolor InvertMatrix(1.0)
                 "No idea who this is. This looks more like a personal shot than an art piece though."
                 hide Gunnar_headshot
+                play audio "slides/sweep-3.mp3"
                 show peter one at center:
                     matrixcolor InvertMatrix(1.0)
                 "Same with this one."
                 hide peter one
+                play audio "slides/sweep-4.mp3"
                 show kitchen erin:
                     matrixcolor InvertMatrix(1.0)
                 temp "SHOW: A dramantically lit and composed photograph of a kitchen, with Erin looking out the window"
@@ -318,6 +322,7 @@ label darkroomIntro2:
                 else:
                     "Once the safe light is on you can open the package of photo paper."
             else:
+                play audio "slides/remove-2.mp3"
                 "You carefully unwrap the parcel and discover two luxurious pieces of print paper."
                 "It feels a bit wrong, but the grant was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
                 $ papersGrabbed = True
@@ -354,12 +359,14 @@ label projector_select_base_dayone:
         yalign 0.5
     with dissolve
     "You make sure your watch is in easy view as you submerge the photos."
+    play ambiance_1 "clock-fast.mp3" volume 0.1 fadein 2.0
     jump expression target_label
 
 #jumps here afer you're done with the base image
 label projector_select_double_dayone:
     scene black_background #or something else
-    stop underscore fadeout 1.0
+    stop ambiance_1 fadeout 1.0
+    stop ambiance_2 fadeout 1.0
     stop photo_1 fadeout 1.0
     stop photo_2 fadeout 1.0
     stop photo_3 fadeout 1.0
@@ -367,7 +374,7 @@ label projector_select_double_dayone:
         "You grab your tongs and pull out the photo."
         "Immediately, whatever it was you were watching stops completely."
         "The photo looks as it should - a half-developed print of the negative you saw earlier."
-        play sfx_2 "heartbeat.mp3" fadein 1.0 volume 0.6 loop
+        play sfx_2 "heartbeat.mp3" volume 0.6 fadein 2.0 loop
         "The room is quiet, except for the sound of your heart pounding in your chest."
         "You don't know what you just saw but you're absolutely certain you saw it."
         "Right?"
@@ -375,7 +382,7 @@ label projector_select_double_dayone:
     else:
         "You grab your tongs and pull out the photo."
     scene black_background
-    stop sfx_2 fadeout 1.0
+    stop sfx_2 fadeout 2.0
     "You make your way back to the enlarger. There were several negatives that you could overlay over this photo pretty easily."
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
@@ -384,6 +391,7 @@ label projector_select_double_dayone:
 label post_image_completion_dayone:
     scene darkroom_workspace red
     $ seenPhoto1 = True
+    stop sfx_2 fadeout 2.0
     stop melody fadeout 0.5
     stop photo_1 fadeout 0.5
     stop photo_2 fadeout 0.5
@@ -463,15 +471,16 @@ label develop_kitchen:
         show erin ponder
         Erin "Since I have no idea how I'm going to be feeling after all of this."
         Erin "That's assuming, of course, you even come back at all..."
-        play augment_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
         $ develop(30)
         if(persistent.development_end_signalled == False):
+            play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
+            stop ambiance_1 fadeout 1.0
             "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
             "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
             "But... what if it stops?"
             "Or what if it doesn't stop?"
             "What is even happening here?!"
-        play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
+        play photo_2 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
         Erin "Shit. Erin, you're shaking."
         Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     $ develop(35)
@@ -529,6 +538,7 @@ label complete_kitchen:
     "You grab your tongs and pull out the photo."
     "Immediately, whatever it was you were watching stops completely."
     "The photo looks as it should - a half-developed print of the negative you saw earlier."
+    play sfx_2 "heartbeat.mp3" volume 0.6 fadein 2.0 loop
     "The room is quiet, except for the sound of your heart pounding in your chest."
     "You don't know what you just saw but you're absolutely certain you saw it."
     "Right?"
@@ -538,9 +548,10 @@ label complete_kitchen:
 label develop_kitchen_siobhan:
     "You lower the print into the developing fluid, filled with a nervous anticipation."
     "Will it happen again?"
+    play ambiance_1 "clock-fast.mp3" volume 0.5 fadein 1.0
     $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
-    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
     "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
+    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
     "Then, she starts to move. Her feet, partially suspended, touch the ground."
     "Like she's there."
     $ develop_double(5)
@@ -566,7 +577,7 @@ label develop_kitchen_siobhan:
     show erin smile
     show siobhan talk
     Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
-    $ develop_double(15)
+    $ develop_double(15)    
     show erin ponder
     show siobhan one
     Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
@@ -605,6 +616,8 @@ label develop_kitchen_siobhan:
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
 
 label develop_kitchen_siobhan_overexposed:
+    play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
+    stop ambiance_1 fadeout 1.0
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
@@ -615,12 +628,17 @@ label develop_kitchen_siobhan_overexposed:
     $ develop_overexposed(20)
     Siob "It was taken From Him"
     Siob "BUT HE WILL NOT BE CONTAINED"
-    play photo_2 "guitar-Ab.mp3" noloop
-    play photo_3 "gong-1.mp3" noloop volume 0.6
+    play audio "guitar-Ab.mp3" noloop
+    play photo_3 "gong-3.mp3" noloop volume 0.6
+    play drone_1 "bass-drone-1.mp3" fadein 3
     Erin "HE WILL HAVE WHAT IS HIS"
     $ develop_overexposed(30)
+    play drone_1 "bass-drone-2.mp3" fadein 1
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     play sfx_2 "splash-small-1.mp3" noloop volume 0.5
+    stop ambiance_1
+    stop ambiance_2
+    stop drone_1
     stop photo_1 fadeout 0.5
     stop music fadeout 4.0
     stop melody fadeout 4.0
