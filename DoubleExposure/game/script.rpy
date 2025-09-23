@@ -14,7 +14,7 @@ init python:
 #### Defining characters. Characters are global, so all files can see them ####
 #Modern day
 define you = Character("You") #You, the player!
-define bud = Character("Buddy") #Your present day friend, will rename this later
+define bud = Character("Bud") #Your present day friend, will rename this later?
 define porter = Character("The Porter") #the Porter itself!
 define spirit = Character("Spirit?") #The porter if we don't know its name
 
@@ -33,7 +33,6 @@ define unk2 = Character("???", color = "#b59cd8") #second unknown, in case two u
 ### Defining Variables ###
 default menuset = set() #we initialize this every time we have a menu set (see Ren'Py docs for more info)
 default corruption = 0 #incremented as you overexpose photos. Checked whenever we feel like it.
-default curDevLevel = 0 #used as a placeholder for how developed your current photo is. Will be replaced when the real photo system is added.
 default budLevel = 0 #friendship level with bud.
 default zoom_development = False
 
@@ -48,7 +47,6 @@ default seenPhoto1 = False #Have you already watched the first scene?
 ### darkroom exploration vars
 default lightOn = False
 default papersGrabbed = False
-default papersRemaining = 0 
 default enlargeFirst = True
 default traysFirst = True
 default deskFirst = True
@@ -59,9 +57,6 @@ default onFirstBase = True
 #BGs
 image darkroom_workspace bright = "bg/bg dark room.png"
 image darkroom_workspace red = "bg/bg dark room red.png"
-image darkroom_trays = "placeholders/darkroom_temp2.png"
-image background_negative = "placeholders/darkroom_temp2.png" #not sure why this image is used twice. Probably becuase of merge with Jason. Leaving it for now, bigger fish to fry
-image Erin_headshot = "placeholders/Erin_temp1.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
@@ -83,11 +78,8 @@ define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 transform ZoomInto:
     easein 20.0 zoom 10
 
-transform ZoomToHidden:
-    anchor(.5, .5),
-    easein 20.0 zoom 10
-
-
+#transform ZoomToHidden:
+#    easein 20.0 zoom 10
 
 #transitions
 #$ renpy.transition(Dissolve(1.0), layer="master")
@@ -163,6 +155,8 @@ label introScene:
     ""
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
+    "It's your first day at Erin's studio. You're excited to poke around, maybe start to sketch out some ideas."
+    "Although at the moment it's a bit hard to focus."
     show buddy smile with moveinleft
     bud "I don't think she's dead."
     show buddy amused
@@ -318,7 +312,6 @@ label darkroomIntro2:
                 "You carefully unwrap the parcel and discover two luxurious pieces of print paper."
                 "It feels a bit wrong, but the grant was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
                 $ papersGrabbed = True
-                $ papersRemaining = 2
             jump darkroomIntro2
 #endregion
 
@@ -805,11 +798,10 @@ label findPhoto:
             temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
             temp "Double exposed over its face, the face of Erin..."
             #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
-            $ photoFound = True
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
-            "'restitution. atonement?'"
+            "'restitution. atonement?'" #handwritten font?
             "You slip it into your bag."
             jump findPhoto
         "Try printing another photograph":
@@ -832,9 +824,8 @@ label night1:
         yalign .03
         xalign .5
     with moveinbottom
-    temp "we show a face appearing here. A terrible face, one we may recognize. We hear heavy breathing"
     unk "..."
-    unk "i see you" #Could we do a cool text effect here?
+    unk "{sc=4}i see you{/sc}" #Could we do a cool text effect here?
     unk "return what is mine"
     unk "you WILL return what is mine"
     if corruption >= 5:
@@ -854,16 +845,19 @@ label night1:
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     unk "they could not run. and neither can you."
     $_window_hide
-    show porter temp at ZoomInto
-    pause 1
-    scene darkroom_workspace red with Dissolve(1)
-    pause 1
-    show darkroom_workspace red at ZoomToHidden
+    show porter temp at ZoomInto:
+        WhiteNoise
+    pause 1.1
+    scene darkroom_workspace red:
+        WhiteNoise
+        size(1920, 1080) crop (0, 0, 1920, 1080)
+        pause 1 #should be dissolve length
+        linear 3 crop(1400, 250, 360, 240)
+    with Dissolve(1)
     pause 2
     show bg bedroom light with flash
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
-    if photoFound == True:
-        "The face from the photo you found."
+    "The face from the photo you found."
     "Like it is burned into your vision."
     "Was it trying to show you something?"
     jump day2Start
