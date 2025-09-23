@@ -95,6 +95,15 @@ transform offsetStoryEnlarger:
 #$ renpy.transition(Dissolve(1.0), layer="master")
 
 #region intro
+#This will be replaced by something more official
+#label splashscreen:
+#    scene black
+#    with Pause(1)
+#    show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
+#    with Pause(2)
+#    hide text
+#    return
+
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
     stop music fadeout 1.0
