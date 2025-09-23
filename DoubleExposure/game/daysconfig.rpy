@@ -62,7 +62,7 @@ python early:
     BASE_IMAGE_PORTAL = EnlargerImage(
         label = "portal",
         path = "exposuretest/bakgroundimage.png",
-        empty_path = "exposuretest/bakgroundimage.png",
+        empty_path = "exposuretest/face_bg.png",
         description = "Robed people and a... portal??"
     )
 
