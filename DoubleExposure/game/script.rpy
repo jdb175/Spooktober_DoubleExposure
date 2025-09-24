@@ -549,13 +549,13 @@ label develop_kitchen:
         Erin "That's assuming, of course, you even come back at all..."
         $ develop(30)
         if(persistent.development_end_signalled == False):
-            $ warn_clock()
+            $ audio_warn_clock()
             "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
             "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
             "But... what if it stops?"
             "Or what if it doesn't stop?"
             "What is even happening here?!"
-        play photo_2 ["<sync photo_1>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
+        $ audio_overexpose_kitchen()
         Erin "Shit. Erin, you're shaking."
         Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     $ develop(35)
@@ -584,6 +584,7 @@ label develop_kitchen:
     "The image is getting darker now. You're about to ruin it."
 
 label develop_kitchen_overexposed:
+    $ audio_escalate(1)
     $ develop_overexposed(5)
     $ corruption += 5
     Erin "You don't seem to care much about your images, do you?"
@@ -595,12 +596,14 @@ label develop_kitchen_overexposed:
     show erin ponder
     $ develop_overexposed(15)
     Erin "It's not your fault... but you should know..."
+    $ audio_escalate(2)
     Erin "that there is ONLY SO MUCH SKIN"
     $ develop_overexposed(20)
     Erin "ONLY SO MANY EYES"
     Erin "AND THE THINGS TAKEN WILL BE RETURNED"
     show erin smile
     $ develop_overexposed(25)
+    $ audio_escalate(3)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -623,9 +626,9 @@ label develop_kitchen_siobhan:
     "Will it happen again?"
     $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
     "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
-    play photo_1 "photo-underscore-1.mp3" fadein 3.0
+    $ audio_start_kitchen()
     "Then, she starts to move. Her feet, partially suspended, touch the ground."
-    play melody ["<sync photo_1>photo-underscore-1_melody-guitar.mp3", "photo-underscore-1_melody-guitar.mp3"] volume 0.3 fadein 5.0
+    $ audio_kitchen_melody("siobhan")
     "Like she's there."
     $ develop_double(5)
     show siobhan one at right
@@ -689,37 +692,24 @@ label develop_kitchen_siobhan:
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
 
 label develop_kitchen_siobhan_overexposed:
-    $ warn_clock()
+    $ audio_warn_clock()
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    play photo_2 ["<sync photo_1>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
+    $ audio_overexpose_kitchen()
     $ corruption += 5
     Erin "'The Porter.' Did Peter come up with that name?"
     Siob "No. It is His Name."
     Siob "It is His Function."
     $ develop_overexposed(20)
     Siob "It was taken From Him"
-    play drone_1 "bass-drone-1.mp3" fadein 3
+    $ audio_escalate(1)
     Siob "BUT HE WILL NOT BE CONTAINED"
-    play audio "guitar-Ab.mp3" noloop
-    play photo_3 "gong-3.mp3" noloop volume 0.6
+    $ audio_escalate(2)
     Erin "HE WILL HAVE WHAT IS HIS"
     $ develop_overexposed(30)
-    stop photo_1 fadeout 3
-    stop photo_2 fadeout 3
-    stop photo_3 fadeout 3
-    play drone_2 "bass-drone-2.mp3" fadein 1
+    $ audio_escalate(3)
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
-    play sfx_2 "splash-small-1.mp3" noloop volume 0.5
-    stop ambiance_1
-    stop ambiance_2
-    stop drone_1
-    stop drone_2
-    stop photo_1 fadeout 0.5
-    stop photo_2 fadeout 0.5
-    stop photo_3 fadeout 0.5
-    stop music fadeout 4.0
-    stop melody fadeout 3.0
+    $ audio_remove_photo()
     hide Siob_headshot
     hide Erin
     hide photo1
@@ -736,8 +726,9 @@ label complete_kitchen_siobhan:
 #region gunnar
 label develop_kitchen_gunnar:
     $ start_double_exposing(OBJECT_IMAGE_GUNNAR)
+    $ audio_start_kitchen()
     "As the man begins to fade into the doorway, his mouth immediately begins to move"
-    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-2.mp3"] fadein 5.0
+    $ audio_kitchen_melody("gunnar")
     $ develop_double(5)
     show Gunnar_headshot at right
     unk "I'm sure you've heard this before, but I will say it again."
@@ -782,14 +773,19 @@ label develop_kitchen_gunnar:
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
 
 label develop_kitchen_gunnar_overexposed:
+    $ audio_warn_clock()
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
+    $ audio_overexpose_kitchen()
     $ corruption += 5
     Gunnar "There's a lot that he sees, Erin."
     Gunnar "But he can't see enough. Not what he needs to."
+    $ audio_escalate(1)
     Gunnar "He is BLIND, just as I AM BLIND."
     $ develop_overexposed(20)
+    $ audio_escalate(2)
     Gunnar "WHERE ARE MY EYES, ERIN?"
+    $ audio_escalate(3)
     Gunnar "WHERE ARE MY EYES, INTERLOPER?"
     $ develop_overexposed(30)
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
@@ -807,11 +803,11 @@ label complete_kitchen_gunnar:
 #region peter
 label develop_kitchen_peter:
     $ start_double_exposing(OBJECT_IMAGE_PETER)
-    play photo_1 "photo-underscore-1.mp3" fadein 3.0
+    $ audio_start_kitchen()
     "The man from the negative begins to appear, fitting almost naturally into the scene."
     $ develop_double(5)
     show Peter_headshot at right
-    play melody ["<sync photo_1>photo-underscore-1_melody-horns.mp3", "photo-underscore-1_melody-horns.mp3"] volume 0.5 fadein 5.0
+    $ audio_kitchen_melody("peter")
     unk "I've spoken with Siobhan. She'll be going through tonight. Gunnar is happy to go tomorrow, unless you'd prefer his spot."
     Erin "That's fine with me."
     unk "I'm pleased to see you're already working. And I'm honored that my kitchen is going to be a part of some great work of art."
@@ -856,36 +852,22 @@ label develop_kitchen_peter:
     Peter "I found the Bright House through nothing more than pure, stupid curiosity."
 
 label develop_kitchen_peter_overexposed:
-    $ warn_clock()
+    $ audio_warn_clock()
     "(guy) You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    play photo_2 ["<sync photo_1>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
+    $ audio_overexpose_kitchen()
     Peter "But now that I've found it, I find myself feeling so... inadequate before it."
-    play drone_1 "bass-drone-1.mp3" fadein 3
+    $ audio_escalate(1)
     Peter "Inadequate like the foolish, weak thing that I am."
     $ develop_overexposed(20)
-    play audio "guitar-Ab.mp3" noloop
-    play photo_3 "gong-3.mp3" noloop volume 0.6
+    $ audio_escalate(2)
     Peter "The Worm, the Thief, a Thief among Theives"
     hide Peter_headshot
     hide photo1
     $ develop_overexposed(30)
-    stop photo_1 fadeout 3
-    stop photo_2 fadeout 3
-    stop photo_3 fadeout 3
-    play drone_2 "bass-drone-2.mp3" fadein 1
+    $ audio_escalate(3)
     Peter "He will Find me. He will find You too."
     Peter "THIS ALL MUST BE UNDONE."
-    play sfx_2 "splash-small-1.mp3" noloop volume 0.5
-    stop ambiance_1
-    stop ambiance_2
-    stop drone_1
-    stop drone_2
-    stop photo_1 fadeout 0.5
-    stop photo_2 fadeout 0.5
-    stop photo_3 fadeout 0.5
-    stop music fadeout 4.0
-    stop melody fadeout 3.0
     jump complete_kitchen_peter
 
 label complete_kitchen_peter: 

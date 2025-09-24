@@ -325,11 +325,14 @@ label develop_sneaky_overexposed:
     $ corruption += 5
     hide blank
     owl "Soon we will transgress"
+    $ audio_escalate(1)
     owl "Soon, the bright will spill"
     $ develop_overexposed(10)
+    $ audio_escalate(2)
     owl "The guardian, the warden, the Porter will fall"
     #$ porterFallHints += 1
     $ develop_overexposed(15)
+    $ audio_escalate(3)
     owl "BUT HE SHALL RETURN"
     #using boilerplate language for now, will change this.
     $ develop_overexposed(20)
@@ -378,12 +381,15 @@ label develop_sneaky_owl:
     owl "We haven't even killed you yet! I've got no hand to give you yet!"
 
 label develop_sneaky_owl_overexposed:
+    $ audio_escalate(1)
     $ develop_overexposed(10)
     $ corruption += 5
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
     $ develop_overexposed(20)
+    $ audio_escalate(2)
     porter "{sc=2}NOW{/sc}"
     $ develop_overexposed(30)
+    $ audio_escalate(3)
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
@@ -442,12 +448,15 @@ label develop_sneaky_flame_overexposed:
     flame "Collect your things and go."
     flame "Your time here is done, Siobhan. In this house, and the Other."
     $ develop_overexposed(15)
+    $ audio_escalate(1)
     owl "Blind in art, blind in all things but money."
     owl "BLIND TO THE DEPTHS OF MY TREACHERY"
     $ develop_overexposed(20)
+    $ audio_escalate(2)
     owl "THE HAND OF PORTER DRAWS THE DOORS"
     owl "THE DOORS ARE DRAWN BY THE HAND"
     $ develop_overexposed(25)
+    $ audio_escalate(3)
     owl "GIVE ME BACK MY HAND"
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
@@ -517,13 +526,16 @@ label develop_sneaky_archer_overexposed:
     owl "... wait, you never answered me. What *are* you doing out here? Dressed like you're going through."
     archer "Oh."
     archer "I... I don't know."
+    $ audio_escalate(1)
     archer "Wait, why is that I don't know?"
     $ develop_overexposed(15)
     archer "I was walking at night, but I don't remember putting on my mask. My robes."
+    $ audio_escalate(2)
     archer "Did I really DO THAT?"
     $ develop_overexposed(20)
     archer "HOW MUCH OF THIS IS REAL?"
     $ develop_overexposed(25)
+    $ audio_escalate(3)
     archer "IS ANY OF THIS REAL??"
     jump complete_sneaky_archer
 
@@ -604,14 +616,18 @@ label develop_sneaky_frog_overexposed:
     "You turn around"
     show bg darkroom_workspace #hopefully this works with Jason's implementation, we'll have to see.
     show porter at center #this should be a jump scare
+    play sfx_1 "low-thud-single.mp3"
+    $ audio_escalate(1)
     porter "GIVE IT BACK"
     hide porter with dissolve
     "Gasping for breath, you look around the room. It's just you."
+    $ audio_escalate(2)
     "You hear some kind of noise coming from the photo in the tray."
     "Full of dread, you turn back to the image, careful not to fully take your eye off the rest of the room."
     hide bg darkroom_workspace
     show owl at center
     $ develop_overexposed(15)
+    $ audio_escalate(3)
     "They are weeping."
     $ develop_overexposed(20)
     "An icy chill grips your heart and you feel the room start to spin."
@@ -665,7 +681,7 @@ label develop_portal:
     $ develop(30)
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
     if(persistent.development_end_signalled == False):
-        $ warn_clock()
+        $ audio_warn_clock()
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     $ develop(35)
     flame "Yes, of course, of course. They need to actually start producing some art at some point anyway."
@@ -691,13 +707,16 @@ label develop_portal_overexposed:
     "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(5)
     $ corruption += 5
+    $ audio_escalate(1)
     flame "Foolish little thing. Blind little thing."
     $ develop_overexposed(10)
     flame "Mute little thing. Bloodless little thing."
     $ develop_overexposed(15)
+    $ audio_escalate(2)
     flame "TRAPPED little thing. BETRAYED little thing."
     $ develop_overexposed(20)
     flame "BUT IT WILL BE MADE WHOLE."
+    $ audio_escalate(3)
     flame "AND BRIGHT THINGS WILL BE CONTAINED."
     $ develop_overexposed(25)
     "An icy chill grips your heart and you feel the room start to spin."
@@ -759,14 +778,19 @@ label develop_portal_owl_overexposed:
     hide flame with moveoutleft
     "With the frame now empty, only the subtle shifting of the light tells you this photograph is still animate."
     $ develop_overexposed(15)
+    $ audio_escalate(1)
     "The colors burn into nothing, slowly making the photo unrecognizable."
     $ develop_overexposed(20)
     "Then, something strange starts to happen."
+    $ audio_escalate(2)
     "You start to percieve that in the brightness of the photograph there is a pattern"
     $ develop_overexposed(25)
+    $ audio_escalate(3)
     "That your MISTAKE has been not making your previous exposures BRIGHT ENOUGH."
     $ develop_overexposed(30)
     "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat mirthless chuckle escapes your lips" #-_-
+    $ audio_hard_stop_all()
+    play sfx_1 "solo-laugh.mp3"
     "The sound in the empty darkroom is jarring and jolts you back to your senses."
     "You pull out the photo, feeling suddenly uncomfortable."
     jump complete_portal_owl

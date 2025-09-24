@@ -39,7 +39,7 @@ init python:
 
 #region development
     def start_developing(image : EnlargerImage):
-        start_clock()
+        audio_start_clock()
         print("starting development for ", image.label)
         renpy.scene()
         renpy.show("black")
@@ -76,7 +76,7 @@ init python:
 
 
     def start_double_exposing(image : EnlargerImage):
-        start_clock()
+        audio_start_clock()
         print("starting double exposure for ", image.label, ", base image is ", persistent.current_base_image.label)
         renpy.scene()
         renpy.show("black")
@@ -139,6 +139,7 @@ init python:
     
     def develop_overexposed(overexposure: int):
         print("overexposing:", overexposure)
+        audio_overexpose_tick()
         _checkPendingJump(False)
         persistent.can_stop_developing = False
         persistent.over_exposure = overexposure #/ MAX_DEVELOP_TIME
@@ -150,6 +151,7 @@ init python:
         _develop(base_development = development)
 
     def finish_development():
+        audio_remove_photo()
         print("Finishing Development")
         renpy.scene()
         renpy.show("black")

@@ -1,5 +1,6 @@
 init python:
     #audio channels
+
     renpy.music.register_channel("ambiance_1", "sfx", synchro_start=True)
     renpy.music.register_channel("ambiance_2", "sfx", synchro_start=True)
     renpy.music.register_channel("ambiance_3", "sfx", synchro_start=True)
@@ -39,12 +40,65 @@ init python:
     def play_slide_ratchet_short(trans, st, at):
         renpy.play(renpy.random.choice(slide_rachet_short_fx), channel="sfx_3", relative_volume=0.6)
 
-    def start_clock():
+    def audio_overexpose_tick():
+        renpy.sound.play("low-thud-single.mp3", channel="audio", relative_volume=0.8)
+
+    def audio_start_clock():
         renpy.music.play("clock-fast.mp3", channel="ambiance_1", loop=True, relative_volume=0.1, fadein=2.0)
     
-    def warn_clock():
+    def audio_warn_clock():
         renpy.music.play(["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"], channel="ambiance_2", loop=True, relative_volume=0.1, fadein=1.0)
         renpy.music.stop(channel="ambiance_1", fadeout=3.0)
+
+    def audio_start_kitchen():
+        renpy.music.play("photo-underscore-1.mp3", channel="photo_1", loop=True, fadein=3.0)
+
+    def audio_overexpose_kitchen():
+        renpy.music.play(["<sync photo_1>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"], channel="photo_2", loop=True, fadein=5.0)
+
+    def audio_kitchen_melody(char):
+        if (char == "siobhan"):
+            renpy.music.play(["<sync photo_1>photo-underscore-1_melody-guitar.mp3", "photo-underscore-1_melody-guitar.mp3"], channel="melody", loop=True, relative_volume=0.3, fadein=5.0)
+        elif (char == "peter"):
+            renpy.music.play(["<sync photo_1>photo-underscore-1_melody-horns.mp3", "photo-underscore-1_melody-horns.mp3"], channel="melody", loop=True, relative_volume=0.5, fadein=5.0)
+        elif (char == "gunnar"):
+            renpy.music.play(["<sync photo_1>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-2.mp3"], channel="melody", loop=True, relative_volume=0.6, fadein=5.0)
+
+    def audio_escalate(step):
+        if (step == 1):
+            renpy.music.play("bass-drone-1.mp3", channel="drone_1", loop=True, fadein=3)
+        elif (step == 2):
+            renpy.music.play("guitar-Ab.mp3", channel="audio")
+            renpy.music.play("gong-3.mp3", channel="photo_3", relative_volume=0.6)
+        elif (step == 3):
+            renpy.music.stop("photo_1", 3)
+            renpy.music.stop("photo_2", 3)
+            renpy.music.stop("photo_3", 3)
+            renpy.music.play("bass-drone-2.mp3", channel="drone_2", loop=True, fadein=1)
+        
+    def audio_remove_photo():
+        renpy.music.play("splash-small-1.mp3", channel="sfx_2", loop=False, relative_volume=0.5)
+        renpy.music.stop("ambiance_1")
+        renpy.music.stop("ambiance_2")
+        renpy.music.stop("drone_1")
+        renpy.music.stop("drone_2")
+        renpy.music.stop("photo_1", 0.5)
+        renpy.music.stop("photo_2", 0.5)
+        renpy.music.stop("photo_3", 0.5)
+        renpy.music.stop("music", 4.0)
+        renpy.music.stop("melody", 3.0)
+
+    def audio_hard_stop_all():
+        renpy.music.stop("drone_1")
+        renpy.music.stop("drone_2")
+        renpy.music.stop("drone_3")
+        renpy.music.stop("photo_1")
+        renpy.music.stop("photo_2")
+        renpy.music.stop("photo_3")
+        renpy.music.stop("melody")
+        renpy.music.stop("music")
+
+    def audio_solo_laugh():
 
 define config.main_menu_music = "ambient-darkroom-light.mp3"
 
