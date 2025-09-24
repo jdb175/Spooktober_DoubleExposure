@@ -26,6 +26,7 @@ default menuset = set() #we initialize this every time we have a menu set (see R
 default corruption = 0 #incremented as you overexpose photos. Checked whenever we feel like it.
 default budLevel = 0 #friendship level with bud.
 default zoom_development = False
+default zoom_development_transitioned = False
 
 #Branching story related variables
 default gunnarKnown = False #You know Gunnar's name
@@ -51,7 +52,7 @@ image darkroom_workspace red = "bg/bg dark room painting red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
-image fakeClock = "clock/clock dark.png" #unlike many of these, actually needs to be defined.
+image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
 
 #exposure
 image BG1 = "exposuretest/bakgroundimage.png"
@@ -70,24 +71,72 @@ transform ZoomInto:
     easein 20.0 zoom 10
 transform smallNegativePerson:
     fit("scale-down")
-    xsize .6
-    ysize .6
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .6
+    blur 15
     ypos .8
-    matrixcolor InvertMatrix(1.0)
-    alpha .5
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    function play_slide_ratchet
+    linear 1.0  blur 5 zoom .58
+    pause 0.2
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .56
+    pause 0.4
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .53
+
+    # xsize .6
+    # ysize .6
+    # ypos .8
+    # matrixcolor InvertMatrix(1.0)
+    # alpha .5
 
 transform smallNegativeBase:
-    fit("scale-down")
-    xsize .6
-    ysize .6
-    ypos .25
-    xpos .25
-    matrixcolor InvertMatrix(1.0)
-    alpha .5
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .57
+    blur 15
+    yalign 0.18 xalign .54 rotate 0    
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    function play_slide_ratchet
+    linear 1.0 blur 5 zoom .56
+    pause 0.2 
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .53
+    pause 0.4 
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .5
 
 transform offsetStoryEnlarger:
     zoom 1.15
 
+transform dcp:
+    alpha  .3 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.7
+        
+transform dcs:
+    alpha  .3 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
+    
 #transform ZoomToHidden:
 #    easein 20.0 zoom 10
 
@@ -372,18 +421,17 @@ label projector_select_base_dayone:
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
     "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
     show fakeClock:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
-        yalign 0.5
+        xalign 0.5
+        yalign 0.4
     show clock pointer aligned:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
+        xalign 0.5
         yalign 0.5
-    with dissolve
     "You make sure your watch is in easy view as you submerge the photos."
     play ambiance_1 "clock-fast.mp3" volume 0.1 fadein 2.0
     jump expression target_label
@@ -478,23 +526,24 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show erin smile with moveinleft
+        pause 3
+        show erin smile at dcp, left with Dissolve(1)
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sfx_1 "breath-1.mp3" volume 0.8
         "She turns towards the camera and begins to mutter to herself"
         $ develop(15)
-        show erin ponder
+        show erin ponder at dcp
         Erin "Something like that..."
         hide erin
         "She walks towards the camera, disappearing out of frame."
         Erin "Well shit, I do believe that's going to do it."
         $ develop(20)
         Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-        show erin smile
+        show erin smile at dcp
         Erin "I should probably shoot a few takes. Different expressions."
         $ develop(25)
-        show erin ponder
+        show erin ponder at dcp
         Erin "Since I have no idea how I'm going to be feeling after all of this."
         Erin "That's assuming, of course, you even come back at all..."
         $ develop(30)
@@ -559,8 +608,6 @@ label develop_kitchen_overexposed:
 
 label complete_kitchen:
     $ finish_development()
-    show BG1 at truecenter:
-        matrixcolor None
     "You grab your tongs and pull out the photo."
     "Immediately, whatever it was you were watching stops completely."
     "The photo looks as it should - a half-developed print of the negative you saw earlier."
@@ -893,7 +940,12 @@ label night1:
     show porter temp:
         yalign .03
         xalign .5
-    with moveinbottom
+        zoom 200
+        alpha 0
+        parallel:
+            ease 2 alpha 1         
+        parallel:
+            ease 2 zoom 1
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     unk "..."
     stop ambiance_3 fadeout 4.0
