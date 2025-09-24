@@ -6,14 +6,14 @@ init python:
 #Modern day
 define you = Character("You") #You, the player!
 define bud = Character("Bud", color="#0ea321") #Your present day friend, will rename this later?
-define porter = Character("The Porter") #the Porter itself!
-define spirit = Character("Spirit?") #The porter if we don't know its name
+define porter = Character("The Porter", color="#616161") #the Porter itself!
+define spirit = Character("Spirit?", color="#616161") #The porter if we don't know its name
 
 #Now, photo world/90s people
-define Erin = Character("Erin") #Erin Darabondi
-define Siob = Character("Siobhan") #Siobhan
-define Peter = Character("Peter") #Peter
-define Gunnar = Character("Gunnar") #Gunnar
+define Erin = Character("Erin", color="#ae4721ff") #Erin Darabondi
+define Siob = Character("Siobhan", color="#0f675d") #Siobhan
+define Peter = Character("Peter", color="#6b6a19") #Peter
+define Gunnar = Character("Gunnar", color="#93b65a") #Gunnar
 
 #Utility "characters"
 define tutorial = Character("", color = "#c8580d")
@@ -47,12 +47,12 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
-image darkroom_workspace bright = "bg/bg dark room.png"
-image darkroom_workspace red = "bg/bg dark room red.png"
+image darkroom_workspace bright = "bg/bg dark room painting.png"
+image darkroom_workspace red = "bg/bg dark room painting red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
-image fakeClock = "clock/clock dark.png" #unlike many of these, actually needs to be defined.
+image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
 
 #exposure
 image BG1 = "exposuretest/bakgroundimage.png"
@@ -71,24 +71,72 @@ transform ZoomInto:
     easein 20.0 zoom 10
 transform smallNegativePerson:
     fit("scale-down")
-    xsize .6
-    ysize .6
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .6
+    blur 15
     ypos .8
-    matrixcolor InvertMatrix(1.0)
-    alpha .5
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    function play_slide_ratchet
+    linear 1.0  blur 5 zoom .58
+    pause 0.2
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .56
+    pause 0.4
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .53
+
+    # xsize .6
+    # ysize .6
+    # ypos .8
+    # matrixcolor InvertMatrix(1.0)
+    # alpha .5
 
 transform smallNegativeBase:
-    fit("scale-down")
-    xsize .6
-    ysize .6
-    ypos .25
-    xpos .25
-    matrixcolor InvertMatrix(1.0)
-    alpha .5
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .57
+    blur 15
+    yalign 0.18 xalign .54 rotate 0    
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    function play_slide_ratchet
+    linear 1.0 blur 5 zoom .56
+    pause 0.2 
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .53
+    pause 0.4 
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .5
 
 transform offsetStoryEnlarger:
     zoom 1.15
 
+transform dcp:
+    alpha  .3 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.7
+        
+transform dcs:
+    alpha  .3 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
+    
 #transform ZoomToHidden:
 #    easein 20.0 zoom 10
 
@@ -117,23 +165,25 @@ label start:
 label introScene:
     #show erin one with dissolve
     #add a vignette effect
-    play sfx_1 "breath-1.mp3"
-    "{size=+10}Erin Darabondi."
     $_window_hide()
+    play sfx_1 "breath-1.mp3"
     play music 'piano-underscore.mp3'
     show nightAndDay with Dissolve(1.5):
         xalign .1
         yalign .19
         zoom 2
     pause 1.0
+    "{size=+10}Erin Darabondi."
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
     $_window_hide()
-    show nightAndDay with Dissolve(.8):
-        xalign 0
-        yalign 0
-        zoom 1
-    pause 1.0
+    show nightAndDay:
+        easein 2.5 zoom 1.0
+    #show nightAndDay with Dissolve(.8):
+    #    xalign 0
+    #    yalign 0
+    #    zoom 1
+    pause 2.7
     "The 'truth' of photography used to present impossibilities."
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
@@ -143,7 +193,8 @@ label introScene:
     play photo_1 'piano-underscore-spook-1.mp3'
     hide nightAndDay
     show nightAndDayPartial with flash:
-        matrixcolor BrightnessMatrix(-0.4)
+        alpha .5
+        #matrixcolor BrightnessMatrix(-0.4)
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
     show nightAndDay with Dissolve(1)
@@ -157,7 +208,7 @@ label introScene:
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
     play photo_2 'piano-underscore-spook-2.mp3'
-    show bg dark room red with Dissolve(.7)
+    show darkroom_workspace red with Dissolve(.7)
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     show bg machine with Dissolve(.7)
     "By her legacy."
@@ -260,7 +311,7 @@ label introScene:
     jump darkroomIntro
 
 label darkroomIntro:
-    show bg dark room
+    show darkroom_workspace bright
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
     "They were hoping to turn the house into a museum but it never came through."
@@ -270,9 +321,9 @@ label darkroomIntro:
 
 label darkroomIntro2:
     if lightOn:
-        scene bg dark room red
+        scene darkroom_workspace red
     else:
-        scene bg dark room
+        scene darkroom_workspace bright
     menu:
         "Check out the enlarger":
             #First time here
@@ -331,7 +382,7 @@ label darkroomIntro2:
             "May as well turn this on now."
             play sfx_1 'light-click.mp3'
             play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
-            scene bg dark room red
+            scene darkroom_workspace red
             $ lightOn = True
             jump darkroomIntro2
         "Check out the trays" if papersGrabbed == False:
@@ -361,26 +412,26 @@ label photo1_firstDev:
     jump projector_select_base_dayone
 
 label projector_select_base_dayone:
-    scene black_background
     $ start_enlarger()
-    $ target_label = renpy.call_screen("enlarger_select_photo")   
+    $ target_label = renpy.call_screen("enlarger_select_photo")
+    scene bg machine
     "You expose the paper, starting a print of 'day and night'"
+    show bg tray red
     "Next comes the developing liquid. You drop the print in the bath and wait."
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
     "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
     show fakeClock:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
-        yalign 0.5
+        xalign 0.5
+        yalign 0.4
     show clock pointer aligned:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
+        xalign 0.5
         yalign 0.5
-    with dissolve
     "You make sure your watch is in easy view as you submerge the photos."
     jump expression target_label
 
@@ -476,26 +527,24 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show erin smile:
-            alpha 0
-            pause 3
-            ease 1 alpha 1
+        pause 3
+        show erin smile at dcp, left with Dissolve(1)
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sfx_1 "breath-1.mp3" volume 0.8
         "She turns towards the camera and begins to mutter to herself"
         $ develop(15)
-        show erin ponder
+        show erin ponder at dcp
         Erin "Something like that..."
         hide erin
         "She walks towards the camera, disappearing out of frame."
         Erin "Well shit, I do believe that's going to do it."
         $ develop(20)
         Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-        show erin smile
+        show erin smile at dcp
         Erin "I should probably shoot a few takes. Different expressions."
         $ develop(25)
-        show erin ponder
+        show erin ponder at dcp
         Erin "Since I have no idea how I'm going to be feeling after all of this."
         Erin "That's assuming, of course, you even come back at all..."
         $ develop(30)
@@ -891,7 +940,7 @@ label findPhoto:
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
-            "'restitution. atonement?'" #handwritten font?
+            "{font=ReenieBeanie-Regular.ttf}{size=+26}'restitution. atonement?'"
             play sfx_1 "slides/remove-2.mp3" volume 0.3
             "You slip it into your bag."
             jump findPhoto

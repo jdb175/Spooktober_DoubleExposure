@@ -57,6 +57,7 @@ init python:
         persistent.development_end_target = ENLARGER_LABEL_DOUBLE + "_" + persistent.current_day
         persistent.development_overexpose_target = "develop_" + image.label + "_overexposed"
         persistent.is_double_exposing = False
+        renpy.show_screen("clock")
         renpy.show_screen("develop_photo", _layer="master")
 
     def stop_developing():
@@ -79,6 +80,7 @@ init python:
         print("starting double exposure for ", image.label, ", base image is ", persistent.current_base_image.label)
         renpy.scene()
         renpy.show("black")
+        renpy.show_screen("clock")
         renpy.show_screen("develop_photo", _layer="master")
         renpy.block_rollback()
         store.zoom_development = False
@@ -95,6 +97,7 @@ init python:
         if(persistent.development_end_signalled):
             persistent.development_end_signalled = False
             persistent.can_stop_developing = True
+            renpy.hide_screen("clock")
             renpy.hide_screen("develop_photo")      
             renpy.scene()
             renpy.show("black")
@@ -105,6 +108,7 @@ init python:
             persistent.development_end_signalled = False
             renpy.scene()
             renpy.show("black")
+            renpy.show_screen("clock")
             renpy.show_screen("develop_photo")
             renpy.block_rollback()  
             renpy.jump(persistent.development_overexpose_target)
@@ -149,6 +153,7 @@ init python:
         print("Finishing Development")
         renpy.scene()
         renpy.show("black")
+        renpy.hide_screen("clock")
         renpy.hide_screen("develop_photo")
         renpy.show_screen("final_photo", 
             base_image=persistent.current_base_image, 

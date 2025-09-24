@@ -88,6 +88,11 @@ python early:
         label = "peter",
         path = "photos/kitchen peter.png",
         description = "Portrait, moustache man")
+    OBJECT_IMAGE_GUNNAR = EnlargerImage(
+        label = "gunnar",
+        path = "exposuretest/guy.png",
+        description = "Portrait, unknown"
+    )
     ##DAY TWO
     OBJECT_IMAGE_OWL = EnlargerImage(
         label = "owl",
@@ -121,7 +126,8 @@ python early:
             ],
             object_images = [
                 OBJECT_IMAGE_SIOBHAN,
-                OBJECT_IMAGE_PETER
+                OBJECT_IMAGE_PETER,
+                OBJECT_IMAGE_GUNNAR
             ]),
         Days.DAY_TWO: DayConfig(
             photo_paper = 5,

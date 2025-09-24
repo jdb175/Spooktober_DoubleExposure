@@ -149,11 +149,12 @@ label day2BudConvo:
 
 #region darkroom
 label day2_darkroom:
+    scene darkroom_workspace bright
     menu:
         set menuset
         "The desk":
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
-            "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
+            "{font=NothingYouCouldDo-Regular.ttf}'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
             "Must be from the grant?"
             play sfx_1 "slides/remove-2.mp3"
             "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
@@ -164,17 +165,21 @@ label day2_darkroom:
                 $ paperFirst = True
                 jump day2_darkroom
         "The photo on the wall":
-            "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
+            "In your dream you saw a photo hanging on the wall."
+            show bg painting with Dissolve(1)
+            "You hadn't really clocked it yesterday, but you see it today, just where it was in your dream."
             play sfx_1 "slides/remove-1.mp3"
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
             play sfx_2 "low-thud-single.mp3" volume 0.2
-            temp "SHOW a mask photo here, not as a negative but a print"
+            show mask double exposure with Dissolve(1)
             "The whole series was like this - various masks, shown in a presentational style. You never liked this one. Something about it felt unsettling."
+            hide mask double exposure with dissolve
             "You ponder the image for a minute before turning it over."
+            show bg painting back with dissolve
             "On a hunch, you pull off the back of the frame. Tucked inside are two strips of photo negatives."
             "One appears to be the original negatives from 'seen' itself - four masks in all."
             "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
-            "Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
+            #"Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
             if paperFirst == True:
                 jump day2_print
             else:
@@ -186,6 +191,7 @@ label day2_darkroom:
 label day2_print:
     $ begin_day(Days.DAY_TWO)
     $ onFirstBase = True #changes dialogue in select double
+    scene darkroom_workspace bright
     "With these negatives, and more paper, you realize you have a chance to learn more about what is really going on."
     "You of course have some doubts - whatever forces you are playing with you don't understand."
     "And this paper being here is... suspicious..."
@@ -1094,26 +1100,27 @@ label night2:
     porter "Undone in FULL"
     porter "I will not let you rest."
     porter "KNOW THIS"
-    if corruption <= 10: #FIX NUMBERS, but this should be low
-        porter "You are not yet {sc=4}SO BRIGHT{/sc} as to be {sc=4}LOST{/sc}"
-        porter "But if you are not quick, you will be soon."
-        porter "Like the {sc=4}ARCHER{/sc} was. She undid her wrong, but it was too late for her."
-    if corruption <= 20: #Medium
-        porter "You are {sc=4}SO BRIGHT{/sc} that I fear you are {sc=4}NEARLY LOST"
-        porter "You have little time before it is too late."
-        porter "Like the {sc=4}ARCHER{/sc} was. She undid her wrong and returned my eyes, but it was too late for her."
-    else: #High
+    if corruption >= 25: #high
         porter "..."
         porter "I see now you are {sc=4}BRIGHT{/sc}"
         porter "But that does not mean it is too late to RIGHT what is {sc=4}WRONG"
         porter "Like the {sc=4}ARCHER DID{/sc}. She returned my eyes, and was so freed."
+    elif corruption >=15:
+        porter "You are {sc=4}SO BRIGHT{/sc} that I fear you are {sc=4}NEARLY LOST"
+        porter "You have little time before it is too late."
+        porter "Like the {sc=4}ARCHER{/sc} was. She undid her wrong and returned my eyes, but it was too late for her."
+    else:
+        porter "You are not yet {sc=4}SO BRIGHT{/sc} as to be {sc=4}LOST{/sc}"
+        porter "But if you are not quick, you will be soon."
+        porter "Like the {sc=4}ARCHER{/sc} was. She undid her wrong, but it was too late for her."
+    $_window_hide()
     show porter temp at ZoomInto:
         WhiteNoise
     pause 1.1
     scene darkroom_workspace bright:
         WhiteNoise
         matrixcolor BrightnessMatrix(-0.7)
-    show peter one:
+    show peter old speak:
         size(402, 540)
         xalign .44
         yalign .3
@@ -1121,16 +1128,18 @@ label night2:
         #crop(0, 0, 402, 540)
         fit("contain")
         matrixcolor TintMatrix("#171717")
-    with Fade(0, 0, .6)
+    with Fade(0.1,0.0,0.5,color="#cdc4c4ff")
     pause .6
-    porter "HE has final piece."
+    porter "{sc=4}HE{/sc} has the final piece."
+    porter "{sc=4}HE{/sc} is there now"
     show bg nightmare
     porter "You must GO NOW."
     show bg nightmare:
         size(1920, 1080) crop (0, 0, 1920, 1080)
-        linear .6 crop(1130, 310, 360, 240)
-    porter "NOW!!{nw=.6}"
+        linear .8 crop(1130, 310, 360, 240)
+    porter "{size=+20}NOW!!{nw=.6}"
     scene bg bedroom light with flash
-    "You wake up and your body is already halfway out of bed. You throw on clothes and rush out the door."
+    "You wake up and your body is already halfway out of bed."
+    "You throw on clothes, send a quick text to Bud, and rush out the door."
     jump day3Start
 #endregion
