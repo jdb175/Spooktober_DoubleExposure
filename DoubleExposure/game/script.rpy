@@ -136,9 +136,6 @@ transform dcp:
         
 transform dcs:
     alpha  .3 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
-    
-#transform ZoomToHidden:
-#    easein 20.0 zoom 10
 
 #transitions
 #$ renpy.transition(Dissolve(1.0), layer="master")
