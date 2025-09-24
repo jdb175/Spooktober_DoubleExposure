@@ -39,6 +39,7 @@ init python:
 
 #region development
     def start_developing(image : EnlargerImage):
+        start_clock()
         print("starting development for ", image.label)
         renpy.scene()
         renpy.show("black")
@@ -74,6 +75,7 @@ init python:
 
 
     def start_double_exposing(image : EnlargerImage):
+        start_clock()
         print("starting double exposure for ", image.label, ", base image is ", persistent.current_base_image.label)
         renpy.scene()
         renpy.show("black")

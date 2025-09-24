@@ -52,6 +52,7 @@ label day2Start:
     stop sound
     scene darkroom_workspace bright
     show buddy question
+    play music "lil-guitar-loop.mp3" volume 0.5 fadein 4
     bud "So I kept thinking about like, my piece, what I was going to do."
     show buddy talkhand
     bud "I think I told you I was thinking of doing something like, on her disappearance, like what happened to her."
@@ -142,6 +143,7 @@ label day2BudConvo:
         bud "... be careful."
     hide buddy with moveoutleft
     "As Bud leaves, you start to think about your next move."
+    stop music fadeout 4
     "As you gaze around the room, two things catch your eye."
     jump day2_darkroom
 
@@ -153,6 +155,7 @@ label day2_darkroom:
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
             "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
             "Must be from the grant?"
+            play sfx_1 "slides/remove-2.mp3"
             "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
             "And there's more of it this time - five whole sheets." #NOTE: this being hardcoded is a challenge if we change it.
             if photoFirst == True:
@@ -162,7 +165,9 @@ label day2_darkroom:
                 jump day2_darkroom
         "The photo on the wall":
             "In your dream you saw a photo hanging on the wall. You hadn't really taken note of it yesterday, but you see it today, just where it was in your dream."
+            play sfx_1 "slides/remove-1.mp3"
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
+            play sfx_2 "low-thud-single.mp3" volume 0.2
             temp "SHOW a mask photo here, not as a negative but a print"
             "The whole series was like this - various masks, shown in a presentational style. You never liked this one. Something about it felt unsettling."
             "You ponder the image for a minute before turning it over."
@@ -191,6 +196,8 @@ label day2_print:
     jump projector_select_base_daytwo
 
 label projector_select_base_daytwo:
+    play audio "light-click.mp3"
+    play ambiance_1 "ambient-darkroom-light.mp3" fadein 1.0
     scene black_background
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")
@@ -623,6 +630,8 @@ label develop_portal:
     "You slide in a piece of photo paper and start to print the image."
     $ develop(5)
     "It begins to happen again..."
+    play photo_1 "creaking-underscore.mp3"
+    play photo_2 "low-thudding.mp3"
     #if donePhoto3:
     #    "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
     #    jump photo3_double
@@ -650,6 +659,7 @@ label develop_portal:
     $ develop(30)
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
     if(persistent.development_end_signalled == False):
+        $ warn_clock()
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     $ develop(35)
     flame "Yes, of course, of course. They need to actually start producing some art at some point anyway."

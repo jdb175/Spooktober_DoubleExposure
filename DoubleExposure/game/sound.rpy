@@ -39,6 +39,13 @@ init python:
     def play_slide_ratchet_short(trans, st, at):
         renpy.play(renpy.random.choice(slide_rachet_short_fx), channel="sfx_3", relative_volume=0.6)
 
+    def start_clock():
+        renpy.music.play("clock-fast.mp3", channel="ambiance_1", loop=True, relative_volume=0.1, fadein=2.0)
+    
+    def warn_clock():
+        renpy.music.play(["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"], channel="ambiance_2", loop=True, relative_volume=0.1, fadein=1.0)
+        renpy.music.stop(channel="ambiance_1", fadeout=3.0)
+
 define config.main_menu_music = "ambient-darkroom-light.mp3"
 
 define slide_place_fx = [
