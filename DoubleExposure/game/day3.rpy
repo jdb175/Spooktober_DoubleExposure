@@ -2,30 +2,37 @@ default heardSpeech = False
 default heardSpirit = False
 
 label day3Start:
+    show black_background
+    pause 1
+    "It isn't until you reach the door to the darkroom and swing it open that you begin to feel afraid."
     scene darkroom_workspace bright:
         matrixcolor BrightnessMatrix(-0.6)
-    "It isn't until you reach the door to the darkroom and swing it open that you begin to feel afraid."
-    "On the way you had sent a text to Bud, explaining the whole situation, but you don't know if they got it."
-    "When you arrive, the darkroom is cloaked in shadow."
+    "The room is cloaked in shadow."
     "Just like in your dream"
     "And in the dimness, you can recognize that there is someone in here with you."
-    show peter one:
+    show peter old speak:
         size(402, 540)
         xalign .44
         yalign .3
         ysize .3
         #crop(0, 0, 402, 540)
         fit("contain")
-        matrixcolor TintMatrix("#171717")
+        matrixcolor TintMatrix("#3c3c3c")
     with dissolve
+    pause 1
     "If they heard you come in, they don't react."
     "As your eyes adjust, your heart stops as you realize the figure is carrying a small knife."
+    show peter old arm
+    #show peter old arm:
+    #    linear .4 matrixcolor TintMatrix("#da7c7c")
+    #    linear .6 matrixcolor TintMatrix("#171717")
     "With a slight flick of their wrist they make a cut on their arm."
     "The blood drips onto the desk, where you see several pieces of photo paper have been placed."
     "You can't help but gasp."
+    show peter old speak
     "The figure turns around."
-    hide peter one
-    show peter one with dissolve
+    hide peter
+    show peter old speak with dissolve
     Peter "You've come rather early."
     Peter "I suppose you were curious about who was leaving you your photo paper."
     Peter "I hope you don't find it too unseemly."
