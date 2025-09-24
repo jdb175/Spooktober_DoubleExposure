@@ -152,7 +152,7 @@ label day2_darkroom:
         set menuset
         "The desk":
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
-            "'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
+            "{font=NothingYouCouldDo-Regular.ttf}'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
             "Must be from the grant?"
             "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
             "And there's more of it this time - five whole sheets." #NOTE: this being hardcoded is a challenge if we change it.

@@ -860,7 +860,7 @@ label findPhoto:
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
-            "'restitution. atonement?'" #handwritten font?
+            "{font=ReenieBeanie-Regular.ttf}{size=+26}'restitution. atonement?'"
             "You slip it into your bag."
             jump findPhoto
         "Try printing another photograph":
