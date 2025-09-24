@@ -75,20 +75,83 @@ style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
 
-transform developingImage(a_start, a_target, b, z=1):
+transform developingImage(a_start, a_target, b):
     xalign 0.5 
     yalign 0.5
-    zoom 0.7*z
+    zoom 0.7
     matrixcolor TintMatrix("#f00") * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
-    alpha a_start
-    linear (a_target-a_start)*1.5 alpha a_target
+    alpha a_target
+    #parallel:
+    #    linear (a_target-a_start)*1.5 alpha a_target
+    #parallel:
+    function WaveShader(period=5, amp=.2, speed=0.2, direction='both')
 
+transform developingImageZoomed(a_start, a_target, b, z):
+    xalign 0.5 
+    yalign 0.5
+    xoffset 0
+    rotate 0
+    zoom z
+    matrixcolor BrightnessMatrix(b/3)
+    alpha a_target
+    #parallel:
+        #linear (a_target-a_start)*1.5 alpha a_target
+    function WaveShader(period=5, amp=.2, speed=0.2, direction='both')
+
+
+transform developingImageZooming(a_start, a_target, b, c, z_start, z_end, period):
+    xalign 0.5 
+    yalign 0.5
+    rotate 0
+    xoffset 0
+    zoom z_start
+    matrixcolor TintMatrix(c) * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
+    alpha a_start
+    parallel:   
+        pause 0.5 
+        block:
+            linear .025 xoffset 2
+            linear .025 xoffset 0
+            linear .025 xoffset -2
+            linear .025 xoffset 0
+            repeat 10  
+    parallel:    
+        pause 0.5
+        block:
+            linear .025 rotate .2
+            linear .025 rotate 0
+            linear .025 rotate -.2
+            linear .025 rotate 0
+            repeat 10
+    parallel:    
+        pause 1.5
+        easein 2.0 zoom z_end
+    parallel:    
+        pause 1.5
+        easein 2.0 alpha a_target
+    parallel:
+        function WaveShader(period=period, amp=.2, speed=0.2, direction='both')
+
+transform tray_zooming:
+    xalign 0.5
+    yalign 0.5
+    matrixcolor BrightnessMatrix(-0.1)
+    pause 2
+    easein 2.0 matrixcolor BrightnessMatrix(-1)
+
+transform image_bg_zoomin(a, z_start, z_end):
+    xalign 0.5
+    yalign 0.5
+    zoom z_start
+    alpha a
+    pause 2
+    easein 2.0 zoom z_end
 
 transform developedImage(a, b, z=1):
     xalign 0.5 
     yalign 0.5
-    zoom 0.7*z
-    matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
+    zoom .7*z
+    matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 2.5) * BrightnessMatrix(b/2.5)
     alpha a
 
 transform enlarger_bg:
@@ -160,12 +223,15 @@ transform clock_hand_overexpose(speed):
     linear .5/speed rotate -360
     repeat
 
+
 ################################################################################
 ## In-game screens
 ################################################################################
 
 screen final_photo(base_image, secondary_image, base_development, secondary_development, overexposure):
     frame id "photo_display":
+        xalign 0.5
+        yalign 0.5
         python:
             over_exposure_brightness = overexposure / MAX_OVEREXPOSURE_TIME
             base_alpha = .2 + min(base_development / MAX_DEVELOP_TIME, 1.0) *.8
@@ -179,6 +245,8 @@ screen final_photo(base_image, secondary_image, base_development, secondary_deve
 
 screen develop_photo():
     frame id "photo_development":
+        xalign 0.5
+        yalign 0.5
         python:
             over_exposure_brightness = persistent.over_exposure / MAX_OVEREXPOSURE_TIME
             base_alpha = .2 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.8
@@ -194,11 +262,40 @@ screen develop_photo():
             print("alpha start: ", base_alpha_start, ", secondary start: ", secondary_alpha_start)
 
         if(zoom_development):
-            add persistent.current_base_image.empty_path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness, 1.2)
+            if(zoom_development_transitioned):
+                add Solid("#6b3c3c", xsize=1920, ysize=1080):
+                    xalign 0.5
+                    yalign 0.5
+                    zoom 1
+                    alpha 1
+
+                add persistent.current_base_image.empty_path at developingImageZoomed(base_alpha_start, base_alpha, over_exposure_brightness, 1)
+
+            else:
+                $ store.zoom_development_transitioned = True
+                add "bg/bg tray red.png" at tray_zooming
+
+                add Solid("#6b3c3c", xsize=1920, ysize=1080)  at image_bg_zoomin(1, 0.7, 1)
+
+
+                add persistent.current_base_image.path at developingImageZooming(base_alpha, 0, over_exposure_brightness, "#ff0000", 0.7, 1, 30)
+                add persistent.current_base_image.empty_path at developingImageZooming(0, base_alpha, over_exposure_brightness, "#ffffff", 0.7, 1, 5)
+
 
             #if(persistent.is_double_exposing):
             #    add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
         else:
+            add "bg/bg tray red.png":
+                xalign 0.5
+                yalign 0.5
+                matrixcolor BrightnessMatrix(-0.1)
+
+            add Solid("#6b3c3c", xsize=1920, ysize=1080):
+                xalign 0.5
+                yalign 0.5
+                zoom 0.7
+                alpha 1
+
             add persistent.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
 
             if(persistent.is_double_exposing):
@@ -304,7 +401,7 @@ style window:
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    #background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
 style namebox:
     xpos gui.name_xpos

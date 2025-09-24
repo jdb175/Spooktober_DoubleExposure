@@ -26,6 +26,7 @@ default menuset = set() #we initialize this every time we have a menu set (see R
 default corruption = 0 #incremented as you overexpose photos. Checked whenever we feel like it.
 default budLevel = 0 #friendship level with bud.
 default zoom_development = False
+default zoom_development_transitioned = False
 
 #Branching story related variables
 default gunnarKnown = False #You know Gunnar's name
@@ -474,7 +475,10 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show erin smile with moveinleft
+        show erin smile:
+            alpha 0
+            pause 3
+            ease 1 alpha 1
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sfx_1 "breath-1.mp3" volume 0.8
@@ -555,8 +559,6 @@ label develop_kitchen_overexposed:
 
 label complete_kitchen:
     $ finish_development()
-    show BG1 at truecenter:
-        matrixcolor None
     "You grab your tongs and pull out the photo."
     "Immediately, whatever it was you were watching stops completely."
     "The photo looks as it should - a half-developed print of the negative you saw earlier."
@@ -889,7 +891,12 @@ label night1:
     show porter temp:
         yalign .03
         xalign .5
-    with moveinbottom
+        zoom 200
+        alpha 0
+        parallel:
+            ease 2 alpha 1         
+        parallel:
+            ease 2 zoom 1
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     unk "..."
     stop ambiance_3 fadeout 4.0

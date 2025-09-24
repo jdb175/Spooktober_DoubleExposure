@@ -44,6 +44,7 @@ init python:
         renpy.show("black")
         renpy.block_rollback()
         store.zoom_development = False
+        store.zoom_development_transitioned = False
         persistent.current_base_image = image
         persistent.current_secondary_image = None
         persistent.base_development = 0
@@ -79,6 +80,7 @@ init python:
         renpy.show_screen("develop_photo", _layer="master")
         renpy.block_rollback()
         store.zoom_development = False
+        store.zoom_development_transitioned = False
         persistent.current_secondary_image = image
         persistent.development_overexpose_target = "develop_" + persistent.current_base_image.label + "_" + image.label + "_overexposed"
         persistent.development_end_target =  "complete_" + persistent.current_base_image.label
