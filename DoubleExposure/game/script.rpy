@@ -69,22 +69,66 @@ image white_background = Solid("#fff")
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 transform ZoomInto:
     easein 20.0 zoom 10
+
 transform smallNegativePerson:
     fit("scale-down")
-    xsize .6
-    ysize .6
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .6
+    blur 15
     ypos .8
-    matrixcolor InvertMatrix(1.0)
-    alpha .5
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    function play_slide_ratchet
+    linear 1.0  blur 5 zoom .58
+    pause 0.2
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .56
+    pause 0.4
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .53
+
+    # xsize .6
+    # ysize .6
+    # ypos .8
+    # matrixcolor InvertMatrix(1.0)
+    # alpha .5
 
 transform smallNegativeBase:
-    fit("scale-down")
-    xsize .6
-    ysize .6
-    ypos .25
-    xpos .25
-    matrixcolor InvertMatrix(1.0)
-    alpha .5
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .57
+    blur 15
+    yalign 0.18 xalign .54 rotate 0    
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    pause 0.05 
+    alpha 0.2
+    pause 0.2
+    linear 0.7 alpha 0.7
+    function play_slide_ratchet
+    linear 1.0 blur 5 zoom .56
+    pause 0.2 
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .53
+    pause 0.4 
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .5
+
 
 transform offsetStoryEnlarger:
     zoom 1.15
