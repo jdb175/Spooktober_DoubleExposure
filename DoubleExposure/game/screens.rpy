@@ -304,7 +304,7 @@ style window:
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    #background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
 style namebox:
     xpos gui.name_xpos
@@ -524,7 +524,14 @@ screen main_menu():
     ## This ensures that any other menu screen is replaced.
     tag menu
 
-    add gui.main_menu_background
+    add gui.main_menu_background:
+        at transform:
+            on show:
+                "bg dark room painting"
+                pause 2.5
+                "bg dark room painting red"
+            on replace:
+                "bg dark room painting red"
 
     ## This empty frame darkens the main menu.
     frame:

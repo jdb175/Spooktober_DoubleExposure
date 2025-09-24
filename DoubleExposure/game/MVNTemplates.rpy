@@ -381,8 +381,44 @@ transform RaveLights:
         pause 0.1
         ease 0.10 u_rim_light_color (1.0, 1.0, 0.0)
         pause 0.2
+        repeat    
+
+transform MenuLights:
+    mesh True
+    #Hey, we're not liable if you use this template as is.  It does contain flashing lights
+    #Because it's a rave template.
+    shader "MakeVisualNovels.SimulatedLighting"  
+    u_key_light_color (0.2, 0.2, 0.7)
+    u_rim_light_color (0.0,0.0,1.0)  
+    u_rim_light_radius (0.8)
+    u_rim_light_position (0.0,0.3)
+    u_fill_light_color (1.0, 1.0, 1.0)
+    u_key_light_position (0.2, 0.2)
+    u_key_light_radius (0.6)  
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (1.5)          
+    u_key_light_intensity (0.7)          
+    u_fill_light_intensity (-0.5)  
+    block:  
+        u_rim_light_radius (0.5)
+        u_rim_light_position (1.0,0.5)
+        ease 0.10 u_key_light_color (raveRightColor)   
+        u_rim_light_color (raveRightRimColor)
+        pause 0.1
+        ease 0.10 u_rim_light_color (0.0,0.5,0.5)
+        pause 0.1 
+        ease 0.1 u_rim_light_color (0.0,1.0,1.0)
+        pause 0.2
+        u_rim_light_radius (0.8)
+        u_rim_light_position (0.0,0.3)
+        ease 0.10 u_key_light_color (raveLeftColor)  
+        u_rim_light_color (raveLeftRimColor)
+        pause 0.1
+        ease 0.10 u_rim_light_color (0.5, 0.5, 0.0)
+        pause 0.1
+        ease 0.10 u_rim_light_color (1.0, 1.0, 0.0)
+        pause 0.2
         repeat  
- 
 # A Preset for the Simulated Lighting Shader
 # Caution should be exercised when applied to characters
 # It may make them too awesome.

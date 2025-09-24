@@ -6,14 +6,14 @@ init python:
 #Modern day
 define you = Character("You") #You, the player!
 define bud = Character("Bud", color="#0ea321") #Your present day friend, will rename this later?
-define porter = Character("The Porter") #the Porter itself!
-define spirit = Character("Spirit?") #The porter if we don't know its name
+define porter = Character("The Porter", color="#616161") #the Porter itself!
+define spirit = Character("Spirit?", color="#616161") #The porter if we don't know its name
 
 #Now, photo world/90s people
-define Erin = Character("Erin") #Erin Darabondi
-define Siob = Character("Siobhan") #Siobhan
-define Peter = Character("Peter") #Peter
-define Gunnar = Character("Gunnar") #Gunnar
+define Erin = Character("Erin", color="#ae4721ff") #Erin Darabondi
+define Siob = Character("Siobhan", color="#0f675d") #Siobhan
+define Peter = Character("Peter", color="#6b6a19") #Peter
+define Gunnar = Character("Gunnar", color="#93b65a") #Gunnar
 
 #Utility "characters"
 define tutorial = Character("", color = "#c8580d")
@@ -46,8 +46,8 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
-image darkroom_workspace bright = "bg/bg dark room.png"
-image darkroom_workspace red = "bg/bg dark room red.png"
+image darkroom_workspace bright = "bg/bg dark room painting.png"
+image darkroom_workspace red = "bg/bg dark room painting red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
@@ -116,23 +116,25 @@ label start:
 label introScene:
     #show erin one with dissolve
     #add a vignette effect
-    play sfx_1 "breath-1.mp3"
-    "{size=+10}Erin Darabondi."
     $_window_hide()
+    play sfx_1 "breath-1.mp3"
     play music 'piano-underscore.mp3'
     show nightAndDay with Dissolve(1.5):
         xalign .1
         yalign .19
         zoom 2
     pause 1.0
+    "{size=+10}Erin Darabondi."
     "Many artists have inspired you, but it was Erin who made you want to *be* an artist."
     "Through her lens, strange and fantastic scenes became real."
     $_window_hide()
-    show nightAndDay with Dissolve(.8):
-        xalign 0
-        yalign 0
-        zoom 1
-    pause 1.0
+    show nightAndDay:
+        easein 2.5 zoom 1.0
+    #show nightAndDay with Dissolve(.8):
+    #    xalign 0
+    #    yalign 0
+    #    zoom 1
+    pause 2.7
     "The 'truth' of photography used to present impossibilities."
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "Started getting a bit of attention as an artist. Showed at a few smaller galleries"
@@ -142,7 +144,8 @@ label introScene:
     play photo_1 'piano-underscore-spook-1.mp3'
     hide nightAndDay
     show nightAndDayPartial with flash:
-        matrixcolor BrightnessMatrix(-0.4)
+        alpha .5
+        #matrixcolor BrightnessMatrix(-0.4)
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
     show nightAndDay with Dissolve(1)
@@ -156,7 +159,7 @@ label introScene:
     #Non-stretch goal, would be just to switch to the darkroom here, or back to the picture of Erin.
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant"
     play photo_2 'piano-underscore-spook-2.mp3'
-    show bg dark room red with Dissolve(.7)
+    show darkroom_workspace red with Dissolve(.7)
     "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
     show bg machine with Dissolve(.7)
     "By her legacy."
@@ -259,7 +262,7 @@ label introScene:
     jump darkroomIntro
 
 label darkroomIntro:
-    show bg dark room
+    show darkroom_workspace bright
     "You got a brief tour of the room yesterday, with someone from the foundation, but this is your chance to really settle in."
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
     "They were hoping to turn the house into a museum but it never came through."
@@ -269,9 +272,9 @@ label darkroomIntro:
 
 label darkroomIntro2:
     if lightOn:
-        scene bg dark room red
+        scene darkroom_workspace red
     else:
-        scene bg dark room
+        scene darkroom_workspace bright
     menu:
         "Check out the enlarger":
             #First time here
@@ -330,7 +333,7 @@ label darkroomIntro2:
             "May as well turn this on now."
             play sfx_1 'light-click.mp3'
             play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
-            scene bg dark room red
+            scene darkroom_workspace red
             $ lightOn = True
             jump darkroomIntro2
         "Check out the trays" if papersGrabbed == False:
@@ -360,10 +363,11 @@ label photo1_firstDev:
     jump projector_select_base_dayone
 
 label projector_select_base_dayone:
-    scene black_background
     $ start_enlarger()
-    $ target_label = renpy.call_screen("enlarger_select_photo")   
+    $ target_label = renpy.call_screen("enlarger_select_photo")
+    scene bg machine
     "You expose the paper, starting a print of 'day and night'"
+    show bg tray red
     "Next comes the developing liquid. You drop the print in the bath and wait."
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
     "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
