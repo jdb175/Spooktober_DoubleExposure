@@ -199,14 +199,14 @@ transform clock_bg:
     zoom .12
     xanchor 0.5
     yanchor 0.575
-    xpos 140
-    yalign 0.5
+    xpos 180
+    ypos 960
 
 transform clock_hand(s):
     subpixel True
     zoom .12
-    xpos 140
-    yalign 0.515
+    xpos 180
+    ypos 960
     xanchor 0.5
     yanchor 0.5
     rotate 6*s
@@ -215,8 +215,8 @@ transform clock_hand(s):
 transform clock_hand_overexpose(speed):
     subpixel True
     zoom .12
-    xpos 140
-    yalign 0.515
+    xpos 180
+    ypos 960
     xanchor 0.5
     yanchor 0.5
     rotate 0
@@ -227,6 +227,19 @@ transform clock_hand_overexpose(speed):
 ################################################################################
 ## In-game screens
 ################################################################################
+
+screen clock:
+    zorder 10
+    python:
+        clock_seconds = persistent.base_development % 60
+
+    add "clock/clock gold.png" at clock_bg
+    if(persistent.over_exposure > 0):
+        add "clock/clock pointer aligned.png" at clock_hand_overexpose(persistent.over_exposure/SECONDARY_MAX_DEVELOP_TIME)
+    else:
+        add "clock/clock pointer aligned.png" at clock_hand(clock_seconds)
+
+
 
 screen final_photo(base_image, secondary_image, base_development, secondary_development, overexposure):
     frame id "photo_display":
@@ -251,7 +264,6 @@ screen develop_photo():
             over_exposure_brightness = persistent.over_exposure / MAX_OVEREXPOSURE_TIME
             base_alpha = .2 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.8
             secondary_alpha = .2 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
-            clock_seconds = persistent.base_development % 60
 
             alpha_delta = persistent.base_development - persistent.last_base_development
 
@@ -300,12 +312,6 @@ screen develop_photo():
 
             if(persistent.is_double_exposing):
                 add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
-
-        add "clock/clock dark.png" at clock_bg
-        if(persistent.over_exposure > 0):
-            add "clock/clock pointer aligned.png" at clock_hand_overexpose(persistent.over_exposure/SECONDARY_MAX_DEVELOP_TIME)
-        else:
-            add "clock/clock pointer aligned.png" at clock_hand(clock_seconds)
 
         if(persistent.development_end_signalled):
             text "Stopping Development"

@@ -52,7 +52,7 @@ image darkroom_workspace red = "bg/bg dark room red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
-image fakeClock = "clock/clock dark.png" #unlike many of these, actually needs to be defined.
+image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
 
 #exposure
 image BG1 = "exposuretest/bakgroundimage.png"
@@ -88,6 +88,12 @@ transform smallNegativeBase:
 
 transform offsetStoryEnlarger:
     zoom 1.15
+
+transform dcp:
+    alpha  .3 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.7
+        
+transform dcs:
+    alpha  .3 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
 
 #transform ZoomToHidden:
 #    easein 20.0 zoom 10
@@ -369,18 +375,17 @@ label projector_select_base_dayone:
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
     "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
     show fakeClock:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
-        yalign 0.5
+        xalign 0.5
+        yalign 0.4
     show clock pointer aligned:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
+        xalign 0.5
         yalign 0.5
-    with dissolve
     "You make sure your watch is in easy view as you submerge the photos."
     play ambiance_1 "clock-fast.mp3" volume 0.1 fadein 2.0
     jump expression target_label
@@ -475,26 +480,24 @@ label develop_kitchen:
         $ develop(10)
         "In the photo, the figure by the window starts to move."
         $ zoom_development = True
-        show erin smile:
-            alpha 0
-            pause 3
-            ease 1 alpha 1
+        pause 3
+        show erin smile at dcp, left with Dissolve(1)
         "Erin."
         "Her lips part. Subtly, but unmistakably"
         play sfx_1 "breath-1.mp3" volume 0.8
         "She turns towards the camera and begins to mutter to herself"
         $ develop(15)
-        show erin ponder
+        show erin ponder at dcp
         Erin "Something like that..."
         hide erin
         "She walks towards the camera, disappearing out of frame."
         Erin "Well shit, I do believe that's going to do it."
         $ develop(20)
         Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
-        show erin smile
+        show erin smile at dcp
         Erin "I should probably shoot a few takes. Different expressions."
         $ develop(25)
-        show erin ponder
+        show erin ponder at dcp
         Erin "Since I have no idea how I'm going to be feeling after all of this."
         Erin "That's assuming, of course, you even come back at all..."
         $ develop(30)
