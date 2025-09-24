@@ -63,8 +63,8 @@ python early:
         description = "A clandestine photo of people in robes")
     BASE_IMAGE_PORTAL = EnlargerImage(
         label = "portal",
-        path = "portal populated.png",
-        empty_path = "portal empty.png",
+        path = "photos/portal populated.png",
+        empty_path = "photos/portal empty.png",
         description = "Robed people and a... portal??"
     )
 
@@ -90,7 +90,7 @@ python early:
         description = "Portrait, moustache man")
     OBJECT_IMAGE_GUNNAR = EnlargerImage(
         label = "gunnar",
-        path = "exposuretest/guy.png",
+        path = "placeholders/gunnar_temp.png",
         description = "Portrait, unknown"
     )
     ##DAY TWO
@@ -120,7 +120,7 @@ python early:
 
     DAY_CONFIGS = {
         Days.DAY_ONE: DayConfig(
-            photo_paper = 2,
+            photo_paper = 4, #NOTE: SHOULD BE 2, but I increased for testing
             base_images = [
                 BASE_IMAGE_KITCHEN
             ],

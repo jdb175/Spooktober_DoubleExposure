@@ -144,6 +144,7 @@ label day2BudConvo:
     "As Bud leaves, you start to think about your next move."
     "As you gaze around the room, two things catch your eye."
     jump day2_darkroom
+#endregion
 
 #region darkroom
 label day2_darkroom:
@@ -190,6 +191,7 @@ label day2_print:
     "With these negatives, and more paper, you realize you have a chance to learn more about what is really going on."
     "You of course have some doubts - whatever forces you are playing with you don't understand."
     "And this paper being here is... suspicious..."
+    show darkroom_workspace red
     if corruption >= 10:
         "But you find your heart quickening at the thought of seeing these photos come to life again"
     else:
@@ -197,28 +199,29 @@ label day2_print:
     jump projector_select_base_daytwo
 
 label projector_select_base_daytwo:
-    scene black_background
+    scene black_background with flash
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")
-    "You make your way to the enlarger."
+    show bg tray red
+    "With an image chosen, you take your new print to the developing bath."
     show fakeClock:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
-        yalign 0.5
+        xalign 0.5
+        yalign 0.4
     show clock pointer aligned:
-        zoom .12
+        zoom .3
         xanchor 0.5
         yanchor 0.575
-        xpos 140
+        xalign 0.5
         yalign 0.5
     with dissolve
     "Once again you set out your watch. {b}30 seconds{/b} to maximize the double exposure, {b}60 seconds{/b} until it's done."
     jump expression target_label
 
     label projector_select_double_daytwo:
-    scene black_background
+    scene darkroom_workspace red
     if onFirstBase == True:
         "You grab your tongs and pull out the photo."
         "Then, you make your way to the enlarger."
@@ -236,7 +239,8 @@ label projector_select_base_daytwo:
     jump expression target_label
 
 label post_image_completion_daytwo:
-    scene black_background
+    scene darkroom_workspace red
+    $ photoRuined = False
     if(persistent.current_photo_paper > 0):
         if(persistent.current_photo_paper == 1):
             "You have a single piece of photo paper left."
@@ -258,74 +262,105 @@ label post_image_completion_daytwo:
 label develop_sneaky:
     scene black_background with fade
     $ start_developing(BASE_IMAGE_SNEAKY)
-    #NOTE: Add "if seen this photo already" code in once we standardize how it works.
     "Something about the seemingly candid nature of this photo intrigues you."
     "You slide in a piece of photo paper and start to print the image."
     $ develop(5)
-    "It begins to happen again..."
+    "'It' begins to happen again..."
     #NOTE: Add "if seen this photo already" code in once we standardize how it works.
-    #if donePhoto2:
-    #    "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
-    #    jump photo2_double
-    #else:
-    #    $ donePhoto2 = True
+    if donePhoto2:
+        "You could watch it all play out once more, or you could just pull it out as soon as possible"
+        menu:
+            "Watch it all again":
+                $ donePhoto2 = False
+            "Pull it out":
+                $ develop (30)
+                "The same little pagent plays out, but your eyes are on the clock."
+                $ stop_developing_instant()
     #This is GUNNAR, officially
-    show owl at right
     $ zoom_development = True
+    pause 3
+    show owl point at dcp, xflip, left with Dissolve(1)
+    show unmasked listen at dcp, right with dissolve
+    $ zoom_development = True
+    owl "Took you long enough!"
     owl "Where your mask?"
-    show blank at left
     $ develop(10)
+    show unmasked speak at dcp
+    show owl point at xflip,dcp
     unk "It's in my room. Where it ought to be."
+    show unmasked listen at dcp
     owl "So what you're saying is that you're not going through with me tonight?"
     owl "Or do you not believe Peter that we need our masks?"
     $ develop(15)
+    show unmasked speak at dcp
+    show owl point at xflip, dcp
     unk "I'm sorry, but I trust Peter more than you."
     unk "Don't get me wrong. I've... seriously been considering it."
     unk "I may even come with you on one of your future jaunts..."
     $ develop(20)
+    show unmasked speak at dcp
+    show owl point at xflip, dcp
     unk "But if I may speak frankly, I don't believe it pays to be reckless with these things."
     unk "Peter knows far more than me, and whatever you think you may have picked up these last few days, more than you too."
+    show unmasked listen at dcp
     owl "..."
     owl "It has only been days, hasn't it?"
     owl "It feels so much longer."
     $ develop(25)
+    show owl point at xflip, dcp
+    show unmasked speak at dcp
     unk "..."
-    owl "So, are you going to turn me in?"
     $ develop(30)
+    show unmasked listen at dcp
+    owl "So, are you going to turn me in?"
+    show owl point at dcp
+    show owl point at xflip
     if(persistent.development_end_signalled == False):
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
+    $ develop(35)
+    show unmasked speak at dcp
+    show owl point at xflip, dcp
     unk "Not a chance. As I said, I may change my mind and go through with you one of these evenings."
     unk "But not yet."
+    show unmasked listen at dcp
     owl "How indecisive of you."
-    $ develop(35)
-    owl "You must know that, as an artist, indecision is a killer."
-    owl "One of the few things that is truly deadly to us."
-    owl "You must know that."
-    owl "So keep stringing things along, if you'd like. Delaying every decision"
     $ develop(40)
+    show unmasked listen at dcp
+    show owl point at xflip, dcp
+    owl "You must know that indecision is one of the few things that is truly deadly to an artist."
+    owl "So keep stringing things along, if you'd like. Delaying every decision"
     owl "But the opportunity may not always be here."
     $ develop(45)
+    show unmasked listen at dcp
+    show owl point at xflip, dcp
     unk "..."
     $ develop(50)
+    show unmasked speak at dcp
+    show owl point at xflip, dcp
     unk "Wait here. I'll come."
     $ develop(55)
+    show unmasked listen at dcp
+    show owl point at xflip, dcp
     owl "Good. Be quick. He's a heavy sleeper but wakes early."
+    hide unmasked listen with moveoutright
     $ develop(60)
+    show owl point at xflip, dcp
     "The image is getting darker now, becoming overdeveloped"
 
 label develop_sneaky_overexposed:
     $ develop_overexposed(5)
     $ corruption += 5
-    hide blank
+    show owl point at xflip, dcp
     owl "Soon we will transgress"
     owl "Soon, the bright will spill"
     $ develop_overexposed(10)
+    show owl point at xflip, dcp
     owl "The guardian, the warden, the Porter will fall"
-    #$ porterFallHints += 1
     $ develop_overexposed(15)
+    show owl point at xflip, dcp
     owl "BUT HE SHALL RETURN"
-    #using boilerplate language for now, will change this.
     $ develop_overexposed(20)
+    show owl point at xflip, dcp
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -334,6 +369,9 @@ label develop_sneaky_overexposed:
 label complete_sneaky:  
     $ finish_development()
     "As you pull out the image, it ceases to move."
+    "Your heart, however, continues to beat quickly."
+    if corruption >= 15:
+        "Should you be more careful with these forces?"
     jump post_image_completion_daytwo
 
 #region sneaky siobhan/owl
@@ -341,27 +379,36 @@ label develop_sneaky_owl:
     $ start_double_exposing(OBJECT_IMAGE_OWL)
     "As your photo develops, you heart begins to quicken, almost uncontrollably."
     $ zoom_development = True
+    pause 3
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show owl2 point at dcs, right with Dissolve(.8)
     "The two robed figures, each wearing the same mask, begin to come to life"
-    show owl at right
-    show owl2 at left
     $ develop_double(5)
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show owl2 point at dcs, right with Dissolve(.8)
     doubOwl "..."
     owl "Is this some kind of joke?"
     owl "Who are you?"
     owl "Why are you wearing my mask?"
     $ develop_double(10)
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show owl2 point at dcs, right with Dissolve(.8)
     doubOwl "..."
     doubOwl "... ..."
     $ develop_double(15)
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show owl2 point at dcs, right with Dissolve(.8)
     owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
     owl "Or is this another one of those nightmares??"
     doubOwl "This corruption of the truth should not be possible."
     doubOwl "You have strayed beyond your limits, human."
     $ develop_double(20)
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show owl2 point at dcs, right with Dissolve(.8)
     doubOwl "Given a gift, you were unsatisfied."
     doubOwl "Your hunger is your unmaking"
-    hide owl2
-    show porter at left
+    hide owl2 with Dissolve(.2)
+    show porter at right with Dissolve(1)
     temp "Fade/transition the second owl into the Porter!"
     $ develop_double(25)
     porter "{sc=2}Your judgement was made long ago, transgressor.{/sc}"
@@ -395,17 +442,23 @@ label develop_sneaky_flame:
     $ start_double_exposing(OBJECT_IMAGE_FLAME)
     "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
     $ zoom_development = True
-    show owl at right
-    show flame at left
+    pause 3
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show flame argue at dcs, right with Dissolve(.8)
     "This time, the figure in the owl mask does not seem to want to talk."
-    hide owl with moveoutright
-    $ develop_double(5)
+    show owl point at dcp
+    pause .1
+    hide owl with moveoutleft
     "They hurry into the shadows, as if they do not want to be seen."
+    $ develop_double(5)
+    show flame argue at dcs
     flame "What are you doing sneaking around in the dark?"
     flame "I've already seen you, Siobhan." #this may be too much? But I think Peter would say it.
-    show owl at right
+    show owl point at dcp, xflip, left with moveinleft
     with moveinright
     $ develop_double(10)
+    show flame argue at dcs
+    show owl point at xflip, dcp
     flame "Do you think I didn't notice someone has been going through my papers?"
     flame "I had very much hoped to catch you in the act."
     flame "But I didn't expect to catch you trying to sneak into the Bright House on your own."
@@ -413,44 +466,67 @@ label develop_sneaky_flame:
     owl "I don't know what you think I'm doing, or what you think I've done."
     owl "But I do know you've been keeping a lot of secrets from us."
     $ develop_double(15)
+    show flame argue at dcs
+    show owl point at xflip, dcp
     flame "I've said many times that as we continue to explore together, I will share more of what I know."
     flame "That is entirely because I wanted to ensure I was working with people I could trust."
     flame "And here you are, living proof that I was right to be cautious."
     owl "I think you like holding all the power, stringing us along."
     owl "I think you want to keep the Bright House all to yourself."
     $ develop_double(20)
+    show flame argue at dcs
+    show owl point at xflip, dcp
     owl "You're only sharing it because of your own inability to understand it."
     flame "Don't be stupid! You had so much you could have gained from this!"
     flame "Your art, your insight, your abilities, in just a few days you have grown more than you might in months of toil!"
     flame "This is the light of creativity itself."
     flame "And now it will be shut to you forever."
     $ develop_double(25)
+    show flame argue at dcs
+    show owl point at xflip, dcp
     flame "I have summoned the Porter and told it that you summon it with stolen magic. That you intend to use to transgress its boundries"
     flame "It will open no more doors for you."
+    $ develop_double(30)
+    show flame argue at dcs
+    show owl point at xflip, dcp
+    flame "Now, get your things and leave my home."
 
 label develop_sneaky_flame_overexposed:
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
+    show flame argue at dcs
+    show owl point at xflip, dcp
     $ corruption += 5
-    flame "Collect your things and go."
+    $ photoRuined = True
     flame "Your time here is done, Siobhan. In this house, and the Other."
     $ develop_overexposed(15)
+    show flame argue at dcs
+    show owl point at xflip, dcp
     owl "Blind in art, blind in all things but money."
     owl "BLIND TO THE DEPTHS OF MY TREACHERY"
     $ develop_overexposed(20)
-    owl "THE HAND OF PORTER DRAWS THE DOORS"
-    owl "THE DOORS ARE DRAWN BY THE HAND"
+    show flame argue at dcs
+    show owl point at xflip, dcp
+    owl "THE {sc=4}HAND{/sc} OF THE PORTER DRAWS THE DOORS"
+    owl "THE DOORS ARE DRAWN BY THE {sc=4}HAND{/sc}."
     $ develop_overexposed(25)
-    owl "GIVE ME BACK MY HAND"
-    "An icy chill grips your heart and you feel the room start to spin."
+    show flame argue at dcs
+    show owl point at xflip, dcp
+    owl "{sc=4}GIVE ME BACK MY HAND{/sc}!"
     "Almost without thinking, you grab the tongs and pull out the image."
+    "You feel like SOMETHING TERRIBLE has happened."
     hide owl
     hide flame
     jump complete_sneaky_flame
 
 label complete_sneaky_flame:  
     $ finish_development()
-    "As you pull out the image, it ceases to move."
+    if photoRuined == True:
+        "You pull out the wrecked photograph."
+        "You suspect that you heard many useful things which were meant to be kept secret..."
+    else:
+        "You pull out the print, a bizarre image you suspect no one was meant to see."
+        "A conversation which, certainly, no one was meant to hear."
     jump post_image_completion_daytwo
 #endregion
 
