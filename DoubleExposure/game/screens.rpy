@@ -200,13 +200,13 @@ transform clock_bg:
     xanchor 0.5
     yanchor 0.575
     xpos 180
-    ypos 960
+    ypos 900
 
 transform clock_hand(s):
     subpixel True
     zoom .12
     xpos 180
-    ypos 960
+    ypos 900
     xanchor 0.5
     yanchor 0.5
     rotate 6*s
@@ -216,7 +216,7 @@ transform clock_hand_overexpose(speed):
     subpixel True
     zoom .12
     xpos 180
-    ypos 960
+    ypos 900
     xanchor 0.5
     yanchor 0.5
     rotate 0
@@ -236,8 +236,25 @@ screen clock:
     add "clock/clock gold.png" at clock_bg
     if(persistent.over_exposure > 0):
         add "clock/clock pointer aligned.png" at clock_hand_overexpose(persistent.over_exposure/SECONDARY_MAX_DEVELOP_TIME)
+        text "{sc=3}...{/sc}":
+                xanchor 0.5   
+                ypos 995
+                xpos 180
     else:
         add "clock/clock pointer aligned.png" at clock_hand(clock_seconds)
+        if(persistent.development_end_signalled):
+            text "{swap=Stopping@        @0.5}        {/swap}":
+                xanchor 0.5   
+                ypos 995
+                xpos 180
+        else:
+            textbutton "Stop Developing":
+                sensitive(persistent.can_stop_developing)
+                action Function(stop_developing)      
+                xanchor 0.5   
+                ypos 995
+                xpos 180
+
 
 
 
@@ -312,14 +329,6 @@ screen develop_photo():
 
             if(persistent.is_double_exposing):
                 add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
-
-        if(persistent.development_end_signalled):
-            text "Stopping Development"
-        else:
-            textbutton "Stop Developing":
-                sensitive(persistent.can_stop_developing)
-                action Function(stop_developing)
-
 
 screen enlarger_select_photo():
     if(persistent.enable_cycling):
