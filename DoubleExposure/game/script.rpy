@@ -187,7 +187,7 @@ label introScene:
     "The supposed 'truth' of photography used to present impossibilities."
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "You started getting a bit of attention as an artist. Showed at a few smaller galleries."
-    "Which some days feels crazy, like you're a 'real artist.'"
+    "Some days it feels crazy, like you're on your way to becoming a 'real artist.'"
     "And some days feels like you've still got a million miles to go."
     "But Erin's love of double exposure, in particular, stuck with you."
     play photo_1 'piano-underscore-spook-1.mp3'
@@ -197,8 +197,8 @@ label introScene:
         #matrixcolor BrightnessMatrix(-0.4)
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
+    #window hide
     show nightAndDay with Dissolve(1)
-    $_window_hide
     pause 1.0
     "When Erin was doing it in the early 90s, people couldn't yet just photoshop together any crazy idea."
     "Her imagery stood out."
@@ -217,14 +217,13 @@ label introScene:
     "A legacy which, for better or for worse..."
     play sfx_1 "gong-1.mp3"
     play photo_3 'piano-underscore-spook-3.mp3'
-    show porterPhoto with Dissolve(1)
+    show porter photo with Dissolve(1)
     "...you are now a part of."
     #TRANSITION TIME!
     play drone_3 'porter-drums-1.mp3' fadein 0.5
     play sfx_2 'porter-wail.mp3'
     play audio ['<silence 2.1>', 'ding-1.mp3']
     #play ambiance_1 ['<silence 2.1>', 'ambient-birds.mp3'] fadein 2.0
-    pause 2.2
     stop music
     stop sfx_1
     stop photo_1
@@ -233,7 +232,7 @@ label introScene:
     stop drone_1
     stop drone_2
     stop drone_3
-    show twodays with Dissolve(0.0)
+    show twodays with Dissolve(2.2)
     ""
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
@@ -340,11 +339,11 @@ label darkroomIntro2:
                 "A contemporary of Erin. They had some sort of brief collaboration that never came to fruition."
                 hide siobhan one
                 play audio "slides/sweep-2.mp3"
-                show Gunnar_headshot at center:
+                show gunnar points at center:
                     smallNegativePerson
                 "No idea who this is."
                 "This looks more like a personal shot than an art piece though."
-                hide Gunnar_headshot
+                hide gunnar points
                 play audio "slides/sweep-3.mp3"
                 show peter one at center:
                     smallNegativePerson
@@ -744,7 +743,7 @@ label develop_kitchen_gunnar:
     $ zoom_development = True
     pause 3
     show erin think at dcp, left with dissolve
-    show Gunnar_headshot at dcs, right
+    show gunnar points at dcs, right
     unk "I'm sure you've heard this before, but I will say it again."
     unk "Fame is the *worst* thing that could happen to you."
     show erin ponder at dcp
@@ -752,7 +751,7 @@ label develop_kitchen_gunnar:
     show erin think at dcp
     unk "Oh don't get me wrong, I understand you."
     $ develop_double(10)
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     show erin ponder at dcp
     Erin "Do you?"
     show erin think at dcp
@@ -766,7 +765,7 @@ label develop_kitchen_gunnar:
     unk "Chasing somthing that could very well destroy us?"
     $ develop_double(15)
     show erin ponder at dcp
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     Erin "I'm not going to get destroyed. That's why I'm not going first."
     Erin "Is that what you're doing?"
     show erin think at dcp
@@ -776,7 +775,7 @@ label develop_kitchen_gunnar:
     $ houseKnown = True
     $ develop_double(20)
     show erin think at dcp
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     unk "And I suppose I can't stand the thought of it being anyone other than me."
     show erin ponder at dcp
     Erin "I think you might be vain, Gunnar. Has anyone ever told you that?"
@@ -791,7 +790,7 @@ label develop_kitchen_gunnar:
     Gunnar "But if you end up being interesting enough... sure, I might put you in."
     $ develop_double(25)
     show erin think at dcp
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     Gunnar "But enough ramblings of a vain man. What drive Erin Darabondi to step through the threshold of the so-called Bright House?"
     show erin ponder at dcp
     Erin "..."
@@ -806,14 +805,14 @@ label develop_kitchen_gunnar:
     Gunnar "Not in all things. I pray to God you never have to see his personal attempts at art."
     $ develop_double(30)
     show erin think at dcp
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
 
 label develop_kitchen_gunnar_overexposed:
     "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     show erin think at dcp
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     $ photoRuined = True
     $ corruption += 5
     Gunnar "There's a lot that he sees, Erin."
@@ -821,15 +820,15 @@ label develop_kitchen_gunnar_overexposed:
     Gunnar "He is BLIND, just as I AM BLIND."
     $ develop_overexposed(20)
     show erin think at dcp
-    show Gunnar_headshot at dcs
-    Gunnar "WHERE ARE MY EYES, ERIN?"
-    Gunnar "WHERE ARE MY EYES, INTERLOPER?"
+    show gunnar points at dcs
+    Gunnar "WHERE ARE MY {sc=2}EYES{/sc}, ERIN?"
+    Gunnar "{sc=3}WHERE ARE MY EYES, INTERLOPER{/sc}?"
     $ develop_overexposed(30)
     show erin think at dcp
-    show Gunnar_headshot at dcs
+    show gunnar points at dcs
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     "You feel like SOMETHING TERRIBLE has happened."
-    hide Gunnar_headshot
+    hide gunnar points
     hide erin
     jump complete_kitchen_gunnar
 

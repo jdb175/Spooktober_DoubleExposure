@@ -90,7 +90,7 @@ python early:
         description = "Portrait, moustache man")
     OBJECT_IMAGE_GUNNAR = EnlargerImage(
         label = "gunnar",
-        path = "placeholders/gunnar_temp.png",
+        path = "photos/kitchen gunnar.png",
         description = "Portrait, unknown"
     )
     ##DAY TWO
