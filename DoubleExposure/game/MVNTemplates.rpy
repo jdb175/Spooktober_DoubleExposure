@@ -190,8 +190,17 @@ transform DramaticRevealPorter:
 transform EmergencyReset:
     mesh True
     shader "MakeVisualNovels.SimulatedLighting"
-    u_fill_light_intensity (0.0)
-    u_key_light_intensity(0.0)
+    u_key_light_color (1.0, 1.0, 1.0)
+    u_rim_light_color (0.0,0.0,0.0)  
+    u_rim_light_radius (0)
+    u_rim_light_position (0.0,1.0)
+    u_fill_light_color (1.0, 1.0, 1.0)
+    u_key_light_position (0.5, 0.0)
+    u_key_light_radius (0)  
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (0)          
+    u_key_light_intensity (0)          
+    u_fill_light_intensity (0) 
 
 
 transform DramaticRevealBG:

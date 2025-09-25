@@ -1,12 +1,12 @@
 #all of day2 goes in here
 
 ##day 2 chars
-define owl = Character("Owl") #Owl mask is Siobhan
-define doubOwl = Character("Second Owl") #if we allow this, owl mask talking to owl mask
-define flame = Character("Flame") #Flame mask is Peter
-define doubFlame = Character("Second Flame") #if we allow this, flame mask talking to flame mask
-define frog = Character("Frog") #Frog is Gunnar
-define archer = Character("Archer") #Archer is Erin 
+define owl = Character("Owl", color="#f42f2f") #Owl mask is Siobhan
+define doubOwl = Character("Second Owl", color="#c98484") #if we allow this, owl mask talking to owl mask
+define flame = Character("Flame", color="#d68408") #Flame mask is Peter
+define doubFlame = Character("Second Flame", color="#847257") #if we allow this, flame mask talking to flame mask
+define frog = Character("Frog", color="#42aa32") #Frog is Gunnar
+define archer = Character("Sage", color="#1e9eb2" ) #Archer is Erin 
 
 ##day 2 vars
 default photoFirst = False
@@ -448,13 +448,13 @@ label develop_sneaky_owl_overexposed:
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
     hide porter
-    "What even was that?!"
     jump complete_sneaky_owl
 
 label complete_sneaky_owl:  
     $ finish_development()
     $ donePhoto2 = True
     "As you pull out the image, it ceases to move."
+    "What even was that?!"
     jump post_image_completion_daytwo
 #endregion
 
@@ -636,40 +636,39 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     show owl point at dcp, xflip, left with Dissolve(.4)
     show frog explain at dcs, right with Dissolve(.8)
     frog "You're still here. I wasn't expecting to see you. Didn't Peter tell you to clear out?"
-    owl "I will. Tomorrow. Thought I'd come one last time to our usual meeting."
+    owl "I will. Tomorrow. Thought I'd come one last time to our usual 'meeting.'"
     frog "That's thoughtful of you, but you know that the Porter won't let you in anymore."
     frog "And if you can't get in, I can't get in, so I'm afraid our midnight jaunts have come to a close."
     owl "What makes you think the Poter will let you in? I'm sure Peter instructed it to prevent *any* of us from getting in alone."
     frog "No harm in trying, is there?"
-    $ develop_double(10)
     show owl point at dcp, xflip, left with Dissolve(.4)
     show frog explain at dcs, right with Dissolve(.8)
     frog "But not with you here. That definitely won't fly"
+    $ develop_double(10)
     owl "You know if you get the ritual wrong there can be consequences. If you attempt it without my help, it could go bad for you."
     owl "Are you really sure you've got it down?"
     frog "I'm a keen observer. I'll be alright."
     owl "So you know what to keep hidden in your left hand and what to trace on your right?"
     frog "..."
     frog "You're making things up."
-    $ develop_double(15)
     show owl point at dcp, xflip, left with Dissolve(.4)
     show frog explain at dcs, right with Dissolve(.8)
     owl "I'm trying to help you."
     owl "Let me show you. And then I'll get out of your way."
-    owl "Keep learning about this place. You and I have come to understand how *important* it is. What's hidden within."
+    owl "Keep learning about this place. You and I have come to understand how {b}important{/b} it is. What's hidden within."
     "The figure in the owl mask presses something small and black into the other's left palm."
     "They then grab the other's right hand and gently uncurl their fingers before tracing a shape on the palm."
     frog "Good luck."
     hide owl with moveoutleft
     "The frog masked figure stands alone now. They raise their hands in purposeful, almost artful gestures."
     "They remain completely, eerily silent. The only sound is the swooshing of their robes and the creaking of old floorboards."
-    "Then, something happens!"
+    "Then..."
     #NOTE: effects here!
     show porter talk at dcs, left, xflip, DramaticRevealPorter
     with flash
     pause 3.56
     porter "You."
-    $ develop_double(20)
+    $ develop_double(15)
     show porter swear at dcs, xflip, EmergencyReset
     show frog explain at dcs, right with Dissolve(.8)
     porter "Peter has told me that you wander where you are not meant to wander"
@@ -682,44 +681,50 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     frog "What is... what? This"
     "They open their left palm and reveal the object pressed within."
     porter "WHAT HAVE YOU DONE?"
-    $ develop_double(25)
     show porter swear at dcs, xflip, UltimateRegicide
     show frog explain at dcs, right with Dissolve(.8)
     "The spirit's thin legs seem to collapse under it. It begins to shake."
     show porter swear at dcs, xflip, ArmGlow
     "Its arm begins to glow, consumed by a sickly yellow light."
     "The light travels through the air and into the darkness, travelling towards the hand of another."
+    $ develop_double(20)
     show owl point at dcs, center, ArmGlowOwlHand
     owl "Apologizes to use you like that, but I wasn't going to let anyone freeze me out."
-    show porter swear at dcs, xflip
     owl "Not after all I've seen and learned."
-    hide porter with flash
+    hide porter
+    show porter dead at xflip, dcs with Fade(0.2, 0, 0.4, color="#e7e0ba")
     frog "What have you done?! What did you do to it?!"
-    show owl at dcs, left, xflip
+    show owl point at center, dcs
     owl "Go. Your part is done here."
-    frog "Aaaahh!"
+    frog "{size=+7}{sc=1}Aaaahh!"
+    $ develop_double(25)
     hide frog with moveoutright
+    show owl point at center, dcs
+    "Their hand now glowing with the same sickly light, the figure in the owl mask places their hand on the floor."
+    "Slowly, they trace a circle around the writing spirit."
+    hide porter with flash
+    "As they close the loop, a gate opens in the floor and the Porter is gone."
     $ develop_double(30)
-    "Their hand now glowing with the same sickly light, the figure in the owl shuts the portal with a gesture."
-    "Then, carefully, they place their hand on the floor and begin to trace a circle around the Porter"
-    "As they close the loop, a gate opens in the floor and the now-convulsing spirit falls in."
 
 label develop_sneaky_frog_overexposed:
     "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     $ develop_overexposed(10)
     $ corruption += 5
+    hide owl with moveoutleft
     "The figure in the owl mask walks into the shadows, leaving the image eerily quiet."
-    "In the silence you are able to hear something behind you. Breathing?"
-    "You turn around"
-    show bg darkroom_workspace #hopefully this works with Jason's implementation, we'll have to see.
-    show porter at center #this should be a jump scare
-    porter "GIVE IT BACK"
+    "In the silence you are able to hear something behind you. Breathing?{nw=1}"
+    show porter dead:
+        dcp
+        center
+        zoom 1.5
+        xalign .5
+        yalign .1
+    porter "{sc=3}{size=+10}GIVE IT BACK"
     hide porter with dissolve
     "Gasping for breath, you look around the room. It's just you."
     "You hear some kind of noise coming from the photo in the tray."
     "Full of dread, you turn back to the image, careful not to fully take your eye off the rest of the room."
-    hide bg darkroom_workspace
-    show owl at center
+    show owl point at center, dcs
     $ develop_overexposed(15)
     "They are weeping."
     $ develop_overexposed(20)
@@ -742,71 +747,110 @@ label develop_portal:
     scene black_background with fade
     $ start_developing(BASE_IMAGE_PORTAL)
     #NOTE: Add "if seen this photo already" code in once we standardize how it works.
-    "It's hard not to be intrigued by the strange, surreal glow in this image. Was this really an undoctored photo?"
+    if donePhoto3 == False:
+        "It's hard not to be intrigued by the strange, surreal glow in this image. Was this really an undoctored photo?"
+    else:
+        "Surely there is more to learn from this strange gateway..."
     "You slide in a piece of photo paper and start to print the image."
     $ develop(5)
     "It begins to happen again..."
-    #if donePhoto3:
-    #    "The conversation plays out as it did the first time. You know now that to see something new you will need to make a new exposure"
-    #    jump photo3_double
-    #else:
-    #    $ donePhoto3 = True
+    if donePhoto3:
+        "You could watch it all play out once more, or you could just pull it out as soon as possible"
+        menu:
+            "Watch it all again":
+                $ donePhoto3 = False
+            "Pull it out":
+                $ develop (30)
+                "The same little pagent plays out, but your eyes are on the clock."
+                $ stop_developing_instant()
     $ zoom_development = True
-    show flame at right
-    show generic_robed at left
+    pause 3
+    show flame argue at dcp, right with Dissolve(1)
+    show unmasked listen at dcp, xflip, left with dissolve
     flame "THE DOOR IS OPEN. Step through, quickly!"
-    hide generic_robed with moveoutleft
-    unk "Will you follow them?"
-    show porter with moveinleft
-    porter "Or shall I?"
+    show unmasked listen at dcp, xflip, UltimateRegicide
+    unk "I can see it! The House!"
+    flame "Hurry!"
+    hide unmasked listen with Dissolve(1)
+    pause .2
+    unk2 "Is it your will that I follow them?"
+    show porter talk at dcp, xflip with moveinleft
+    porter "Or will you accompany them today?"
     $ develop(10)
-    flame "You should follow. I will wait here."
+    show porter listen at dcp, xflip
+    show flame argue at dcp
+    flame "You go. I'll wait here."
+    show porter talk at dcp, xflip
     porter "As you wish."
     $ develop(15)
+    show porter listen at dcp, xflip
+    show flame argue at dcp
     flame "I think you can take them to the Vestibule today."
     flame "I wonder if they will find the statuary there as inspiring as I do." #deliberate reference to Piranisi here, hope it's not seen as copying.
     $ develop(20)
+    show porter swear at dcp, xflip
+    show flame argue at dcp
     porter "The Vestibule sits near the Windows of the Garden. I would not take them somewhere so bright."
+    show porter sad at dcp, xflip
     porter "They have stepped through so many times so quickly already."
     $ develop(25)
+    show flame argue at dcp
+    show porter swear at dcp, xflip
     porter "Even the service I owe to you to you cannot override my purpose."
     $ develop(30)
+    show flame argue at dcp
+    show porter talk at dcp, xflip
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
     if(persistent.development_end_signalled == False):
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     $ develop(35)
+    show flame argue at dcp
+    show porter listen at dcp, xflip
     flame "Yes, of course, of course. They need to actually start producing some art at some point anyway."
     flame "Not that I blame them. What could be more dull than sitting around *working* when you could be in another world."
     porter "..."
-    flame "Go. Take them to the vestibule. Show them the statue garden."
-    hide porter with moveoutleft
+    flame "Go. Take them to the Vestibule. Show them the Corridor of Statues."
     $ develop(40)
-    "From the other side of the portal - for that is what it must be - the Porter steps through"
+    show porter listen at dcp, DoubleRegicide
+    "The porter turns to face the strange glow at the end of the hallway. It steps into it and begins to disappear."
+    show porter listen at dcp, UltimateRegicide
     "Then, the spirit raises a trembling, withered hand. It traces some kind of shape in the air."
-    temp "The portal disappears"
+    hide porter with dissolve
+    #"The portal disappears, along with the spirit."
+    "The spirit then disappears into the bright light."
     $ develop(45)
+    show flame argue at dcp
     "The figure in the flame mask sighs deeply."
     flame "Now the waiting."
     $ develop(50)
+    show flame argue at dcp
     flame "..."
     $ develop(55)
-    "The figure in the flame mask sighs."
-    $ develop(60)
+    show flame argue at dcp
     flame "Loyal little spirit, is it not?"
+    $ develop(60)
+    show flame argue at dcp
+    flame "I wonder what the Porter would do if it caught me entering now..."
+    flame "Best to trust its guidance, I suppose. Wait, wait, wait, how boring!"
 
 label develop_portal_overexposed:
     "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(5)
+    show flame argue at dcp
     $ corruption += 5
-    flame "Foolish little thing. Blind little thing."
+    flame "Foolish little thing. {sc=1}Blind{/sc} little thing."
     $ develop_overexposed(10)
-    flame "Mute little thing. Bloodless little thing."
+    show flame argue at dcp
+    flame "{sc=1}Mute{/sc} little thing. {sc=2}Bloodless{/sc} little thing."
     $ develop_overexposed(15)
-    flame "TRAPPED little thing. BETRAYED little thing."
+    show flame argue at dcp
+    flame "{sc=2}TRAPPED{/sc} little thing. {sc=4}BETRAYED{/sc} little thing."
     $ develop_overexposed(20)
-    flame "BUT IT WILL BE MADE WHOLE."
-    flame "AND BRIGHT THINGS WILL BE CONTAINED."
+    show flame argue at dcp
+    flame "{sc=4}BUT IT WILL BE MADE WHOLE."
+    flame "{sc=4}AND BRIGHT THINGS WILL BE CONTAINED!"
     $ develop_overexposed(25)
+    show flame argue at dcp
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -814,7 +858,11 @@ label develop_portal_overexposed:
 
 label complete_portal:  
     $ finish_development()
+    $ donePhoto3 = True
     "As you pull out the image, it ceases to move."
+    "Your heart, however, continues to beat quickly."
+    if corruption >= 15:
+        "Should you be more careful with these forces?"
     jump post_image_completion_daytwo
 
 #region portal siobhan/owl
@@ -823,26 +871,38 @@ label develop_portal_owl:
     "As the owl mask begins to fade into view, you feel like the whole character of the light has shifted."
     $ develop_double(5)
     $ zoom_development = True
-    show owl at left
-    show flame at right
+    pause 3
+    show owl point at dcs, xflip, left with Dissolve(.4)
+    show flame argue at dcp, right with Dissolve(.8)
     flame "Wait. Something is wrong."
     "Shimmering into view on the other side of portal is the figure from your dreams" #the portal language is a hot mess, maybe needs a variable or hardcoded use of the term before optional scenes.
-    show porter at center
-    porter "She carries too much brightness. This one remains today."
+    show porter swear at dcp, center, DoubleRegicide with dissolve
+    porter "I am sorry, but she carries too much brightness. This one remains today."
+    show porter listen at dcp
     flame "I see. Of course."
     $ develop_double(10)
-    "The lumbering thing moves its hand in a strange, purposeful motion. The light flickers and the portal vanishes."
-    "It's hard to shake the momentary feeling that the spirit was looking at you."
+    show owl point at xflip, dcs
+    show flame argue at dcp
+    show porter listen at dcp
+    "The lumbering thing moves its hand in a strange, purposeful motion."
+    "As it does so, it's hard to shake the momentary feeling that the spirit is looking at you."
+    hide porter listen with dissolve
+    "The light flickers and the portal vanishes, along with the spirit."
     flame "I'm sorry."
     flame "Maybe we can look at some of your work. I was so enchanted with your collage concept from last night."
     flame "It's the first thing anyone here has made that feels like it tells the story of THAT world as the story of THIS world"
     $ develop_double(15)
+    show owl point at xflip, dcs
+    show flame argue at dcp
     flame "Or, that both worlds are cousin worlds. Or, twins, in a way."
     owl "I don't think that deeply about it, to be honest. I just go with my gut."
-    flame "Of course. That's what makes you great."
+    flame "Of course. That's what makes you a great artist."
     flame "... maybe you can help Gunnar with that while you're at it."
-    owl "Too bright.."
+    owl "'Too bright...'"
+    owl "What does that {i}really{/i} mean?"
     $ develop_double(20)
+    show owl point at xflip, dcs
+    show flame argue at dcp
     flame "I imagine it's because you're simply more open to the truth of that place. Because of your artistic temperment."
     flame "It's a good thing."
     owl "Is it? Your little butler doesn't seem to think so."
@@ -851,12 +911,20 @@ label develop_portal_owl:
     flame "Why do think I chose the flame as my mask?"
     owl "Because it's an obvious metaphor?"
     $ develop_double(25)
+    show owl point at xflip, dcs
+    show flame argue at dcp
     flame "Because it's an accurate metaphor."
     flame "Many good things become harmful if you get too close."
     owl "Of course."
     owl "Sorry for the commentary. It just sucks not going in."
     $ develop_double(30)
+    show owl point at xflip, dcs
+    show flame argue at dcp
     flame "Let's get some food. Maybe you can tell me more about your thoughts about the Orrery and it's Door?"
+    show owl point at dcp
+    hide owl point with moveoutleft
+    hide flame argue with moveoutleft
+    "With that, you are left staring at an empty hallway."
 
 label develop_portal_owl_overexposed:
     "If you don't pull the photo out now, it will be overexposed."
@@ -869,17 +937,18 @@ label develop_portal_owl_overexposed:
     "The colors burn into nothing, slowly making the photo unrecognizable."
     $ develop_overexposed(20)
     "Then, something strange starts to happen."
-    "You start to percieve that in the brightness of the photograph there is a pattern"
+    "You start to percieve that in the brightness of the photograph there is a {size=+6}pattern"
     $ develop_overexposed(25)
-    "That your MISTAKE has been not making your previous exposures BRIGHT ENOUGH."
+    "That your {size=+2}{i}mistake{/i}{/size} has been not making your previous exposures {size=+8}BRIGHT{/size} enough."
     $ develop_overexposed(30)
-    "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat mirthless chuckle escapes your lips" #-_-
+    "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat chuckle escapes your lips"
     "The sound in the empty darkroom is jarring and jolts you back to your senses."
     "You pull out the photo, feeling suddenly uncomfortable."
     jump complete_portal_owl
 
 label complete_portal_owl:  
     $ finish_development()
+    $ donePhoto3 = True
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 #endregion
@@ -891,54 +960,73 @@ label develop_portal_flame:
     "The two robed figures, each wearing the same mask, begin to come to life."
     $ develop_double(5)
     $ zoom_development = True
-    show flame at left
-    show flame2 at right
+    pause 3
+    show flame argue at dcp, right with Dissolve(.4)
+    show flame2 argue at dcs, xflip, left with Dissolve(.8)
     flame "Where did you get that mask?"
     flame "Is this some kind of joke?"
     doubFlame "..."
     flame "Or have I finally gone too far? Unmask, and show me your face!"
     doubFlame "It's me. You."
     $ develop_double(10)
+    show flame argue at dcp
+    show flame2 argue at xflip, dcs
     doubFlame "Not as you are, but as you will be."
     doubFlame "I'm the one who lives in your house. I am in your skin and your thoughts are my thoughts."
     flame "Is this another one of those fucking nightmares?"
     $ develop_double(15)
+    show flame argue at dcp
+    show flame2 argue at xflip, dcs
     flame "Or... are you really here?"
     doubFlame "I am not here."
     doubFlame "It will be many years until I am here. Decades."
     doubFlame "But when the time comes and I am here, it will be by the magic you are about to discover here. This week."
     $ develop_double(20)
-    flame "This is some cryptic bullcrap. You don't sound like me at all. Do your homework before trying to impersonate me."
+    show flame argue at dcp
+    show flame2 argue at xflip, dcs
+    flame "Cut the cryptic bullcrap."
+    flame "Show me who you really are."
     doubFlame "You change, Peter. You betray your friend, you betray yourself, and you betray your flesh."
+    show flame2 argue at WhiteNoise, xflip, dcs
     doubFlame "You traded your heart for power, Peter."
     $ develop_double(25)
+    show flame argue at dcp
+    show flame2 argue at WhiteNoise, xflip, dcs
     doubFlame "And now what beats in your chest is a vacancy. A hole."
     doubFlame "And then you begin to hollow out others, trying to fill this hole you have created."
     $ develop_double(30)
+    show flame argue at dcp
+    show flame2 argue at WhiteNoise, xflip, dcs
     flame "So... so... so what is this, like some kind of warning?"
 
 label develop_portal_flame_overexposed:
     "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
+    show flame argue at dcp
+    show flame2 argue at WhiteNoise, xflip, dcs
     $ corruption += 5
+    $ photoRuined = True
     doubFlame "Yes, but not for you."
     $ develop_overexposed(20)
-    doubFlame "For the one who is watching us."
+    show flame argue at dcp
+    show flame2 argue at WhiteNoise, xflip, dcs
+    doubFlame "For the one who watches us."
     if corruption >= 15:
-        doubFlame "The one who is bright"
+        doubFlame "The one who is {sc=3}bright"
     else:
-        doubFlame "The one who is not yet too bright."
+        doubFlame "The one who is {sc=2}not yet too bright."
     #I want to put more of an ending clue here but need to write that first.
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide flame2
     hide flame
-    "You feel like SOMETHING TERRIBLE has happened."
     jump complete_portal_flame
 
 label complete_portal_flame:  
     $ finish_development()
+    $ donePhoto3 = True
     "As you pull out the image, it ceases to move."
+    "What even was that?!"
     jump post_image_completion_daytwo
 #endregion
 
@@ -948,64 +1036,90 @@ label develop_portal_archer:
     #This slot gives a HELL of a lot away, almost feels like it should be saved for day3 somehow.
     #This is also set way in the future, I'm leaving it that way for now but it may make more sense to make it happen later
     "You take a deep breath and prepare yourself, focusing intently on the image fading into view."
-    "The two robed figures begin to come to life."
     $ develop_double(5)
     $ zoom_development = True
-    show archer at left
-    show flame at right
+    pause 3
+    show sage base at dcs, xflip, left with Dissolve(.4)
+    show flame argue at dcp, right with Dissolve(.8)
     flame "I'm glad you changed your mind."
     flame "I'd like to ask why, but I'm afraid it'll only make you run away again."
     archer "..."
     flame "Of course, you don't have to say anything."
-    flame "I have to be honest. When I pulled this little group together I had no idea what was going to happen."
-    flame "When it all started to go wrong, I felt like I had made a terrible mistake."
+    flame "I have to be honest."
+    flame "When I pulled this little group together I had no idea what was going to happen."
+    flame "Once it all started to go wrong, I felt like I had made a terrible mistake."
     $ develop_double(10)
+    show sage base at xflip, dcs  
+    show flame argue at dcp
     flame "Now I see that everything that happened was all in service of something greater."
-    flame "So. Here is my guess. You've come to see that too."
+    flame "So. Here is my guess. After all this time, you've come around to the same conclusion."
     archer "That's not it."
+    show sage base at dcs  
     archer "I wanted nothing to do with what you two had done. Honestly, I still don't."
     archer "But I started having these... terrible, realistic nightmares. About the Porter."
     archer "Started seeing it in real life, started feeling this icy pain that would grip my heart at random times."
     $ develop_double(15)
+    show sage base at xflip, dcs
+    show flame argue at dcp
     archer "I spoke to Siobhan. Before she died. She wasn't easy to find, always with one foot in some other world."
     archer "I wanted her to undo what'd she'd done. She didn't listen. She wasn't afraid of the Porter."
     archer "I spoke to Gunnar. He was easy enough to find. He doesn't leave his apartment at all anymore, the nurse said."
     archer "The walls, the floors, every square inch covered in mad writings. I could read enough to know the dreams were coming for him too."
     $ develop_double(20)
+    show sage base at xflip, dcs
+    show flame argue at dcp
     archer "So if I'm going to be hounded by some nightmare thing for all the shit you lot got up to..."
     archer "...I'd like to at least get something out of it."
     flame "I understand that logic. I'm a bit disappointed that an artist such as yourself has such a... selfish perspective."
-    flame "We all burn out sometime. What matters is what we produce, what we *do*."
+    flame "We all meet out end eventually. What matters is what we {b}create{/b} along the way."
+    "The figure in the flame mask makes a gesture and something is drawn through the portal."
+    show porter dead weyes at center, dcp, DoubleRegicide with Dissolve(1)
+    flame "But, that doesn't matter. All that matters is that you are here now."
     flame "So, what will you take into yourself?"
-    show porter wounded at center
-    "The figure in the flame mask makes a gesture and the portal darkens."
     $ develop_double(25)
-    "In it can be seen the figure of the Porter, laying still and motionless."
+    show sage base at xflip, dcs
+    show flame argue at dcp
+    show porter dead weyes at center, dcp, DoubleRegicide
     archer "... I want its eyes."
-    flame "Done."
+    flame "..."
+    "The flame-masked figure makes a gesture."
     "Yellow light begins to form around the Porter's eyes."
+    show porter dead at center, dcp with Fade(0.5, 0.2, 0.3, color="#fddf37")
+    flame "Done."
     $ develop_double(30)
+    show sage base at xflip, dcs
+    show flame argue at dcp
+    show porter dead at center, dcp, DoubleRegicide
     "The eyes of the archer mask, too, begin to glow."
 
 label develop_portal_archer_overexposed:
     "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
+    show sage base at xflip, dcs
+    show flame argue at dcp
+    show porter dead at center, dcp, DoubleRegicide
     $ corruption += 5
     flame "What do you see?"
     archer "bright."
     $ develop_overexposed(15)
+    show sage base at xflip, dcs
+    show flame argue at dcp
+    show porter dead at center, dcp, DoubleRegicide
     archer "BRIGHT"
     archer "And I see..."
     $ develop_overexposed(20)
+    show sage base at xflip, dcs
+    show flame argue at dcp
+    show porter dead at center, dcp, DoubleRegicide
     archer "I see a way out."
     "An icy chill grips your heart and you feel the room start to spin."
-    hide archer
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_portal_archer
 
 label complete_portal_archer:  
     $ finish_development()
+    $ donePhoto3 = True
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 #endregion
@@ -1080,6 +1194,7 @@ label develop_portal_frog_overexposed:
 
 label complete_portal_frog:  
     $ finish_development()
+    $ donePhoto3 = True
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 #endregion
