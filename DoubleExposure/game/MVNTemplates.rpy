@@ -161,6 +161,39 @@ transform LightDemo:
 # An animated preset for the Simulated Lighting shader
 # This was specifically designed to work on a background but it'd work on anything really.
 
+transform DramaticRevealPorter:
+    mesh True
+    shader "MakeVisualNovels.SimulatedLighting"  
+    u_key_light_color (1.0, 1.0, 1.0)
+    u_rim_light_color (0.0,0.0,0.0)  
+    u_rim_light_radius (0.5)
+    u_rim_light_position (0.0,1.0)
+    u_fill_light_color (1.0, 1.0, 1.0)
+    u_key_light_position (0.5, 0.0)
+    u_key_light_radius (0.05)  
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (1.0)          
+    u_key_light_intensity (1.0)          
+    u_fill_light_intensity (-1.0)  
+    parallel:
+        linear .1 u_key_light_intensity (5)
+    parallel:
+        ease 0.1 u_key_light_position (0.5,0.5)
+    linear 0.25 u_key_light_radius (1.0)
+    u_fill_light_intensity (-0.5)
+    pause 0.3
+    u_key_light_position(0.5,0.3)
+    linear 2 u_key_light_radius(0.5)
+    linear 1 u_key_light_intensity (0.5)
+    u_fill_light_intensity (0.0)
+
+transform EmergencyReset:
+    mesh True
+    shader "MakeVisualNovels.SimulatedLighting"
+    u_fill_light_intensity (0.0)
+    u_key_light_intensity(0.0)
+
+
 transform DramaticRevealBG:
     mesh True
     shader "MakeVisualNovels.SimulatedLighting"  
@@ -503,7 +536,77 @@ transform Regicide:
     #and 
     #repeat 
     #to make RenPy actually render it properly.
-    
+
+transform DoubleRegicide:
+    mesh True
+    shader "MakeVisualNovels.PerlinWarp"
+    u_fps (12.0)
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (0.5) # Maximum of 0.5
+    u_warpIntensity (9.0)
+    u_speed (1.15)
+    u_scale (10.0)
+    # Flipping Warp Variables.
+    u_flipIntensity (5.0)   
+    u_flipSpeed (2.0)
+    u_flipScale (100.0)
+
+transform UltimateRegicide:
+    mesh True
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    u_fps (60.0)
+    # Body Warp Variables.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (0.5) # Maximum of 0.5
+    u_warpIntensity (20.0)
+    u_speed (10.15)
+    u_scale (20.0)
+    # Flipping Warp Variables.  
+    u_flipIntensity (5.0)   
+    u_flipSpeed (2.0)
+    u_flipScale (100.0)
+
+transform ArmGlow:
+    mesh True
+    shader "MakeVisualNovels.SimulatedLighting"
+    ##Unused, but I think need to be defined?
+    u_rim_light_color (0.9, 0.7, 0.4)  
+    u_fill_light_color (0.4, 0.9, 0.9)  
+    u_rim_light_radius (0)
+    u_rim_light_position (0.1,0.182) 
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (0)            
+    u_fill_light_intensity (0)
+    #The good stuff!!!  
+    u_key_light_color (0.9, 0.7, 0.4 )
+    u_key_light_position(0.25, 0.85)
+    u_key_light_radius(.5)
+    ease .7 u_key_light_intensity(3.0)
+    pause 0.5
+    ease .7 u_key_light_intensity(2.0)
+    repeat
+
+transform ArmGlowOwlHand:
+    mesh True
+    shader "MakeVisualNovels.SimulatedLighting"
+    ##Unused, but I think need to be defined?
+    u_rim_light_color (0.9, 0.7, 0.4)  
+    u_fill_light_color (0.4, 0.9, 0.9)  
+    u_rim_light_radius (0)
+    u_rim_light_position (0.1,0.182) 
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (0)            
+    u_fill_light_intensity (0)
+    #The good stuff!!!  
+    u_key_light_color (0.9, 0.7, 0.4 )
+    u_key_light_position(0.2, 0.35)
+    u_key_light_radius(.2)
+    ease .7 u_key_light_intensity(1.0)
+    pause 0.5
+    ease .7 u_key_light_intensity(.3)
+    repeat
+
 transform VirtualBoy:
     mesh True
     #Why

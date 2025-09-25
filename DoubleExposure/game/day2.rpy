@@ -368,6 +368,7 @@ label develop_sneaky_overexposed:
 
 label complete_sneaky:  
     $ finish_development()
+    $ donePhoto2 = True
     "As you pull out the image, it ceases to move."
     "Your heart, however, continues to beat quickly."
     if corruption >= 15:
@@ -382,24 +383,27 @@ label develop_sneaky_owl:
     pause 3
     show owl point at dcp, xflip, left with Dissolve(.4)
     show owl2 point at dcs, right with Dissolve(.8)
-    "The two robed figures, each wearing the same mask, begin to come to life"
+    "The two robed figures, each wearing the same mask begin to speak."
     $ develop_double(5)
     show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs, right with Dissolve(.8)
+    show owl2 point at dcs with Dissolve(.8)
     doubOwl "..."
     owl "Is this some kind of joke?"
     owl "Who are you?"
     owl "Why are you wearing my mask?"
     $ develop_double(10)
     show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs, right with Dissolve(.8)
+    show owl2 point at dcs with Dissolve(.8)
     doubOwl "..."
-    doubOwl "... ..."
+    doubOwl ".........."
     $ develop_double(15)
     show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs, right with Dissolve(.8)
+    show owl2 point at dcs with Dissolve(.8)
     owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
     owl "Or is this another one of those nightmares??"
+    show owl2 point:
+        dcs
+        WhiteNoise
     doubOwl "This corruption of the truth should not be possible."
     doubOwl "You have strayed beyond your limits, human."
     $ develop_double(20)
@@ -408,22 +412,38 @@ label develop_sneaky_owl:
     doubOwl "Given a gift, you were unsatisfied."
     doubOwl "Your hunger is your unmaking"
     hide owl2 with Dissolve(.2)
-    show porter at right with Dissolve(1)
-    temp "Fade/transition the second owl into the Porter!"
+    show porter temp:
+        dcs
+        yalign .01
+        xalign .9
+        xzoom -1
+        WhiteNoise
+    with Dissolve(.5)
     $ develop_double(25)
     porter "{sc=2}Your judgement was made long ago, transgressor.{/sc}"
     owl "This isn't... this isn't possible."
     $ develop_double(30)
     owl "When is this? When is this happening?"
-    owl "We haven't even killed you yet! I've got no hand to give you yet!"
+    owl "{size=+4}We haven't even killed you yet! I have no hand to give you!!"
 
 label develop_sneaky_owl_overexposed:
+    "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
+    show owl2 at dcp
+    show porter temp:
+        dcs
+        yalign .01
+        xalign .9
+        xzoom -1
+        WhiteNoise
     $ corruption += 5
+    $ photoRuined = True
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
     $ develop_overexposed(20)
+    show owl2 at dcp
     porter "{sc=2}NOW{/sc}"
     $ develop_overexposed(30)
+    show owl2 at dcp
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
@@ -433,6 +453,7 @@ label develop_sneaky_owl_overexposed:
 
 label complete_sneaky_owl:  
     $ finish_development()
+    $ donePhoto2 = True
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 #endregion
@@ -521,6 +542,7 @@ label develop_sneaky_flame_overexposed:
 
 label complete_sneaky_flame:  
     $ finish_development()
+    $ donePhoto2 = True
     if photoRuined == True:
         "You pull out the wrecked photograph."
         "You suspect that you heard many useful things which were meant to be kept secret..."
@@ -598,6 +620,7 @@ label develop_sneaky_archer_overexposed:
 
 label complete_sneaky_archer:  
     $ finish_development()
+    $ donePhoto2 = True
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 #endregion
@@ -608,9 +631,10 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     "While it's clear that this photo wasn't taken to be a piece of art, there's an incredible energy you feel watching the masked figures shiver to life."
     "Like you are stealing a glimpse at some great secret."
     $ zoom_development = True
+    pause 3
     $ develop_double(5)
-    show frog at left
-    show owl at right
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show frog explain at dcs, right with Dissolve(.8)
     frog "You're still here. I wasn't expecting to see you. Didn't Peter tell you to clear out?"
     owl "I will. Tomorrow. Thought I'd come one last time to our usual meeting."
     frog "That's thoughtful of you, but you know that the Porter won't let you in anymore."
@@ -618,6 +642,8 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     owl "What makes you think the Poter will let you in? I'm sure Peter instructed it to prevent *any* of us from getting in alone."
     frog "No harm in trying, is there?"
     $ develop_double(10)
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show frog explain at dcs, right with Dissolve(.8)
     frog "But not with you here. That definitely won't fly"
     owl "You know if you get the ritual wrong there can be consequences. If you attempt it without my help, it could go bad for you."
     owl "Are you really sure you've got it down?"
@@ -626,39 +652,53 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     frog "..."
     frog "You're making things up."
     $ develop_double(15)
+    show owl point at dcp, xflip, left with Dissolve(.4)
+    show frog explain at dcs, right with Dissolve(.8)
     owl "I'm trying to help you."
     owl "Let me show you. And then I'll get out of your way."
     owl "Keep learning about this place. You and I have come to understand how *important* it is. What's hidden within."
     "The figure in the owl mask presses something small and black into the other's left palm."
     "They then grab the other's right hand and gently uncurl their fingers before tracing a shape on the palm."
     frog "Good luck."
-    hide owl
+    hide owl with moveoutleft
     "The frog masked figure stands alone now. They raise their hands in purposeful, almost artful gestures."
     "They remain completely, eerily silent. The only sound is the swooshing of their robes and the creaking of old floorboards."
-    "Then, something happens."
-    temp "FLASH! Maybe superimpose a the portal image from the other base photo?" #If we can make it animated that would be so cool.
-    show porter at left
+    "Then, something happens!"
+    #NOTE: effects here!
+    show porter talk at dcs, left, xflip, DramaticRevealPorter
+    with flash
+    pause 3.56
     porter "You."
     $ develop_double(20)
+    show porter swear at dcs, xflip, EmergencyReset
+    show frog explain at dcs, right with Dissolve(.8)
     porter "Peter has told me that you wander where you are not meant to wander"
     porter "Beyond the walls of the House and into the Gardens. That you have even gazed into the Well."
     porter "You will not ent-"
-    porter "wh"
+    show porter swear at dcs, xflip, Regicide
+    porter "wh.."
     porter "what is that"
+    show porter swear at dcs, xflip, DoubleRegicide
     frog "What is... what? This"
     "They open their left palm and reveal the object pressed within."
     porter "WHAT HAVE YOU DONE?"
     $ develop_double(25)
+    show porter swear at dcs, xflip, UltimateRegicide
+    show frog explain at dcs, right with Dissolve(.8)
     "The spirit's thin legs seem to collapse under it. It begins to shake."
+    show porter swear at dcs, xflip, ArmGlow
     "Its arm begins to glow, consumed by a sickly yellow light."
     "The light travels through the air and into the darkness, travelling towards the hand of another."
-    show owl at center
+    show owl point at dcs, center, ArmGlowOwlHand
     owl "Apologizes to use you like that, but I wasn't going to let anyone freeze me out."
+    show porter swear at dcs, xflip
     owl "Not after all I've seen and learned."
+    hide porter with flash
     frog "What have you done?! What did you do to it?!"
+    show owl at dcs, left, xflip
     owl "Go. Your part is done here."
     frog "Aaaahh!"
-    hide frog
+    hide frog with moveoutright
     $ develop_double(30)
     "Their hand now glowing with the same sickly light, the figure in the owl shuts the portal with a gesture."
     "Then, carefully, they place their hand on the floor and begin to trace a circle around the Porter"
@@ -690,6 +730,7 @@ label develop_sneaky_frog_overexposed:
 
 label complete_sneaky_frog:
     $ finish_development()
+    $ donePhoto2 = True
     "As you pull out the image, it ceases to move."
     jump post_image_completion_daytwo
 #endregion
