@@ -193,44 +193,50 @@ label photoFinal_firstDev:
     jump finalSiobhan
 
 label finalSiobhan:
-        menu:
-            set menuset
-            "Put SIOBHAN over the ARM":
-                "This feels right."
-                jump finalPeter
-            "Put SIOBHAN over the HEART:":
-                temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-                jump finalSiobhan
-            "Put SIOBHAN over the TONGUE":
-                temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-                jump finalSiobhan
+    call screen projector_porter_final
+    "This feels right."
+    # menu:
+    #     set menuset
+    #     "Put SIOBHAN over the ARM":
+    #         "This feels right."
+    #         jump finalPeter
+    #     "Put SIOBHAN over the HEART:":
+    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
+    #         jump finalSiobhan
+    #     "Put SIOBHAN over the TONGUE":
+    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
+    #         jump finalSiobhan
 
 
 label finalPeter:
-    menu:
-        set menuset
-        "Put PETER over the ARM":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalPeter
-        "Put PETER over the HEART:":
-            "This feels right."
-            jump finalGunnar
-        "Put PETER over the TONGUE":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalPeter
+    call screen projector_porter_final
+    "This feels right."
+    # menu:
+    #     set menuset
+    #     "Put PETER over the ARM":
+    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
+    #         jump finalPeter
+    #     "Put PETER over the HEART:":
+    #         "This feels right."
+    #         jump finalGunnar
+    #     "Put PETER over the TONGUE":
+    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
+    #         jump finalPeter
 
 label finalGunnar:
-    menu:
-        set menuset
-        "Put GUNNAR over the ARM":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalGunnar
-        "Put GUNNAR over the HEART:":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalGunnar
-        "Put GUNNAR over the TONGUE":
-            "This feels right."
-            jump finalJudgement
+    call screen projector_porter_final
+    "This feels right."
+    # menu:
+    #     set menuset
+    #     "Put GUNNAR over the ARM":
+    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
+    #         jump finalGunnar
+    #     "Put GUNNAR over the HEART:":
+    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
+    #         jump finalGunnar
+    #     "Put GUNNAR over the TONGUE":
+    #         "This feels right."
+    #         jump finalJudgement
     
 label finalJudgement:
     "The bizarre composite now done, you bring it back to be exposed."

@@ -107,6 +107,28 @@ transform developingImageOverExposed(b):
     u_flipSpeed (2.0)
     u_flipScale (100.0)
 
+transform porterDevelopError(g):
+    matrixcolor BrightnessMatrix(.5) * ContrastMatrix(1.5)
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (6*min(g,5)/3)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (5.0*min(g,5)/3)
+    u_speed (1.15)
+    u_scale (10.0 * (1 + g/10000))  # force rerender, basically
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (25)   
+    u_flipSpeed (2.0)
+    u_flipScale (100.0)
+    zoom 1.02
+    alpha 1
+    easeout 1 alpha 0
+
 
 transform developingImageZoomed(a_start, a_target, z):
     xalign 0.5 
@@ -199,12 +221,12 @@ transform enlarger_base_image(a):
     alpha a
     matrixcolor TintMatrix("#f00")
 
-transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale): 
+transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale, x_offset=0, y_offset=0): 
     function play_slide_place
     matrixcolor SaturationMatrix(0) * InvertMatrix()
     zoom .61
     blur 15
-    yalign 0.18 - y_scale  xalign .54 + x_scale  rotate r        
+    yalign 0.18 - y_scale + y_offset  xalign .54 + x_scale + x_offset  rotate r        
     alpha 0
     pause 0.05
     alpha 0.7
@@ -218,7 +240,7 @@ transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, f
     linear 0.7 alpha 0.7
     pause 0.6 * delay_scale
     function play_slide_move
-    ease 0.8 * move_scale yalign 0.18 xalign .54 rotate 0 
+    ease 0.8 * move_scale yalign 0.18 + y_offset xalign .54 + x_offset rotate 0 
     pause 0.7 * delay_scale
     function play_slide_ratchet
     linear 1.0 * focus_scale blur 5 zoom .6
@@ -226,6 +248,29 @@ transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, f
     function play_slide_ratchet_short
     linear 0.2 blur 3 zoom .58
     pause 0.4 * delay_scale
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .55
+
+transform enlarger_project_image_instant(x_offset=0, y_offset=0): 
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .61
+    blur 15
+    yalign 0.18 + y_offset  xalign .54 + x_offset  rotate 0     
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    linear 0.3 alpha 0.7
+    function play_slide_ratchet
+    linear .5 blur 5 zoom .6
+    pause 0.15
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .58
+    pause 0.15
     function play_slide_ratchet_short
     linear 0.2 blur 0 zoom .55
 
@@ -400,10 +445,109 @@ screen enlarger_select_photo():
             add store.current_base_image.path at enlarger_base_image(base_alpha)
 
         add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
-        
+            
         vbox:
             text "[store.projected_image.description]"
             textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
+
+screen projector_porter_final:
+        default target_area = None
+        default wrong_guesses = 0
+        default wrong_guess_text = False
+        default say_text = "Project onto the porter"
+        python:
+            x_scale = -.2
+            y_scale = 0
+            rotation = 3
+            move_scale = .1
+            delay_scale = .5
+            focus_scale = .7
+
+            offsets = {
+                "heart": [-.4, 0],
+                "tongue": [-.2, .5],
+                "arm": [-.8, -.8]
+            }
+
+            name = "Siobhan"
+
+        add "bg/bg enlarger red bigger.png" at enlarger_bg
+
+        add "photos/porter photo.png" at enlarger_base_image(1)
+
+        if(wrong_guesses > 0):
+            add "photos/porter photo.png" at enlarger_base_image(1), porterDevelopError(wrong_guesses)
+
+        if(target_area):
+            add "photos/kitchen siobhan.png" at enlarger_project_image_instant(
+                offsets[target_area][0], 
+                offsets[target_area][1])
+
+        add "gui/textboxAlt.png":
+            xalign 0.5
+            zoom .4
+            yalign .94
+
+        if(target_area):
+            text "Project [name] over the [target_area]":
+                xalign 0.5
+                yalign 0.9
+        elif(wrong_guess_text):
+            text "That doesn't feel right...":
+                xalign 0.5
+                yalign 0.9     
+        else:
+            text "Hover to project [name]":
+                xalign 0.5
+                yalign 0.9         
+
+        #add Solid("#FFF", xsize=120, ysize=120) xoffset 1020 yoffset 580 # Heart
+        #add Solid("#FFF", xsize=120, ysize=120) xoffset 1200 yoffset 500 # Tongue
+        #add Solid("#FFF", xsize=120, ysize=120) xoffset 700 yoffset 700 # Arm
+
+        # mousearea:
+        #     area (1020, 580, 120, 120) # (x, y, width, height) of the hover area
+        #     hovered SetScreenVariable("target_area", "heart")
+        #     unhovered SetScreenVariable("target_area", None)
+        
+        button:
+            xsize 120
+            ysize 120
+            xpos 1020
+            ypos 580
+            hovered SetScreenVariable("target_area", "heart"), SetScreenVariable("wrong_guess_text", False)
+            unhovered SetScreenVariable("target_area", None)
+            action Return()
+
+        button:
+            xsize 120
+            ysize 120
+            xpos 1200
+            ypos 500
+            hovered SetScreenVariable("target_area", "tongue"), SetScreenVariable("wrong_guess_text", False)
+            unhovered SetScreenVariable("target_area", None)
+            action SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)
+
+        button:
+            xsize 120
+            ysize 120
+            xpos 700
+            ypos 700
+            hovered SetScreenVariable("target_area", "arm"), SetScreenVariable("wrong_guess_text", False)
+            unhovered SetScreenVariable("target_area", None)
+            action SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)
+
+        on "hide":
+            action Show("projector_porter_healing", Dissolve())
+
+        on "show":
+            action Hide("projector_porter_healing")
+
+screen projector_porter_healing:
+    add "bg/bg enlarger red bigger.png" at enlarger_bg
+    add "photos/porter photo.png" at enlarger_base_image(1)
+    add "photos/porter photo healed.png" at enlarger_base_image(1)
+
             
 
 ## Say screen ##################################################################
