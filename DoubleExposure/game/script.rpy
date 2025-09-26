@@ -121,10 +121,10 @@ transform smallNegativeBase:
     pause 0.2
     linear 0.7 alpha 0.7
     function play_slide_ratchet
-    linear 1.0 blur 5 zoom .56
+    linear 1.0 blur 5 zoom .48
     pause 0.2 
     function play_slide_ratchet_short
-    linear 0.2 blur 3 zoom .53
+    linear 0.2 blur 3 zoom .45
     pause 0.4 
     function play_slide_ratchet_short
     linear 0.2 blur 0 zoom .4
