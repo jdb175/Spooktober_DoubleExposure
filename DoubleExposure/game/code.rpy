@@ -116,7 +116,7 @@ init python:
 
         if(store.development_end_signalled):
             store.development_end_signalled = False
-            store.can_stop_developing = True
+            store.can_stop_developing = False
             renpy.hide_screen("clock")
             renpy.hide_screen("develop_photo")      
             renpy.scene()
@@ -126,10 +126,10 @@ init python:
     
         if(store.base_development >= MAX_DEVELOP_TIME and checkExposure):
             store.development_end_signalled = False
-            renpy.scene()
-            renpy.show("white")
-            renpy.show_screen("clock")
-            renpy.show_screen("develop_photo", _layer="master")
+            #renpy.scene()
+            #renpy.show("white")
+            #renpy.show_screen("clock")
+            #renpy.show_screen("develop_photo", _layer="master")
             renpy.block_rollback()  
             renpy.jump(store.development_overexpose_target)
 
@@ -156,7 +156,7 @@ init python:
                     store.secondary_development += increment
                     store.development_end_target = store.development_double_end_target
                 
-                store.can_stop_developing = store.base_development >= MIN_DEVELOP_TIME
+                store.can_stop_developing = store.base_development >= MIN_DEVELOP_TIME and (store.base_development >= 60 or not store.is_double_exposing)
     
     def develop_overexposed(overexposure: int):
         print("overexposing:", overexposure)
@@ -173,8 +173,8 @@ init python:
     def finish_development():
         print("Finishing Development")
         renpy.scene()
-        renpy.show("black")
         renpy.hide_screen("clock")
+        renpy.show("black")
         renpy.hide_screen("develop_photo")
         renpy.show_screen("final_photo", 
             base_image=store.current_base_image, 
