@@ -105,9 +105,9 @@ init python:
         if(persistent.base_development >= MAX_DEVELOP_TIME and checkExposure):
             persistent.development_end_signalled = False
             renpy.scene()
-            renpy.show("black")
+            renpy.show("white")
             renpy.show_screen("clock")
-            renpy.show_screen("develop_photo")
+            renpy.show_screen("develop_photo", _layer="master")
             renpy.block_rollback()  
             renpy.jump(persistent.development_overexpose_target)
 
