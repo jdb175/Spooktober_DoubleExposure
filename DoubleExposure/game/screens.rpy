@@ -107,6 +107,27 @@ transform developingImageOverExposed(b):
     u_flipSpeed (2.0)
     u_flipScale (100.0)
 
+transform porterDevelopError(g):
+    matrixcolor BrightnessMatrix(.5) * ContrastMatrix(1.5)
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (6*min(g,5)/3)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (5.0*min(g,5)/3)
+    u_speed (1.15)
+    u_scale (10.0 * (1 + g/10000))  # force rerender, basically
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (25)   
+    u_flipSpeed (2.0)
+    u_flipScale (100.0)
+    zoom 1.02
+    alpha 1
+    easeout 1 alpha 0
 
 transform developingImageZoomed(a_start, a_target, z):
     xalign 0.5 
@@ -115,7 +136,6 @@ transform developingImageZoomed(a_start, a_target, z):
     rotate 0
     zoom z
     alpha a_target
-
 
 transform developingImageZooming(a_start, a_target, c, z_start, z_end, period):
     xalign 0.5 
@@ -199,12 +219,12 @@ transform enlarger_base_image(a):
     alpha a
     matrixcolor TintMatrix("#f00")
 
-transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale): 
+transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, focus_scale, x_offset=0, y_offset=0): 
     function play_slide_place
     matrixcolor SaturationMatrix(0) * InvertMatrix()
     zoom .61
     blur 15
-    yalign 0.18 - y_scale  xalign .54 + x_scale  rotate r        
+    yalign 0.18 - y_scale + y_offset  xalign .54 + x_scale + x_offset  rotate r        
     alpha 0
     pause 0.05
     alpha 0.7
@@ -218,7 +238,7 @@ transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, f
     linear 0.7 alpha 0.7
     pause 0.6 * delay_scale
     function play_slide_move
-    ease 0.8 * move_scale yalign 0.18 xalign .54 rotate 0 
+    ease 0.8 * move_scale yalign 0.18 + y_offset xalign .54 + x_offset rotate 0 
     pause 0.7 * delay_scale
     function play_slide_ratchet
     linear 1.0 * focus_scale blur 5 zoom .6
@@ -226,6 +246,29 @@ transform enlarger_project_image(y_scale, x_scale, r, delay_scale, move_scale, f
     function play_slide_ratchet_short
     linear 0.2 blur 3 zoom .58
     pause 0.4 * delay_scale
+    function play_slide_ratchet_short
+    linear 0.2 blur 0 zoom .55
+
+transform enlarger_project_image_instant(x_offset=0, y_offset=0): 
+    function play_slide_place
+    matrixcolor SaturationMatrix(0) * InvertMatrix()
+    zoom .61
+    blur 15
+    yalign 0.18 + y_offset  xalign .54 + x_offset  rotate 0     
+    alpha 0
+    pause 0.05
+    alpha 0.7
+    pause 0.05    
+    alpha 0.3
+    pause 0.05    
+    alpha 0.7
+    linear 0.3 alpha 0.7
+    function play_slide_ratchet
+    linear .5 blur 5 zoom .6
+    pause 0.15
+    function play_slide_ratchet_short
+    linear 0.2 blur 3 zoom .58
+    pause 0.15
     function play_slide_ratchet_short
     linear 0.2 blur 0 zoom .55
 
@@ -264,6 +307,48 @@ transform fake_flash:
     alpha 1
     pause 1
     linear 1 alpha 0
+
+transform porter_heal_in:
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (5)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (4.0)
+    u_speed (1.15)
+    u_scale (10.0)
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (50.0)   
+    u_flipSpeed (2.0)
+    u_flipScale (80.0)
+    alpha 1.0
+    pause 1
+    easeout 1.5 alpha 0.0
+
+transform porter_heal_new:
+    matrixcolor BrightnessMatrix(1)
+    pause .5
+    easeout 2 matrixcolor BrightnessMatrix(0)
+
+    
+transform porter_heal_bg:
+    matrixcolor BrightnessMatrix(.5)
+    pause .5
+    easeout 1 matrixcolor BrightnessMatrix(0)
+
+transform porter_ascend:
+    matrixcolor BrightnessMatrix(0)
+    alpha 1.0
+    pause 2.0
+    parallel:
+        pause 2.0
+        linear 2.0 alpha 0
+    parallel:
+        linear 2.0 matrixcolor BrightnessMatrix(1)
 
 
 ################################################################################
@@ -374,10 +459,10 @@ screen develop_photo():
                 zoom 0.7
                 alpha 1
 
-            add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
+            add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness), developingImageWave
 
             if(store.is_double_exposing):
-                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness), developingImageWave
 
 screen enlarger_select_photo():
     if(store.enable_cycling):
@@ -400,11 +485,181 @@ screen enlarger_select_photo():
             add store.current_base_image.path at enlarger_base_image(base_alpha)
 
         add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
-        
+            
         vbox:
             text "[store.projected_image.description]"
             textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
-            
+
+screen projector_porter_final(name, correct_target):
+        default target_area = None
+        default wrong_guesses = 0
+        default wrong_guess_text = False
+        default say_text = "Project onto the porter"
+        python:
+            x_scale = -.2
+            y_scale = 0
+            rotation = 3
+            move_scale = .1
+            delay_scale = .5
+            focus_scale = .7
+
+            offsets = {
+                "heart": [-.4, 0],
+                "tongue": [-.2, .5],
+                "arm": [-.8, -.8]
+            }
+
+            images = {
+                "Siobhan": "photos/kitchen siobhan.png",
+                "Peter": "photos/kitchen peter.png",
+                "Gunnar": "photos/kitchen gunnar.png"
+            }
+
+        add "bg/bg enlarger red bigger.png" at enlarger_bg
+
+        add "photos/porter photo.png" at enlarger_base_image(1)
+        add "photos/porter photo eyes.png" at enlarger_base_image(1)
+
+        if(tongue_added):        
+            add "porter_tongue" at enlarger_base_image(1)
+        if(heart_added):        
+            add "porter_heart" at enlarger_base_image(1)
+        if(arm_added):
+            add "porter_arm" at enlarger_base_image(1)
+
+        if(wrong_guesses > 0):
+            add "photos/porter photo.png" at enlarger_base_image(1), porterDevelopError(wrong_guesses)    
+            add "photos/porter photo eyes.png" at enlarger_base_image(1), porterDevelopError(wrong_guesses)             
+            if(tongue_added):        
+                add "porter_tongue" at enlarger_base_image(1), porterDevelopError(wrong_guesses)  
+            if(heart_added):        
+                add "porter_heart" at enlarger_base_image(1), porterDevelopError(wrong_guesses)  
+            if(arm_added):
+                add "porter_arm" at enlarger_base_image(1), porterDevelopError(wrong_guesses)  
+
+        if(target_area):
+            add images[name] at enlarger_project_image_instant(
+                offsets[target_area][0], 
+                offsets[target_area][1])
+
+        add "gui/textboxAlt.png":
+            xalign 0.5
+            zoom .4
+            yalign .94
+
+        if(target_area):
+            text "Project [name] over the [target_area]":
+                xalign 0.5
+                yalign 0.9    
+
+        elif(wrong_guess_text):
+            text "That doesn't feel right...":
+                xalign 0.5
+                yalign 0.9       
+        else:
+            text "Hover to project [name]":
+                xalign 0.5
+                yalign 0.9      
+        
+        if(not heart_added):
+            button:
+                xsize 120
+                ysize 120
+                xpos 1020
+                ypos 580
+                hovered SetScreenVariable("target_area", "heart"), SetScreenVariable("wrong_guess_text", False)
+                unhovered SetScreenVariable("target_area", None)
+                action If(correct_target == "heart",
+                    Return(),
+                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+
+        if(not tongue_added):
+            button:
+                xsize 120
+                ysize 120
+                xpos 1200
+                ypos 500
+                hovered SetScreenVariable("target_area", "tongue"), SetScreenVariable("wrong_guess_text", False)
+                unhovered SetScreenVariable("target_area", None)
+                action If(correct_target == "tongue",
+                    Return(),
+                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+
+
+        if(not arm_added):
+            button:
+                xsize 120
+                ysize 120
+                xpos 700
+                ypos 700
+                hovered SetScreenVariable("target_area", "arm"), SetScreenVariable("wrong_guess_text", False)
+                unhovered SetScreenVariable("target_area", None)
+                action If(correct_target == "arm",
+                    [Return()],
+                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+
+        on "hide":
+            action Show("projector_porter_healing")
+
+        on "show":
+            action Hide("projector_porter_healing"), Hide("projector_porter_intro")
+
+
+default tongue_added = False
+default heart_added = False
+default arm_added = False
+default porter_eyes = False
+default zoomed_porter = False
+default ascend_porter = False
+default zooming_porter = False
+image porter_heart = AlphaMask("photos/porter photo healed.png", "photos/porter mask heart.png")
+image porter_arm = AlphaMask("photos/porter photo healed.png", "photos/porter mask arm.png")
+image porter_tongue = AlphaMask("photos/porter photo healed.png", "photos/porter mask tongue.png")
+
+screen projector_porter_intro:
+    if(porter_eyes):
+        add "bg/bg tray red.png" at enlarger_bg, porter_heal_bg
+        add "photos/porter photo.png" at developingImage(1,1,0), developingImageWave, porter_heal_bg
+        add "photos/porter photo.png" at developingImage(1,1,0), porter_heal_bg, porter_heal_in
+        add "photos/porter photo eyes.png" at developingImage(1,1,0), developingImageWave, porter_heal_new
+    else:
+        add "bg/bg tray red.png" at enlarger_bg
+        add "photos/porter photo.png" at developingImage(1,1,0), developingImageWave
+
+
+screen projector_porter_healing:
+    add "bg/bg enlarger red bigger.png" at enlarger_bg, porter_heal_bg
+    add "photos/porter photo.png" at enlarger_base_image(1), porter_heal_bg
+    add "photos/porter photo eyes.png" at enlarger_base_image(1), porter_heal_bg
+    add "photos/porter photo.png" at enlarger_base_image(1), porter_heal_bg, porter_heal_in
+    if(tongue_added):
+        add "porter_arm" at enlarger_base_image(1), porter_heal_bg
+        add "porter_heart" at enlarger_base_image(1), porter_heal_bg
+        add "porter_tongue" at enlarger_base_image(1), porter_heal_new
+    elif(heart_added):        
+        add "porter_arm" at enlarger_base_image(1), porter_heal_bg
+        add "porter_heart" at enlarger_base_image(1), porter_heal_new
+    elif(arm_added):
+        add "porter_arm" at enlarger_base_image(1), porter_heal_new
+
+screen projector_porter_healed:
+    if(ascend_porter):
+        add "bg/bg tray red.png" at enlarger_bg
+        add "photos/porter photo.png" at developingImageZoomed(0, 1, 1), developingImageWave, porter_ascend
+        add "photos/porter photo healed.png" at developingImageZoomed(0, 1, 1), developingImageWave, porter_ascend
+    elif(zoomed_porter):
+        add "photos/porter photo.png" at developingImageZoomed(0, 1, 1), developingImageWave
+        add "photos/porter photo healed.png" at developingImageZoomed(0, 1, 1), developingImageWave
+    elif(zooming_porter):
+        add "bg/bg tray red.png" at tray_zooming
+        add "photos/porter photo.png" at developingImageZooming(1, 0, "#ff0000", 0.7, 1, 30)
+        add "photos/porter photo healed.png" at developingImageZooming(1, 0, "#ff0000", 0.7, 1, 30)
+        add "photos/porter photo.png" at developingImageZooming(0, 1, "#ffffff", 0.7, 1, 30)
+        add "photos/porter photo healed.png" at developingImageZooming(0, 1, "#ffffff", 0.7, 1, 5)   
+    else:
+        add "bg/bg tray red.png" at enlarger_bg
+        add "photos/porter photo.png" at developingImage(1, 1, 0)
+        add "photos/porter photo healed.png" at developingImage(1,1,0)     
 
 ## Say screen ##################################################################
 ##
