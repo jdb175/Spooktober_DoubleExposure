@@ -208,7 +208,7 @@ label introScene:
     play photo_2 'piano-underscore-spook-2.mp3'
     show darkroom_workspace red with Dissolve(.7)
     "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant."
-    "A chance to work - to be *paid* to work in Erin's old studio. With her old gear. To create works inspired by her."
+    "A chance to work - to be {i}paid{/i} to work in Erin's old studio. With her old gear. To create works inspired by her."
     show bg machine with Dissolve(.7)
     "By her legacy."
     play drone_1 "eerie-1.mp3" volume 0.2 noloop fadein 2
@@ -246,14 +246,14 @@ label introScene:
     show buddy talkhand
     bud "This 'Young Artist Foundation?' She runs it. She just got tired of the limelight."
     show buddy listen
-    you "She wasn't *that* big."
+    you "She wasn't {i}that{/i} big."
     you "And she had already started talking about her next series. Does that sound like someone ready to disappear?"
     show buddy amused
     bud "Ready or not, that's what happened."
     show buddy laughs
     bud "Without a trace..."
     show buddy smile
-    "Bud is the *other* grant winner. A collage artist, whose work, despite not being photography, much more closely mirrors Erin's."
+    "Bud is the {i}other{/i} grant winner. A collage artist, whose work, despite not being photography, much more closely mirrors Erin's."
     "Surreal themes and imagery, symbols dripping with meaning. Uncommon juxtapositions."
     "You thought it was a bit derivative at first. Now you're starting to think they're a bit obsessed."
     show buddy question
@@ -288,7 +288,7 @@ label introScene:
     menu:
         "I'm actually really struggling with it.":
             $ budLevel += 1
-            "I know the grant stipulates that we can make whatever we want, so long as it is *in dialogue with Erin's work*"
+            "I know the grant stipulates that we can make whatever we want, so long as it is 'in dialogue with Erin's work'"
             "Just specific enough to make things harder, but vague enough to get drowned in options"
             show buddy laughs
             bud "Dude, it's freaking HARD, right? It's like, suddenly there's all this pressure."
@@ -353,12 +353,12 @@ label darkroomIntro2:
                 play audio "slides/sweep-4.mp3"
                 show kitchen erin:
                     smallNegativeBase
-                "Oh, wow. Now *this* is a find!"
+                "Oh, wow. Now {i}this{/i} is a find!"
                 "This photo was used to make her famous piece 'night and day.' The final version had a this crazy blazing sun images exposed over it, in the doorway."
                 "So this is like, the original negative from that work. That's crazy!"
                 "Maybe this is my first project? Maybe I print this and expose something else over it!"
                 "Put my own spin on the image..."
-                "Create dialog *with* Erin through fusing her art with mine."
+                "Create dialog with Erin through {i}fusing{/i} her art with mine."
                 "Yeah, that sounds amazing!"
                 hide kitchen erin
                 $ enlargeFirst = False
@@ -540,7 +540,7 @@ label develop_kitchen:
     "She walks towards the camera, disappearing out of frame."
     Erin "Well shit, I do believe that's going to do it."
     $ develop(20)
-    Erin "And you put something in the door and *bada bing bada boom* you got yourself a photo."
+    Erin "And you put something in the door and {i}bada bing bada boom{/i} you've got yourself some art."
     show erin smile at dcp, left with moveinleft
     Erin "I should probably shoot a few takes. Different expressions."
     $ develop(25)
@@ -638,7 +638,7 @@ label develop_kitchen_siobhan:
     show erin think at dcp, left with dissolve
     "Like she's there." #this timing needs to improve
     show siobhan talk at dcs, right with Dissolve(1)
-    Siob "*I* don't know. I trust Peter. Something about his energy."
+    Siob "I hear you... but I trust Peter. Something about his energy."
     show erin ponder at dcp, left with dissolve
     Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
     show erin think at dcp
@@ -662,7 +662,7 @@ label develop_kitchen_siobhan:
     show erin ponder at dcp
     Siob "Like, what should he be telling us?"
     show erin ponder at dcp
-    Erin "Well, so, what *is* the Porter? Like how did he find it? Why should he trust it?"
+    Erin "Well, so, what {i}is{/i} the Porter? Like how did he find it? Why should he trust it?"
     $ porterKnown = True
     Erin "He calls it a spirit but couldn't it be a demon or something?"
     show erin smile at dcp
@@ -745,9 +745,9 @@ label develop_kitchen_gunnar:
     show erin think at dcp, left with dissolve
     show gunnar points at dcs, right
     unk "I'm sure you've heard this before, but I will say it again."
-    unk "Fame is the *worst* thing that could happen to you."
+    unk "Fame is the {i}worst{/i} thing that could happen to you."
     show erin ponder at dcp
-    Erin "You're right. I *have* heard that before."
+    Erin "You're right. I {i}have{/i} heard that before."
     show erin think at dcp
     unk "Oh don't get me wrong, I understand you."
     $ develop_double(10)
@@ -782,7 +782,7 @@ label develop_kitchen_gunnar:
     $ gunnarKnown = True
     show erin think at dcp
     Gunnar "I've seen your work. Very psychological, very personal. You must think your head is a very interesting place to be."
-    Gunnar "My books have multiple points of view. And I try *very* hard to make sure none of them are my own."
+    Gunnar "My books have multiple points of view. And I try {i}{b}very{/i}{/b} hard to make sure none of them are my own."
     show erin ponder at dcp
     Erin "So you're saying I'm going to be in your book?"
     show erin think at dcp
@@ -863,7 +863,7 @@ label develop_kitchen_peter:
     show peter explain at dcs
     Erin "Maybe it'll make more sense when you see the piece."
     Erin "Honestly, I don't even know what this piece is going to be either. Usually I've got something more like a plan."
-    Erin "But I think it'll be interesting to capture these images of *before*. And then, once we go through... to the ..."
+    Erin "But I think it'll be interesting to capture these images of {b}before{/b}. And then, once we go through... to the ..."
     show erin think at dcp
     unk "Bright House, yes."
     show erin ponder at dcp

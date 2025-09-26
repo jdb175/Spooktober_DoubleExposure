@@ -134,11 +134,11 @@ label peterCalm:
     Peter "Now, if you have no more questions for me, I suppose I have one for you."
     Peter "Will you work with me?"
     "If your dream is right, Peter has a negative that you need."
-    "Although should you trust a monster in a dream? Could Peter really bring you success? You *have* felt more alive these last two days than ever..."
+    "Although should you trust a monster in a dream? Could Peter really bring you success? You {i}have{/i} felt more alive these last two days than ever..."
     menu:
-        "I need more than paper. Mr. Carlson. I need *imagery*. Something powerful.":
+        "I need more than paper. Mr. Carlson. I need {i}imagery{/i}. Something powerful to work with.":
             jump peterCalmEnding
-        "I know about the negative you carry. But don't worry, I don't want it. What I want is to *create*" if corruption >= 15: #NOTE need to fix numbers.
+        "I know about the negative you carry. But don't worry, I don't want it. What I want is to {i}create{/i}" if corruption >= 15: #NOTE need to fix numbers.
             jump shitEnding
 
 label shitEnding:

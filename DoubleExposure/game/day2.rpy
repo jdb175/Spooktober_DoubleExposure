@@ -66,7 +66,7 @@ label day2Start:
     show buddy talkhand
     bud "But there was not really any record of them interacting or anything, you know? Like, they never did a showing together."
     show buddy sad
-    bud "Here's the crazy part. Siobhan? *Disappeared.* A few months before Erin did." #same day? What's better for us?
+    bud "Here's the crazy part. Siobhan? {i}Disappeared.{/i} A few months before Erin did." #same day? What's better for us?
     show buddy talkhand
     bud "So... it begs the question, how did they know each other?"
 
@@ -90,9 +90,9 @@ label day2BudConvo:
     if porterKnown == True:
         you "Working with, or using, or calling upon, some sort of spirit called the Porter."
     if houseKnown == True:
-        you "They had plans to go *through* something or *to* something. Some other place."
+        you "They had plans to go {i}through{/i} something or {i}to{/i} something. Some other place."
     else:
-        you "They were planning to *do* something together. I don't really know what."
+        you "They were planning to {i}do{/i} something together. I don't really know what."
     show buddy sad
     bud "..."
     if budLevel <= 5:
@@ -663,7 +663,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     owl "I will. Tomorrow. Thought I'd come one last time to our usual 'meeting.'"
     frog "That's thoughtful of you, but you know that the Porter won't let you in anymore."
     frog "And if you can't get in, I can't get in, so I'm afraid our midnight jaunts have come to a close."
-    owl "What makes you think the Poter will let you in? I'm sure Peter instructed it to prevent *any* of us from getting in alone."
+    owl "What makes you think the Poter will let you in? I'm sure Peter instructed it to prevent {i}any{/i} of us from getting in alone."
     frog "No harm in trying, is there?"
     frog "But not with you here. That definitely won't fly"
     $ develop_double(10)
@@ -835,7 +835,7 @@ label develop_portal:
     show flame argue at dcp
     show porter listen at dcp, xflip
     flame "Yes, of course, of course. They need to actually start producing some art at some point anyway."
-    flame "Not that I blame them. What could be more dull than sitting around *working* when you could be in another world."
+    flame "Not that I blame them. What could be more dull than sitting around {i}working{/i} when you could be in another world."
     porter "..."
     flame "Go. Take them to the Vestibule. Show them the Corridor of Statues."
     $ develop(40)
@@ -1344,7 +1344,7 @@ label endOfDay2:
     you "Not her face over his face."
     you "Her eyes over its eyes."
     show buddy amused
-    bud "Oh. Now *that* is interesting."
+    bud "Oh. Now {i}that{/i} is interesting."
     show buddy question
     bud "In the negative here, the spirit has no eyes..."
     bud "But in your dream, it did, right?"
