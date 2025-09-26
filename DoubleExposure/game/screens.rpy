@@ -129,7 +129,6 @@ transform porterDevelopError(g):
     alpha 1
     easeout 1 alpha 0
 
-
 transform developingImageZoomed(a_start, a_target, z):
     xalign 0.5 
     yalign 0.5
@@ -137,7 +136,6 @@ transform developingImageZoomed(a_start, a_target, z):
     rotate 0
     zoom z
     alpha a_target
-
 
 transform developingImageZooming(a_start, a_target, c, z_start, z_end, period):
     xalign 0.5 
