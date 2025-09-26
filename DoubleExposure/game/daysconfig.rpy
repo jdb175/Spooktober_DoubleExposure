@@ -47,22 +47,24 @@ python early:
             label = "face", 
             path = "exposuretest/face_bg.png",
             description = "An image of a face")
+
     ##DAY ONE
     BASE_IMAGE_KITCHEN = EnlargerImage(
         label = "kitchen",
         path = "photos/kitchen erin.png",
         empty_path = "photos/kitchen.png",
         description = "The kitchen from 'night and day'")
+
     ##DAY TWO
     BASE_IMAGE_SNEAKY = EnlargerImage(
         label = "sneaky",
-        path = "exposuretest/bakgroundimage.png",
-        empty_path = "exposuretest/bakgroundimage.png",
+        path = "photos/night populated.png",
+        empty_path = "photos/night empty.png",
         description = "A clandestine photo of people in robes")
     BASE_IMAGE_PORTAL = EnlargerImage(
         label = "portal",
-        path = "exposuretest/face_bg.png",
-        empty_path = "exposuretest/face_bg.png",
+        path = "photos/portal populated.png",
+        empty_path = "photos/portal empty.png",
         description = "Robed people and a... portal??"
     )
 
@@ -72,7 +74,6 @@ python early:
             label = "mask", 
             path = "exposuretest/pallid_mask_nobpg.png",
             description = "An image of a mask")
-
     OBJECT_IMAGE_GUY = EnlargerImage(
             label = "guy", 
             path = "exposuretest/guy.png",
@@ -83,14 +84,13 @@ python early:
         label = "siobhan",
         path = "photos/kitchen siobhan.png",
         description = "A portrait of Sioban Kent")
-    
     OBJECT_IMAGE_PETER = EnlargerImage(
         label = "peter",
         path = "photos/kitchen peter.png",
         description = "Portrait, moustache man")
     OBJECT_IMAGE_GUNNAR = EnlargerImage(
         label = "gunnar",
-        path = "exposuretest/guy.png",
+        path = "photos/kitchen gunnar.png",
         description = "Portrait, unknown"
     )
     ##DAY TWO
@@ -120,7 +120,7 @@ python early:
 
     DAY_CONFIGS = {
         Days.DAY_ONE: DayConfig(
-            photo_paper = 2,
+            photo_paper = 4, #NOTE: SHOULD BE 2, but I increased for testing
             base_images = [
                 BASE_IMAGE_KITCHEN
             ],
