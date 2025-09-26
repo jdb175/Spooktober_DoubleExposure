@@ -138,12 +138,12 @@ transform zoomedEnlarger:
     yalign 0.5
 
 transform dcp:
-    ysize 900
+    ysize 1000
     fit "scale-down"
     alpha  .3 + min(base_development / MAX_DEVELOP_TIME, 1.0) *.7
         
 transform dcs:
-    ysize 900
+    ysize 1000
     fit "scale-down"
     alpha  .3 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
 
