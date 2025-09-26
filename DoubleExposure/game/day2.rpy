@@ -283,7 +283,7 @@ label develop_sneaky:
     show unmasked listen at dcp, right with dissolve
     $ zoom_development = True
     owl "Took you long enough!"
-    owl "Where your mask?"
+    owl "Where's your mask?"
     $ develop(10)
     show unmasked speak at dcp
     show owl point at xflip,dcp
@@ -348,19 +348,20 @@ label develop_sneaky:
     "The image is getting darker now, becoming overdeveloped"
 
 label develop_sneaky_overexposed:
+    $ renpy.block_rollback()
     $ develop_overexposed(5)
     $ corruption += 5
-    show owl point at xflip, dcp
+    show owl point at xflip, dcp, dc_overexpose
     owl "Soon we will transgress"
     owl "Soon, the bright will spill"
     $ develop_overexposed(10)
-    show owl point at xflip, dcp
+    show owl point at xflip, dcp, dc_overexpose
     owl "The guardian, the warden, the Porter will fall"
     $ develop_overexposed(15)
-    show owl point at xflip, dcp
+    show owl point at xflip, dcp, dc_overexpose
     owl "BUT HE SHALL RETURN"
     $ develop_overexposed(20)
-    show owl point at xflip, dcp
+    show owl point at xflip, dcp, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -427,12 +428,13 @@ label develop_sneaky_owl:
     owl "{size=+4}We haven't even killed you yet! I have no hand to give you!!"
 
 label develop_sneaky_owl_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time"
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show owl2 at dcp
+    show owl2 at dcp, dc_overexpose
     show porter temp:
         dcs
         yalign .01
@@ -443,10 +445,10 @@ label develop_sneaky_owl_overexposed:
     $ photoRuined = True
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
     $ develop_overexposed(20)
-    show owl2 at dcp
+    show owl2 at dcp, dc_overexpose
     porter "{sc=2}NOW{/sc}"
     $ develop_overexposed(30)
-    show owl2 at dcp
+    show owl2 at dcp, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
@@ -516,29 +518,30 @@ label develop_sneaky_flame:
     flame "Now, get your things and leave my home."
 
 label develop_sneaky_flame_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time"
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show flame argue at dcs
-    show owl point at xflip, dcp
+    show flame argue at dcs, dc_overexpose
+    show owl point at xflip, dcp, dc_overexpose
     $ corruption += 5
     $ photoRuined = True
     flame "Your time here is done, Siobhan. In this house, and the Other."
     $ develop_overexposed(15)
-    show flame argue at dcs
-    show owl point at xflip, dcp
+    show flame argue at dcs, dc_overexpose
+    show owl point at xflip, dcp, dc_overexpose
     owl "Blind in art, blind in all things but money."
     owl "BLIND TO THE DEPTHS OF MY TREACHERY"
     $ develop_overexposed(20)
     show flame argue at dcs
-    show owl point at xflip, dcp
+    show owl point at xflip, dcp, dc_overexpose
     owl "THE {sc=4}HAND{/sc} OF THE PORTER DRAWS THE DOORS"
     owl "THE DOORS ARE DRAWN BY THE {sc=4}HAND{/sc}."
     $ develop_overexposed(25)
     show flame argue at dcs
-    show owl point at xflip, dcp
+    show owl point at xflip, dcp, dc_overexpose
     owl "{sc=4}GIVE ME BACK MY HAND{/sc}!"
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -617,13 +620,14 @@ label develop_sneaky_archer:
     $ develop_double(30)
 
 label develop_sneaky_archer_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time"
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl point at xflip, left, dcp, dc_overexpose
+    show sage base at dcs, right, dc_overexpose
     $ corruption += 5
     $ photo_ruined = True
     #This is crappy because it gives you no clues and maybe even throws you down an incorrect path.
@@ -632,17 +636,17 @@ label develop_sneaky_archer_overexposed:
     archer "I... I don't know."
     archer "Wait, how could I possibly {i}not know{/i}?"
     $ develop_overexposed(15)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl point at xflip, dcp, dc_overexpose
+    show sage base at dcs, dc_overexpose
     archer "I was walking at night, but I don't remember putting on my mask. My robes."
     archer "{size=+2}Did I really do that{/size}?"
     $ develop_overexposed(20)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl point at xflip, dcp, dc_overexpose
+    show sage base at dcs, dc_overexpose
     archer "{size=+5}HOW MUCH OF THIS IS REAL{/size}?"
     $ develop_overexposed(25)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl point at xflip, dcp, dc_overexpose
+    show sage base at dcs, dc_overexpose
     archer "{size=+10}IS ANY OF THIS REAL{/size}??"
     jump complete_sneaky_archer
 
@@ -739,12 +743,14 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     $ develop_double(30)
 
 label develop_sneaky_frog_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out just in time."
     else:
         "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     $ develop_overexposed(10)
     $ corruption += 5
+    show owl at center, dcs, dc_overexpose
     hide owl with moveoutleft
     "The figure in the owl mask walks into the shadows, leaving the image eerily quiet."
     "In the silence you are able to hear something behind you. Breathing?{nw=1}"
@@ -759,10 +765,12 @@ label develop_sneaky_frog_overexposed:
     "Gasping for breath, you look around the room. It's just you."
     "You hear some kind of noise coming from the photo in the tray."
     "Full of dread, you turn back to the image, careful not to fully take your eye off the rest of the room."
-    show owl point at center, dcs
+    show owl point at dcs, dc_overexpose
     $ develop_overexposed(15)
+    show owl point at dcs, dc_overexpose
     "They are weeping."
     $ develop_overexposed(20)
+    show owl point at dcs, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
@@ -874,26 +882,27 @@ label develop_portal:
     flame "Best to trust its guidance, I suppose. Wait, wait, wait, how boring!"
 
 label develop_portal_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out just in time."
     else:
         "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(5)
-    show flame argue at dcp
+    show flame argue at right, dcp, dc_overexpose
     $ corruption += 5
     flame "Foolish little thing. {sc=1}Blind{/sc} little thing."
     $ develop_overexposed(10)
-    show flame argue at dcp
+    show flame argue at dcp, dc_overexpose
     flame "{sc=1}Mute{/sc} little thing. {sc=2}Bloodless{/sc} little thing."
     $ develop_overexposed(15)
-    show flame argue at dcp
+    show flame argue at dcp, dc_overexpose
     flame "{sc=2}TRAPPED{/sc} little thing. {sc=4}BETRAYED{/sc} little thing."
     $ develop_overexposed(20)
-    show flame argue at dcp
+    show flame argue at dcp, dc_overexpose
     flame "{sc=4}BUT IT WILL BE MADE WHOLE."
     flame "{sc=4}AND BRIGHT THINGS WILL BE CONTAINED!"
     $ develop_overexposed(25)
-    show flame argue at dcp
+    show flame argue at dcp, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -970,14 +979,15 @@ label develop_portal_owl:
     "With that, you are left staring at an empty hallway."
 
 label develop_portal_owl_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo right as the stopwatch hits 60 seconds."
     else:
         "If you don't pull the photo out now, it will be overexposed."
-    $ develop_overexposed(10)
-    $ corruption += 5
     hide owl with moveoutleft
     hide flame with moveoutleft
+    $ develop_overexposed(10)
+    $ corruption += 5
     "With the frame now empty, only the subtle shifting of the light tells you this photograph is still animate."
     $ develop_overexposed(15)
     "The colors burn into nothing, slowly making the photo unrecognizable."
@@ -1051,19 +1061,20 @@ label develop_portal_flame:
     flame "So... so... so what is this, like some kind of warning?"
 
 label develop_portal_flame_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out just as the stopwatch hits 60 seconds."
     else:
         "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
-    show flame argue at dcp
-    show flame2 argue at WhiteNoise, xflip, dcs
+    show flame argue at dcp, dc_overexpose
+    show flame2 argue at xflip, dcs, WhiteNoise
     $ corruption += 5
     $ photoRuined = True
     doubFlame "Yes, but not for you."
     $ develop_overexposed(20)
-    show flame argue at dcp
-    show flame2 argue at WhiteNoise, xflip, dcs
+    show flame argue at dcp, dc_overexpose
+    show flame2 argue at xflip, dcs, WhiteNoise
     doubFlame "For the one who watches us."
     if corruption >= 15:
         doubFlame "The one who is {sc=3}bright"
@@ -1147,26 +1158,27 @@ label develop_portal_archer:
     "The eyes of the human mask, too, begin to glow."
 
 label develop_portal_archer_overexposed:    
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out just in time - perfectly exposed."
     else:
         "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage base at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, DoubleRegicide
     $ corruption += 5
     flame "What do you see?"
     archer "bright."
     $ develop_overexposed(15)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage base at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, DoubleRegicide
     archer "BRIGHT"
     archer "And I see..."
     $ develop_overexposed(20)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage base at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, DoubleRegicide
     archer "I see a way out."
     "An icy chill grips your heart and you feel the room start to spin."
@@ -1246,38 +1258,39 @@ label develop_portal_frog:
     $ develop_double(30)
 
 label develop_portal_frog_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out just in time."
     else:
         "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     $ corruption += 5
-    show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
+    show porter dead weyes at center, dcp, dc_overexpose
+    show frog explain at left, xflip, dcs, dc_overexpose
+    show flame argue at right, dcp, dc_overexpose
     frog "How... how does it feel?"
     flame "I can feel its power."
     $ develop_overexposed(15)
-    show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
+    show porter dead weyes at dcp, dc_overexpose
+    show frog explain at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     frog "What should it be?"
     $ develop_overexposed(20)
-    show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
+    show porter dead weyes at dcp, dc_overexpose
+    show frog explain at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     frog "Do words live in the tongue? Or the mind? Do I want to see what is in that mind? Could I even comprehend it?"
     flame "{size=+10}FOOL{/size}."
     $ develop_overexposed(25)
-    show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
+    show porter dead weyes at dcp, dc_overexpose
+    show frog explain at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     flame "{size=+7}IT MATTERS NOT{/size}."
     flame "{size=+7}ALL WILL BE RETURNED{/size}."
     $ develop_overexposed(30)
-    show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
+    show porter dead weyes at dcp, dc_overexpose
+    show frog explain at xflip, dcs, dc_overexpose
+    show flame argue at dcp, dc_overexpose
     flame "{size=+15}ALL MUST BE RETURNED{/size}"
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."

@@ -84,28 +84,46 @@ transform developingImage(a_start, a_target, b):
     #parallel:
     #    linear (a_target-a_start)*1.5 alpha a_target
     #parallel:
+
+transform developingImageWave:
     function WaveShader(period=5, amp=.2, speed=0.2, direction='both')
 
-transform developingImageZoomed(a_start, a_target, b, z):
+transform developingImageOverExposed(b):
+    matrixcolor BrightnessMatrix(b) * ContrastMatrix(1+b)
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (12.0*b)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (5.0)
+    u_speed (1.15)
+    u_scale (10.0)
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (50.0*b)   
+    u_flipSpeed (2.0)
+    u_flipScale (100.0)
+
+
+transform developingImageZoomed(a_start, a_target, z):
     xalign 0.5 
     yalign 0.5
     xoffset 0
     rotate 0
     zoom z
-    matrixcolor BrightnessMatrix(b/3)
     alpha a_target
-    #parallel:
-        #linear (a_target-a_start)*1.5 alpha a_target
-    function WaveShader(period=5, amp=.2, speed=0.2, direction='both')
 
 
-transform developingImageZooming(a_start, a_target, b, c, z_start, z_end, period):
+transform developingImageZooming(a_start, a_target, c, z_start, z_end, period):
     xalign 0.5 
     yalign 0.5
     rotate 0
     xoffset 0
     zoom z_start
-    matrixcolor TintMatrix(c) * ContrastMatrix(1 + b * 3) * BrightnessMatrix(b/3)
+    matrixcolor TintMatrix(c)
     alpha a_start
     parallel:   
         pause 0.5 
@@ -151,8 +169,24 @@ transform developedImage(a, b, z=1):
     xalign 0.5 
     yalign 0.5
     zoom .7*z
-    matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 2.5) * BrightnessMatrix(b/2.5)
+    matrixcolor SaturationMatrix(0) * ContrastMatrix(1 + b * 2.5) * BrightnessMatrix(b/4)
     alpha a
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (0)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (4.0*b)
+    u_speed (1.15)
+    u_scale (10.0*b)
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (50.0*b)   
+    u_flipSpeed (2.0)
+    u_flipScale (80.0*b)
 
 transform enlarger_bg:
     xalign 0.5
@@ -223,6 +257,14 @@ transform clock_hand_overexpose(speed):
     linear .5/speed rotate -360
     repeat
 
+transform fake_flash:    
+    xalign 0.5
+    yalign 0.5
+    zoom 1
+    alpha 1
+    pause 1
+    linear 1 alpha 0
+
 
 ################################################################################
 ## In-game screens
@@ -247,15 +289,17 @@ screen clock:
                 xanchor 0.5   
                 ypos 995
                 xpos 180
-        else:
+        elif store.can_stop_developing:
             textbutton "Stop Developing":
-                sensitive(store.can_stop_developing)
                 action Function(stop_developing)      
                 xanchor 0.5   
                 ypos 995
                 xpos 180
-
-
+        else:
+            text "{color=#888}Watch the Clock{/color}":
+                xanchor 0.5   
+                ypos 1000
+                xpos 180
 
 
 screen final_photo(base_image, secondary_image, base_development, secondary_development, overexposure):
@@ -271,6 +315,8 @@ screen final_photo(base_image, secondary_image, base_development, secondary_deve
 
         if(secondary_image):
             add secondary_image.path at developedImage(secondary_alpha, over_exposure_brightness)
+
+        add Solid("#fff", xsize=1920, ysize=1080) at fake_flash
 
 
 screen develop_photo():
@@ -298,7 +344,10 @@ screen develop_photo():
                     zoom 1
                     alpha 1
 
-                add current_base_image.empty_path at developingImageZoomed(base_alpha_start, base_alpha, over_exposure_brightness, 1)
+                if (over_exposure_brightness > 0):
+                    add current_base_image.empty_path at developingImageZoomed(base_alpha_start, base_alpha, 1), developingImageOverExposed(over_exposure_brightness)
+                else:
+                    add current_base_image.empty_path at developingImageZoomed(base_alpha_start, base_alpha, 1), developingImageWave
 
             else:
                 $ store.zoom_development_transitioned = True
@@ -307,12 +356,12 @@ screen develop_photo():
                 add Solid("#6b3c3c", xsize=1920, ysize=1080)  at image_bg_zoomin(1, 0.7, 1)
 
 
-                add store.current_base_image.path at developingImageZooming(base_alpha, 0, over_exposure_brightness, "#ff0000", 0.7, 1, 30)
-                add store.current_base_image.empty_path at developingImageZooming(0, base_alpha, over_exposure_brightness, "#ffffff", 0.7, 1, 5)
+                add store.current_base_image.path at developingImageZooming(base_alpha, 0, "#ff0000", 0.7, 1, 30)
+                add store.current_base_image.empty_path at developingImageZooming(0, base_alpha, "#ffffff", 0.7, 1, 5)
 
 
-            #if(store.is_double_exposing):
-            #    add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+                if(store.is_double_exposing):
+                    add store.current_secondary_image.path at developingImageZooming(secondary_alpha, 0, "#ff0000", 0.7, 1, 30)
         else:
             add "bg/bg tray red.png":
                 xalign 0.5

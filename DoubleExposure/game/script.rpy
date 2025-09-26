@@ -143,6 +143,27 @@ transform dcp:
 transform dcs:
     alpha  .3 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
 
+transform dc_overexpose:
+    matrixcolor BrightnessMatrix(over_exposure/MAX_OVEREXPOSURE_TIME) * ContrastMatrix(1+over_exposure/MAX_OVEREXPOSURE_TIME)
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (12.0*over_exposure/MAX_OVEREXPOSURE_TIME)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (4.0*over_exposure/MAX_OVEREXPOSURE_TIME)
+    u_speed (1.15)
+    u_scale (10.0*over_exposure/MAX_OVEREXPOSURE_TIME)
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (50.0*over_exposure/MAX_OVEREXPOSURE_TIME)   
+    u_flipSpeed (2.0)
+    u_flipScale (80.0*over_exposure/MAX_OVEREXPOSURE_TIME)
+
+
+
 transform yflip:
     yzoom -1
 
@@ -224,6 +245,12 @@ label introScene:
     play photo_3 'piano-underscore-spook-3.mp3'
     show porter photo with Dissolve(1)
     "...you are now a part of."
+    window hide
+    show porter photo:
+        pause 1
+        xalign 0.5
+        yalign 0.5
+        easein 2.2 zoom 50
     #TRANSITION TIME!
     play drone_3 'porter-drums-1.mp3' fadein 0.5
     play sfx_2 'porter-wail.mp3'
@@ -237,8 +264,9 @@ label introScene:
     stop drone_1
     stop drone_2
     stop drone_3
+    pause 2.2
     show twodays with Dissolve(2.2)
-    ""
+    pause 10
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
     play music "lil-guitar-loop.mp3" volume 0.2 fadein 1
@@ -524,7 +552,7 @@ label develop_kitchen:
                 $ seenPhoto1 = False
             "Pull it out":
                 $ develop (30)
-                "The same little pagent plays out, but your eyes are on the clock."
+                "The same little pageant plays out, but your eyes are on the clock."
                 $ stop_developing_instant()
     "The image begins to emerge, slowly at first."
     $ develop(5)
@@ -590,29 +618,30 @@ label develop_kitchen:
     "The image is getting darker now. You're about to ruin it."
 
 label develop_kitchen_overexposed:
+    $ renpy.block_rollback()
     $ develop_overexposed(5)
     $ corruption += 5
-    show erin ponder at dcp
+    show erin ponder at dcp, dc_overexpose
     Erin "But maybe it's not about who 'shares the frame with me...'"
     Erin "But who is {sc=4}outside{/sc} the frame. Watching?"
     Erin "You don't seem to care much about your images, do you?"
     $ develop_overexposed(10)
-    show erin ponder at dcp
+    show erin ponder at dcp, dc_overexpose
     Erin "{sc=4}Ruining{/sc} the things you create."
     Erin "I wouldn't make that mistake."
-    show erin smile at dcp
+    show erin smile at dcp, dc_overexpose
     "This is getting weird..."
-    show erin ponder at dcp
+    show erin ponder at dcp, dc_overexpose
     $ develop_overexposed(15)
-    show erin ponder at dcp
+    show erin ponder at dcp, dc_overexpose
     Erin "It's not your fault... but you should know..."
     Erin "that there is {sc=4}ONLY SO MUCH SKIN{/sc}"
     $ develop_overexposed(20)
-    show erin ponder at dcp
+    show erin ponder at dcp, dc_overexpose
     Erin "ONLY SO MANY {sc=4}EYES{/sc}"
     Erin "AND THE THINGS TAKEN WILL BE RETURNED"
     $ develop_overexposed(25)
-    show erin smile at dcp
+    show erin smile at dcp, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "You feel like SOMETHING TERRIBLE has happened."
     "Almost without thinking, you grab the tongs and pull out the image."
@@ -697,6 +726,7 @@ label develop_kitchen_siobhan:
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
 
 label develop_kitchen_siobhan_overexposed:
+    $ renpy.block_rollback()
     play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
     stop ambiance_1 fadeout 1.0
     if development_end_signalled:
@@ -704,6 +734,8 @@ label develop_kitchen_siobhan_overexposed:
     else:
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
+    show erin ponder at left, dcp, dc_overexpose
+    show siobhan talk at right, dcs, dc_overexpose
     $ photoRuined = True
     play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
     $ corruption += 5
@@ -711,6 +743,8 @@ label develop_kitchen_siobhan_overexposed:
     Siob "No. It is his {b}Name{/b}."
     Siob "It is his {b}Function{/b}."
     $ develop_overexposed(20)
+    show erin ponder at dcp, dc_overexpose
+    show siobhan talk at dcs, dc_overexpose
     Siob "It was {b}TAKEN{/b} from him."
     Siob "{sc=5}BUT HE WILL NOT BE CONTAINED{/sc}"
     play audio "guitar-Ab.mp3" noloop
@@ -718,6 +752,8 @@ label develop_kitchen_siobhan_overexposed:
     play drone_1 "bass-drone-1.mp3" fadein 3
     Erin "{sc=5}HE WILL HAVE WHAT IS HIS{/sc}!"
     $ develop_overexposed(30)
+    show erin ponder at dcp, dc_overexpose
+    show siobhan talk at dcs, dc_overexpose
     play drone_1 "bass-drone-2.mp3" fadein 1
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     play sfx_2 "splash-small-1.mp3" noloop volume 0.5
@@ -727,8 +763,6 @@ label develop_kitchen_siobhan_overexposed:
     stop photo_1 fadeout 0.5
     stop music fadeout 4.0
     stop melody fadeout 4.0
-    hide siobhan
-    hide Erin
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen_siobhan
@@ -817,30 +851,29 @@ label develop_kitchen_gunnar:
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
 
 label develop_kitchen_gunnar_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
-    show erin think at dcp
-    show gunnar points at dcs
+    show erin think at left, dcp, dc_overexpose
+    show gunnar points at right, dcs, dc_overexpose
     $ photoRuined = True
     $ corruption += 5
     Gunnar "There's a lot that he sees, Erin."
     Gunnar "But he can't see enough. Not what he needs to."
     Gunnar "He is BLIND, just as I AM BLIND."
     $ develop_overexposed(20)
-    show erin think at dcp
-    show gunnar points at dcs
+    show erin think at dcp, dc_overexpose
+    show gunnar points at dcs, dc_overexpose
     Gunnar "WHERE ARE MY {sc=2}EYES{/sc}, ERIN?"
     Gunnar "{sc=3}WHERE ARE MY EYES, INTERLOPER{/sc}?"
     $ develop_overexposed(30)
-    show erin think at dcp
-    show gunnar points at dcs
+    show erin think at dcp, dc_overexpose
+    show gunnar points at dcs, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
     "You feel like SOMETHING TERRIBLE has happened."
-    hide gunnar points
-    hide erin
     jump complete_kitchen_gunnar
 
 label complete_kitchen_gunnar: 
@@ -926,23 +959,24 @@ label develop_kitchen_peter:
     Peter "I found the Bright House through nothing more than pure, stupid curiosity."
 
 label develop_kitchen_peter_overexposed:
+    $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
     $ photoRuined = True
-    show peter explain at dcs
-    show erin think at dcp
+    show peter explain at right, dcs, dc_overexpose
+    show erin think at left, dcp, dc_overexpose
     Peter "But now that I've found it, I find myself feeling so... inadequate before it."
     Peter "Inadequate like the foolish, weak thing that I am."
     $ develop_overexposed(20)
-    show peter explain at dcs
-    show erin think at dcp
-    Peter "I am a{sc=4}Worm{/sc}, a {sc=4}Thief{/sc}!"
+    show peter explain at dcs, dc_overexpose
+    show erin think at dcp, dc_overexpose
+    Peter "I am a {sc=4}Worm{/sc}, a {sc=4}Thief{/sc}!"
     $ develop_overexposed(30)
-    show peter explain at dcs
-    show erin think at dcp
+    show peter explain at dcs, dc_overexpose
+    show erin think at dcp, dc_overexpose
     Peter "He will Find me. He will find You too."
     Peter "{sc=4}THIS ALL MUST BE UNDONE{/sc}."
     jump complete_kitchen_peter
@@ -1003,6 +1037,11 @@ label findPhoto:
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
             "You pull it out of your back and attempt another exposure."
+            show nightAndDayPartial with Fade(1, 0, 0,5, "#fff"):
+                zoom .9
+                xalign 0.0
+                yalign 0.5
+                rotate 1.5
             "Nothing. Just a photo."
             jump findPhoto
     jump night1
