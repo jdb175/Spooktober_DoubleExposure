@@ -74,7 +74,7 @@ transform smallNegativePerson:
     fit("scale-down")
     function play_slide_place
     matrixcolor SaturationMatrix(0) * InvertMatrix()
-    zoom .6
+    zoom .54
     blur 15
     ypos .8
     alpha 0
@@ -89,13 +89,13 @@ transform smallNegativePerson:
     pause 0.2
     linear 0.7 alpha 0.7
     function play_slide_ratchet
-    linear 1.0  blur 5 zoom .58
+    linear 1.0  blur 5 zoom .5
     pause 0.2
     function play_slide_ratchet_short
-    linear 0.2 blur 3 zoom .56
+    linear 0.2 blur 3 zoom .48
     pause 0.4
     function play_slide_ratchet_short
-    linear 0.2 blur 0 zoom .53
+    linear 0.2 blur 0 zoom .45
 
     # xsize .6
     # ysize .6
@@ -106,9 +106,9 @@ transform smallNegativePerson:
 transform smallNegativeBase:
     function play_slide_place
     matrixcolor SaturationMatrix(0) * InvertMatrix()
-    zoom .57
+    zoom .5
     blur 15
-    yalign 0.18 xalign .54 rotate 0    
+    yalign .75 xalign .54 rotate 0    
     alpha 0
     pause 0.05
     alpha 0.7
@@ -127,10 +127,15 @@ transform smallNegativeBase:
     linear 0.2 blur 3 zoom .53
     pause 0.4 
     function play_slide_ratchet_short
-    linear 0.2 blur 0 zoom .5
+    linear 0.2 blur 0 zoom .4
 
 transform offsetStoryEnlarger:
     zoom 1.15
+
+transform zoomedEnlarger:
+    zoom 1
+    xalign 0.5
+    yalign 0.5
 
 transform dcp:
     alpha  .3 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.7
@@ -326,7 +331,7 @@ label darkroomIntro2:
         "Check out the enlarger":
             #First time here
             if lightOn:
-                show bg enlarger red at offsetStoryEnlarger
+                show bg enlarger red at zoomedEnlarger
             else:
                 show bg enlarger at offsetStoryEnlarger
             if enlargeFirst == True:
