@@ -231,25 +231,25 @@ transform clock_hand_overexpose(speed):
 screen clock:
     zorder 10
     python:
-        clock_seconds = persistent.base_development % 60
+        clock_seconds = store.base_development % 60
 
     add "clock/clock gold.png" at clock_bg
-    if(persistent.over_exposure > 0):
-        add "clock/clock pointer aligned.png" at clock_hand_overexpose(persistent.over_exposure/SECONDARY_MAX_DEVELOP_TIME)
+    if(store.over_exposure > 0):
+        add "clock/clock pointer aligned.png" at clock_hand_overexpose(store.over_exposure/SECONDARY_MAX_DEVELOP_TIME)
         text "{sc=3}...{/sc}":
                 xanchor 0.5   
                 ypos 995
                 xpos 180
     else:
         add "clock/clock pointer aligned.png" at clock_hand(clock_seconds)
-        if(persistent.development_end_signalled):
+        if(store.development_end_signalled):
             text "{swap=Stopping@        @0.5}        {/swap}":
                 xanchor 0.5   
                 ypos 995
                 xpos 180
         else:
             textbutton "Stop Developing":
-                sensitive(persistent.can_stop_developing)
+                sensitive(store.can_stop_developing)
                 action Function(stop_developing)      
                 xanchor 0.5   
                 ypos 995
@@ -278,15 +278,15 @@ screen develop_photo():
         xalign 0.5
         yalign 0.5
         python:
-            over_exposure_brightness = persistent.over_exposure / MAX_OVEREXPOSURE_TIME
-            base_alpha = .2 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.8
-            secondary_alpha = .2 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
+            over_exposure_brightness = store.over_exposure / MAX_OVEREXPOSURE_TIME
+            base_alpha = .2 + min(store.base_development / MAX_DEVELOP_TIME, 1.0) *.8
+            secondary_alpha = .2 + min(store.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
 
-            alpha_delta = persistent.base_development - persistent.last_base_development
+            alpha_delta = store.base_development - store.last_base_development
 
-            print("alpha delta: ", alpha_delta, ", last_base: ", persistent.last_base_development, ", base: ", persistent.base_development)
-            base_alpha_start = .2 + min((persistent.base_development - alpha_delta) / MAX_DEVELOP_TIME, 1.0) *.8
-            secondary_alpha_start = .2 + min((persistent.secondary_development - alpha_delta) / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
+            print("alpha delta: ", alpha_delta, ", last_base: ", store.last_base_development, ", base: ", store.base_development)
+            base_alpha_start = .2 + min((store.base_development - alpha_delta) / MAX_DEVELOP_TIME, 1.0) *.8
+            secondary_alpha_start = .2 + min((store.secondary_development - alpha_delta) / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.8
 
             print("alpha start: ", base_alpha_start, ", secondary start: ", secondary_alpha_start)
 
@@ -298,7 +298,7 @@ screen develop_photo():
                     zoom 1
                     alpha 1
 
-                add persistent.current_base_image.empty_path at developingImageZoomed(base_alpha_start, base_alpha, over_exposure_brightness, 1)
+                add current_base_image.empty_path at developingImageZoomed(base_alpha_start, base_alpha, over_exposure_brightness, 1)
 
             else:
                 $ store.zoom_development_transitioned = True
@@ -307,12 +307,12 @@ screen develop_photo():
                 add Solid("#6b3c3c", xsize=1920, ysize=1080)  at image_bg_zoomin(1, 0.7, 1)
 
 
-                add persistent.current_base_image.path at developingImageZooming(base_alpha, 0, over_exposure_brightness, "#ff0000", 0.7, 1, 30)
-                add persistent.current_base_image.empty_path at developingImageZooming(0, base_alpha, over_exposure_brightness, "#ffffff", 0.7, 1, 5)
+                add store.current_base_image.path at developingImageZooming(base_alpha, 0, over_exposure_brightness, "#ff0000", 0.7, 1, 30)
+                add store.current_base_image.empty_path at developingImageZooming(0, base_alpha, over_exposure_brightness, "#ffffff", 0.7, 1, 5)
 
 
-            #if(persistent.is_double_exposing):
-            #    add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+            #if(store.is_double_exposing):
+            #    add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
         else:
             add "bg/bg tray red.png":
                 xalign 0.5
@@ -325,19 +325,19 @@ screen develop_photo():
                 zoom 0.7
                 alpha 1
 
-            add persistent.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
+            add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
 
-            if(persistent.is_double_exposing):
-                add persistent.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+            if(store.is_double_exposing):
+                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
 
 screen enlarger_select_photo():
-    if(persistent.enable_cycling):
+    if(store.enable_cycling):
         key "focus_left" action Function(cycle_enlarger, sign=-1)
         key "focus_right" action Function(cycle_enlarger, sign=1)
     frame id "enlarger_selection":
         xalign 0.5 yalign 0.5
         python:
-            base_alpha = .2 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.8
+            base_alpha = .2 + min(store.base_development / MAX_DEVELOP_TIME, 1.0) *.8
             x_scale = (random.random() - 0.5) * .15
             y_scale = (random.random() - 0.5) * .15
             rotation = (random.random() - 0.5) * 5
@@ -347,14 +347,14 @@ screen enlarger_select_photo():
 
         add "bg/bg enlarger red bigger.png" at enlarger_bg
 
-        if(persistent.current_base_image):
-            add persistent.current_base_image.path at enlarger_base_image(base_alpha)
+        if(store.current_base_image):
+            add store.current_base_image.path at enlarger_base_image(base_alpha)
 
-        add persistent.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
+        add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
         
         vbox:
-            text "[persistent.projected_image.description]"
-            textbutton "Select Image" action [Function(stop_enlarger), Return(persistent.enlarger_jump_label)]
+            text "[store.projected_image.description]"
+            textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
             
 
 ## Say screen ##################################################################
