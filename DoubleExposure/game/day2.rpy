@@ -241,8 +241,8 @@ label projector_select_base_daytwo:
 label post_image_completion_daytwo:
     scene darkroom_workspace red
     $ photoRuined = False
-    if(persistent.current_photo_paper > 0):
-        if(persistent.current_photo_paper == 1):
+    if(current_photo_paper > 0):
+        if(current_photo_paper == 1):
             "You have a single piece of photo paper left."
             if corruption >= 20:
                 "You feel a strange pang of sorrow in your chest. You don't want this to end."
@@ -252,7 +252,7 @@ label post_image_completion_daytwo:
             else:
                 "You think carefully about what you still need to learn..."
         else:
-            "You have [persistent.current_photo_paper] pieces of photo paper left."
+            "You have [current_photo_paper] pieces of photo paper left."
             "Which is good, because you still have so many questions to answer."
         jump projector_select_base_daytwo
     jump endOfDay2
@@ -315,7 +315,7 @@ label develop_sneaky:
     owl "So, are you going to turn me in?"
     show owl point at dcp
     show owl point at xflip
-    if(persistent.development_end_signalled == False):
+    if(development_end_signalled == False):
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     $ develop(35)
     show unmasked speak at dcp
@@ -427,7 +427,10 @@ label develop_sneaky_owl:
     owl "{size=+4}We haven't even killed you yet! I have no hand to give you!!"
 
 label develop_sneaky_owl_overexposed:
-    "You know that if you keep this photo in any longer you will overexpose it"
+    if development_end_signalled:
+        "You pull the photo out at the perfect time"
+    else:
+        "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     show owl2 at dcp
     show porter temp:
@@ -513,7 +516,10 @@ label develop_sneaky_flame:
     flame "Now, get your things and leave my home."
 
 label develop_sneaky_flame_overexposed:
-    "You know that if you keep this photo in any longer you will overexpose it"
+    if development_end_signalled:
+        "You pull the photo out at the perfect time"
+    else:
+        "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     show flame argue at dcs
     show owl point at xflip, dcp
@@ -611,7 +617,10 @@ label develop_sneaky_archer:
     $ develop_double(30)
 
 label develop_sneaky_archer_overexposed:
-    "You know that if you keep this photo in any longer you will overexpose it"
+    if development_end_signalled:
+        "You pull the photo out at the perfect time"
+    else:
+        "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
     show owl point at xflip, dcp
     show sage base at dcs
@@ -730,7 +739,10 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     $ develop_double(30)
 
 label develop_sneaky_frog_overexposed:
-    "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
+    if development_end_signalled:
+        "You pull the photo out just in time."
+    else:
+        "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     $ develop_overexposed(10)
     $ corruption += 5
     hide owl with moveoutleft
@@ -829,7 +841,7 @@ label develop_portal:
     show flame argue at dcp
     show porter talk at dcp, xflip
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
-    if(persistent.development_end_signalled == False):
+    if(development_end_signalled == False):
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     $ develop(35)
     show flame argue at dcp
@@ -862,7 +874,10 @@ label develop_portal:
     flame "Best to trust its guidance, I suppose. Wait, wait, wait, how boring!"
 
 label develop_portal_overexposed:
-    "If you don't pull the photo out now, it will be overexposed."
+    if development_end_signalled:
+        "You pull the photo out just in time."
+    else:
+        "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(5)
     show flame argue at dcp
     $ corruption += 5
@@ -955,7 +970,10 @@ label develop_portal_owl:
     "With that, you are left staring at an empty hallway."
 
 label develop_portal_owl_overexposed:
-    "If you don't pull the photo out now, it will be overexposed."
+    if development_end_signalled:
+        "You pull the photo right as the stopwatch hits 60 seconds."
+    else:
+        "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     $ corruption += 5
     hide owl with moveoutleft
@@ -1033,7 +1051,10 @@ label develop_portal_flame:
     flame "So... so... so what is this, like some kind of warning?"
 
 label develop_portal_flame_overexposed:
-    "If you don't pull the photo out now, it will be overexposed."
+    if development_end_signalled:
+        "You pull the photo out just as the stopwatch hits 60 seconds."
+    else:
+        "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     show flame argue at dcp
     show flame2 argue at WhiteNoise, xflip, dcs
@@ -1125,8 +1146,11 @@ label develop_portal_archer:
     show porter dead at center, dcp, DoubleRegicide
     "The eyes of the human mask, too, begin to glow."
 
-label develop_portal_archer_overexposed:
-    "If you don't pull the photo out now, it will be overexposed."
+label develop_portal_archer_overexposed:    
+    if development_end_signalled:
+        "You pull the photo out just in time - perfectly exposed."
+    else:
+        "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     show sage base at xflip, dcs
     show flame argue at dcp
@@ -1222,7 +1246,10 @@ label develop_portal_frog:
     $ develop_double(30)
 
 label develop_portal_frog_overexposed:
-    "If you don't pull the photo out now, it will be overexposed."
+    if development_end_signalled:
+        "You pull the photo out just in time."
+    else:
+        "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     $ corruption += 5
     show porter dead weyes at dcp
