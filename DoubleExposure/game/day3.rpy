@@ -195,7 +195,7 @@ label photoFinal_firstDev:
     jump finalSiobhan
 
 label finalSiobhan:
-    call screen projector_porter_final("Siobhan", "arm")
+    call screen projector_porter_final("Siobhan", "arm") with Fade(1,1,1)
     $ arm_added = True
     "This feels right."
 
@@ -210,11 +210,18 @@ label finalGunnar:
     "This feels right."
     
 label finalJudgement:
+    show screen projector_porter_healed with Fade(1,1,1)
+    hide screen projector_porter_healing
     "The bizarre composite now done, you bring it back to be developed."
-    show screen projector_porter_healing_complete with Fade(1,1,1)
+    $ zooming_porter = True
     porter "My power is returning."
+    $ zoomed_porter = True
     porter "My function may be served again."
+    $ ascend_porter = True
     porter "You have done well."
+    scene darkroom_workspace bright
+    hide screen projector_porter_healed with Fade(1,1,1)
+    show porter swear at center with Dissolve(.4)
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
     porter "Humanity will regain my service again."
     porter "With perhaps more caution."

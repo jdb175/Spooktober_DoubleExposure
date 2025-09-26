@@ -340,6 +340,16 @@ transform porter_heal_bg:
     pause .5
     easeout 1 matrixcolor BrightnessMatrix(0)
 
+transform porter_ascend:
+    matrixcolor BrightnessMatrix(0)
+    alpha 1.0
+    pause 2.0
+    parallel:
+        pause 2.0
+        linear 2.0 alpha 0
+    parallel:
+        linear 2.0 matrixcolor BrightnessMatrix(1)
+
 
 ################################################################################
 ## In-game screens
@@ -599,6 +609,9 @@ default tongue_added = False
 default heart_added = False
 default arm_added = False
 default porter_eyes = False
+default zoomed_porter = False
+default ascend_porter = False
+default zooming_porter = False
 image porter_heart = AlphaMask("photos/porter photo healed.png", "photos/porter mask heart.png")
 image porter_arm = AlphaMask("photos/porter photo healed.png", "photos/porter mask arm.png")
 image porter_tongue = AlphaMask("photos/porter photo healed.png", "photos/porter mask tongue.png")
@@ -606,12 +619,12 @@ image porter_tongue = AlphaMask("photos/porter photo healed.png", "photos/porter
 screen projector_porter_intro:
     if(porter_eyes):
         add "bg/bg tray red.png" at enlarger_bg, porter_heal_bg
-        add "photos/porter photo.png" at developingImage(1,1,0), porter_heal_bg
-        add "photos/porter photo.png" at enlarger_base_image(1), porter_heal_bg, porter_heal_in
-        add "photos/porter photo eyes.png" at developingImage(1,1,0), porter_heal_new
+        add "photos/porter photo.png" at developingImage(1,1,0), developingImageWave, porter_heal_bg
+        add "photos/porter photo.png" at developingImage(1,1,0), porter_heal_bg, porter_heal_in
+        add "photos/porter photo eyes.png" at developingImage(1,1,0), developingImageWave, porter_heal_new
     else:
         add "bg/bg tray red.png" at enlarger_bg
-        add "photos/porter photo.png" at developingImage(1,1,0)
+        add "photos/porter photo.png" at developingImage(1,1,0), developingImageWave
 
 
 screen projector_porter_healing:
@@ -629,11 +642,24 @@ screen projector_porter_healing:
     elif(arm_added):
         add "porter_arm" at enlarger_base_image(1), porter_heal_new
 
-screen projector_porter_healing_complete:
-    add "bg/bg tray red.png" at enlarger_bg, porter_heal_bg
-    add "photos/porter photo.png" at developingImage(1,1,0), porter_heal_bg
-    add "photos/porter photo healed.png" at developingImage(1,1,0), porter_heal_bg
-     
+screen projector_porter_healed:
+    if(ascend_porter):
+        add "bg/bg tray red.png" at enlarger_bg
+        add "photos/porter photo.png" at developingImageZoomed(0, 1, 1), developingImageWave, porter_ascend
+        add "photos/porter photo healed.png" at developingImageZoomed(0, 1, 1), developingImageWave, porter_ascend
+    elif(zoomed_porter):
+        add "photos/porter photo.png" at developingImageZoomed(0, 1, 1), developingImageWave
+        add "photos/porter photo healed.png" at developingImageZoomed(0, 1, 1), developingImageWave
+    elif(zooming_porter):
+        add "bg/bg tray red.png" at tray_zooming
+        add "photos/porter photo.png" at developingImageZooming(1, 0, "#ff0000", 0.7, 1, 30)
+        add "photos/porter photo healed.png" at developingImageZooming(1, 0, "#ff0000", 0.7, 1, 30)
+        add "photos/porter photo.png" at developingImageZooming(0, 1, "#ffffff", 0.7, 1, 30)
+        add "photos/porter photo healed.png" at developingImageZooming(0, 1, "#ffffff", 0.7, 1, 5)   
+    else:
+        add "bg/bg tray red.png" at enlarger_bg
+        add "photos/porter photo.png" at developingImage(1, 1, 0)
+        add "photos/porter photo healed.png" at developingImage(1,1,0)     
 
 ## Say screen ##################################################################
 ##
