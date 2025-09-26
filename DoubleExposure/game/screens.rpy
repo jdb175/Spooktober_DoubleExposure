@@ -310,6 +310,38 @@ transform fake_flash:
     pause 1
     linear 1 alpha 0
 
+transform porter_heal_in:
+    shader "MakeVisualNovels.PerlinWarp"
+    # How many changes per second.
+    # Higher is more energetic.
+    u_fps (5)
+    # Body Warp Variables.
+    # This provides smooth warps of the entire image.
+    u_minSmooth (0.0) # Minimum of 0.0
+    u_maxSmooth (2) # Maximum of 0.5
+    u_warpIntensity (4.0)
+    u_speed (1.15)
+    u_scale (10.0)
+    # Flipping Warp Variables.  
+    # This produces more vividly bouncing deformations
+    u_flipIntensity (50.0)   
+    u_flipSpeed (2.0)
+    u_flipScale (80.0)
+    alpha 1.0
+    pause 1
+    easeout 1.5 alpha 0.0
+
+transform porter_heal_new:
+    matrixcolor BrightnessMatrix(1)
+    pause .5
+    easeout 2 matrixcolor BrightnessMatrix(0)
+
+    
+transform porter_heal_bg:
+    matrixcolor BrightnessMatrix(.5)
+    pause .5
+    easeout 1 matrixcolor BrightnessMatrix(0)
+
 
 ################################################################################
 ## In-game screens
@@ -450,7 +482,7 @@ screen enlarger_select_photo():
             text "[store.projected_image.description]"
             textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
 
-screen projector_porter_final:
+screen projector_porter_final(name, correct_target):
         default target_area = None
         default wrong_guesses = 0
         default wrong_guess_text = False
@@ -469,17 +501,36 @@ screen projector_porter_final:
                 "arm": [-.8, -.8]
             }
 
-            name = "Siobhan"
+            images = {
+                "Siobhan": "photos/kitchen siobhan.png",
+                "Peter": "photos/kitchen peter.png",
+                "Gunnar": "photos/kitchen gunnar.png"
+            }
 
         add "bg/bg enlarger red bigger.png" at enlarger_bg
 
         add "photos/porter photo.png" at enlarger_base_image(1)
+        add "photos/porter photo eyes.png" at enlarger_base_image(1)
+
+        if(tongue_added):        
+            add "porter_tongue" at enlarger_base_image(1)
+        if(heart_added):        
+            add "porter_heart" at enlarger_base_image(1)
+        if(arm_added):
+            add "porter_arm" at enlarger_base_image(1)
 
         if(wrong_guesses > 0):
-            add "photos/porter photo.png" at enlarger_base_image(1), porterDevelopError(wrong_guesses)
+            add "photos/porter photo.png" at enlarger_base_image(1), porterDevelopError(wrong_guesses)    
+            add "photos/porter photo eyes.png" at enlarger_base_image(1), porterDevelopError(wrong_guesses)             
+            if(tongue_added):        
+                add "porter_tongue" at enlarger_base_image(1), porterDevelopError(wrong_guesses)  
+            if(heart_added):        
+                add "porter_heart" at enlarger_base_image(1), porterDevelopError(wrong_guesses)  
+            if(arm_added):
+                add "porter_arm" at enlarger_base_image(1), porterDevelopError(wrong_guesses)  
 
         if(target_area):
-            add "photos/kitchen siobhan.png" at enlarger_project_image_instant(
+            add images[name] at enlarger_project_image_instant(
                 offsets[target_area][0], 
                 offsets[target_area][1])
 
@@ -491,64 +542,100 @@ screen projector_porter_final:
         if(target_area):
             text "Project [name] over the [target_area]":
                 xalign 0.5
-                yalign 0.9
+                yalign 0.9    
+
         elif(wrong_guess_text):
             text "That doesn't feel right...":
                 xalign 0.5
-                yalign 0.9     
+                yalign 0.9       
         else:
             text "Hover to project [name]":
                 xalign 0.5
-                yalign 0.9         
-
-        #add Solid("#FFF", xsize=120, ysize=120) xoffset 1020 yoffset 580 # Heart
-        #add Solid("#FFF", xsize=120, ysize=120) xoffset 1200 yoffset 500 # Tongue
-        #add Solid("#FFF", xsize=120, ysize=120) xoffset 700 yoffset 700 # Arm
-
-        # mousearea:
-        #     area (1020, 580, 120, 120) # (x, y, width, height) of the hover area
-        #     hovered SetScreenVariable("target_area", "heart")
-        #     unhovered SetScreenVariable("target_area", None)
+                yalign 0.9      
         
-        button:
-            xsize 120
-            ysize 120
-            xpos 1020
-            ypos 580
-            hovered SetScreenVariable("target_area", "heart"), SetScreenVariable("wrong_guess_text", False)
-            unhovered SetScreenVariable("target_area", None)
-            action Return()
+        if(not heart_added):
+            button:
+                xsize 120
+                ysize 120
+                xpos 1020
+                ypos 580
+                hovered SetScreenVariable("target_area", "heart"), SetScreenVariable("wrong_guess_text", False)
+                unhovered SetScreenVariable("target_area", None)
+                action If(correct_target == "heart",
+                    Return(),
+                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
 
-        button:
-            xsize 120
-            ysize 120
-            xpos 1200
-            ypos 500
-            hovered SetScreenVariable("target_area", "tongue"), SetScreenVariable("wrong_guess_text", False)
-            unhovered SetScreenVariable("target_area", None)
-            action SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)
+        if(not tongue_added):
+            button:
+                xsize 120
+                ysize 120
+                xpos 1200
+                ypos 500
+                hovered SetScreenVariable("target_area", "tongue"), SetScreenVariable("wrong_guess_text", False)
+                unhovered SetScreenVariable("target_area", None)
+                action If(correct_target == "tongue",
+                    Return(),
+                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
 
-        button:
-            xsize 120
-            ysize 120
-            xpos 700
-            ypos 700
-            hovered SetScreenVariable("target_area", "arm"), SetScreenVariable("wrong_guess_text", False)
-            unhovered SetScreenVariable("target_area", None)
-            action SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)
+
+        if(not arm_added):
+            button:
+                xsize 120
+                ysize 120
+                xpos 700
+                ypos 700
+                hovered SetScreenVariable("target_area", "arm"), SetScreenVariable("wrong_guess_text", False)
+                unhovered SetScreenVariable("target_area", None)
+                action If(correct_target == "arm",
+                    [Return()],
+                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
 
         on "hide":
-            action Show("projector_porter_healing", Dissolve())
+            action Show("projector_porter_healing")
 
         on "show":
-            action Hide("projector_porter_healing")
+            action Hide("projector_porter_healing"), Hide("projector_porter_intro")
+
+
+default tongue_added = False
+default heart_added = False
+default arm_added = False
+default porter_eyes = False
+image porter_heart = AlphaMask("photos/porter photo healed.png", "photos/porter mask heart.png")
+image porter_arm = AlphaMask("photos/porter photo healed.png", "photos/porter mask arm.png")
+image porter_tongue = AlphaMask("photos/porter photo healed.png", "photos/porter mask tongue.png")
+
+screen projector_porter_intro:
+    if(porter_eyes):
+        add "bg/bg tray red.png" at enlarger_bg, porter_heal_bg
+        add "photos/porter photo.png" at developingImage(1,1,0), porter_heal_bg
+        add "photos/porter photo.png" at enlarger_base_image(1), porter_heal_bg, porter_heal_in
+        add "photos/porter photo eyes.png" at developingImage(1,1,0), porter_heal_new
+    else:
+        add "bg/bg tray red.png" at enlarger_bg
+        add "photos/porter photo.png" at developingImage(1,1,0)
+
 
 screen projector_porter_healing:
-    add "bg/bg enlarger red bigger.png" at enlarger_bg
-    add "photos/porter photo.png" at enlarger_base_image(1)
-    add "photos/porter photo healed.png" at enlarger_base_image(1)
+    add "bg/bg enlarger red bigger.png" at enlarger_bg, porter_heal_bg
+    add "photos/porter photo.png" at enlarger_base_image(1), porter_heal_bg
+    add "photos/porter photo eyes.png" at enlarger_base_image(1), porter_heal_bg
+    add "photos/porter photo.png" at enlarger_base_image(1), porter_heal_bg, porter_heal_in
+    if(tongue_added):
+        add "porter_arm" at enlarger_base_image(1), porter_heal_bg
+        add "porter_heart" at enlarger_base_image(1), porter_heal_bg
+        add "porter_tongue" at enlarger_base_image(1), porter_heal_new
+    elif(heart_added):        
+        add "porter_arm" at enlarger_base_image(1), porter_heal_bg
+        add "porter_heart" at enlarger_base_image(1), porter_heal_new
+    elif(arm_added):
+        add "porter_arm" at enlarger_base_image(1), porter_heal_new
 
-            
+screen projector_porter_healing_complete:
+    add "bg/bg tray red.png" at enlarger_bg, porter_heal_bg
+    add "photos/porter photo.png" at developingImage(1,1,0), porter_heal_bg
+    add "photos/porter photo healed.png" at developingImage(1,1,0), porter_heal_bg
+     
 
 ## Say screen ##################################################################
 ##

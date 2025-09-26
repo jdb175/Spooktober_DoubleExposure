@@ -180,66 +180,38 @@ label negativesReceived:
     "Most of them you don't understand. But one thing you do recognize - a negative for a photo of the Porter itself."
     "A sorry looking thing, blind and mutilated. The same photo Erin had exposed her face over."
     scene darkroom_workspace red
-    "You make your way over to the enlarger and begin to develop the photo"
+    "You make your way over to the enlarger and begin to expose the photo"
 
 label photoFinal_firstDev:
+    show screen projector_porter_intro
     "The spirit shudders to life. With no eyes to open, it simply tilts its head."
     #This is the porter IN the image. I think we'd rather not pull it out for this?
     porter "The image is old... but it will do."
     porter "It should be like so."
+    $ porter_eyes = True
     temp "The porter's eyes fade back into its head"
     porter "Now, finish what was started."
     "You take the photo back to the enlarger for another exposure as quickly as possible."
     jump finalSiobhan
 
 label finalSiobhan:
-    call screen projector_porter_final
+    call screen projector_porter_final("Siobhan", "arm")
+    $ arm_added = True
     "This feels right."
-    # menu:
-    #     set menuset
-    #     "Put SIOBHAN over the ARM":
-    #         "This feels right."
-    #         jump finalPeter
-    #     "Put SIOBHAN over the HEART:":
-    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-    #         jump finalSiobhan
-    #     "Put SIOBHAN over the TONGUE":
-    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-    #         jump finalSiobhan
-
 
 label finalPeter:
-    call screen projector_porter_final
+    call screen projector_porter_final("Peter", "heart")
+    $ heart_added = True
     "This feels right."
-    # menu:
-    #     set menuset
-    #     "Put PETER over the ARM":
-    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-    #         jump finalPeter
-    #     "Put PETER over the HEART:":
-    #         "This feels right."
-    #         jump finalGunnar
-    #     "Put PETER over the TONGUE":
-    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-    #         jump finalPeter
 
 label finalGunnar:
-    call screen projector_porter_final
+    call screen projector_porter_final("Gunnar", "tongue")
+    $ tongue_added = True
     "This feels right."
-    # menu:
-    #     set menuset
-    #     "Put GUNNAR over the ARM":
-    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-    #         jump finalGunnar
-    #     "Put GUNNAR over the HEART:":
-    #         temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-    #         jump finalGunnar
-    #     "Put GUNNAR over the TONGUE":
-    #         "This feels right."
-    #         jump finalJudgement
     
 label finalJudgement:
-    "The bizarre composite now done, you bring it back to be exposed."
+    "The bizarre composite now done, you bring it back to be developed."
+    show screen projector_porter_healing_complete with Fade(1,1,1)
     porter "My power is returning."
     porter "My function may be served again."
     porter "You have done well."
