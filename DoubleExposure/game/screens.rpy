@@ -374,10 +374,10 @@ screen develop_photo():
                 zoom 0.7
                 alpha 1
 
-            add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness)
+            add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness), developingImageWave
 
             if(store.is_double_exposing):
-                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness)
+                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness), developingImageWave
 
 screen enlarger_select_photo():
     if(store.enable_cycling):
