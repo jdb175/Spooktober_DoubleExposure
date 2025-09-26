@@ -138,10 +138,10 @@ transform zoomedEnlarger:
     yalign 0.5
 
 transform dcp:
-    alpha  .3 + min(persistent.base_development / MAX_DEVELOP_TIME, 1.0) *.7
+    alpha  .3 + min(base_development / MAX_DEVELOP_TIME, 1.0) *.7
         
 transform dcs:
-    alpha  .3 + min(persistent.secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
+    alpha  .3 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
 
 transform yflip:
     yzoom -1
@@ -477,14 +477,14 @@ label post_image_completion_dayone:
     play ambiance_1 "ambient-darkroom-light.mp3" fadein 1.0 # make sure light buzz is playing
     play ambiance_2 "ambient-darkroom-rumble.mp3" fadein 0.5
     $ photoRuined = False
-    if(persistent.current_photo_paper > 0):
-        if(persistent.current_photo_paper == 1):
+    if(current_photo_paper > 0):
+        if(current_photo_paper == 1):
             "You have a single piece of photo paper left."
             "You could do this again... maybe see something different this time?"
             "For now, the only proper image you have to work with is the negative of 'night and day.'"
             "But as it's what you've got, you hurry back to the enlarger to start another print."
         else:
-            "You have [persistent.current_photo_paper] pieces of photo paper left."
+            "You have [current_photo_paper] pieces of photo paper left."
         jump projector_select_base_dayone
     jump endOfDayOneChoices
 #endregion
@@ -553,7 +553,7 @@ label develop_kitchen:
     Erin "Since I have no idea how I'm going to be feeling after all of this."
     Erin "That's assuming, of course, you even come back at all..."
     $ develop(30)
-    if(persistent.development_end_signalled == False):
+    if(development_end_signalled == False):
         play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
         stop ambiance_1 fadeout 1.0
         "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
@@ -579,7 +579,7 @@ label develop_kitchen:
     "Erin sighs."
     $ develop(50)
     show erin think at dcp
-    if(persistent.development_end_signalled == False):
+    if(development_end_signalled == False):
         "Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
         "There's still a chance to expose something over the image, although aleady it'll likely be a bit overdeveloped."
         "But does that even matter anymore?"
@@ -699,7 +699,10 @@ label develop_kitchen_siobhan:
 label develop_kitchen_siobhan_overexposed:
     play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
     stop ambiance_1 fadeout 1.0
-    "You know that if you keep this photo in any longer you will overexpose it"
+    if development_end_signalled:
+        "You pull the photo out at the perfect time."
+    else:
+        "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
     $ photoRuined = True
     play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
@@ -814,7 +817,10 @@ label develop_kitchen_gunnar:
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
 
 label develop_kitchen_gunnar_overexposed:
-    "You know that if you keep this photo in any longer you will overexpose it"
+    if development_end_signalled:
+        "You pull the photo out at the perfect time."
+    else:
+        "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
     show erin think at dcp
     show gunnar points at dcs
@@ -920,7 +926,10 @@ label develop_kitchen_peter:
     Peter "I found the Bright House through nothing more than pure, stupid curiosity."
 
 label develop_kitchen_peter_overexposed:
-    "You know that if you keep this photo in any longer you will overexpose it"
+    if development_end_signalled:
+        "You pull the photo out at the perfect time."
+    else:
+        "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
     $ photoRuined = True
     show peter explain at dcs
