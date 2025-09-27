@@ -356,13 +356,13 @@ label finalJudgement:
         porter "The brightness in you must be scraped out"
         play drone_1 "bass-drone-2.mp3" fadein 1
         show porter swear with Fade(.2, 0.1, .5, color="#fefefe")
-        you "{fast}{sc=4}AAAAAHHHH{/sc}{w=.4}"
-        window auto False
-        window show
+        you "{fast}{sc=4}AAAAAHHHH{/sc}{w=.4}{nw}"
+        # window auto False
+        # window show
         while corruption > 0:
             $ corruption -= 5
-            extend "{fast}{sc=4}HHHH{w=.4}"
-        window auto True
+            extend "{fast}{sc=4}HHHH{w=.4}{nw}"
+        #window auto True
         show porter talk with Fade(.2, 0.1, .5, color="#fefefe")
         stop drone_1 fadeout 2
         "The pain, which felt like hot knives carving at your insides, quickly starts to fade."
