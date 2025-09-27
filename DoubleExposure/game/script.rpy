@@ -258,12 +258,12 @@ label introScene:
     window hide
     play drone_3 'porter-drums-1.mp3' fadein 0.5
     show porter photo:
-        #pause 1
         xanchor 900
         yanchor 900
         xalign 0.5
         yalign 0.5
-        easeout 4 zoom 40
+        pause 1
+        easeout 2.2 zoom 40
     #TRANSITION TIME!
     play sfx_2 'porter-wail.mp3'
     pause 2.1
@@ -1147,9 +1147,9 @@ label night1:
     play sfx_1 "low-thud-single.mp3"
     unk "{sc=4}my blood{/sc} thick in anothers veins"
     play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
-    play sfx_1 "low-thud-single.mp3"
+    temp "SHOW hand"
     unk "{sc=4}my hand{/sc} joined to another's arm"
-    play sfx_1 "low-thud-single.mp3"
+    temp "SHOW tongue"
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     play sound "porter-single-voice-higher.mp3" volume 0.2
     play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
