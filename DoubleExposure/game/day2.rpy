@@ -135,8 +135,12 @@ label day2BudConvo:
         you "Look up someone named Gunnar too. I think they're famous. Possibly a writer?"
     show buddy question
     bud "Okay, yeah, I'll try."
+    bud "If you get a chance to learn more, you should take it."
+    show buddy sad
+    bud "I feel like this isn't going away and I think we need to learn more."
+    "..."
     show buddy tricky
-    bud "This is fucking crazy"
+    bud "This is fucking crazy, though, isn't it!"
     show buddy talkhand
     bud "I'll come by later? Or call you if anything super interesting comes up."
     if corruption >= 10:
@@ -290,7 +294,7 @@ label develop_sneaky:
                 $ donePhoto2 = False
             "Pull it out":
                 $ develop (30)
-                "The same little pagent plays out, but your eyes are on the clock."
+                "The robed figures argue as before, but your eyes are on the clock."
                 $ stop_developing_instant()
     #This is GUNNAR, officially
     $ zoom_development = True
@@ -520,53 +524,68 @@ label develop_sneaky_flame:
     "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
     $ zoom_development = True
     pause 3
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show flame argue at dcs, right with Dissolve(.8)
+    show owl crossed at dcp, xflip, left with Dissolve(.4)
+    show fire hips at dcs, right with Dissolve(.8)
     "This time, the figure in the owl mask does not seem to want to talk."
-    show owl point at dcp
+    show owl crossed at dcp
     pause .1
     hide owl with moveoutleft
     "They hurry into the shadows, as if they do not want to be seen."
     $ develop_double(5)
-    show flame argue at dcs
+    show fire point at dcs
     $ audio_sneaky_melody("peter")
     flame "What are you doing sneaking around in the dark?"
     flame "I've already seen you, Siobhan." #this may be too much? But I think Peter would say it.
-    show owl point at dcp, xflip, left with moveinleft
-    with moveinright
     $ develop_double(10)
-    show flame argue at dcs
-    show owl point at xflip, dcp
+    show fire argue at dcs
+    show owl scared at dcp, xflip, left with moveinleft
     flame "Do you think I didn't notice someone has been going through my papers?"
+    show fire explain at dcs
+    show owl crossed at xflip, dcp
     flame "I had very much hoped to catch you in the act."
+    show fire hips at dcs
     flame "But I didn't expect to catch you trying to sneak into the Bright House on your own."
+    show fire point at dcs
     flame "Well? Speak."
+    show owl open at xflip, dcp
+    show fire hips at dcs
     owl "I don't know what you think I'm doing, or what you think I've done."
+    show owl point at xflip, dcp
     owl "But I do know you've been keeping a lot of secrets from us."
     $ develop_double(15)
-    show flame argue at dcs
-    show owl point at xflip, dcp
+    show fire explain at dcs
+    show owl crossed at xflip, dcp
     flame "I've said many times that as we continue to explore together, I will share more of what I know."
     flame "That is entirely because I wanted to ensure I was working with people I could trust."
+    show fire argue at dcs 
     flame "And here you are, living proof that I was right to be cautious."
+    show fire hips at dcs
     owl "I think you like holding all the power, stringing us along."
+    show owl explain at xflip, dcp
     owl "I think you want to keep the Bright House all to yourself."
     $ develop_double(20)
-    show flame argue at dcs
+    show fire hips at dcs
     show owl point at xflip, dcp
     owl "You're only sharing it because of your own inability to understand it."
+    show owl crossed at xflip, dcp
+    show fire argue at dcs
     flame "Don't be stupid! You had so much you could have gained from this!"
-    flame "Your art, your insight, your abilities, in just a few days you have grown more than you might in months of toil!"
-    flame "This is the light of creativity itself."
+    flame "Your art, your insight, your abilities..."
+    flame "In just a few days you have grown more than you would have in years of toil!"
+    show fire open at dcs
+    flame "This is the light of {b}creativity itself{/b}."
     flame "And now it will be shut to you forever."
     $ develop_double(25)
-    show flame argue at dcs
-    show owl point at xflip, dcp
-    flame "I have summoned the Porter and told it that you summon it with stolen magic. That you intend to use to transgress its boundries"
+    show fire argue at dcs
+    show owl crossed at xflip, dcp
+    flame "I have already summoned the Porter and told it that you've been calling it with stolen magic."
+    show fire point at dcs
+    flame "That you intend to transgress the limits it has set for us."
+    show fire hips at dcs
     flame "It will open no more doors for you."
     $ develop_double(30)
-    show flame argue at dcs
-    show owl point at xflip, dcp
+    show fire show at dcs
+    show owl crossed at xflip, dcp
     flame "Now, get your things and leave my home."
     $ reachedEnd = True
 
@@ -577,8 +596,8 @@ label develop_sneaky_flame_overexposed:
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show flame argue at dcs, dc_overexpose
-    show owl point at xflip, dcp, dc_overexpose
+    show fire show at dcs, dc_overexpose
+    show owl point at dcp, xflip, dc_overexpose
     $ corruption += 5
     $ audio_sneaky_overexpose()
     $ photoRuined = True
@@ -587,20 +606,21 @@ label develop_sneaky_flame_overexposed:
     flame "Your time here is done, Siobhan. In this house, and the Other."
     $ develop_overexposed(15)
     $ audio_escalate(1)
-    show flame argue at dcs, dc_overexpose
-    show owl point at xflip, dcp, dc_overexpose
+    show fire show at dcs, dc_overexpose
+    show owl crossed at dcp, xflip, dc_overexpose
     owl "Blind in art, blind in all things but money."
     owl "BLIND TO THE DEPTHS OF MY TREACHERY"
     $ develop_overexposed(20)
     $ audio_escalate(2)
-    show flame argue at dcs
-    show owl point at xflip, dcp, dc_overexpose
+    show fire show at dcs
+    show owl crossed at dcp, xflip, dc_overexpose
     owl "THE {sc=4}HAND{/sc} OF THE PORTER DRAWS THE DOORS"
     owl "THE DOORS ARE DRAWN BY THE {sc=4}HAND{/sc}."
     $ develop_overexposed(25)
     $ audio_escalate(3)
-    show flame argue at dcs
-    show owl point at xflip, dcp, dc_overexpose
+    show fire show at dcs:
+        WhiteNoise
+    show owl crossed at dcp, xflip, dc_overexpose
     owl "{sc=4}GIVE ME BACK MY HAND{/sc}!"
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -629,53 +649,105 @@ label develop_sneaky_archer:
     $ zoom_development = True
     pause 3
     $ develop_double(5)
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show sage base at dcs, right with Dissolve(.8)
+    show owl hips at dcp, left with Dissolve(.4)
+    show sage crossed at dcs, right with Dissolve(.8)
     owl "Oh!"
-    owl "It's... what are you doing here?"
+    show owl hips at xflip, dcp
+    owl "It's... it's you."
+    owl "What are you doing here?"
     $ audio_sneaky_melody("erin")
+    show sage explain at dcs
     archer "I could ask you the same question."
+    show owl show at xflip, dcp
+    show sage hips at dcs
     owl "I've been taking walks at night. Trying to, basically process everything we've seen in the Bright House."
+    show owl crossed at xflip, dcp
     owl "I find wearing the costume helps me remember. Stupid as they are."
-    owl "Because it's like, after that first day. When I came back through. It all made so much sense."
-    owl "I could see the threads connecting {b}there{/b} to {b}here{/b}."
+    owl "Because it's like..."
+    show owl scared at xflip, dcp
+    owl "The first time I went through the portal... that first day It all made so much sense."
+    show owl show at xflip, dcp
+    owl "I could see the threads connecting {i}there{/i} to {i}here{/i}."
+    show owl open at xflip, dcp
     owl "I felt like I'd just taken a tour backstage at a play I'd seen a thousand times."
+    show owl crossed at xflip, dcp
     owl "But it fades so fast, doesn't it?"
     $ develop_double(10)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl crossed at xflip, dcp
+    show sage open at dcs
     archer "It does."
-    archer "I think it's meant to. Or, I think we're not meant to understand."
-    owl "Oh, that's definitely what {i}they{/i} think. Peter and his freaky little dog. Keeping tabs on us. Telling us where we can and can't go."
+    show sage show at dcs
+    archer "I think it's meant to fade, though."
+    archer "I think we're not meant to understand."
+    show sage hips at dcs
+    archer "Not really."
+    show owl open at xflip, dcp
+    owl "Oh, that's definitely what {i}they{/i} think."
+    show owl explain at xflip, dcp
+    owl "Peter and his freaky little spirit gremlin. Keeping tabs on us."
+    owl "Telling us where we can and can't go."
+    show owl crossed at xflip, dcp
+    show sage explain at dcs
     archer "I don't know. I think there's a reason for that."
-    archer "Although what do I know. I envy you. Your recent work has been... incredible. I don't know how to describe it."
+    show sage open at dcs
+    archer "Although what the hell do I know."
+    show sage hips at dcs
+    archer "Actually... I envy you."
+    archer "Your recent work has been... incredible. I don't know how to describe it."
+    show sage open at dcs
     archer "But it feels like I can see a bit of that place when I look at it."
-    owl "Who knows if anyone else will. Every piece I make just immediately feels like it's shit. Like it's so far from what I meant."
+    show sage hips at dcs
+    show owl scared at xflip, dcp
+    owl "Who knows if anyone else will. Every piece I make just immediately feels like it's shit."
+    show owl crossed at xflip, dcp
+    owl "Like it's so far from what I meant to say."
     $ develop_double(15)
-    show owl point at xflip, dcp
-    show sage base at dcs
-    owl "But don't you think if you could just get a little further you could figure it out? If you feel stuck too, well, there's answers deeper for you, aren't there?"
-    owl "Maybe not for poor Gunnar. I looked in his notebook. It's like the shining, writing the same sentence over and over again."
+    show owl explain at xflip, dcp
+    show sage hips at dcs
+    owl "But don't you think if you could just get a little further in the House you could figure it out?"
+    owl "Like there's answers just waiting for you if you could go deeper?"
+    show owl crossed at xflip, dcp
+    owl "At least for us. Maybe not for poor Gunnar."
+    show owl show at xflip, dcp
+    owl "I looked in his notebook. It's like the shining, writing the same sentence over and over again."
+    show owl explain at xflip, dcp
     owl "Not literally, like, he's not crazy. I don't think. But it's just first sentence, second sentence, cross it out."
-    owl "I liked your kitchen thing. I think you're better at this than you think. The idea of using the masks is cool too. Not sure what Peter will think."
+    show sage argue at dcs
+    show owl crossed at xflip, dcp
+    archer "He's actually successful though."
+    show sage hips at dcs
+    show owl show at xflip, dcp
+    owl "And you will be too! I think you're better at this than you think"
+    owl "Your idea of using the masks is cool. Not sure what Peter will think, but its cool."
+    show owl explain at xflip, dcp
+    owl "I think he'll do anything you ask though if you just say it's 'for your art'"
+    show owl crossed at xflip, dcp
+    show sage open at dcs
     archer "See? This is what I mean. I think my art sucks, you think your art sucks, but to the outside world it's good."
+    show owl scared at xflip, dcp
+    show sage hips at dcs
     owl "Maybe..."
     $ develop_double(20)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl crossed at xflip, dcp
+    show sage hips at dcs
     owl "..."
     owl "Do you really trust Peter and that... creature?"
+    show sage show at dcs
     archer "I don't know. I trust him not to get us killed or anything."
     archer "But I still don't feel like I understand what he's trying to do. Or why that spirit helps him."
+    show sage point at dcs
     archer "I'm debating doing what you did..."
+    show sage explain at dcs
     archer "Trying to read some of Peter's notes and stuff."
     $ develop_double(25)
-    show owl point at xflip, dcp
-    show sage base at dcs
+    show owl crossed at xflip, dcp
+    show sage hips at dcs
     owl "Yeah. Me too."
     owl "..."
+    show owl explain at xflip, dcp
     owl "I wonder where he keeps his... you know, his spells and stuff."
     owl "I wonder if we could find those too."
+    show owl crossed at xflip, dcp
     archer "I think that's a bad idea."
     owl "Yeah, you're probably right."
     $ develop_double(30)
@@ -688,8 +760,8 @@ label develop_sneaky_archer_overexposed:
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show owl point at xflip, left, dcp, dc_overexpose
-    show sage base at dcs, right, dc_overexpose
+    show owl crossed at left, dcp, xflip, dc_overexpose
+    show sage hips at dcs, right, dc_overexpose
     $ corruption += 5
     $ audio_sneaky_overexpose()
     $ photo_ruined = True
@@ -702,23 +774,23 @@ label develop_sneaky_archer_overexposed:
     $ audio_escalate(1)
     archer "Wait, how could I possibly {i}not know{/i}?"
     $ develop_overexposed(15)
-    show owl point at xflip, dcp, dc_overexpose
-    show sage base at dcs, dc_overexpose
+    show owl crossed at dcp, xflip, dc_overexpose
+    show sage hips at dcs, dc_overexpose
     archer "I was walking at night, but I don't remember putting on my mask. My robes."
     $ audio_escalate(2)
-    archer "{size=+2}Did I really do that{/size}?"
+    archer "{size=+2}Did I really do that?"
     $ develop_overexposed(20)
-    show owl point at xflip, dcp, dc_overexpose
-    show sage base at dcs, dc_overexpose
-    archer "{size=+5}HOW MUCH OF THIS IS REAL{/size}?"
+    show owl crossed at dcp, xflip, dc_overexpose
+    show sage hips at dcs, dc_overexpose
+    archer "{size=+5}HOW MUCH OF THIS IS REAL?"
     $ develop_overexposed(25)
     $ audio_escalate(3)
-    show owl point at xflip, dcp, dc_overexpose
-    show sage base at dcs, dc_overexpose
-    archer "{size=+10}IS ANY OF THIS REAL{/size}??"
+    show owl crossed at dcp, xflip, dc_overexpose
+    show sage hips at dcs, dc_overexpose
+    archer "{size=+10}IS ANY OF THIS REAL??"
     jump complete_sneaky_archer
 
-label complete_sneaky_archer:  
+label complete_sneaky_archer:
     $ finish_development()
     $ donePhoto2 = True
     if photoRuined == True:
@@ -739,34 +811,66 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     $ zoom_development = True
     pause 3
     $ develop_double(5)
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show frog explain at dcs, right with Dissolve(.8)
+    show owl crossed at dcp, left with Dissolve(.4)
+    show frog hips at dcs, right with Dissolve(.8)
     $ audio_sneaky_melody("gunnar")
-    frog "You're still here. I wasn't expecting to see you. Didn't Peter tell you to clear out?"
-    owl "I will. Tomorrow. Thought I'd come one last time to our usual 'meeting.'"
+    frog "You're still here!"
+    show frog open at dcs
+    frog "Didn't Peter tell you to clear out?"
+    show frog hips at dcs
+    owl "I will. Tomorrow."
+    show owl crossed at dcp, xflip
+    owl "Thought I'd come one last time to our usual 'meeting.'"
     frog "That's thoughtful of you, but you know that the Porter won't let you in anymore."
+    show frog show at dcs
     frog "And if you can't get in, I can't get in, so I'm afraid our midnight jaunts have come to a close."
-    owl "What makes you think the Poter will let you in? I'm sure Peter instructed it to prevent {i}any{/i} of us from getting in alone."
+    show frog hips at dcs
+    show owl argue at dcp, xflip
+    owl "What makes you think the Poter will let you in?"
+    show owl explain at dcp, xflip
+    owl "I'm sure Peter instructed it to prevent {i}any{/i} of us from getting in alone."
+    show owl crossed at dcp, xflip
+    show frog show at dcs
     frog "No harm in trying, is there?"
+    show frog hips at dcs
     frog "But not with you here. That definitely won't fly"
     $ develop_double(10)
-    show owl point at xflip, dcp
-    show frog explain at dcs
+    show owl explain at dcp, xflip
+    show frog hips at dcs
     owl "You know if you get the ritual wrong there can be consequences. If you attempt it without my help, it could go bad for you."
     owl "Are you really sure you've got it down?"
+    show owl crossed at dcp, xflip
     frog "I'm a keen observer. I'll be alright."
+    show owl show at dcp, xflip
     owl "So you know what to keep hidden in your left hand and what to trace on your right?"
+    show frog scared at dcs
     frog "..."
+    show frog crossed at dcs
     frog "You're making things up."
+    show owl open at dcp, xflip
     owl "I'm trying to help you."
+    show owl show at dcp, xflip
     owl "Let me show you. And then I'll get out of your way."
-    owl "Keep learning about this place. You and I have come to understand how {b}important{/b} it is. What's hidden within."
     "The figure in the owl mask presses something small and black into the other's left palm."
     "They then grab the other's right hand and gently uncurl their fingers before tracing a shape on the palm."
-    frog "Good luck."
+    show owl explain at dcp, xflip
+    owl "Keep learning about this place. You and I have come to understand how {b}important{/b} it is. What's hidden within."
+    show owl hips at dcp, xflip
+    show frog open at dcs
+    frog "I will."
+    show frog crossed at dcs
+    frog "..."
+    frog "Thank you."
+    show owl hips:
+        dcp
+        xzoom 1
+    owl "Good luck."
     hide owl with moveoutleft
+    show frog magic at dcs
     "The frog masked figure stands alone now. They raise their hands in purposeful, almost artful gestures."
+    show frog explain at dcs
     "They remain completely, eerily silent. The only sound is the swooshing of their robes and the creaking of old floorboards."
+    show frog magic at dcs
     "Then..."
     #NOTE: effects here!
     play drone_1 "bass-drone-1.mp3" fadein 1.0 volume 0.5
@@ -778,8 +882,9 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     porter "You."
     $ develop_double(15)
     show porter swear at dcs, xflip, EmergencyReset, dc_porter
-    show frog explain at dcs, right
+    show frog magic at dcs
     porter "Peter has told me that you wander where you are not meant to wander"
+    show frog hips at dcs
     porter "Beyond the walls of the House and into the Gardens. That you have even gazed into the Well."
     porter "You will not ent-"
     play drone_2 "bass-drone-2.mp3" volume 0.3
@@ -788,6 +893,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     porter "what is that"
     show porter swear at dcs, xflip, DoubleRegicide, dc_porter
     frog "What is... what? This?"
+    show frog open at dcs
     "They open their left palm and reveal the odd stone pressed within."
     play sfx_2 "gong-1.mp3"
     play drone_3 "piano-underscore-spook-2.mp3"
@@ -799,9 +905,9 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     "Its arm begins to glow, consumed by a sickly yellow light."
     "The light travels through the air and into the darkness, travelling towards the hand of another."
     $ develop_double(20)
-    show frog explain at dcs, right
+    show frog crossed at dcs
     show porter swear at dcs, xflip, ArmGlow, dc_porter
-    show owl point at dcs, center, ArmGlowOwlHand with moveinbottom
+    show owl point at dcp, center, ArmGlowOwlHand with moveinbottom
     owl "Apologizes to use you like that, but I wasn't going to let anyone freeze me out."
     owl "Not after all I've seen and learned."
     play audio "gore/porter-death.mp3"
@@ -813,15 +919,16 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     stop sfx_3 fadeout 1
     pause 1
     hide porter
-    show porter dead at xflip, dcs, dc_porter with Fade(0.2, 0, 0.4, color="#e7e0ba")
+    show porter dead at dcs, xflip, dc_porter with Fade(0.2, 0, 0.4, color="#e7e0ba")
     stop photo_1 fadeout 1
     frog "What have you done?! What did you do to it?!"
     owl "Go. Your part is done here."
     frog "{size=+7}{sc=1}Aaaahh!"
+    show frog crossed at xflip, dcs
     hide frog with moveoutright
     $ develop_double(25)
-    show porter dead at xflip, dcs, dc_porter
-    show owl point at center, dcs
+    show porter dead at dcp, dc_porter
+    show owl point at center, dcp
     "Their hand now glowing with the same sickly light, the figure in the owl mask places their hand on the floor."
     "Slowly, they trace a circle around the writhing spirit."
     play sfx_1 "guitar-Ab.mp3" volume 0.5
@@ -861,13 +968,13 @@ label develop_sneaky_frog_overexposed:
     $ audio_escalate(2)
     "You hear some kind of noise coming from the photo in the tray."
     "Full of dread, you turn back to the image, careful not to fully take your eye off the rest of the room."
-    show owl point at dcs, dc_overexpose
+    show owl scared at center, dcs, dc_overexpose
     $ develop_overexposed(15)
     $ audio_escalate(3)
-    show owl point at dcs, dc_overexpose
+    show owl scared at center, dcs, dc_overexpose
     "They are weeping."
     $ develop_overexposed(20)
-    show owl point at dcs, dc_overexpose
+    show owl scared at center, dcs, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
@@ -909,7 +1016,7 @@ label develop_portal:
                 $ donePhoto3 = False
             "Pull it out":
                 $ develop (30)
-                "The same little pagent plays out, but your eyes are on the clock."
+                "The same little pageant plays out, but your eyes are on the clock."
                 $ stop_developing_instant()
     $ zoom_development = True
     pause 3

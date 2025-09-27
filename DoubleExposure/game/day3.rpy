@@ -466,8 +466,88 @@ label finalJudgement:
     play audio "breath-1.mp3"
     play music "piano-end.mp3"
 
+
+style creditStyle:
+    justify True
+
+image creditChunk1 = Text("""{b}{color=#a01111}CODE:{/b}{/color} {size=*0.85}Jason Whitehouse{/size}
+{b}{color=#a01111}WRITING/CODE:{/b}{/color} {size=*0.85}Nathan Whitehouse{/size}
+{b}{color=#a01111}SOUND/MUSIC/CODE:{/b}{/color} {size=*0.85}Kyle Levien{/size}
+{b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}""", style="creditStyle")
+
+image creditChunk2 = Text("""{b}{color=#a01111}ART LEAD:{/b}{/color} {size=*0.85}Inês Lebre{space=10}({a=https://www.instagram.com/lebre.por.gato/}{color=#d53333}lebre.por.gato{/a}{/size}{/color})
+{b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Mariana Santos{/size}
+{b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Irís Loureiro{/size}""", style="creditStyle")
+
+image creditChunk3 = Text("""{b}{color=#a01111}ADDITIONAL DEVELOPMENT:{/b}{/color}
+{size=*0.85}Sam Levatich, Madison Avery Gordon{/size}""", style="creditStyle")
+
+image creditChunk4 = Text("""{b}THIRD PARTY ASSETS WILL GO HERE{/b}
+{size=*0.85}PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=#d53333}Zoey (KleineLuka){/a}{/size}{/color}
+{size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=#d53333}Hadara Madrak{/a}{/size}{/color}""", style="creditStyle")
+
 label theEnd:
+    window auto False
     $_window_hide()
-    show thankyouforplaying with Fade(1.1, 0.5, .5, color="#ffffff")
-    pause 2.2
-    pause 2.2
+    #show thankyouforplaying with Fade(1.1, 0.5, .5, color="#ffffff")
+    scene black_background
+    with Fade(1.1, 0.5, .5, color="#ffffff")
+    show text "{size=+50}DOUBLE EXPOSURE{/size}":
+        ypos .1
+    with dissolve
+    pause
+    show nightAndDay:
+        zoom .4
+        xalign 0.8
+        yalign 0.5
+        rotate 1.5
+    with Dissolve(.5)
+    show creditChunk1:
+        xpos .1
+        ypos .4
+    with Dissolve(1)
+    pause
+    show creditChunk3:
+        xpos .1
+        ypos .6
+    with Dissolve(1)
+    pause
+    hide creditChunk1
+    hide creditChunk3
+    hide nightAndDay
+    show portal populated:
+        zoom .4
+        xalign 0.1
+        yalign 0.5
+        rotate -1.5
+    with Dissolve(.5)
+    show creditChunk2:
+        xpos .6
+        ypos .4
+    with Dissolve(1)
+    pause
+    hide creditChunk2
+    hide portal populated
+    show night populated:
+        zoom .4
+        xalign 0.8
+        yalign 0.5
+        rotate .6
+    with Dissolve(.5)
+    show creditChunk4:
+        xpos .05
+        ypos .4
+    with Dissolve(1)
+    pause
+    #menu: #for testing
+    #   "Watch it again!":
+    #        jump theEnd
+    #    "Free me!":
+    #        return
+
+
+
+
+
+
+
