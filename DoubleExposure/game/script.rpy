@@ -235,7 +235,6 @@ label introScene:
         alpha .7
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
-    #window hide
     show nightAndDay with Dissolve(1)
     pause 1.0
     "When Erin was doing it in the early 90s, people couldn't yet just photoshop together any crazy idea."
@@ -493,7 +492,8 @@ label projector_select_base_dayone:
     "You make sure your watch is in easy view as you submerge the photos."
     hide fakeClock
     hide clock pointer aligned
-    show photopaper tray
+    show photopaper tray:
+        developingImageWave
     "You drop the print in the bath and wait."
     jump expression target_label
 
@@ -582,7 +582,7 @@ label develop_kitchen:
                 $ seenPhoto1 = False
             "Pull it out":
                 $ develop (30)
-                "The same little pageant plays out, but your eyes are on the clock."
+                "You keep your eye on the clock and pull the photo out as soon as possible."
                 $ stop_developing_instant()
     "The image begins to emerge, slowly at first."
     $ develop(5)
