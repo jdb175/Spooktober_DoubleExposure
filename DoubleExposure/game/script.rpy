@@ -253,16 +253,20 @@ label introScene:
     show porter photo with Dissolve(1)
     "...you are now a part of."
     window hide
-    show porter photo:
-        pause 1
-        xalign 0.5
-        yalign 0.5
-        easein 2.2 zoom 50
-    #TRANSITION TIME!
     play drone_3 'porter-drums-1.mp3' fadein 0.5
+    show porter photo:
+        #pause 1
+        xalign 0.75
+        yalign 0.4
+        easeout 4 zoom 40
+    #TRANSITION TIME!
     play sfx_2 'porter-wail.mp3'
-    play audio ['<silence 2.1>', 'ding-1.mp3']
-    #play ambiance_1 ['<silence 2.1>', 'ambient-birds.mp3'] fadein 2.0
+    pause 2.1
+    play audio ['ding-1.mp3'] noloop
+    play audio ['low-thud-single.mp3'] noloop
+    
+    #pause 2.2
+
     stop music
     stop sfx_1
     stop photo_1
@@ -271,8 +275,8 @@ label introScene:
     stop drone_1
     stop drone_2
     stop drone_3
-    pause 2.2
-    show twodays with Dissolve(2.2)
+    show twodays with Dissolve(0)
+    stop sfx_2 fadeout 1
     pause 10
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
@@ -420,8 +424,7 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
-            play sfx_1 'light-click.mp3'
-            play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
+            $ play_darkroom_light()
             scene darkroom_workspace red
             $ lightOn = True
             jump darkroomIntro2
@@ -1076,21 +1079,15 @@ label night1:
     stop ambiance_2 fadeout 2
     scene bg bedroom light with dissolve
     "With your head swirling with questions, you head home to try and get some sleep."
-    play ambiance_3 "crickets-1.mp3" volume 0.1 fadein 2 loop
+    call night_crickets
     show bg bedroom sleep with Dissolve(1)
     "It comes slowly, but sleep does come."
-    play sfx_1 "gong-3.mp3"
-    play drone_1 "eerie-1.mp3" volume 0.4 fadein 4 noloop
-    play nightmare_1 "<loop 3>porter-drone.mp3" fadein 3 volume 0.4
-    play sfx_2 "heavy-breathing.mp3" volume 0.1 loop fadein 4.0
+    call nightmare_start
     scene bg nightmare:
         RaveLights
     with Dissolve(2.0)
     "..."    
-    play drone_2 "bass-drone-1.mp3" volume 0.5 fadein 2
-    play sound "gong-1.mp3"
-    play sfx_3 ["<silence 2>", "guitar-Ab.mp3"] volume 0.5
-    play audio "porter-wail.mp3" volume 1.0
+    call nightmare_porter_appear
     show porter temp:
         yalign .03
         xalign .5
@@ -1147,15 +1144,7 @@ label night1:
     play sound "porter-wail.mp3"
     play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
     pause 2
-    stop ambiance_1 fadeout 1
-    stop nightmare_1 fadeout 1
-    stop nightmare_2 fadeout 1
-    stop nightmare_3 fadeout 1
-    stop drone_1
-    stop drone_2
-    stop drone_3
-    show bg bedroom light with flash
-    play audio "breath-2.mp3"
+    call nightmare_stop
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
     "The face from the photo you found."
     "Like it is burned into your vision."

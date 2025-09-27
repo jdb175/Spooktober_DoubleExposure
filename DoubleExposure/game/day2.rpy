@@ -197,6 +197,7 @@ label day2_print:
     "You of course have some doubts - whatever forces you are playing with you don't understand."
     "And this paper being here is... suspicious..."
     show darkroom_workspace red
+    $ play_darkroom_light()
     if corruption >= 10:
         "But you find your heart quickening at the thought of seeing these photos come to life again"
     else:
@@ -204,8 +205,6 @@ label day2_print:
     jump projector_select_base_daytwo
 
 label projector_select_base_daytwo:
-    play audio "light-click.mp3"
-    play ambiance_1 "ambient-darkroom-light.mp3" fadein 1.0
     scene black_background with flash
     $ start_enlarger()
     window hide
@@ -273,6 +272,7 @@ label develop_sneaky:
     "Something about the seemingly candid nature of this photo intrigues you."
     "You slide in a piece of photo paper and start to print the image."
     $ develop(5)
+    $ audio_sneaky()
     "'It' begins to happen again..."
     #NOTE: Add "if seen this photo already" code in once we standardize how it works.
     if donePhoto2:
@@ -359,6 +359,7 @@ label develop_sneaky_overexposed:
     $ renpy.block_rollback()
     $ develop_overexposed(5)
     $ corruption += 5
+    $ audio_sneaky_overexpose()
     show owl point at xflip, dcp, dc_overexpose
     owl "Soon we will transgress"
     $ audio_escalate(1)
@@ -390,11 +391,13 @@ label complete_sneaky:
 #region sneaky siobhan/owl
 label develop_sneaky_owl:
     $ start_double_exposing(OBJECT_IMAGE_OWL)
+    $ audio_sneaky()
     "As your photo develops, you heart begins to quicken, almost uncontrollably."
     $ zoom_development = True
     pause 3
     show owl point at dcp, xflip, left with Dissolve(.4)
     show owl2 point at dcs, right with Dissolve(.8)
+    $ audio_sneaky_melody("siobhan")
     "The two robed figures, each wearing the same mask begin to speak."
     $ develop_double(5)
     show owl point at dcp, xflip, left with Dissolve(.4)
@@ -454,6 +457,7 @@ label develop_sneaky_owl_overexposed:
         xzoom -1
         WhiteNoise
     $ corruption += 5
+    $ audio_sneaky_overexpose()
     $ photoRuined = True
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
     $ develop_overexposed(20)
@@ -480,6 +484,7 @@ label complete_sneaky_owl:
 #region sneaky peter/flame
 label develop_sneaky_flame:
     $ start_double_exposing(OBJECT_IMAGE_FLAME)
+    $ audio_sneaky()
     "You watch with curiosity as the photo begins to move, the masked figures begin their speech"
     $ zoom_development = True
     pause 3
@@ -492,6 +497,7 @@ label develop_sneaky_flame:
     "They hurry into the shadows, as if they do not want to be seen."
     $ develop_double(5)
     show flame argue at dcs
+    $ audio_sneaky_melody("peter")
     flame "What are you doing sneaking around in the dark?"
     flame "I've already seen you, Siobhan." #this may be too much? But I think Peter would say it.
     show owl point at dcp, xflip, left with moveinleft
@@ -541,6 +547,7 @@ label develop_sneaky_flame_overexposed:
     show flame argue at dcs, dc_overexpose
     show owl point at xflip, dcp, dc_overexpose
     $ corruption += 5
+    $ audio_sneaky_overexpose()
     $ photoRuined = True
     flame "Your time here is done, Siobhan. In this house, and the Other."
     $ develop_overexposed(15)
@@ -582,6 +589,7 @@ label complete_sneaky_flame:
 label develop_sneaky_archer:
     #This scene needs more information
     $ start_double_exposing(OBJECT_IMAGE_ARCHER)
+    $ audio_sneaky()
     "From the strange masked figures, you see faint movement and hear whispers, growing stronger, growing bolder."
     $ zoom_development = True
     pause 3
@@ -590,6 +598,7 @@ label develop_sneaky_archer:
     show sage base at dcs, right with Dissolve(.8)
     owl "Oh!"
     owl "It's... what are you doing here?"
+    $ audio_sneaky_melody("erin")
     archer "I could ask you the same question."
     owl "I've been taking walks at night. Trying to, basically process everything we've seen in the Bright House."
     owl "I find wearing the costume helps me remember. Stupid as they are."
@@ -646,6 +655,7 @@ label develop_sneaky_archer_overexposed:
     show owl point at xflip, left, dcp, dc_overexpose
     show sage base at dcs, right, dc_overexpose
     $ corruption += 5
+    $ audio_sneaky_overexpose()
     $ photo_ruined = True
     #This is crappy because it gives you no clues and maybe even throws you down an incorrect path.
     owl "... wait, you never answered me. What {i}are{/i} you doing out here? Dressed in your portal robes??"
@@ -685,6 +695,7 @@ label complete_sneaky_archer:
 #region sneaky gunnar/frog
 label develop_sneaky_frog: #This scene is hella long but needs to be...
     $ start_double_exposing(OBJECT_IMAGE_FROG)
+    $ audio_sneaky()
     "While it's clear that this photo wasn't taken to be a piece of art, there's an incredible energy you feel watching the masked figures shiver to life."
     "Like you are stealing a glimpse at some great secret."
     $ zoom_development = True
@@ -692,6 +703,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     $ develop_double(5)
     show owl point at dcp, xflip, left with Dissolve(.4)
     show frog explain at dcs, right with Dissolve(.8)
+    $ audio_sneaky_melody("gunnar")
     frog "You're still here. I wasn't expecting to see you. Didn't Peter tell you to clear out?"
     owl "I will. Tomorrow. Thought I'd come one last time to our usual 'meeting.'"
     frog "That's thoughtful of you, but you know that the Porter won't let you in anymore."
@@ -770,6 +782,7 @@ label develop_sneaky_frog_overexposed:
         "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     $ develop_overexposed(10)
     $ corruption += 5
+    $ audio_sneaky_overexpose()
     show owl at center, dcs, dc_overexpose
     hide owl with moveoutleft
     "The figure in the owl mask walks into the shadows, leaving the image eerily quiet."
@@ -826,8 +839,9 @@ label develop_portal:
     "You slide in a piece of photo paper and start to print the image."
     $ develop(5)
     "It begins to happen again..."
-    play photo_1 "creaking-underscore.mp3"
-    play photo_2 "low-thudding.mp3"
+    $ audio_portal()
+    #play photo_1 "creaking-underscore.mp3"
+    #play photo_2 "low-thudding.mp3"
     if donePhoto3:
         "You could watch it all play out once more, or you could just pull it out as soon as possible"
         menu:
@@ -914,6 +928,7 @@ label develop_portal_overexposed:
         "You pull the photo out just in time."
     else:
         "If you don't pull the photo out now, it will be overexposed."
+    $ audio_portal_overexpose()
     $ develop_overexposed(5)
     show flame argue at right, dcp, dc_overexpose
     $ corruption += 5
@@ -950,13 +965,16 @@ label complete_portal:
 #region portal siobhan/owl
 label develop_portal_owl:
     $ start_double_exposing(OBJECT_IMAGE_OWL)
+    $ audio_portal()
     "As the owl mask begins to fade into view, you feel like the whole character of the light has shifted."
     $ develop_double(5)
     $ zoom_development = True
     pause 3
     show flame argue at dcp, right with Dissolve(.4)
     show owl point at dcs, xflip, left with Dissolve(.8)
+    
     flame "Wait. Something is wrong."
+    $ audio_portal_melody("siobhan")
     "Shimmering into view on the other side of portal is the figure from your dreams" #the portal language is a hot mess, maybe needs a variable or hardcoded use of the term before optional scenes.
     show porter swear at dcp, dc_porter, center, DoubleRegicide with dissolve
     porter "I am sorry, but she carries too much brightness. This one remains today."
@@ -1018,6 +1036,7 @@ label develop_portal_owl_overexposed:
     hide flame with moveoutleft
     $ develop_overexposed(10)
     $ corruption += 5
+    $ audio_portal_overexpose()
     "With the frame now empty, only the subtle shifting of the light tells you this photograph is still animate."
     $ develop_overexposed(15)
     $ audio_escalate(1)
@@ -1031,8 +1050,9 @@ label develop_portal_owl_overexposed:
     "That your {size=+2}{i}mistake{/i}{/size} has been not making your previous exposures {size=+8}BRIGHT{/size} enough."
     $ develop_overexposed(30)
     "You are struck with the urge to laugh and before you can exert any will in the matter an oddly flat chuckle escapes your lips"
+    play sfx_1 "solo-laugh-2.mp3" volume 0.5
+    pause 0.2
     $ audio_hard_stop_all()
-    play sfx_1 "solo-laugh.mp3"
     "The sound in the empty darkroom is jarring and jolts you back to your senses."
     "You pull out the photo, feeling suddenly uncomfortable."
     jump complete_portal_owl
@@ -1052,6 +1072,7 @@ label complete_portal_owl:
 #region photo3 peter/flame
 label develop_portal_flame:
     $ start_double_exposing(OBJECT_IMAGE_FLAME)
+    $ audio_portal()
     "As your photo develops, the light of the portal flickers and dims."
     "The two robed figures, each wearing the same mask, begin to come to life."
     $ develop_double(5)
@@ -1059,6 +1080,7 @@ label develop_portal_flame:
     pause 3
     show flame argue at dcp, right with Dissolve(.4)
     show flame2 argue at dcs, xflip, left with Dissolve(.8)
+    $ audio_portal_melody("peter")
     flame "Where did you get that mask?"
     flame "Is this some kind of joke?"
     doubFlame "..."
@@ -1105,6 +1127,7 @@ label develop_portal_flame_overexposed:
     show flame argue at dcp, dc_overexpose
     show flame2 argue at xflip, dcs, WhiteNoise
     $ corruption += 5
+    $ audio_portal_overexpose()
     $ photoRuined = True
     doubFlame "Yes, but not for you."
     $ develop_overexposed(20)
@@ -1137,10 +1160,12 @@ label develop_portal_archer:
     #This is also set way in the future, I'm leaving it that way for now but it may make more sense to make it happen later
     "You take a deep breath and prepare yourself, focusing intently on the image fading into view."
     $ develop_double(5)
+    $ audio_portal()
     $ zoom_development = True
     pause 3
     show flame argue at dcp, right with Dissolve(.4)
     show sage base at dcs, xflip, left with Dissolve(.8)
+    $ audio_portal_melody("erin")
     flame "I'm glad you changed your mind."
     flame "I'd like to ask why, but I'm afraid it'll only make you run away again."
     archer "..."
@@ -1203,6 +1228,7 @@ label develop_portal_archer_overexposed:
     show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, dc_porter, DoubleRegicide
     $ corruption += 5
+    $ audio_portal_overexpose()
     flame "What do you see?"
     archer "bright."
     $ develop_overexposed(15)
@@ -1239,9 +1265,11 @@ label develop_portal_frog:
     "You stare intently, aware of the eerie quiet of the darkroom. A quiet you know will soon be filled with voices."
     $ develop_double(5)
     $ zoom_development = True
+    $ audio_portal()
     pause 3
     show flame argue at dcp, right with Dissolve(.4)
     show frog explain at dcs, xflip, left with Dissolve(.8)
+    $ audio_portal_melody("gunnar")
     "As expected, the two robed figures begin to move and speak."
     "But there is another figure, visible faintly through the portal."
     show porter dead weyes at dcp, dc_porter, center, DoubleRegicide with Dissolve(1)
@@ -1300,6 +1328,7 @@ label develop_portal_frog_overexposed:
         "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     $ corruption += 5
+    $ audio_portal_overexpose()
     show porter dead weyes at center, dcp, dc_porter, dc_overexpose
     show frog explain at left, xflip, dcs, dc_overexpose
     show flame argue at right, dcp, dc_overexpose
@@ -1351,6 +1380,7 @@ label endOfDay2:
     "You wipe the sweat from your brow and sit in Erin's chair, thought swirling."
     "Trying to make sense of the events you've seen. To piece together the timeline."
     "You can't be sure that everything you've seen is real, or was real, but at the same time it almost adds up."
+    play sound "text-vibrate.mp3" volume 0.6
     "Your phone buzzes. It's Bud. They're outside."
     show buddy question with moveinleft
     bud "So I looked into Peter Carlson..."
@@ -1432,6 +1462,9 @@ label endOfDay2:
     bud "Do you think it could be hidden somewhere here?"
     show buddy listen
     "Your search the other day was quick. As the photos hidden behind the picture frame made clear, you hadn't done a truly deep search."
+    stop ambiance_1 fadeout 2.0
+    stop ambiance_2 fadeout 2.0
+    stop ambiance_3 fadeout 2.0
     scene darkroom_workspace bright with Fade(.7, .5, .4)
     "The hours go by. The sun sets. There's so much stuff not just in the studio but the rest of the house that you realize this could take all night."
     show buddy question
@@ -1453,19 +1486,24 @@ label night2:
     "The fear of the dreams keeps you up for a while..."
     $_window_show()
     show bg bedroom sleep with dissolve
+    call night_crickets
     "But sometime around two in the morning sleep finds you."
     show bg nightmare:
         RaveLights
     with Dissolve(2.0)
+    call nightmare_start
     "And so do the dreams"
     show porter temp:
         yalign .03
         xalign .5
     with moveinbottom
+    call nightmare_porter_appear
     porter "Now you know their {sc=4}TRANSGRESSION{/sc}"
+    stop ambiance_3 fadeout 4.0
     porter "Until it is UNDONE..."
     porter "Undone in FULL"
     porter "I will not let you rest."
+    play nightmare_2 ["porter-drums-1.mp3"] fadein 5 volume 1
     porter "KNOW THIS"
     if corruption >= 25: #high
         porter "..."
@@ -1481,9 +1519,11 @@ label night2:
         porter "But if you are not quick, you will be soon."
         porter "Like the {sc=4}SAGE{/sc} was. She undid her wrong, but it was too late for her."
     $_window_hide()
+    play audio "porter-single-voice-higher.mp3" volume 0.2
     show porter temp at ZoomInto:
         WhiteNoise
     pause 1.1
+    play sfx_1 "low-thud-single.mp3"
     scene darkroom_workspace bright:
         WhiteNoise
         matrixcolor BrightnessMatrix(-0.7)
@@ -1497,16 +1537,26 @@ label night2:
         matrixcolor TintMatrix("#171717")
     with Fade(0.1,0.0,0.5,color="#cdc4c4ff")
     pause .6
+    play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 2 volume 0.8
+    play drone_3 "bass-drone-2.mp3" volume 1 fadein 2
     porter "{sc=4}HE{/sc} has the final piece."
     porter "{sc=4}HE{/sc} is there now"
     show bg nightmare
+    play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
     porter "You must GO NOW."
+    play sfx_1 "guitar-Ab.mp3"
+    play sfx_2 "gong-1.mp3"
+    play audio "porter-wail.mp3"
+    play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
+    pause 1.3
     show bg nightmare:
         size(1920, 1080) crop (0, 0, 1920, 1080)
         linear .8 crop(1130, 310, 360, 240)
-    porter "{size=+20}NOW!!{nw=.6}"
+    porter "{size=+20}NOW!!{nw=.6}"    
     scene bg bedroom light with flash
+    call nightmare_stop
     "You wake up and your body is already halfway out of bed."
     "You throw on clothes, send a quick text to Bud, and rush out the door."
+    call night_crickets_stop
     jump day3Start
 #endregion

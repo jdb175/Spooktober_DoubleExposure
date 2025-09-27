@@ -972,7 +972,7 @@ screen main_menu():
                 "bg dark room painting red"
             on replace:
                 "bg dark room painting red"
-
+    
     ## This empty frame darkens the main menu.
     frame:
         style "main_menu_frame"

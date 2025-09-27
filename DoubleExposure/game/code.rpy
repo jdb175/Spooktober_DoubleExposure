@@ -88,6 +88,7 @@ init python:
         store.can_stop_developing = False
 
     def stop_developing_instant():
+        audio_remove_photo()
         if(store.base_development < MIN_DEVELOP_TIME):
             store.last_base_development = MIN_DEVELOP_TIME
             store.base_development = MIN_DEVELOP_TIME
@@ -123,7 +124,8 @@ init python:
             renpy.hide_screen("develop_photo")      
             renpy.scene()
             renpy.show("black")
-            renpy.block_rollback()  
+            renpy.block_rollback()
+            audio_remove_photo()
             renpy.jump(store.development_end_target)
     
         if(store.base_development >= MAX_DEVELOP_TIME and checkExposure):
