@@ -98,12 +98,12 @@ transform developingImageOverExposed(b):
     # This provides smooth warps of the entire image.
     u_minSmooth (0.0) # Minimum of 0.0
     u_maxSmooth (2) # Maximum of 0.5
-    u_warpIntensity (5.0)
+    u_warpIntensity (2.0)
     u_speed (1.15)
     u_scale (10.0)
     # Flipping Warp Variables.  
     # This produces more vividly bouncing deformations
-    u_flipIntensity (50.0*b)   
+    u_flipIntensity (30.0*b)   
     u_flipSpeed (2.0)
     u_flipScale (100.0)
 
@@ -199,12 +199,12 @@ transform developedImage(a, b, z=1):
     # This provides smooth warps of the entire image.
     u_minSmooth (0.0) # Minimum of 0.0
     u_maxSmooth (2) # Maximum of 0.5
-    u_warpIntensity (4.0*b)
+    u_warpIntensity (2.0*b)
     u_speed (1.15)
     u_scale (10.0*b)
     # Flipping Warp Variables.  
     # This produces more vividly bouncing deformations
-    u_flipIntensity (50.0*b)   
+    u_flipIntensity (30.0*b)   
     u_flipSpeed (2.0)
     u_flipScale (80.0*b)
 
@@ -717,8 +717,12 @@ screen say(who, what):
                 text who id "who"
             #text who id "who"
 
-        text what id "what"
-    
+        if who is not None:
+            text what id "what"
+        else:
+            text what id "what":
+                yalign 0.5
+
     ## If there's a side image, display it above the text. Do not display on
     ## the phone variant - there's no room.
     if not renpy.variant("small"):

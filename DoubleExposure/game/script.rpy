@@ -52,6 +52,7 @@ image darkroom_workspace bright = "bg/bg dark room painting.png"
 image darkroom_workspace red = "bg/bg dark room painting red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
+image porterErinFace = "photos/porter photo erin.png"
 image nightAndDay = "photos/erin original two.png"
 image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
 
@@ -160,12 +161,12 @@ transform dc_overexpose:
     # This provides smooth warps of the entire image.
     u_minSmooth (0.0) # Minimum of 0.0
     u_maxSmooth (2) # Maximum of 0.5
-    u_warpIntensity (4.0*over_exposure/MAX_OVEREXPOSURE_TIME)
+    u_warpIntensity (2.0*over_exposure/MAX_OVEREXPOSURE_TIME)
     u_speed (1.15)
     u_scale (10.0*over_exposure/MAX_OVEREXPOSURE_TIME)
     # Flipping Warp Variables.  
     # This produces more vividly bouncing deformations
-    u_flipIntensity (50.0*over_exposure/MAX_OVEREXPOSURE_TIME)   
+    u_flipIntensity (30.0*over_exposure/MAX_OVEREXPOSURE_TIME)   
     u_flipSpeed (2.0)
     u_flipScale (80.0*over_exposure/MAX_OVEREXPOSURE_TIME)
 
@@ -263,6 +264,7 @@ label introScene:
     play sfx_2 'porter-wail.mp3'
     play audio ['<silence 2.1>', 'ding-1.mp3']
     #play ambiance_1 ['<silence 2.1>', 'ambient-birds.mp3'] fadein 2.0
+    pause 2.2
     stop music
     stop sfx_1
     stop photo_1
@@ -271,7 +273,6 @@ label introScene:
     stop drone_1
     stop drone_2
     stop drone_3
-    pause 2.2
     show twodays with Dissolve(2.2)
     pause 10
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
@@ -497,7 +498,8 @@ label projector_select_double_dayone:
         "Right?"
         "The only way to be sure would be to finish the print..."
         $ onFirstBase = False
-    stop sfx_2 fadeout 2.0
+    stop sfx_2 fadeout 2.0  
+    window hide
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     jump expression target_label
@@ -1021,6 +1023,7 @@ label endOfDayOneChoices:
     jump findPhoto
 
 label findPhoto:
+    hide nightAndDayPartial with Dissolve(.75)
     menu:
         set menuset
         "Search the room for further clues":
@@ -1033,19 +1036,23 @@ label findPhoto:
                 "Like something is in the darkroom with you."
             "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
             "And then, tucked away in the back of a file nestled among old tax documents, you find something."
-            temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
-            temp "Double exposed over its face, the face of Erin..."
+            show porterErinFace with Dissolve(1):
+                zoom .9
+                xalign 0.0
+                yalign 0.5
+                rotate 1.5
             #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
             "{font=ReenieBeanie-Regular.ttf}{size=+26}'restitution. atonement?'"
+            hide porterErinFace with Dissolve(.75)
             "You slip it into your bag."
             jump findPhoto
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
             "You pull it out of your back and attempt another exposure."
-            show nightAndDayPartial with Fade(1, 0, 0,5, "#fff"):
+            show nightAndDayPartial with Dissolve(1):
                 zoom .9
                 xalign 0.0
                 yalign 0.5
@@ -1074,7 +1081,9 @@ label night1:
     play sound "gong-1.mp3"
     play sfx_3 ["<silence 2>", "guitar-Ab.mp3"] volume 0.5
     play audio "porter-wail.mp3" volume 1.0
-    show porter temp:
+    show porter jumpscare:
+        subpixel True
+        matrixcolor SaturationMatrix(0)
         yalign .03
         xalign .5
         zoom 200
@@ -1083,6 +1092,7 @@ label night1:
             ease 2 alpha 1         
         parallel:
             ease 2 zoom 1
+        linear 300 zoom 2
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     unk "..."
     stop ambiance_3 fadeout 4.0
@@ -1112,7 +1122,7 @@ label night1:
     unk "they could not run. and neither can you."
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
-    show porter temp at ZoomInto:
+    show porter jumpscare at ZoomInto:
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"
