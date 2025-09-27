@@ -182,13 +182,20 @@ transform xflip:
 
 #region intro
 #This will be replaced by something more official
-#label splashscreen:
-#    scene black
-#    with Pause(1)
-#    show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
-#    with Pause(2)
-#    hide text
-#    return
+label splashscreen:
+    scene black
+    with Pause(.4)
+    #show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
+    show spooktoberlogo at center:
+        truecenter zoom .5
+        alpha 0
+        parallel:
+            easein 2 zoom .8
+        parallel:
+            easein 2 alpha 1
+    with Pause(2.2)
+    hide spooktoberlogo
+    return
 
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
@@ -1174,11 +1181,11 @@ label night1:
         unk "corrpution may yet be avoided"
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
-    show porter dead at ZoomInto:
+    show porter dead at ZoomInto: #subpixel True?
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"
-    scene darkroom_workspace red:
+    scene darkroom_workspace red: #subpixel True? Use nightmare version?
         WhiteNoise
         size(1920, 1080) crop (0, 0, 1920, 1080)
         pause 1 #should be dissolve length

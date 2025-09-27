@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("DoubleExposure")
+define config.name = _("Double Exposure")
 
 
 ## Determines if the title given above is shown on the main menu screen. Set
@@ -23,13 +23,37 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "1.0"
+define config.version = "0.9dev"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
 ## triple-quotes, and leave a blank line between paragraphs.
+define lazypicker = color("#d53333")
 
 define gui.about = _p("""
+{i}Created for the 2025 Spooktober Visual Novel Jam{/i}
+
+{b}{color=#a01111}CODE:{/b}{/color} {size=*0.85}Jason Whitehouse{/size}
+
+{b}{color=#a01111}WRITING/CODE:{/b}{/color} {size=*0.85}Nathan Whitehouse{/size}
+
+{b}{color=#a01111}ADDITIONAL DEVELOPMENT:{/b}{/color} {size=*0.85}Sam Levatich, Madison Avery Gordon{/size}
+
+{b}{color=#a01111}ART LEAD:{/b}{/color} {size=*0.85}Inês Lebre{space=40}({a=https://www.instagram.com/lebre.por.gato/}{color=#d53333}lebre.por.gato{/a}{/size}{/color})
+
+{b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Mariana Santos{/size}
+
+{b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Irís Loureiro{/size}
+
+{b}{color=#a01111}SOUND/MUSIC:{/b}{/color} {size=*0.85}Kyle Levien{/size}
+
+{b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}
+
+{b}{color=#a01111}THIRD PARTY ASSETS USED:{/b}{/color}
+
+{size=*0.85}PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=d53333}Zoey (KleineLuka){/a}{/size}{/color}
+
+{size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=d53333}Hadara Madrak{/a}{/size}{/color}
 """)
 
 

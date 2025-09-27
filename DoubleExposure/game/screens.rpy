@@ -1194,7 +1194,7 @@ screen about():
 
         vbox:
 
-            label "[config.name!t]"
+            label "{size=*1.5}[config.name!t]{/size}"
             text _("Version [config.version!t]\n")
 
             ## gui.about is usually set in options.rpy.
