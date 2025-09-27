@@ -214,6 +214,8 @@ label projector_select_base_daytwo:
     $ target_label = renpy.call_screen("enlarger_select_photo")
     show bg tray red
     "With an image chosen, you take your new print to the developing bath."
+    show photopaper tray at developingImageWave with Dissolve(0.5):
+        matrixcolor TintMatrix("#975555") 
     show fakeClock:
         zoom .3
         xanchor 0.5

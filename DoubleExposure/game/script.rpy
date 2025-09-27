@@ -146,7 +146,7 @@ transform dcp:
 transform dcs:
     ysize 1000
     fit "scale-down"
-    alpha  .3 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.7
+    alpha  .4 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.6
 
 transform dc_porter:
     ysize 1050
@@ -249,24 +249,27 @@ label introScene:
     play sfx_1 "gong-1.mp3"
     play photo_3 'piano-underscore-spook-3.mp3'
     show porter photo:
+        subpixel True
         zoom .9
-        xalign 0.0
-        yalign 0.5
-        rotate 1.5
-    with Fade(0.1, 0.2, 1.9, color="#ffffff")
-    "...you are now a part of."
-    window hide
-    play drone_3 'porter-drums-1.mp3' fadein 0.5
-    show porter photo:
-        xanchor 900
-        yanchor 900
         xalign 0.5
         yalign 0.5
-        pause 1
-        easeout 2.2 zoom 40
+        rotate 1.5
+        xanchor 0.5
+        yanchor 0.5
+    with Fade(0.1, 0.2, 1.9, color="#ffffff")
+    "...you are now a part of."
+    show porter photo:
+        parallel:
+            easein 60 zoom 10
+        parallel:
+            easein 60 rotate 180
+    pause 1
+    show black_background with Fade(1.1, 0, 0)
+    window hide
+    play drone_3 'porter-drums-1.mp3' fadein 0.5
     #TRANSITION TIME!
     play sfx_2 'porter-wail.mp3'
-    pause 2.1
+    pause 1.1
     play audio ['ding-1.mp3'] noloop
     play audio ['low-thud-single.mp3'] noloop
     
@@ -464,9 +467,11 @@ label projector_select_base_dayone:
     window hide
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")
-    show bg enlarger red
+    show bg enlarger red bigger
+    show photopaper enlarger
     with flash
     "You expose the paper, starting a print of 'day and night'"
+    scene
     show bg tray red
     "Next comes the developing liquid."
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
@@ -486,8 +491,9 @@ label projector_select_base_dayone:
     "You make sure your watch is in easy view as you submerge the photos."
     hide fakeClock
     hide clock pointer aligned
-    show photopaper tray
     "You drop the print in the bath and wait."
+    show photopaper tray at developingImageWave with Dissolve(0.5):
+        matrixcolor TintMatrix("#975555") 
     jump expression target_label
 
 #jumps here afer you're done with the base image
