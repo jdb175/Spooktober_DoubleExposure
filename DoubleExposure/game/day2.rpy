@@ -15,6 +15,28 @@ default doneAPrint = False
 default donePhoto2 = False
 default donePhoto3 = False
 
+transform magic_strike:
+    parallel:
+        matrixcolor BrightnessMatrix(2.0)
+        pause 0.1
+        matrixcolor BrightnessMatrix(1.0)
+        pause 0.1
+        matrixcolor BrightnessMatrix(2.0)
+        easein 1 matrixcolor BrightnessMatrix(0)
+
+transform collapse:
+    yoffset 0
+    xoffset 0
+    parallel:
+        ease_back 1 yoffset 80
+    parallel:
+        linear 1 xoffset 25
+
+#I have no idea why I need this multiplier the one place I use it...
+transform collapsed(m = 1):
+    yoffset 80*m
+    xoffset 24 + m
+
 #region start of day 2
 label day2Start:
     stop music fadeout 2.0 
@@ -826,7 +848,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     frog "And if you can't get in, I can't get in, so I'm afraid our midnight jaunts have come to a close."
     show frog hips at dcs
     show owl argue at dcp, xflip
-    owl "What makes you think the Poter will let you in?"
+    owl "What makes you think the Porter will let you in?"
     show owl explain at dcp, xflip
     owl "I'm sure Peter instructed it to prevent {i}any{/i} of us from getting in alone."
     show owl crossed at dcp, xflip
@@ -876,38 +898,37 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     play drone_1 "bass-drone-1.mp3" fadein 1.0 volume 0.5
     play sfx_1 "low-thud-single.mp3" volume 0.5
     play sfx_2 "guitar-Ab.mp3" volume 0.6
-    show porter talk at dcs, left, xflip, DramaticRevealPorter, dc_porter
+    show porter talk at dcs, left, xflip, DramaticRevealPorter
     with flash
     pause 3.56
     porter "You."
     $ develop_double(15)
-    show porter swear at dcs, xflip, EmergencyReset, dc_porter
-    show frog magic at dcs
-    porter "Peter has told me that you wander where you are not meant to wander"
+    show porter swear at dcs, xflip, EmergencyReset
     show frog hips at dcs
+    porter "Peter has told me that you wander where you are not meant to wander"
     porter "Beyond the walls of the House and into the Gardens. That you have even gazed into the Well."
     porter "You will not ent-"
     play drone_2 "bass-drone-2.mp3" volume 0.3
-    show porter swear at dcs, xflip, Regicide, dc_porter
+    show porter swear at dcs, magic_strike, xflip, Regicide
     porter "wh.."
     porter "what is that"
-    show porter swear at dcs, xflip, DoubleRegicide, dc_porter
+    show porter swear at dcs, xflip, DoubleRegicide
     frog "What is... what? This?"
     show frog open at dcs
     "They open their left palm and reveal the odd stone pressed within."
     play sfx_2 "gong-1.mp3"
     play drone_3 "piano-underscore-spook-2.mp3"
     porter "WHAT HAVE YOU DONE?"
-    show porter swear at dcs, xflip, UltimateRegicide, dc_porter
+    show porter swear at dcs, collapse, xflip, UltimateRegicide
     "The spirit's thin legs seem to collapse under it. It begins to shake."
-    show porter swear at dcs, xflip, ArmGlow, dc_porter
+    show porter swear at dcs, magic_strike, xflip, ArmGlow
     play sfx_3 "eerie-1.mp3"
     "Its arm begins to glow, consumed by a sickly yellow light."
     "The light travels through the air and into the darkness, travelling towards the hand of another."
     $ develop_double(20)
     show frog crossed at dcs
-    show porter swear at dcs, xflip, ArmGlow, dc_porter
-    show owl point at dcp, center, ArmGlowOwlHand with moveinbottom
+    show porter swear at dcs, magic_strike, xflip, ArmGlow
+    show owl magic at dcp, center, ArmGlowOwlHand with moveinbottom
     owl "Apologizes to use you like that, but I wasn't going to let anyone freeze me out."
     owl "Not after all I've seen and learned."
     play audio "gore/porter-death.mp3"
@@ -917,9 +938,10 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     stop sfx_1 fadeout 1
     stop sfx_2 fadeout 1
     stop sfx_3 fadeout 1
-    pause 1
+    pause 0.5
     hide porter
-    show porter dead at dcs, xflip, dc_porter with Fade(0.2, 0, 0.4, color="#e7e0ba")
+    show porter dead at dcs, magic_strike, xflip, collapsed(2.0):
+        shader None
     stop photo_1 fadeout 1
     frog "What have you done?! What did you do to it?!"
     owl "Go. Your part is done here."
@@ -927,7 +949,6 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     show frog crossed at xflip, dcs
     hide frog with moveoutright
     $ develop_double(25)
-    show porter dead at dcp, dc_porter
     show owl point at center, dcp
     "Their hand now glowing with the same sickly light, the figure in the owl mask places their hand on the floor."
     "Slowly, they trace a circle around the writhing spirit."
@@ -960,6 +981,7 @@ label develop_sneaky_frog_overexposed:
         zoom 1.5
         xalign .5
         yalign .1
+        linear 100 zoom 3
     play sfx_1 "low-thud-single.mp3"
     $ audio_escalate(1)
     porter "{sc=3}{size=+10}GIVE IT BACK"
@@ -1029,41 +1051,41 @@ label develop_portal:
     hide robes reach with Dissolve(1)
     pause .2
     unk2 "Is it your will that I follow them?"
-    show porter talk at dcp, xflip, dc_porter with moveinleft
+    show porter talk at dcp, xflip with moveinleft
     porter "Or will you accompany them today?"
     $ develop(10)
-    show porter listen at dcp, xflip, dc_porter
+    show porter listen at dcp, xflip
     show fire explain at dcp
     flame "You go. I'll wait here."
     show fire hips at dcp
-    show porter talk at dcp, xflip, dc_porter
+    show porter talk at dcp, xflip
     porter "As you wish."
     $ develop(15)
-    show porter listen at dcp, xflip, dc_porter
+    show porter listen at dcp, xflip
     show fire open at dcp
     flame "I think you can take them to the Vestibule today."
     show fire show at dcp
     flame "I wonder if they will find the statuary there as inspiring as I do." #deliberate reference to Piranisi here, hope it's not seen as copying.
     $ develop(20)
-    show porter swear at dcp, xflip, dc_porter
+    show porter swear at dcp, xflip
     show fire hips at dcp
     porter "The Vestibule sits near the Windows of the Garden. I would not take them somewhere so bright."
-    show porter sad at dcp, xflip, dc_porter
+    show porter sad at dcp, xflip
     porter "They have stepped through so many times so quickly already."
     $ develop(25)
     show fire crossed at dcp
-    show porter swear at dcp, xflip, dc_porter
+    show porter swear at dcp, xflip
     porter "Even the service I owe to you to you cannot override my purpose."
     $ develop(30)
     show fire crossed at dcp
-    show porter talk at dcp, xflip, dc_porter
+    show porter talk at dcp, xflip
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
     if(development_end_signalled == False):
         $ audio_warn_clock()
         "You eye the clock. Photo's half developed. If you pull it out now, you'll get more time to double expose before it overdevelops"
     $ develop(35)
     show fire hips at dcp
-    show porter listen at dcp, xflip, dc_porter
+    show porter listen at dcp, xflip
     flame "Yes, of course, of course. They need to actually start producing some art at some point anyway."
     show fire open at dcp
     flame "Not that I blame them. What could be more dull than sitting around {i}working{/i} when you could be in another world."
@@ -1073,9 +1095,9 @@ label develop_portal:
     flame "Go. Take them to the Vestibule. Show them the Corridor of Statues."
     $ develop(40)
     show fire hips at dcp
-    show porter listen at dcp, dc_porter, DoubleRegicide
+    show porter listen at dcp, DoubleRegicide
     "The porter turns to face the strange glow at the end of the hallway. It steps into it and begins to disappear."
-    show porter swear at dcp, dc_porter, UltimateRegicide
+    show porter swear at dcp, UltimateRegicide
     "Then, the spirit raises a trembling, withered hand. It traces some kind of shape in the air."
     hide porter with dissolve
     "The portal disappears, along with the spirit."
@@ -1149,17 +1171,17 @@ label develop_portal_owl:
     flame "Wait. Something is wrong."
     $ audio_portal_melody("siobhan")
     "Shimmering into view on the other side of portal is the figure from your dreams" #the portal language is a hot mess, maybe needs a variable or hardcoded use of the term before optional scenes.
-    show porter swear at dcp, dc_porter, center, DoubleRegicide with dissolve
+    show porter swear at dcp, center, DoubleRegicide with dissolve
     show fire crossed at dcp
     porter "I am sorry, but she carries too much brightness. This one remains today."
-    show porter listen at dcp, dc_porter
+    show porter listen at dcp
     flame "I see. Of course."
     $ develop_double(10)
     show owl crossed at xflip, dcs
     show fire hips at dcp
-    show porter swear at dcp, dc_porter
+    show porter swear at dcp
     "The lumbering thing moves its hand in a strange, purposeful motion."
-    show porter listen at dcp, dc_porter
+    show porter listen at dcp
     "As it does so, it's hard to shake the momentary feeling that the spirit is looking at you."
     hide porter listen with dissolve
     "The light flickers and the portal vanishes, along with the spirit."
@@ -1430,18 +1452,18 @@ label develop_portal_archer:
     $ develop_double(25)
     show sage base at xflip, dcs
     show flame argue at dcp
-    show porter dead weyes at center, dcp, dc_porter, DoubleRegicide
+    show porter dead weyes at center, dcp, DoubleRegicide
     archer "... I want its eyes."
     flame "..."
     "The flame-masked figure makes a gesture."
     "Yellow light begins to form around the Porter's eyes."
     $ play_crunch()
-    show porter dead at center, dcp, dc_porter with Fade(0.5, 0.2, 0.3, color="#fddf37")
+    show porter dead at center, dcp with Fade(0.5, 0.2, 0.3, color="#fddf37")
     flame "Done."
     $ develop_double(30)
     show sage base at xflip, dcs
     show flame argue at dcp
-    show porter dead at center, dcp, dc_porter, DoubleRegicide
+    show porter dead at center, dcp, DoubleRegicide
     "The eyes of the human mask, too, begin to glow."
     $ reachedEnd = True
 
@@ -1454,7 +1476,7 @@ label develop_portal_archer_overexposed:
     $ develop_overexposed(10)
     show sage base at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
-    show porter dead at center, dcp, dc_porter, DoubleRegicide
+    show porter dead at center, dcp, DoubleRegicide
     $ corruption += 5
     $ audio_portal_overexpose()
     $ audio_escalate(1)
@@ -1466,14 +1488,14 @@ label develop_portal_archer_overexposed:
     $ develop_overexposed(15)
     show sage base at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
-    show porter dead at center, dcp, dc_porter, DoubleRegicide
+    show porter dead at center, dcp, DoubleRegicide
     $ audio_escalate(2)
     archer "BRIGHT"
     archer "And I see..."
     $ develop_overexposed(20)
     show sage base at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
-    show porter dead at center, dcp, dc_porter, DoubleRegicide
+    show porter dead at center, dcp, DoubleRegicide
     $ audio_escalate(3)
     archer "I see a way out."
     "An icy chill grips your heart and you feel the room start to spin."
@@ -1506,12 +1528,12 @@ label develop_portal_frog:
     $ audio_portal_melody("gunnar")
     "As expected, the two robed figures begin to move and speak."
     "But there is another figure, visible faintly through the portal."
-    show porter dead weyes at dcp, dc_porter, center, DoubleRegicide with Dissolve(1)
+    show porter dead weyes at dcp, center, DoubleRegicide with Dissolve(1)
     frog "I can't believe that worked!"
     frog "That was incredible, Peter. You're a genius, a true genius!"
     "Peter, if that who it is, stares blankely at the Porter."
     $ develop_double(10)
-    show porter dead weyes at dcp, dc_porter
+    show porter dead weyes at dcp
     show frog explain at xflip, dcs
     show flame argue at dcp
     flame "Can you hear me?"
@@ -1523,7 +1545,7 @@ label develop_portal_frog:
     frog "If we're going to do this, Peter..."
     flame "I wish we knew where she went."
     $ develop_double(15)
-    show porter dead weyes at dcp, dc_porter
+    show porter dead weyes at dcp
     show frog explain at xflip, dcs
     show flame argue at dcp
     frog "You think she's even in this world? Even in the Bright House? She could be anywhere."
@@ -1535,7 +1557,7 @@ label develop_portal_frog:
     frog "I was so close to something great, Peter. Isn't that all you wanted to come out of this? Something truly great for humanity?"
     flame "..."
     $ develop_double(20)
-    show porter dead weyes at dcp, dc_porter
+    show porter dead weyes at dcp
     show frog explain at xflip, dcs
     show flame argue at dcp
     flame "Alright. Hand me the stone."
@@ -1545,7 +1567,7 @@ label develop_portal_frog:
     "The light forms a thin thread, connecting Peter's chest with the spirit's"
     $ develop_double(25)
     $ play_crunch()
-    show porter dead weyes at dcp, dc_porter
+    show porter dead weyes at dcp
     show frog explain at xflip, dcs
     show flame argue at dcp
     flame "Good god..."
@@ -1568,33 +1590,33 @@ label develop_portal_frog_overexposed:
     $ photoRuined = True
     if reachedEnd == False:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
-    show porter dead weyes at center, dcp, dc_porter, dc_overexpose
+    show porter dead weyes at center, dcp, dc_overexpose
     show frog explain at left, xflip, dcs, dc_overexpose
     show flame argue at right, dcp, dc_overexpose
     $ audio_escalate(1)
     frog "How... how does it feel?"
     flame "I can feel its power."
     $ develop_overexposed(15)
-    show porter dead weyes at dcp, dc_porter, dc_overexpose
+    show porter dead weyes at dcp, dc_overexpose
     show frog explain at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     frog "What should it be?"
     $ develop_overexposed(20)
-    show porter dead weyes at dcp, dc_porter, dc_overexpose
+    show porter dead weyes at dcp, dc_overexpose
     show frog explain at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     frog "Do words live in the tongue? Or the mind? Do I want to see what is in that mind? Could I even comprehend it?"
     $ audio_escalate(2)
     flame "{size=+10}FOOL{/size}."
     $ develop_overexposed(25)
-    show porter dead weyes at dcp, dc_porter, dc_overexpose
+    show porter dead weyes at dcp, dc_overexpose
     show frog explain at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     flame "{size=+7}IT MATTERS NOT{/size}."
     $ audio_escalate(3)
     flame "{size=+7}ALL WILL BE RETURNED{/size}."
     $ develop_overexposed(30)
-    show porter dead weyes at dcp, dc_porter, dc_overexpose
+    show porter dead weyes at dcp, dc_overexpose
     show frog explain at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     flame "{size=+15}ALL MUST BE RETURNED{/size}"

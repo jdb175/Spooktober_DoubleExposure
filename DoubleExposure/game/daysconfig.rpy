@@ -95,7 +95,7 @@ python early:
     )
     OBJECT_IMAGE_ARCHER = EnlargerImage(
         label = "archer",
-        path = "masks/face mask.png",
+        path = "masks/sage mask",
         description = "'Sage' mask"
     )
     OBJECT_IMAGE_FROG = EnlargerImage(
