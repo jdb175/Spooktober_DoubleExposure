@@ -273,17 +273,17 @@ transform enlarger_project_image_instant(x_offset=0, y_offset=0):
     linear 0.2 blur 0 zoom .55
 
 transform clock_bg:
-    zoom .12
+    zoom .1
     xanchor 0.5
     yanchor 0.575
     xpos 180
-    ypos 900
+    ypos 910
 
 transform clock_hand(s):
     subpixel True
-    zoom .12
+    zoom .1
     xpos 180
-    ypos 900
+    ypos 910
     xanchor 0.5
     yanchor 0.5
     rotate 6*s
@@ -291,9 +291,9 @@ transform clock_hand(s):
 
 transform clock_hand_overexpose(speed):
     subpixel True
-    zoom .12
+    zoom .1
     xpos 180
-    ypos 900
+    ypos 910
     xanchor 0.5
     yanchor 0.5
     rotate 0
@@ -482,13 +482,14 @@ screen enlarger_select_photo():
         add "bg/bg enlarger red bigger.png" at enlarger_bg
 
         if(store.current_base_image):
-            if(store.current_base_image.label == "sneaky"):
-                add store.current_base_image.path at enlarger_base_image(base_alpha):
-                    matrixcolor BrightnessMatrix(0.8)
-            else:
-                add store.current_base_image.path at enlarger_base_image(base_alpha)
+            add store.current_base_image.path at enlarger_base_image(base_alpha)
 
-        add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
+        # hack the brightness of this one really dark image
+        if(store.projected_image.label == "sneaky"):
+            add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale):
+                matrixcolor BrightnessMatrix(.3)
+        else:
+            add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
 
         add "gui/textboxAlt.png":
             xalign 0.5
