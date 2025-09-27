@@ -1326,6 +1326,7 @@ label develop_portal_archer:
     flame "..."
     "The flame-masked figure makes a gesture."
     "Yellow light begins to form around the Porter's eyes."
+    $ play_crunch()
     show porter dead at center, dcp, dc_porter with Fade(0.5, 0.2, 0.3, color="#fddf37")
     flame "Done."
     $ develop_double(30)
@@ -1434,6 +1435,7 @@ label develop_portal_frog:
     "Holding out both hands, a yellow glow appears in the chest of the spirit."
     "The light forms a thin thread, connecting Peter's chest with the spirit's"
     $ develop_double(25)
+    $ play_crunch()
     show porter dead weyes at dcp, dc_porter
     show frog explain at xflip, dcs
     show flame argue at dcp
