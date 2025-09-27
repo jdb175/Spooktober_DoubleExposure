@@ -243,7 +243,8 @@ label projector_select_base_daytwo:
             "Then it's back to the enlarger, ready to see what the next negative might reveal..."
         else:
             "Then it's back to the enlarger. You're already thinking of the next negative, what kind of beautiful imagery it could create..."
-            "No, wait, this is about learning, not creating... Right?"
+            "No, wait, this is about learning, not creating... Right?"  
+    window hide
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     jump expression target_label

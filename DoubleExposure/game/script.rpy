@@ -161,12 +161,12 @@ transform dc_overexpose:
     # This provides smooth warps of the entire image.
     u_minSmooth (0.0) # Minimum of 0.0
     u_maxSmooth (2) # Maximum of 0.5
-    u_warpIntensity (4.0*over_exposure/MAX_OVEREXPOSURE_TIME)
+    u_warpIntensity (2.0*over_exposure/MAX_OVEREXPOSURE_TIME)
     u_speed (1.15)
     u_scale (10.0*over_exposure/MAX_OVEREXPOSURE_TIME)
     # Flipping Warp Variables.  
     # This produces more vividly bouncing deformations
-    u_flipIntensity (50.0*over_exposure/MAX_OVEREXPOSURE_TIME)   
+    u_flipIntensity (30.0*over_exposure/MAX_OVEREXPOSURE_TIME)   
     u_flipSpeed (2.0)
     u_flipScale (80.0*over_exposure/MAX_OVEREXPOSURE_TIME)
 
@@ -510,7 +510,8 @@ label projector_select_double_dayone:
         "Right?"
         "The only way to be sure would be to finish the print..."
         $ onFirstBase = False
-    stop sfx_2 fadeout 2.0
+    stop sfx_2 fadeout 2.0  
+    window hide
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")        
     jump expression target_label
@@ -1066,6 +1067,7 @@ label endOfDayOneChoices:
     jump findPhoto
 
 label findPhoto:
+    hide nightAndDayPartial with Dissolve(.75)
     menu:
         set menuset
         "Search the room for further clues":
@@ -1124,7 +1126,9 @@ label night1:
     with Dissolve(2.0)
     "..."    
     call nightmare_porter_appear
-    show porter dead:
+    show porter jumpscare:
+        subpixel True
+        matrixcolor SaturationMatrix(0)
         yalign .03
         xalign .5
         zoom 200
@@ -1132,8 +1136,8 @@ label night1:
         parallel:
             ease 2 alpha 1         
         parallel:
-            ease 2 zoom 1.1
-        Regicide
+            ease 2 zoom 1
+        linear 300 zoom 2
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     stop ambiance_3 fadeout 4.0
     unk "{sc=2}i see you{/sc}"
