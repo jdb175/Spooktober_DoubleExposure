@@ -201,6 +201,7 @@ label day2_print:
 label projector_select_base_daytwo:
     scene black_background with flash
     $ start_enlarger()
+    window hide
     $ target_label = renpy.call_screen("enlarger_select_photo")
     show bg tray red
     "With an image chosen, you take your new print to the developing bath."

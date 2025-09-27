@@ -453,6 +453,7 @@ label photo1_firstDev:
 
 label projector_select_base_dayone:
     scene black_background with flash
+    window hide
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")
     show bg enlarger red
@@ -588,10 +589,10 @@ label develop_kitchen:
     Erin "Since I have no idea how I'm going to be feeling after all of this."
     Erin "That's assuming, of course, you even come back at all..."
     $ develop(30)
-    if(development_end_signalled == False):
+    "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
+    if(not development_end_signalled):
         play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
         stop ambiance_1 fadeout 1.0
-        "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
         "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
         "But does that matter when {i}{b}this{/i}{/b} is happening?"
         "You could choose to push it just a {i}little{/i} longer..."
@@ -614,8 +615,8 @@ label develop_kitchen:
     "Erin sighs."
     $ develop(50)
     show erin think at dcp
-    if(development_end_signalled == False):
-        "Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
+    "Despite the insanity of what you're witnessing, old habits die hard and you find yourself checking the clock."
+    if(not development_end_signalled):
         "There's still a chance to expose something over the image, although aleady it'll likely be a bit overdeveloped."
         "But does that even matter anymore?"
     $ develop(55)
