@@ -134,11 +134,11 @@ label peterCalm:
     Peter "Now, if you have no more questions for me, I suppose I have one for you."
     Peter "Will you work with me?"
     "If your dream is right, Peter has a negative that you need."
-    "Although should you trust a monster in a dream? Could Peter really bring you success? You *have* felt more alive these last two days than ever..."
+    "Although should you trust a monster in a dream? Could Peter really bring you success? You {i}have{/i} felt more alive these last two days than ever..."
     menu:
-        "I need more than paper. Mr. Carlson. I need *imagery*. Something powerful.":
+        "I need more than paper. Mr. Carlson. I need {i}imagery{/i}. Something powerful to work with.":
             jump peterCalmEnding
-        "I know about the negative you carry. But don't worry, I don't want it. What I want is to *create*" if corruption >= 15: #NOTE need to fix numbers.
+        "I know about the negative you carry. But don't worry, I don't want it. What I want is to {i}create{/i}" if corruption >= 15: #NOTE need to fix numbers.
             jump shitEnding
 
 label shitEnding:
@@ -180,63 +180,48 @@ label negativesReceived:
     "Most of them you don't understand. But one thing you do recognize - a negative for a photo of the Porter itself."
     "A sorry looking thing, blind and mutilated. The same photo Erin had exposed her face over."
     scene darkroom_workspace red
-    "You make your way over to the enlarger and begin to develop the photo"
+    "You make your way over to the enlarger and begin to expose the photo"
 
 label photoFinal_firstDev:
+    show screen projector_porter_intro
     "The spirit shudders to life. With no eyes to open, it simply tilts its head."
     #This is the porter IN the image. I think we'd rather not pull it out for this?
     porter "The image is old... but it will do."
     porter "It should be like so."
+    $ porter_eyes = True
     temp "The porter's eyes fade back into its head"
     porter "Now, finish what was started."
     "You take the photo back to the enlarger for another exposure as quickly as possible."
     jump finalSiobhan
 
 label finalSiobhan:
-        menu:
-            set menuset
-            "Put SIOBHAN over the ARM":
-                "This feels right."
-                jump finalPeter
-            "Put SIOBHAN over the HEART:":
-                temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-                jump finalSiobhan
-            "Put SIOBHAN over the TONGUE":
-                temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-                jump finalSiobhan
-
+    call screen projector_porter_final("Siobhan", "arm") with Fade(1,1,1)
+    $ arm_added = True
+    "This feels right."
 
 label finalPeter:
-    menu:
-        set menuset
-        "Put PETER over the ARM":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalPeter
-        "Put PETER over the HEART:":
-            "This feels right."
-            jump finalGunnar
-        "Put PETER over the TONGUE":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalPeter
+    call screen projector_porter_final("Peter", "heart")
+    $ heart_added = True
+    "This feels right."
 
 label finalGunnar:
-    menu:
-        set menuset
-        "Put GUNNAR over the ARM":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalGunnar
-        "Put GUNNAR over the HEART:":
-            temp "This feels wrong! You gain some corruption. Maybe get a little bit of dialogue"
-            jump finalGunnar
-        "Put GUNNAR over the TONGUE":
-            "This feels right."
-            jump finalJudgement
+    call screen projector_porter_final("Gunnar", "tongue")
+    $ tongue_added = True
+    "This feels right."
     
 label finalJudgement:
-    "The bizarre composite now done, you bring it back to be exposed."
+    show screen projector_porter_healed with Fade(1,1,1)
+    hide screen projector_porter_healing
+    "The bizarre composite now done, you bring it back to be developed."
+    $ zooming_porter = True
     porter "My power is returning."
+    $ zoomed_porter = True
     porter "My function may be served again."
+    $ ascend_porter = True
     porter "You have done well."
+    scene darkroom_workspace bright
+    hide screen projector_porter_healed with Fade(1,1,1)
+    show porter swear at center with Dissolve(.4)
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
     porter "Humanity will regain my service again."
     porter "With perhaps more caution."
