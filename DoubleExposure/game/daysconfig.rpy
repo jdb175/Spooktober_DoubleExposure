@@ -91,7 +91,7 @@ python early:
     OBJECT_IMAGE_GUNNAR = EnlargerImage(
         label = "gunnar",
         path = "photos/kitchen gunnar.png",
-        description = "Portrait, unknown"
+        description = "Portrait, man with book"
     )
     ##DAY TWO
     OBJECT_IMAGE_OWL = EnlargerImage(
@@ -106,8 +106,8 @@ python early:
     )
     OBJECT_IMAGE_ARCHER = EnlargerImage(
         label = "archer",
-        path = "placeholders/archer temp.png",
-        description = "Archer mask"
+        path = "masks/sage mask.png",
+        description = "'sage' mask"
     )
     OBJECT_IMAGE_FROG = EnlargerImage(
         label = "frog",
@@ -120,7 +120,7 @@ python early:
 
     DAY_CONFIGS = {
         Days.DAY_ONE: DayConfig(
-            photo_paper = 4, #NOTE: SHOULD BE 2, but I increased for testing
+            photo_paper = 3, #NOTE: SHOULD BE 2, but I increased for testing
             base_images = [
                 BASE_IMAGE_KITCHEN
             ],
