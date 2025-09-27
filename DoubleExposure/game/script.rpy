@@ -760,7 +760,7 @@ label develop_kitchen_siobhan_overexposed:
     play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
     $ corruption += 5
     if reachedEnd == False:
-        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
+        "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     Erin "'The Porter.' Did Peter come up with that name?"
     Siob "No. It is his {b}Name{/b}."
     Siob "It is his {b}Function{/b}."
@@ -885,7 +885,7 @@ label develop_kitchen_gunnar_overexposed:
     $ photoRuined = True
     $ corruption += 5
     if reachedEnd == False:
-        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
+        "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     Gunnar "There's a lot that he sees, Erin."
     Gunnar "But he can't see enough. Not what he needs to."
     Gunnar "He is BLIND, just as I AM BLIND."
@@ -1006,7 +1006,7 @@ label develop_kitchen_peter_overexposed:
     $ corruption += 5
     $ photoRuined = True
     if reachedEnd == False:
-        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
+        "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     show peter explain at right, dcs, dc_overexpose
     show erin think at left, dcp, dc_overexpose
     Peter "But now that I've found it, I find myself feeling so... inadequate before it."

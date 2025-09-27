@@ -705,7 +705,7 @@ screen say(who, what):
         id "window"
         
         if(corruption <= 0):
-            background (None if phone_mode else Image("gui/textbox.png", xalign=0.5, yalign=1.0))
+            background (None if phone_mode else Image("gui/textbox normal.png", xalign=0.5, yalign=1.0))
         elif(corruption <= 5):
             background (None if phone_mode else Image("gui/textbox over1.png", xalign=0.5, yalign=1.0))
         elif(corruption <= 10):
