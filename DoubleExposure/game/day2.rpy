@@ -242,6 +242,7 @@ label projector_select_base_daytwo:
 label post_image_completion_daytwo:
     scene darkroom_workspace red
     $ photoRuined = False
+    $ reachedEnd = False
     if(current_photo_paper > 0):
         if(current_photo_paper == 1):
             "You have a single piece of photo paper left."
@@ -427,6 +428,7 @@ label develop_sneaky_owl:
     $ develop_double(30)
     owl "When is this? When is this happening?"
     owl "{size=+4}We haven't even killed you yet! I have no hand to give you!!"
+    $ reachedEnd = True
 
 label develop_sneaky_owl_overexposed:
     $ renpy.block_rollback()
@@ -444,6 +446,8 @@ label develop_sneaky_owl_overexposed:
         WhiteNoise
     $ corruption += 5
     $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
     $ develop_overexposed(20)
     show owl2 at dcp, dc_overexpose
@@ -517,6 +521,7 @@ label develop_sneaky_flame:
     show flame argue at dcs
     show owl point at xflip, dcp
     flame "Now, get your things and leave my home."
+    $ reachedEnd = True
 
 label develop_sneaky_flame_overexposed:
     $ renpy.block_rollback()
@@ -529,6 +534,8 @@ label develop_sneaky_flame_overexposed:
     show owl point at xflip, dcp, dc_overexpose
     $ corruption += 5
     $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     flame "Your time here is done, Siobhan. In this house, and the Other."
     $ develop_overexposed(15)
     show flame argue at dcs, dc_overexpose
@@ -619,6 +626,7 @@ label develop_sneaky_archer:
     archer "I think that's a bad idea."
     owl "Yeah, you're probably right."
     $ develop_double(30)
+    $ reachedEnd = True
 
 label develop_sneaky_archer_overexposed:
     $ renpy.block_rollback()
@@ -631,6 +639,8 @@ label develop_sneaky_archer_overexposed:
     show sage base at dcs, right, dc_overexpose
     $ corruption += 5
     $ photo_ruined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     #This is crappy because it gives you no clues and maybe even throws you down an incorrect path.
     owl "... wait, you never answered me. What {i}are{/i} you doing out here? Dressed in your portal robes??"
     archer "Oh."
@@ -742,6 +752,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     hide porter with flash
     "As they close the loop, a gate opens in the floor and the Porter is gone."
     $ develop_double(30)
+    $ reachedEnd = True
 
 label develop_sneaky_frog_overexposed:
     $ renpy.block_rollback()
@@ -751,6 +762,9 @@ label develop_sneaky_frog_overexposed:
         "You look at the clock. The photo is fully developed. Leaving it in any further will ruin it."
     $ develop_overexposed(10)
     $ corruption += 5
+    $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     show owl at center, dcs, dc_overexpose
     hide owl with moveoutleft
     "The figure in the owl mask walks into the shadows, leaving the image eerily quiet."
@@ -978,6 +992,7 @@ label develop_portal_owl:
     hide owl point with moveoutleft
     hide flame argue with moveoutleft
     "With that, you are left staring at an empty hallway."
+    $ reachedEnd = True
 
 label develop_portal_owl_overexposed:
     $ renpy.block_rollback()
@@ -989,6 +1004,9 @@ label develop_portal_owl_overexposed:
     hide flame with moveoutleft
     $ develop_overexposed(10)
     $ corruption += 5
+    $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the motion in the frame jolt forwards, as if skipping time."
     "With the frame now empty, only the subtle shifting of the light tells you this photograph is still animate."
     $ develop_overexposed(15)
     "The colors burn into nothing, slowly making the photo unrecognizable."
@@ -1060,6 +1078,7 @@ label develop_portal_flame:
     show flame argue at dcp
     show flame2 argue at WhiteNoise, xflip, dcs
     flame "So... so... so what is this, like some kind of warning?"
+    $ reachedEnd = True
 
 label develop_portal_flame_overexposed:
     $ renpy.block_rollback()
@@ -1072,6 +1091,8 @@ label develop_portal_flame_overexposed:
     show flame2 argue at xflip, dcs, WhiteNoise
     $ corruption += 5
     $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     doubFlame "Yes, but not for you."
     $ develop_overexposed(20)
     show flame argue at dcp, dc_overexpose
@@ -1157,6 +1178,7 @@ label develop_portal_archer:
     show flame argue at dcp
     show porter dead at center, dcp, dc_porter, DoubleRegicide
     "The eyes of the human mask, too, begin to glow."
+    $ reachedEnd = True
 
 label develop_portal_archer_overexposed:    
     $ renpy.block_rollback()
@@ -1169,6 +1191,9 @@ label develop_portal_archer_overexposed:
     show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, dc_porter, DoubleRegicide
     $ corruption += 5
+    $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     flame "What do you see?"
     archer "bright."
     $ develop_overexposed(15)
@@ -1257,6 +1282,7 @@ label develop_portal_frog:
     flame "Your turn."
     flame "Take what you will from this husk."
     $ develop_double(30)
+    $ reachedEnd = True
 
 label develop_portal_frog_overexposed:
     $ renpy.block_rollback()
@@ -1266,6 +1292,9 @@ label develop_portal_frog_overexposed:
         "If you don't pull the photo out now, it will be overexposed."
     $ develop_overexposed(10)
     $ corruption += 5
+    $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame jolt forwards, as if skipping time."
     show porter dead weyes at center, dcp, dc_porter, dc_overexpose
     show frog explain at left, xflip, dcs, dc_overexpose
     show flame argue at right, dcp, dc_overexpose

@@ -226,10 +226,10 @@ label finalJudgement:
     porter "Humanity will regain my service again."
     porter "With perhaps more caution."
     #values broken
-    if corruption <= 10:
+    if corruption <= 15:
         porter "I see little brightness in you."
         porter "Go. Live."
-    elif corruption <= 20:
+    elif corruption <= 25:
         porter "Now, for you, there will be pain."
         porter "As the brightness in you must be scraped out"
         temp "show corruption effects, then a screen flash"
@@ -237,7 +237,7 @@ label finalJudgement:
         porter "You are lucky. Go. Live."
         porter "But leave your artistic ambitions behind... at least for a time."
         porter "Or you may reawake the danger."
-    elif corruption >= 25:
+    else:
         porter "..."
         porter "It is possible you have predicted what must come next."
         porter "You are a flame, little one. A flame that could catch the world."
@@ -248,9 +248,6 @@ label finalJudgement:
         "The cold is now touching every part of you, it is everywhere inside you."
         "You are gone."
         jump theEnd
-    else:
-        #This, mathematically, should never happen.
-        porter "Go. Return to life."
     #only the corrupted ending skips this
     scene bg bedroom bright
     "The rest of the day passes without a single strange occurance."
