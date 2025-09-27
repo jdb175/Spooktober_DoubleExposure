@@ -28,6 +28,7 @@ default budLevel = 0 #friendship level with bud.
 default zoom_development = False
 default zoom_development_transitioned = False
 default photoRuined = False
+default reachedEnd = False
 
 ###Branching story related variables
 default gunnarKnown = False #You know Gunnar's name
@@ -48,8 +49,8 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
-image darkroom_workspace bright = "bg/bg dark room painting.png"
-image darkroom_workspace red = "bg/bg dark room painting red.png"
+image darkroom_workspace bright = "bg/bg dark room day1.png"
+image darkroom_workspace red = "bg/bg dark room day1 red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
@@ -169,8 +170,6 @@ transform dc_overexpose:
     u_flipSpeed (2.0)
     u_flipScale (80.0*over_exposure/MAX_OVEREXPOSURE_TIME)
 
-
-
 transform yflip:
     yzoom -1
 
@@ -213,9 +212,9 @@ label introScene:
     "{size=+10}Erin Darabondi."
     "Many artists have inspired you, but it was Erin who made you want to {i}be{/i} an artist."
     "Through her lens, strange and fantastic scenes became real."
-    $_window_hide()
+    window hide
     show nightAndDay:
-        easein 2.5 zoom 1.0
+        easeout 2.5 zoom 1.0
     pause 2.7
     "The supposed 'truth' of photography used to present impossibilities."
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
@@ -226,8 +225,7 @@ label introScene:
     play photo_1 'piano-underscore-spook-1.mp3'
     hide nightAndDay
     show nightAndDayPartial with flash:
-        alpha .5
-        #matrixcolor BrightnessMatrix(-0.4)
+        alpha .7
     "Partially developing one photo..."
     "...and then exposing another over it, creating a new image."
     #window hide
@@ -250,11 +248,18 @@ label introScene:
     "A legacy which, for better or for worse..."
     play sfx_1 "gong-1.mp3"
     play photo_3 'piano-underscore-spook-3.mp3'
-    show porter photo with Dissolve(1)
+    show porter photo:
+        zoom .9
+        xalign 0.0
+        yalign 0.5
+        rotate 1.5
+    with Fade(0.1, 0.2, 1.9, color="#ffffff")
     "...you are now a part of."
     window hide
     show porter photo:
         pause 1
+        xanchor 900
+        yanchor 900
         xalign 0.5
         yalign 0.5
         easein 2.2 zoom 50
@@ -457,9 +462,10 @@ label projector_select_base_dayone:
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")
     show bg enlarger red
+    with flash
     "You expose the paper, starting a print of 'day and night'"
     show bg tray red
-    "Next comes the developing liquid. You drop the print in the bath and wait."
+    "Next comes the developing liquid."
     "You judge that your photo will be fully exposed after {b}{size=+5}60 seconds{/b}{/size}."
     "That means that if you want to maximize the quality of your double exposure, you should pull it out at {b}{size=+5}30 seconds{/b}{/size}."
     show fakeClock:
@@ -475,6 +481,10 @@ label projector_select_base_dayone:
         xalign 0.5
         yalign 0.5
     "You make sure your watch is in easy view as you submerge the photos."
+    hide fakeClock
+    hide clock pointer aligned
+    show photopaper tray
+    "You drop the print in the bath and wait."
     play ambiance_1 "clock-fast.mp3" volume 0.1 fadein 2.0
     jump expression target_label
 
@@ -513,6 +523,7 @@ label post_image_completion_dayone:
     play ambiance_1 "ambient-darkroom-light.mp3" fadein 1.0 # make sure light buzz is playing
     play ambiance_2 "ambient-darkroom-rumble.mp3" fadein 0.5
     $ photoRuined = False
+    $ reachedEnd = False
     if(current_photo_paper > 0):
         if(current_photo_paper == 1):
             "You have a single piece of photo paper left."
@@ -732,6 +743,7 @@ label develop_kitchen_siobhan:
     show siobhan talk at dcs
     Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
+    $ reachedEnd = True
 
 label develop_kitchen_siobhan_overexposed:
     $ renpy.block_rollback()
@@ -747,6 +759,8 @@ label develop_kitchen_siobhan_overexposed:
     $ photoRuined = True
     play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
     $ corruption += 5
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     Erin "'The Porter.' Did Peter come up with that name?"
     Siob "No. It is his {b}Name{/b}."
     Siob "It is his {b}Function{/b}."
@@ -857,6 +871,7 @@ label develop_kitchen_gunnar:
     show erin think at dcp
     show gunnar points at dcs
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
+    $ reachedEnd = True
 
 label develop_kitchen_gunnar_overexposed:
     $ renpy.block_rollback()
@@ -869,6 +884,8 @@ label develop_kitchen_gunnar_overexposed:
     show gunnar points at right, dcs, dc_overexpose
     $ photoRuined = True
     $ corruption += 5
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     Gunnar "There's a lot that he sees, Erin."
     Gunnar "But he can't see enough. Not what he needs to."
     Gunnar "He is BLIND, just as I AM BLIND."
@@ -904,42 +921,54 @@ label develop_kitchen_peter:
     show erin think at dcp, left with dissolve
     show peter explain at dcs, right with dissolve
     unk "I've spoken with Siobhan. She'll be going through tonight. Gunnar is happy to go tomorrow, unless you'd prefer his spot."
-    show erin smile at dcp
+    show peter listen at dcs
+    show erin ponder at dcp
     Erin "That's fine with me."
     show erin think at dcp
+    show peter playful at dcs
     unk "I'm pleased to see you're already working. And I'm honored that my kitchen is going to be a part of some great work of art."
     unk "This is what impresses me the most about you creative types. I'd assume a kitchen is just... boring, I don't know."
     unk "But I guess you see something in it."
     $ develop_double(10)
     show erin ponder at dcp
-    show peter explain at dcs
+    show peter judges at dcs
     Erin "Maybe it'll make more sense when you see the piece."
+    show peter listen at dcs
     Erin "Honestly, I don't even know what this piece is going to be either. Usually I've got something more like a plan."
+    show peter judges at dcs
     Erin "But I think it'll be interesting to capture these images of {b}before{/b}. And then, once we go through... to the ..."
     show erin think at dcp
+    show peter playful at dcs
     unk "Bright House, yes."
     show erin ponder at dcp
+    show peter listen at dcs
     Erin "To the Bright House. To show how we see things after."
     Erin "If I go. You know I still - "
     show erin think at dcp
+    show peter explain at dcs
     unk "It's okay. You don't have to be here if you don't want to. And you don't have to decide anything now."
     show erin smile at dcp
+    show peter judges at dcs
     Erin "Thank you, Mr. Carlson"
     $ peterKnown = True
     $ develop_double(15)
     show peter explain at dcs
     show erin think at dcp
     Peter "Please, just Peter is fine."
-    Peter "Anyway, I'll leave you to your work. Dinner's at 5 if you want it and then Siobhan's going through at 7:00PM sharp. In the Grand hall."
-    hide peter explain with moveoutright
+    Peter "Anyway, I'll leave you to your work."
+    show peter remark at dcs
+    Peter "Dinner's at 5 if you want it and then Siobhan's going through at 7:00PM sharp. In the Grand hall."
+    show peter judges at xflip, dcs
+    hide peter with moveoutright
     show erin ponder at dcp
     Erin "Peter, wait!"
-    show peter explain at dcs, right with moveinright
+    show peter listen at dcs, right with moveinright
     Erin "I have a question."
     show erin think at dcp
+    show peter remark at dcs
     Peter "I hope I have an answer."
     $ develop_double(20)
-    show peter explain at dcs
+    show peter listen at dcs
     show erin ponder at dcp
     Erin "What is the Porter? I know you said a 'helper spirit' but I mean, how do you know that?"
     show erin think at dcp
@@ -965,6 +994,7 @@ label develop_kitchen_peter:
     show peter explain at dcs
     show erin think at dcp
     Peter "I found the Bright House through nothing more than pure, stupid curiosity."
+    $ reachedEnd = True
 
 label develop_kitchen_peter_overexposed:
     $ renpy.block_rollback()
@@ -973,13 +1003,16 @@ label develop_kitchen_peter_overexposed:
     else:
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
+    $ corruption += 5
     $ photoRuined = True
+    if reachedEnd == False:
+        "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     show peter explain at right, dcs, dc_overexpose
     show erin think at left, dcp, dc_overexpose
     Peter "But now that I've found it, I find myself feeling so... inadequate before it."
     Peter "Inadequate like the foolish, weak thing that I am."
     $ develop_overexposed(20)
-    show peter explain at dcs, dc_overexpose
+    show peter playful at dcs, dc_overexpose
     show erin think at dcp, dc_overexpose
     Peter "I am a {sc=4}Worm{/sc}, a {sc=4}Thief{/sc}!"
     $ develop_overexposed(30)
@@ -1007,7 +1040,7 @@ label endOfDayOneChoices:
     stop photo_3
     scene darkroom_workspace red
     "You stand in the darkroom for a minute, dumbfounded, still processing what just happened."
-    if corruption > 5:
+    if corruption > 10:
         "You look at the photos you just printed. Out the corner of your eye you feel like you can see them moving still. But they aren't."
     else:
         "You look at the photos you just printed. No sign of anything out of the ordinary."
@@ -1033,24 +1066,30 @@ label findPhoto:
                 "Like something is in the darkroom with you."
             "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
             "And then, tucked away in the back of a file nestled among old tax documents, you find something."
-            temp "SHOW: a photo of a hideous, thin spirit, staring out of the darkness."
-            temp "Double exposed over its face, the face of Erin..."
+            show porter photo erin:
+                zoom .9
+                xalign 0.0
+                yalign 0.5
+                rotate 1.5
             #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
             "{font=ReenieBeanie-Regular.ttf}{size=+26}'restitution. atonement?'"
             "You slip it into your bag."
+            hide porter photo erin
             jump findPhoto
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
             "You pull it out of your back and attempt another exposure."
-            show nightAndDayPartial with Fade(1, 0, 0,5, "#fff"):
+            show nightAndDayPartial with flash:
                 zoom .9
                 xalign 0.0
                 yalign 0.5
                 rotate 1.5
-            "Nothing. Just a photo."
+            "Nothing."
+            "Just a photo."
+            hide nightAndDayPartial
             jump findPhoto
     jump night1
 
@@ -1074,7 +1113,7 @@ label night1:
     play sound "gong-1.mp3"
     play sfx_3 ["<silence 2>", "guitar-Ab.mp3"] volume 0.5
     play audio "porter-wail.mp3" volume 1.0
-    show porter temp:
+    show porter dead:
         yalign .03
         xalign .5
         zoom 200
@@ -1082,37 +1121,41 @@ label night1:
         parallel:
             ease 2 alpha 1         
         parallel:
-            ease 2 zoom 1
+            ease 2 zoom 1.1
+        Regicide
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
-    unk "..."
     stop ambiance_3 fadeout 4.0
-    unk "{sc=4}i see you{/sc}" #Could we do a cool text effect here?
-    unk "return what is mine"
-    unk "you WILL return what is mine"
-    if corruption >= 5:
-        unk "..."
-        unk "you are already tainted"
-    if corruption >= 10:
-        unk "you are already {sc=4}TOO BRIGHT{/sc}"
-    else:
-        unk "before you are tainted"
+    unk "{sc=2}i see you{/sc}"
+    unk "return what is {sc=1}mine{/sc}."
+    unk "you {sc=2}WILL{/sc} return what is mine."
     play nightmare_2 ["porter-drums-1.mp3"] fadein 10 volume 1
-    temp "we SHOW the eyes"
     unk "{sc=4}my eyes{/sc}... kept in anothers head"
-    temp "SHOW heart"
     unk "{sc=4}my blood{/sc} thick in anothers veins"
     play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
-    temp "SHOW hand"
     unk "{sc=4}my hand{/sc} joined to another's arm"
-    temp "SHOW tongue"
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     play sound "porter-single-voice-higher.mp3" volume 0.2
     play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
     play drone_3 "bass-drone-2.mp3" volume 1 fadein 6
     unk "they could not run. and neither can you."
+    unk "not from me"
+    unk "and not from the {sc=4}bright"
+    if corruption >= 15: #Calibrated currently for 3 papers, which means max corruption 15
+        unk "i see it has already started to consume you"
+        unk "you are {sc=4}careless{/sc}, like them"
+        unk "it will be your end if you are not more careful"
+    if corruption >= 5:
+        unk "..."
+        unk "you are already tainted"
+        unk "do not be {sc=4}careless{/sc} as they were"
+        unk "corruption may yet be avoided"
+    else:
+        unk "you have been careful..."
+        unk "you have not pushed your luck as they did."
+        unk "corrpution may yet be avoided"
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
-    show porter temp at ZoomInto:
+    show porter dead at ZoomInto:
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"
@@ -1120,7 +1163,7 @@ label night1:
         WhiteNoise
         size(1920, 1080) crop (0, 0, 1920, 1080)
         pause 1 #should be dissolve length
-        linear 3 crop(1400, 250, 360, 240)
+        easein 3 crop(770, 150, 360, 240)
     with Dissolve(1)
     play sfx_2 "gong-1.mp3"
     play sound "porter-wail.mp3"
