@@ -605,9 +605,7 @@ label develop_kitchen:
     $ develop(30)
     "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
     if(not development_end_signalled):
-        $ audio_warn_clock()
-        play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
-        stop ambiance_1 fadeout 1.0
+        $ audio_warn_clock()        
         "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
         "But does that matter when {i}{b}this{/i}{/b} is happening?"
         "You could choose to push it just a {i}little{/i} longer..."
