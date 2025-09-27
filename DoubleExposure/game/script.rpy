@@ -55,15 +55,6 @@ image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
 image nightAndDay = "photos/erin original two.png"
 image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
-
-#exposure
-image BG1 = "exposuretest/bakgroundimage.png"
-image Mask = "exposuretest/pallid_mask_nobpg.png" 
-image BG1_WithMask = Composite(
-    (1191,647),
-    (0,0), "exposuretest/bakgroundimage.png",
-    (0,0), "exposuretest/pallid_mask_nobpg.png" 
-)
 image black_background = Solid("#000000") 
 image white_background = Solid("#fff")  
 
@@ -1134,7 +1125,6 @@ label night1:
     call nightmare_porter_appear
     show porter jumpscare:
         subpixel True
-        matrixcolor SaturationMatrix(0)
         yalign .03
         xalign .5
         zoom 200
@@ -1143,7 +1133,7 @@ label night1:
             ease 2 alpha 1         
         parallel:
             ease 2 zoom 1
-        linear 300 zoom 2
+        linear 250 zoom 2
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     stop ambiance_3 fadeout 4.0
     unk "{sc=2}i see you{/sc}"
@@ -1180,7 +1170,7 @@ label night1:
         unk "corrpution may yet be avoided"
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
-    show porter dead at ZoomInto:
+    show porter jumpscare at ZoomInto:
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"

@@ -410,7 +410,7 @@ screen final_photo(base_image, secondary_image, base_development, secondary_deve
         add base_image.path at developedImage(base_alpha, over_exposure_brightness)
 
         if(secondary_image):
-            add secondary_image.path at developedImage(secondary_alpha, over_exposure_brightness)
+            add get_secondary_image_path(base_image, secondary_image) at developedImage(secondary_alpha, over_exposure_brightness)
 
         add Solid("#fff", xsize=1920, ysize=1080) at fake_flash
 
@@ -459,7 +459,7 @@ screen develop_photo():
 
 
                 if(store.is_double_exposing):
-                    add store.current_secondary_image.path at developingImageZooming(secondary_alpha, 0, "#ff0000", 0.7, 1, 30)
+                    add get_secondary_image_path(store.current_base_image, store.current_secondary_image) at developingImageZooming(secondary_alpha, 0, "#ff0000", 0.7, 1, 30)
         else:
             add "bg/bg tray red.png":
                 xalign 0.5
@@ -480,7 +480,7 @@ screen develop_photo():
             add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness), developingImageWave
 
             if(store.is_double_exposing):
-                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness), developingImageWave
+                add get_secondary_image_path(store.current_base_image, store.current_secondary_image) at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness), developingImageWave
 
 screen enlarger_select_photo():
     if(store.enable_cycling):
@@ -497,6 +497,12 @@ screen enlarger_select_photo():
             delay_scale = move_scale * 0.5 + 0.5
             focus_scale = random.random() * 0.3 + .7
 
+            path = ""
+            if(store.current_base_image):
+                path = get_secondary_image_path(store.current_base_image, store.projected_image)
+            else:
+                path = store.projected_image.path
+
         add "bg/bg enlarger red bigger.png" at enlarger_bg
 
         add "photopaper enlarger.png" at enlarger_bg
@@ -506,10 +512,10 @@ screen enlarger_select_photo():
 
         # hack the brightness of this one really dark image
         if(store.projected_image.label == "sneaky"):
-            add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale):
+            add path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale):
                 matrixcolor BrightnessMatrix(.3)
         else:
-            add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
+            add path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
 
         add "gui/textboxAlt.png":
             xalign 0.5
