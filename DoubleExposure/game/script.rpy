@@ -53,7 +53,6 @@ image darkroom_workspace bright = "bg/bg dark room day1.png"
 image darkroom_workspace red = "bg/bg dark room day1 red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
 image nightAndDayPartial = "photos/kitchen erin.png"
-image porterErinFace = "photos/porter photo erin.png"
 image nightAndDay = "photos/erin original two.png"
 image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
 
