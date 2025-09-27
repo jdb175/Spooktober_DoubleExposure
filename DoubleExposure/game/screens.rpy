@@ -595,7 +595,12 @@ screen projector_porter_final(name, correct_target):
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "heart",
                     Return(),
-                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+                    [
+                        SetScreenVariable("wrong_guesses", wrong_guesses+1), 
+                        SetScreenVariable("wrong_guess_text", True), 
+                        SetScreenVariable("target_area", None),
+                        Play("audio", "wrong-answer.mp3")
+                    ])
 
         if(not tongue_added):
             button:
@@ -607,7 +612,12 @@ screen projector_porter_final(name, correct_target):
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "tongue",
                     Return(),
-                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+                    [
+                        SetScreenVariable("wrong_guesses", wrong_guesses+1), 
+                        SetScreenVariable("wrong_guess_text", True), 
+                        SetScreenVariable("target_area", None),
+                        Play("audio", "wrong-answer.mp3")
+                    ])
 
 
         if(not arm_added):
@@ -620,7 +630,12 @@ screen projector_porter_final(name, correct_target):
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "arm",
                     [Return()],
-                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+                    [
+                        SetScreenVariable("wrong_guesses", wrong_guesses+1), 
+                        SetScreenVariable("wrong_guess_text", True), 
+                        SetScreenVariable("target_area", None),
+                        Play("audio", "wrong-answer.mp3")
+                    ])
 
         on "hide":
             action Show("projector_porter_healing")

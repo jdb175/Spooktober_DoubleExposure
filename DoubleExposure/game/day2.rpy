@@ -172,6 +172,7 @@ label day2_darkroom:
             "You hadn't really clocked it yesterday, but you see it today, just where it was in your dream."
             play sfx_1 "slides/remove-1.mp3"
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
+            play sfx_3 "brass-hit.mp3" volume 0.1
             play sfx_2 "low-thud-single.mp3" volume 0.2
             show mask double exposure with Dissolve(1)
             "The whole series was like this - various masks, shown in a presentational style. You never liked this one. Something about it felt unsettling."
@@ -766,6 +767,9 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     "They remain completely, eerily silent. The only sound is the swooshing of their robes and the creaking of old floorboards."
     "Then..."
     #NOTE: effects here!
+    play drone_1 "bass-drone-1.mp3" fadein 1.0 volume 0.5
+    play sfx_1 "low-thud-single.mp3" volume 0.5
+    play sfx_2 "guitar-Ab.mp3" volume 0.6
     show porter talk at dcs, left, xflip, DramaticRevealPorter, dc_porter
     with flash
     pause 3.56
@@ -776,16 +780,20 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     porter "Peter has told me that you wander where you are not meant to wander"
     porter "Beyond the walls of the House and into the Gardens. That you have even gazed into the Well."
     porter "You will not ent-"
+    play drone_2 "bass-drone-2.mp3" volume 0.3
     show porter swear at dcs, xflip, Regicide, dc_porter
     porter "wh.."
     porter "what is that"
     show porter swear at dcs, xflip, DoubleRegicide, dc_porter
     frog "What is... what? This?"
     "They open their left palm and reveal the odd stone pressed within."
+    play sfx_2 "gong-1.mp3"
+    play drone_3 "piano-underscore-spook-2.mp3"
     porter "WHAT HAVE YOU DONE?"
     show porter swear at dcs, xflip, UltimateRegicide, dc_porter
     "The spirit's thin legs seem to collapse under it. It begins to shake."
     show porter swear at dcs, xflip, ArmGlow, dc_porter
+    play sfx_3 "eerie-1.mp3"
     "Its arm begins to glow, consumed by a sickly yellow light."
     "The light travels through the air and into the darkness, travelling towards the hand of another."
     $ develop_double(20)
@@ -794,8 +802,17 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     show owl point at dcs, center, ArmGlowOwlHand with moveinbottom
     owl "Apologizes to use you like that, but I wasn't going to let anyone freeze me out."
     owl "Not after all I've seen and learned."
+    play audio "gore/porter-death.mp3"
+    stop drone_1 fadeout 1
+    stop drone_2 fadeout 1
+    stop drone_3 fadeout 1
+    stop sfx_1 fadeout 1
+    stop sfx_2 fadeout 1
+    stop sfx_3 fadeout 1
+    pause 1
     hide porter
     show porter dead at xflip, dcs, dc_porter with Fade(0.2, 0, 0.4, color="#e7e0ba")
+    stop photo_1 fadeout 1
     frog "What have you done?! What did you do to it?!"
     owl "Go. Your part is done here."
     frog "{size=+7}{sc=1}Aaaahh!"
@@ -805,6 +822,8 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     show owl point at center, dcs
     "Their hand now glowing with the same sickly light, the figure in the owl mask places their hand on the floor."
     "Slowly, they trace a circle around the writhing spirit."
+    play sfx_1 "guitar-Ab.mp3" volume 0.5
+    play sfx_2 "low-thud-single.mp3" volume 0.5
     hide porter with flash
     "As they close the loop, a gate opens in the floor and the Porter is gone."
     $ develop_double(30)
@@ -1221,6 +1240,7 @@ label develop_portal_flame_overexposed:
     show fire2 argue at xflip, dcs, WhiteNoise
     $ corruption += 5
     $ audio_portal_overexpose()
+    $ audio_escalate(1)
     $ photoRuined = True
     if reachedEnd == False:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
@@ -1228,11 +1248,13 @@ label develop_portal_flame_overexposed:
     $ develop_overexposed(20)
     show fire scared at dcp, dc_overexpose
     show fire2 argue at xflip, dcs, WhiteNoise
+    $ audio_escalate(2)
     doubFlame "For the one who watches us."
     if corruption >= 15:
         doubFlame "The one who is {sc=3}bright"
     else:
         doubFlame "The one who is {sc=2}not yet too bright."
+    $ audio_escalate(3)
     #I want to put more of an ending clue here but need to write that first.
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
@@ -1304,6 +1326,7 @@ label develop_portal_archer:
     flame "..."
     "The flame-masked figure makes a gesture."
     "Yellow light begins to form around the Porter's eyes."
+    $ play_crunch()
     show porter dead at center, dcp, dc_porter with Fade(0.5, 0.2, 0.3, color="#fddf37")
     flame "Done."
     $ develop_double(30)
@@ -1325,6 +1348,7 @@ label develop_portal_archer_overexposed:
     show porter dead at center, dcp, dc_porter, DoubleRegicide
     $ corruption += 5
     $ audio_portal_overexpose()
+    $ audio_escalate(1)
     $ photoRuined = True
     if reachedEnd == False:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
@@ -1334,12 +1358,14 @@ label develop_portal_archer_overexposed:
     show sage base at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, dc_porter, DoubleRegicide
+    $ audio_escalate(2)
     archer "BRIGHT"
     archer "And I see..."
     $ develop_overexposed(20)
     show sage base at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     show porter dead at center, dcp, dc_porter, DoubleRegicide
+    $ audio_escalate(3)
     archer "I see a way out."
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
@@ -1409,6 +1435,7 @@ label develop_portal_frog:
     "Holding out both hands, a yellow glow appears in the chest of the spirit."
     "The light forms a thin thread, connecting Peter's chest with the spirit's"
     $ develop_double(25)
+    $ play_crunch()
     show porter dead weyes at dcp, dc_porter
     show frog explain at xflip, dcs
     show flame argue at dcp
@@ -1435,6 +1462,7 @@ label develop_portal_frog_overexposed:
     show porter dead weyes at center, dcp, dc_porter, dc_overexpose
     show frog explain at left, xflip, dcs, dc_overexpose
     show flame argue at right, dcp, dc_overexpose
+    $ audio_escalate(1)
     frog "How... how does it feel?"
     flame "I can feel its power."
     $ develop_overexposed(15)
@@ -1447,12 +1475,14 @@ label develop_portal_frog_overexposed:
     show frog explain at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     frog "Do words live in the tongue? Or the mind? Do I want to see what is in that mind? Could I even comprehend it?"
+    $ audio_escalate(2)
     flame "{size=+10}FOOL{/size}."
     $ develop_overexposed(25)
     show porter dead weyes at dcp, dc_porter, dc_overexpose
     show frog explain at xflip, dcs, dc_overexpose
     show flame argue at dcp, dc_overexpose
     flame "{size=+7}IT MATTERS NOT{/size}."
+    $ audio_escalate(3)
     flame "{size=+7}ALL WILL BE RETURNED{/size}."
     $ develop_overexposed(30)
     show porter dead weyes at dcp, dc_porter, dc_overexpose
@@ -1486,6 +1516,7 @@ label endOfDay2:
     play sound "text-vibrate.mp3" volume 0.6
     "Your phone buzzes. It's Bud. They're outside."
     show buddy question with moveinleft
+    play photo_1 '<loop 20>piano-underscore-spook-1.mp3' volume 0.1
     bud "So I looked into Peter Carlson..."
     show buddy sad
     bud "Um, it got weird."
@@ -1564,6 +1595,7 @@ label endOfDay2:
     show buddy amused
     bud "Do you think it could be hidden somewhere here?"
     show buddy listen
+    play photo_2 'piano-underscore-spook-2.mp3' volume 0.5
     "Your search the other day was quick. As the photos hidden behind the picture frame made clear, you hadn't done a truly deep search."
     stop ambiance_1 fadeout 2.0
     stop ambiance_2 fadeout 2.0
@@ -1578,6 +1610,7 @@ label endOfDay2:
     "You nod and thank Bud for their help."
     hide buddy with dissolve
     "You're pretty tired as well."
+    play sfx_1 "slides/remove-2.mp3"
     "Before you go, you grab all the prints you took today and shove them in your bag."
     jump night2
 #endregion
@@ -1586,21 +1619,24 @@ label endOfDay2:
 label night2:
     scene bg bedroom light with Dissolve(1)
     pause .3
+    stop photo_1 fadeout 4
+    stop photo_2 fadeout 4
     "The fear of the dreams keeps you up for a while..."
     $_window_show()
     show bg bedroom sleep with dissolve
     call night_crickets
     "But sometime around two in the morning sleep finds you."
+    call nightmare_start
     show bg nightmare:
         RaveLights
     with Dissolve(2.0)
-    call nightmare_start
     "And so do the dreams"
+    call nightmare_porter_appear
+    pause 1.2
     show porter dead:
         yalign .03
         xalign .5
     with moveinbottom
-    call nightmare_porter_appear
     stop ambiance_3 fadeout 4.0
     play nightmare_2 ["porter-drums-1.mp3"] fadein 6 volume 1
     if corruption >= 25: #high

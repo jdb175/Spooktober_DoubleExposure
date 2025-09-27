@@ -25,6 +25,13 @@ init python:
 
     renpy.music.register_channel("melody", "music", synchro_start=True)
 
+    my_reverb_filter = renpy.audio.filter.Reverb(
+        resonance=0.75,  # Adjust room size (0.0 to 1.0)
+        dampening=8000,    # Adjust damping (0.0 to 1.0)
+        wet=0.5,  # Adjust wet signal level (0.0 to 1.0)
+        dry=1.0   # Adjust dry signal level (0.0 to 1.0)
+    )
+
     config.auto_voice = "voice/{id}.mp3"
 
     def play_darkroom_light_atl(trans, st, at):
@@ -33,6 +40,9 @@ init python:
     def play_darkroom_light():
         renpy.sound.play("light-click.mp3", channel="sfx_1")
         renpy.music.play("ambient-darkroom-light.mp3", channel="ambiance_1", fadein=1.0, loop=True, relative_volume=0.8)
+
+    def play_darkroom_light_off():
+        renpy.sound.play("light-click-off.mp3", channel="sfx_1")
 
     def play_slide_place(trans, st, at):
         renpy.sound.play(renpy.random.choice(slide_place_fx), channel="sfx_1")
@@ -49,12 +59,19 @@ init python:
     def play_slide_ratchet_short(trans, st, at):
         renpy.sound.play(renpy.random.choice(slide_rachet_short_fx), channel="sfx_3", relative_volume=0.6)
 
+    def play_crunch():
+        renpy.sound.play(renpy.random.choice(crunches), channel="audio", relative_volume=0.5)
+
     def audio_overexpose_tick():
         renpy.sound.play("low-thud-single.mp3", channel="audio", relative_volume=0.8)
 
     def audio_start_clock():
         renpy.music.play("clock-fast.mp3", channel="clock_1", relative_volume=0.05, loop=True, fadein=2.0)
     
+    def audio_fadeout_clock():
+        renpy.music.stop("clock_1", fadeout=10.0)
+        renpy.music.stop("clock_2", fadeout=10.0)
+
     def audio_warn_clock():
         renpy.music.play(["<sync clock_1>clock-both.mp3", "clock-both.mp3"], channel="clock_2", loop=True, relative_volume=0.2, fadein=1.0)
         renpy.music.stop(channel="clock_1", fadeout=2.0)
@@ -66,12 +83,13 @@ init python:
         renpy.music.play(["<sync photo_1>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"], channel="photo_2", loop=True, fadein=5.0)
 
     def audio_kitchen_melody(char):
+        audio_fadeout_clock()
         if (char == "siobhan"):
             renpy.music.play(["<sync photo_1>photo-underscore-1_melody-guitar.mp3", "photo-underscore-1_melody-guitar.mp3"], channel="melody", loop=True, relative_volume=0.3, fadein=5.0)
         elif (char == "peter"):
             renpy.music.play(["<sync photo_1>photo-underscore-1_melody-horns.mp3", "photo-underscore-1_melody-horns.mp3"], channel="melody", loop=True, relative_volume=0.5, fadein=5.0)
         elif (char == "gunnar"):
-            renpy.music.play(["<sync photo_1>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-2.mp3"], channel="melody", loop=True, relative_volume=0.6, fadein=5.0)
+            renpy.music.play(["<sync photo_1>photo-underscore-1_melody-winds.mp3", "photo-underscore-1_melody-winds.mp3"], channel="melody", loop=True, relative_volume=0.4, fadein=5.0)
 
     def audio_escalate(step):
         if (step == 1):
@@ -122,13 +140,15 @@ init python:
         renpy.music.play(["<sync photo_1>strings-loop-drums.mp3", "strings-loop-drums.mp3"], channel="photo_3", loop=True, fadein=3.0)
 
     def audio_sneaky_melody(char):
+        audio_fadeout_clock()
         if (char == "siobhan"):
-            renpy.music.play(["<sync photo_1>strings-loop-guitar.mp3", "strings-loop-guitar.mp3"], channel="melody", loop=True, relative_volume=1, fadein=5.0)
-        #elif (char == "peter"):
-        #    renpy.music.play(["<sync photo_1>photo-underscore-1_melody-horns.mp3", "photo-underscore-1_melody-horns.mp3"], channel="melody", loop=True, relative_volume=0.5, fadein=5.0)
-        #elif (char == "gunnar"):
-        #    renpy.music.play(["<sync photo_1>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-2.mp3"], channel="melody", loop=True, relative_volume=0.6, fadein=5.0)
-        #elif (char == "erin"):
+            renpy.music.play(["<sync photo_1>strings-loop-guitar.mp3", "strings-loop-guitar.mp3"], channel="melody", loop=True, relative_volume=0.8, fadein=5.0)
+        elif (char == "peter"):
+            renpy.music.play(["<sync photo_1>strings-loop-horns.mp3", "strings-loop-horns.mp3"], channel="melody", loop=True, relative_volume=0.2, fadein=5.0)
+        elif (char == "gunnar"):
+            renpy.music.play(["<sync photo_1>strings-loop-winds.mp3", "strings-loop-winds.mp3"], channel="melody", relative_volume=0.2, loop=True, fadein=5.0)
+        elif (char == "erin"):
+            renpy.music.play(["<sync photo_1>strings-loop-piano.mp3", "strings-loop-piano.mp3"], channel="melody", relative_volume=0.2, loop=True, fadein=5.0)
 
     def audio_portal():
         renpy.music.play("strings-loop-phase-1.mp3", channel="photo_1", relative_volume=0.8, loop=True, fadein=8.0)
@@ -138,13 +158,15 @@ init python:
         renpy.music.play(["<sync photo_1>strings-loop-drums.mp3", "strings-loop-drums.mp3"], channel="photo_3", loop=True, fadein=3.0)
 
     def audio_portal_melody(char):
+        audio_fadeout_clock()
         if (char == "siobhan"):
-            renpy.music.play(["<sync photo_1>strings-loop-guitar.mp3", "strings-loop-guitar.mp3"], channel="melody", loop=True, relative_volume=1, fadein=5.0)
-        #elif (char == "peter"):
-        #    renpy.music.play(["<sync photo_1>photo-underscore-1_melody-horns.mp3", "photo-underscore-1_melody-horns.mp3"], channel="melody", loop=True, relative_volume=0.5, fadein=5.0)
-        #elif (char == "gunnar"):
-        #    renpy.music.play(["<sync photo_1>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-2.mp3"], channel="melody", loop=True, relative_volume=0.6, fadein=5.0)
-        #elif (char == "erin"):
+            renpy.music.play(["<sync photo_1>strings-loop-guitar.mp3", "strings-loop-guitar.mp3"], channel="melody", loop=True, relative_volume=0.8, fadein=5.0)
+        elif (char == "peter"):
+            renpy.music.play(["<sync photo_1>strings-loop-horns.mp3", "strings-loop-horns.mp3"], channel="melody", loop=True, relative_volume=0.2, fadein=5.0)
+        elif (char == "gunnar"):
+            renpy.music.play(["<sync photo_1>strings-loop-winds.mp3", "strings-loop-winds.mp3"], channel="melody", relative_volume=0.2, loop=True, fadein=5.0)
+        elif (char == "erin"):
+            renpy.music.play(["<sync photo_1>strings-loop-piano.mp3", "strings-loop-piano.mp3"], channel="melody", relative_volume=0.2, loop=True, fadein=5.0)
 
 label night_crickets:
     play ambiance_3 "crickets-1.mp3" volume 0.1 fadein 2 loop
@@ -179,6 +201,18 @@ label nightmare_stop:
     show bg bedroom light with flash
     play audio "breath-2.mp3"
     return
+
+label good_ending:
+    stop drone_2 fadeout 4
+    stop drone_3 fadeout 4
+    play music "piano-underscore.mp3"
+    return
+
+define crunches = [
+    "gore/crunch-1.mp3",
+    "gore/crunch-2.mp3",
+    "gore/crunch-3.mp3"
+]
 
 define slide_place_fx = [
     "slides/place-1.mp3",

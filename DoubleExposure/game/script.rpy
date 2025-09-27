@@ -201,6 +201,7 @@ label start:
 
 label introScene:
     $_window_hide()
+    #$ renpy.music.set_audio_filter("melody", my_reverb_filter)
     play sfx_1 "breath-1.mp3"
     play music 'piano-underscore.mp3'
     show nightAndDay with Dissolve(1.5):
@@ -1083,7 +1084,7 @@ label findPhoto:
                 "Like something is in the darkroom with you."
             "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
             "And then, tucked away in the back of a file nestled among old tax documents, you find something."
-            play sfx_2 "low-thud-single.mp3" volume 0.5
+            play sfx_2 "low-thud-single.mp3" volume 0.5            
             show porter photo erin:
                 zoom .9
                 xalign 0.0

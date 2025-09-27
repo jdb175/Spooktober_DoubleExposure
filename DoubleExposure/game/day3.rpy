@@ -3,6 +3,7 @@ default heardSpirit = False
 
 label day3Start:
     show black_background
+    play music "creaking-underscore.mp3" volume 0.5
     pause 1
     "It isn't until you reach the door to the darkroom and swing it open that you begin to feel afraid."
     scene darkroom_workspace bright:
@@ -10,6 +11,8 @@ label day3Start:
     "The room is cloaked in shadow."
     "Just like in your dream"
     "And in the dimness, you can recognize that there is someone in here with you."
+    play melody "brass-hit.mp3" fadein 2.0 volume 0.1 noloop
+    pause 1
     show peter old speak:
         size(402, 540)
         xalign .44
@@ -22,10 +25,12 @@ label day3Start:
     pause 1
     "If they heard you come in, they don't react."
     "As your eyes adjust, your heart stops as you realize the figure is carrying a small knife."
+    play sfx_1 ["gore/knife-click.mp3", "gore/knife-slice.mp3"] volume 0.2
     show peter old arm
     "With a slight flick of their wrist they make a cut on their arm."
     "The blood drips onto the desk, where you see several pieces of photo paper have been placed."
     "You can't help but gasp."
+    play sfx_1 "low-thud-single.mp3" volume 0.2
     show peter old speak
     "The figure turns around."
     hide peter
@@ -181,10 +186,13 @@ label shitEnding:
     "But you're done being a nobody."
     "Would you even know who Erin was if she hadn't taken Peter's offer, all those years ago?"
     show peter old arm
+    play sfx_1 "low-thud-single.mp3" volume 0.8
+    play sfx_2 "eerie-1.mp3" volume 0.2 fadein 3
     "You shake Peter's bloody hand, and in doing so seal your fate."
     hide peter with dissolve
     "You begin to create new work."
     show darkroom_workspace red
+    $ audio_escalate(1)
     "Not playing with Erin's old toys, no."
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.05)
@@ -192,22 +200,42 @@ label shitEnding:
     "The nightmares continue. And Bud is a problem too, at first."
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.2)
+    play audio "breath-2.mp3"
     "But they come around."
     "It is hard work, but the more you produce the brighter you see the world around you become."
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.3)
     "You are able to take on students. Disciples. And show them how to make the world bright as well."
+    $ audio_escalate(2)
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.4)
     "In your nightmares, the Porter becomes more frantic."
+    play ambiance_1 "heartbeat.mp3" fadein 2
     "You realize that, however weak or distant it may seem, this spirit is killing you."
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.5)
+    play ambiance_2 "heavy-breathing.mp3" fadein 2 volume 0.2
     "You suspect you won't have long."
+    play audio "solo-laugh-2.mp3" volume 0.1
     "But as you watch your students work, watch your efforts change this sad, dim world, you can't help but laugh."
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.6)
+    $ audio_escalate(3)
     "The sorry little lantern did indeed become a blazing flame. A flame that has caught the world."
+    play audio "porter-wail.mp3"
+    pause 1.7
+    play audio "gore/crunch-2.mp3" fadein 0.5
+    pause 0.5    
+    stop ambiance_1
+    stop ambiance_2
+    stop drone_1
+    stop drone_2
+    stop drone_3
+    stop music
+    stop sfx_1
+    stop sfx_1    
+    pause 0.5
+    play audio "low-thud-big.mp3"
     jump theEnd
 
 label peterCalmEnding:
@@ -252,10 +280,13 @@ label negativesReceived:
 
 label photoFinal_firstDev:
     show screen projector_porter_intro
+    play drone_1 "bass-drone-1.mp3" volume 0.8 fadein 2
     "The spirit shudders to life. With no eyes to open, it simply tilts its head."
     #This is the porter IN the image. I think we'd rather not pull it out for this?
     porter "The image is old... but it will do."
-    porter "It should be like so."
+    porter "It should be like so."    
+    play music "porter-single-voice-higher.mp3" volume 0.1 fadeout 3.0 noloop
+    play sfx_1 "low-thud-single.mp3"
     $ porter_eyes = True
     porter "Now, finish what was started."
     "You take the photo back to the enlarger for another exposure as quickly as possible."
@@ -263,50 +294,67 @@ label photoFinal_firstDev:
 
 label finalSiobhan:
     call screen projector_porter_final("Siobhan", "arm") with Fade(1,1,1)
+    play sfx_1 "low-thud-single.mp3"
+    play sfx_2 "breath-2.mp3"
     $ arm_added = True
     "This feels right."
 
 label finalPeter:
     call screen projector_porter_final("Peter", "heart")
+    play sfx_1 "low-thud-single.mp3"
+    play sfx_2 "breath-2.mp3"
     $ heart_added = True
     "This feels right."
 
 label finalGunnar:
     call screen projector_porter_final("Gunnar", "tongue")
+    play sfx_1 "low-thud-single.mp3"
+    play sfx_2 "breath-2.mp3"
     $ tongue_added = True
     "This feels right."
     
 label finalJudgement:
     show screen projector_porter_healed with Fade(1,1,1)
     hide screen projector_porter_healing
+    play drone_2 "porter-drone-3.mp3" fadein 3 volume 0.2
     "The bizarre composite now done, you bring it back to be developed."
     $ zooming_porter = True
+    play drone_3 "<sync drone_2>porter-drums-1.mp3" fadein 3 volume 0.2
     porter "My power is returning."
     $ zoomed_porter = True
     porter "My function may be served again."
     $ ascend_porter = True
+    play sfx_1 "porter-single-voice.mp3" volume 0.1 noloop
     porter "You have done well."
+    play ambiance_1 "ambiant-darkroom-light.mp3" fadein 2.0 volume 0.8
+    play audio "porter-wail.mp3"
     scene darkroom_workspace red:
         WhiteNoise
         matrixcolor BrightnessMatrix(-.5)
     hide screen projector_porter_healed with Fade(1,1,1)
     show porter talk at center with Dissolve(.4)
+    stop drone_1 fadeout 1
+    stop drone_2 fadeout 1
+    stop sfx_1 fadeout 1
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
     show porter swear
     porter "Humanity will regain my service again."
     show porter talk
     porter "With perhaps more caution."
+    play drone_2 "<sync drone_3>porter-drums-2.mp3" volume 0.4 fadein 3
     porter "..."
     #values broken
     if corruption <= 15:
         porter "I see little brightness in you."
         show porter swear
+        call good_ending
         porter "Go. Live."
     elif corruption <= 30:
         show porter swear
         porter "Now, for you, there will be {sc=2}some pain{/sc}."
         show porter talk
         porter "The brightness in you must be scraped out"
+        play drone_1 "bass-drone-2.mp3" fadein 1
         show porter swear with Fade(.2, 0.1, .5, color="#fefefe")
         you "{fast}{sc=4}AAAAAHHHH{/sc}{w=.4}"
         window auto False
@@ -316,8 +364,10 @@ label finalJudgement:
             extend "{fast}{sc=4}HHHH{w=.4}"
         window auto True
         show porter talk with Fade(.2, 0.1, .5, color="#fefefe")
+        stop drone_1 fadeout 2
         "The pain, which felt like hot knives carving at your insides, quickly starts to fade."
         "You feel... better?"
+        call good_ending
         porter "You are lucky. Go. Live."
         porter "But leave your artistic ambitions behind... at least for a time."
         porter "Or you may reawake the danger."
@@ -325,6 +375,7 @@ label finalJudgement:
         show porter swear
         porter "It is possible you have predicted what {sc=2}must come next{/sc}."
         show porter talk
+        $ audio_excalate(1)
         porter "You have become {sc=4}too bright{/sc}"
         porter "You are a flame, little one. A flame that could catch the world."
         "You feel an anger, or maybe a fear, rise in your chest."
@@ -334,6 +385,7 @@ label finalJudgement:
         porter "You were tricked... and had none to truly guide you."
         show porter swear
         porter "Let your final thoughts be this: you have done something great. You have made right a wrong."
+        $ audio_excalate(2)
         show darkroom_workspace red:
             matrixcolor BrightnessMatrix(-0.55)
         show porter swear at center:
@@ -364,12 +416,14 @@ label finalJudgement:
             matrixcolor BrightnessMatrix(-0.9)
         show porter swear:
             matrixcolor BrightnessMatrix(-.7)
+        $ audio_excalate(3)
         "The cold is now touching every part of you, it is everywhere inside you."
         show darkroom_workspace red:
             matrixcolor BrightnessMatrix(-1)
         show porter swear:
             matrixcolor BrightnessMatrix(-.9)
         "You are gone."
+        $ audio_hard_stop_all()
         hide porter
         show black_background
         jump theEnd
@@ -379,7 +433,10 @@ label finalJudgement:
     show buddy question at center:
         matrixcolor TintMatrix(color="#e22b2b")
     with moveinleft
+    stop music fadeout 3
+    play photo_1 "lil-guitar-loop.mp3" volume 0.5 fadein 2.0
     "Buddy arrived a few minutes after the exposure was done, exceedingly worried about you."
+    $ play_darkroom_light_off()
     show darkroom_workspace bright
     show buddy question at center:
         matrixcolor None
@@ -391,16 +448,23 @@ label finalJudgement:
     "Peter's death would make the papers the next day."
     "'{font=CastoroTitling-Regular.ttf}Man found dead with heart missing. Psycho on the loose?{/font}'"
     show bg bedroom light with Dissolve(1)
+    stop photo_1 fadeout 4
     "But that would come later. It was late. What you needed was sleep."
     show bg bedroom sleep
+    call night_crickets
     "Sleep comes quickly. And when it does, it is peaceful."
     "No dark dreams."
     if corruption >= 15:
         show bg bedroom sleep:
             matrixcolor BrightnessMatrix(.1)
+        play sfx_1 "porter-single-voice-higher.mp3" volume 0.05
         "Only a little brightness in the corners"
     "But you know the truth."
+    call night_crickets_stop
+    play sfx_2 "low-thud-single.mp3" volume 0.5
     "Or, some of it anyway..."
+    play audio "breath-1.mp3"
+    play music "piano-end.mp3"
 
 label theEnd:
     $_window_hide()
