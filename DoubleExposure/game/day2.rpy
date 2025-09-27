@@ -395,50 +395,61 @@ label develop_sneaky_owl:
     "As your photo develops, you heart begins to quicken, almost uncontrollably."
     $ zoom_development = True
     pause 3
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs, right with Dissolve(.8)
+    show owl crossed at dcp, xflip, left with Dissolve(.4)
+    show owl2 hips at dcs, right with Dissolve(.8)
     "The two robed figures, each wearing the same mask begin to speak."
     $ develop_double(5)
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs with Dissolve(.8)
+    show owl crossed at xflip, dcp
+    show owl2 hips at dcs
     doubOwl "..."
     owl "Is this some kind of joke?"
+    show owl point at xflip, dcp
     owl "Who are you?"
+    show owl argue at xflip, dcp
     owl "Why are you wearing my mask?"
     $ develop_double(10)
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs with Dissolve(.8)
+    show owl crossed at xflip, dcp
+    show owl2 hips at dcs
     doubOwl "..."
     doubOwl ".........."
     $ develop_double(15)
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs with Dissolve(.8)
+    show owl crossed at xflip, dcp
+    show owl2 hips at dcs
     owl "I'm not fucking around here, okay? Take off your mask! Who are you?"
+    show owl scared at xflip, dcp
     owl "Or is this another one of those nightmares??"
     show owl2 point:
         dcs
         WhiteNoise
-    doubOwl "This corruption of the truth should not be possible."
+    doubOwl "{sc=1}This corruption of the truth should not be possible{/sc}."
+    show owl2 argue
     doubOwl "You have strayed beyond your limits, human."
     $ develop_double(20)
-    show owl point at dcp, xflip, left with Dissolve(.4)
-    show owl2 point at dcs, right with Dissolve(.8)
+    show owl scared at xflip, dcp
+    show owl2 explain at dcs
     doubOwl "Given a gift, you were unsatisfied."
+    show owl2 point at dcs
     doubOwl "Your hunger is your unmaking"
-    hide owl2 with Dissolve(.2)
-    show porter temp:
+    hide owl2 at dcs with Dissolve(.4)
+    show porter dead:
         dcs
         yalign .01
         xalign .9
-        xzoom -1
         WhiteNoise
-    with Dissolve(.5)
+    with Dissolve(.6)
     $ develop_double(25)
+    show owl scared at xflip, dcp
+    show porter dead at dcs
     porter "{sc=2}Your judgement was made long ago, transgressor.{/sc}"
     owl "This isn't... this isn't possible."
     $ develop_double(30)
+    show porter dead at dcs
+    show owl show at xflip, dcp
     owl "When is this? When is this happening?"
-    owl "{size=+4}We haven't even killed you yet! I have no hand to give you!!"
+    show owl point at xflip, dcp
+    owl "{size=+4}We haven't even killed you yet!"
+    show owl open at xflip, dcp
+    owl "{size=+4}I have no hand to give you!!"
     $ reachedEnd = True
 
 label develop_sneaky_owl_overexposed:
@@ -448,8 +459,8 @@ label develop_sneaky_owl_overexposed:
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show owl2 at dcp, dc_overexpose
-    show porter temp:
+    show owl open at dcp, dc_overexpose
+    show porter dead:
         dcs
         yalign .01
         xalign .9
@@ -461,10 +472,12 @@ label develop_sneaky_owl_overexposed:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     porter "{sc=2}This cannot be understood. And it will end.{/sc}"
     $ develop_overexposed(20)
-    show owl2 at dcp, dc_overexpose
+    show owl open at dcp, dc_overexpose
+    show porter dead at dcp, dc_overexpose
     porter "{sc=2}NOW{/sc}"
     $ develop_overexposed(30)
-    show owl2 at dcp, dc_overexpose
+    show owl open at dcp, dc_overexpose
+    show porter dead at dcp, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."
     hide owl
