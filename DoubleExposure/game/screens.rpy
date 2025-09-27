@@ -704,12 +704,23 @@ screen say(who, what):
     window:
         id "window"
         
-        if(corruption <= 5):
+        if(corruption <= 0):
+            background (None if phone_mode else Image("gui/textbox.png", xalign=0.5, yalign=1.0))
+        elif(corruption <= 5):
             background (None if phone_mode else Image("gui/textbox over1.png", xalign=0.5, yalign=1.0))
-        elif(corruption <= 15):
+        elif(corruption <= 10):
             background (None if phone_mode else Image("gui/textbox over2.png", xalign=0.5, yalign=1.0))
-        else:
+        elif(corruption <= 15):
             background (None if phone_mode else Image("gui/textbox over3.png", xalign=0.5, yalign=1.0))
+        elif(corruption <= 25):
+            background (None if phone_mode else Image("gui/textbox over4.png", xalign=0.5, yalign=1.0))
+        elif(corruption <= 35):
+            background (None if phone_mode else Image("gui/textbox over5.png", xalign=0.5, yalign=1.0))
+        elif(corruption <= 45):
+            background (None if phone_mode else Image("gui/textbox over6.png", xalign=0.5, yalign=1.0))
+        else:
+            background (None if phone_mode else Image("gui/textbox over7.png", xalign=0.5, yalign=1.0))
+
         xalign 0.5
         xfill True
         yalign gui.textbox_yalign

@@ -50,8 +50,9 @@ label day2Start:
     "You throw on some clothes and tell Bud to meet you in an hour."
     #we move to the studio
     stop sound
-    scene darkroom_workspace bright
-    show buddy question
+    scene darkroom_workspace bright with Fade(0.8, 0.4, 0.8)
+    pause .5
+    show buddy question with moveinleft
     bud "So I kept thinking about like, my piece, what I was going to do."
     show buddy talkhand
     bud "I think I told you I was thinking of doing something like, on her disappearance, like what happened to her."
@@ -172,9 +173,11 @@ label day2_darkroom:
             hide mask double exposure with dissolve
             "You ponder the image for a minute before turning it over."
             show bg painting back with dissolve
-            "On a hunch, you pull off the back of the frame. Tucked inside are two strips of photo negatives."
-            "One appears to be the original negatives from 'seen' itself - four masks in all."
+            "On a hunch, you pull off the back of the frame. Tucked inside is a strip of photo negatives."
+            "Most of the images appear to be the original negatives from 'seen' itself - four masks in all."
             "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
+            "Two of the images, however, appear not to be art at all."
+            "Candid photographs of strange figures in robes."
             #"Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
             if paperFirst == True:
                 jump day2_print
@@ -192,7 +195,7 @@ label day2_print:
     "You of course have some doubts - whatever forces you are playing with you don't understand."
     "And this paper being here is... suspicious..."
     show darkroom_workspace red
-    if corruption >= 10:
+    if corruption >= 15:
         "But you find your heart quickening at the thought of seeing these photos come to life again"
     else:
         "But you know this might be the best path to understanding."

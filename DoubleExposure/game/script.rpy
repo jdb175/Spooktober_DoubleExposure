@@ -248,15 +248,18 @@ label introScene:
     "A legacy which, for better or for worse..."
     play sfx_1 "gong-1.mp3"
     play photo_3 'piano-underscore-spook-3.mp3'
-    show porter photo with Fade(0.0, 0.2, 1.9):
+    show porter photo:
         zoom .9
         xalign 0.0
         yalign 0.5
         rotate 1.5
+    with Fade(0.1, 0.2, 1.9, color="#ffffff")
     "...you are now a part of."
     window hide
     show porter photo:
         pause 1
+        xanchor 900
+        yanchor 900
         xalign 0.5
         yalign 0.5
         easein 2.2 zoom 50
@@ -449,7 +452,6 @@ label darkroomIntro2:
 #region photo functions
 label photo1_firstDev:
     "You slide one of the two pieces of photo paper under the enlarger."
-    show photopaper enlarger
     "It feels coarse to the touch. Strangely thick."
     $ begin_day(Days.DAY_ONE)
     jump projector_select_base_dayone
@@ -1085,7 +1087,9 @@ label findPhoto:
                 xalign 0.0
                 yalign 0.5
                 rotate 1.5
-            "Nothing. Just a photo."
+            "Nothing."
+            "Just a photo."
+            hide nightAndDayPartial
             jump findPhoto
     jump night1
 
