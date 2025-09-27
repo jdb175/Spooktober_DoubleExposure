@@ -482,13 +482,36 @@ screen enlarger_select_photo():
         add "bg/bg enlarger red bigger.png" at enlarger_bg
 
         if(store.current_base_image):
-            add store.current_base_image.path at enlarger_base_image(base_alpha)
+            if(store.current_base_image.label == "sneaky"):
+                add store.current_base_image.path at enlarger_base_image(base_alpha):
+                    matrixcolor BrightnessMatrix(0.8)
+            else:
+                add store.current_base_image.path at enlarger_base_image(base_alpha)
 
         add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
+
+        add "gui/textboxAlt.png":
+            xalign 0.5
+            zoom .55
+            yalign .98
             
         vbox:
-            text "[store.projected_image.description]"
-            textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
+            xalign 0.5
+            yalign 0.95
+            text "[store.projected_image.description]":
+                xalign 0.5   
+            hbox:
+                xalign 0.5
+                if(store.enable_cycling):
+                    textbutton "{size=40}<<" action Function(cycle_enlarger, sign=-1):
+                        yoffset -5
+                    textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
+                    textbutton "{size=40}>>" action Function(cycle_enlarger, sign=1):
+                        yoffset -5
+                else:
+                    textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]:
+                        ypadding 10
+                        yoffset -8
 
 screen projector_porter_final(name, correct_target):
         default target_area = None
