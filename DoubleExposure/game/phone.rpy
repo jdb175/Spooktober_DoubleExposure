@@ -59,7 +59,7 @@ init -1 python:
         # Sound Configuration
         "play_sound_send": True,
         "play_sound_receive": True,
-        "no_sound_current_chat": True, # For incoming messages, only play if not viewing the chat
+        "no_sound_current_chat": False, # For incoming messages, only play if not viewing the chat
         # String Configurations
         "preview_no_message": "Empty chat...",
         "channels_title": "Messages",
