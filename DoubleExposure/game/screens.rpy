@@ -182,7 +182,7 @@ transform image_bg_zoomin(a, z_start, z_end):
     yalign 0.5
     zoom z_start
     alpha a
-    pause 2
+    pause 1.5
     easein 2.0 zoom z_end
 
 transform developedImage(a, b, z=1):
@@ -355,6 +355,16 @@ transform porter_ascend:
 ## In-game screens
 ################################################################################
 
+style develop_button_text:
+    idle_color '#ccc'
+
+transform text_swap:
+    alpha 1.0
+    pause 0.5
+    alpha 0.0
+    pause 0.5
+    repeat
+
 screen clock:
     zorder 10
     python:
@@ -370,20 +380,21 @@ screen clock:
     else:
         add "clock/clock pointer aligned.png" at clock_hand(clock_seconds)
         if(store.development_end_signalled):
-            text "{swap=Stopping@        @0.5}        {/swap}":
+            text "Stopping" at text_swap:
                 xanchor 0.5   
                 ypos 995
                 xpos 180
         elif store.can_stop_developing:
             textbutton "Stop Developing":
                 action Function(stop_developing)      
+                style_prefix "develop"
                 xanchor 0.5   
                 ypos 995
                 xpos 180
         else:
-            text "{color=#888}Watch the Clock{/color}":
+            text "...":
                 xanchor 0.5   
-                ypos 1000
+                ypos 995
                 xpos 180
 
 
@@ -399,7 +410,7 @@ screen final_photo(base_image, secondary_image, base_development, secondary_deve
         add base_image.path at developedImage(base_alpha, over_exposure_brightness)
 
         if(secondary_image):
-            add secondary_image.path at developedImage(secondary_alpha, over_exposure_brightness)
+            add get_secondary_image_path(base_image, secondary_image) at developedImage(secondary_alpha, over_exposure_brightness)
 
         add Solid("#fff", xsize=1920, ysize=1080) at fake_flash
 
@@ -438,31 +449,38 @@ screen develop_photo():
                 $ store.zoom_development_transitioned = True
                 add "bg/bg tray red.png" at tray_zooming
 
-                add Solid("#6b3c3c", xsize=1920, ysize=1080)  at image_bg_zoomin(1, 0.7, 1)
+                #add Solid("#6b3c3c", xsize=1920, ysize=1080)  at image_bg_zoomin(1, 0.7, 1)
 
+                add "photopaper tray.png" at image_bg_zoomin(1, 1, 1.43), developingImageWave:
+                    matrixcolor TintMatrix("#6b3c3c")
 
                 add store.current_base_image.path at developingImageZooming(base_alpha, 0, "#ff0000", 0.7, 1, 30)
                 add store.current_base_image.empty_path at developingImageZooming(0, base_alpha, "#ffffff", 0.7, 1, 5)
 
 
                 if(store.is_double_exposing):
-                    add store.current_secondary_image.path at developingImageZooming(secondary_alpha, 0, "#ff0000", 0.7, 1, 30)
+                    add get_secondary_image_path(store.current_base_image, store.current_secondary_image) at developingImageZooming(secondary_alpha, 0, "#ff0000", 0.7, 1, 30)
         else:
             add "bg/bg tray red.png":
                 xalign 0.5
                 yalign 0.5
                 matrixcolor BrightnessMatrix(-0.1)
 
-            add Solid("#6b3c3c", xsize=1920, ysize=1080):
+            # add Solid("#6b3c3c", xsize=1920, ysize=1080):
+            #     xalign 0.5
+            #     yalign 0.5
+            #     zoom 0.7
+            #     alpha 1
+
+            add "photopaper tray.png" at developingImageWave:
+                matrixcolor TintMatrix("#6b3c3c")
                 xalign 0.5
                 yalign 0.5
-                zoom 0.7
-                alpha 1
 
             add store.current_base_image.path at developingImage(base_alpha_start, base_alpha, over_exposure_brightness), developingImageWave
 
             if(store.is_double_exposing):
-                add store.current_secondary_image.path at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness), developingImageWave
+                add get_secondary_image_path(store.current_base_image, store.current_secondary_image) at developingImage(secondary_alpha_start, secondary_alpha, over_exposure_brightness), developingImageWave
 
 screen enlarger_select_photo():
     if(store.enable_cycling):
@@ -479,17 +497,25 @@ screen enlarger_select_photo():
             delay_scale = move_scale * 0.5 + 0.5
             focus_scale = random.random() * 0.3 + .7
 
+            path = ""
+            if(store.current_base_image):
+                path = get_secondary_image_path(store.current_base_image, store.projected_image)
+            else:
+                path = store.projected_image.path
+
         add "bg/bg enlarger red bigger.png" at enlarger_bg
+
+        add "photopaper enlarger.png" at enlarger_bg
 
         if(store.current_base_image):
             add store.current_base_image.path at enlarger_base_image(base_alpha)
 
         # hack the brightness of this one really dark image
         if(store.projected_image.label == "sneaky"):
-            add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale):
+            add path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale):
                 matrixcolor BrightnessMatrix(.3)
         else:
-            add store.projected_image.path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
+            add path at enlarger_project_image(x_scale, y_scale, rotation, delay_scale, move_scale, focus_scale)
 
         add "gui/textboxAlt.png":
             xalign 0.5
@@ -595,7 +621,12 @@ screen projector_porter_final(name, correct_target):
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "heart",
                     Return(),
-                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+                    [
+                        SetScreenVariable("wrong_guesses", wrong_guesses+1), 
+                        SetScreenVariable("wrong_guess_text", True), 
+                        SetScreenVariable("target_area", None),
+                        Play("audio", "wrong-answer.mp3")
+                    ])
 
         if(not tongue_added):
             button:
@@ -607,7 +638,12 @@ screen projector_porter_final(name, correct_target):
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "tongue",
                     Return(),
-                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+                    [
+                        SetScreenVariable("wrong_guesses", wrong_guesses+1), 
+                        SetScreenVariable("wrong_guess_text", True), 
+                        SetScreenVariable("target_area", None),
+                        Play("audio", "wrong-answer.mp3")
+                    ])
 
 
         if(not arm_added):
@@ -620,7 +656,12 @@ screen projector_porter_final(name, correct_target):
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "arm",
                     [Return()],
-                    [SetScreenVariable("wrong_guesses", wrong_guesses+1), SetScreenVariable("wrong_guess_text", True), SetScreenVariable("target_area", None)])
+                    [
+                        SetScreenVariable("wrong_guesses", wrong_guesses+1), 
+                        SetScreenVariable("wrong_guess_text", True), 
+                        SetScreenVariable("target_area", None),
+                        Play("audio", "wrong-answer.mp3")
+                    ])
 
         on "hide":
             action Show("projector_porter_healing")
