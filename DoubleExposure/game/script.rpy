@@ -256,18 +256,22 @@ label introScene:
     with Fade(0.1, 0.2, 1.9, color="#ffffff")
     "...you are now a part of."
     window hide
+    play drone_3 'porter-drums-1.mp3' fadein 0.5
     show porter photo:
-        pause 1
         xanchor 900
         yanchor 900
         xalign 0.5
         yalign 0.5
-        easein 2.2 zoom 50
+        pause 1
+        easeout 2.2 zoom 40
     #TRANSITION TIME!
-    play drone_3 'porter-drums-1.mp3' fadein 0.5
     play sfx_2 'porter-wail.mp3'
-    play audio ['<silence 2.1>', 'ding-1.mp3']
-    #play ambiance_1 ['<silence 2.1>', 'ambient-birds.mp3'] fadein 2.0
+    pause 2.1
+    play audio ['ding-1.mp3'] noloop
+    play audio ['low-thud-single.mp3'] noloop
+    
+    #pause 2.2
+
     stop music
     stop sfx_1
     stop photo_1
@@ -276,8 +280,8 @@ label introScene:
     stop drone_1
     stop drone_2
     stop drone_3
-    pause 2.2
-    show twodays with Dissolve(2.2)
+    show twodays with Dissolve(0)
+    stop sfx_2 fadeout 1
     pause 10
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
     scene darkroom_workspace bright
@@ -425,8 +429,7 @@ label darkroomIntro2:
         "Check out the safelight" if lightOn == False:
             "Erin's safelight is a classic red. Full spectrum light will ruin any photo paper."
             "May as well turn this on now."
-            play sfx_1 'light-click.mp3'
-            play ambiance_1 'ambient-darkroom-light.mp3' fadein 1.0
+            $ play_darkroom_light()
             scene darkroom_workspace red
             $ lightOn = True
             jump darkroomIntro2
@@ -485,7 +488,6 @@ label projector_select_base_dayone:
     hide clock pointer aligned
     show photopaper tray
     "You drop the print in the bath and wait."
-    play ambiance_1 "clock-fast.mp3" volume 0.1 fadein 2.0
     jump expression target_label
 
 #jumps here afer you're done with the base image
@@ -496,6 +498,7 @@ label projector_select_double_dayone:
     stop photo_1 fadeout 1.0
     stop photo_2 fadeout 1.0
     stop photo_3 fadeout 1.0
+    play sfx_1 "splash-small-1.mp3" noloop volume 0.2
     if onFirstBase == False:
         "You grab your tongs and pull out the photo. It's ready for a second exposure."
     else:
@@ -602,13 +605,12 @@ label develop_kitchen:
     $ develop(30)
     "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
     if(not development_end_signalled):
-        play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
-        stop ambiance_1 fadeout 1.0
+        $ audio_warn_clock()        
         "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
         "But does that matter when {i}{b}this{/i}{/b} is happening?"
         "You could choose to push it just a {i}little{/i} longer..."
     $ develop(35)
-    play photo_2 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0
+    $ audio_overexpose_kitchen()
     Erin "Shit. Erin, you're shaking."
     Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     show erin think at dcp
@@ -636,8 +638,9 @@ label develop_kitchen:
     $ develop(60)
     "The image is getting darker now. You're about to ruin it."
 
-label develop_kitchen_overexposed:
+label develop_kitchen_overexposed:    
     $ renpy.block_rollback()
+    $ audio_escalate(1)
     $ develop_overexposed(5)
     $ corruption += 5
     show erin ponder at dcp, dc_overexpose
@@ -654,12 +657,14 @@ label develop_kitchen_overexposed:
     $ develop_overexposed(15)
     show erin ponder at dcp, dc_overexpose
     Erin "It's not your fault... but you should know..."
+    $ audio_escalate(2)
     Erin "that there is {sc=4}ONLY SO MUCH SKIN{/sc}"
     $ develop_overexposed(20)
     show erin ponder at dcp, dc_overexpose
     Erin "ONLY SO MANY {sc=4}EYES{/sc}"
     Erin "AND THE THINGS TAKEN WILL BE RETURNED"
     $ develop_overexposed(25)
+    $ audio_escalate(3)
     show erin smile at dcp, dc_overexpose
     "An icy chill grips your heart and you feel the room start to spin."
     "You feel like SOMETHING TERRIBLE has happened."
@@ -669,8 +674,8 @@ label develop_kitchen_overexposed:
 label complete_kitchen:
     $ finish_development()
     "Immediately, whatever it was you were watching stops completely."
+    play sfx_2 "heartbeat.mp3" volume 0.6 fadein 3.0 loop
     "The photo looks as it should - a ruined, totally overexposed mess of a print"
-    play sfx_2 "heartbeat.mp3" volume 0.6 fadein 2.0 loop
     "The room is quiet, except for the sound of your heart pounding in your chest."
     "You don't know what you just saw but you're absolutely certain you saw it."
     "Right?"
@@ -680,11 +685,11 @@ label complete_kitchen:
 label develop_kitchen_siobhan:
     "You lower the print into the developing fluid, filled with a nervous anticipation."
     "Will it happen again?"
-    play ambiance_1 "clock-fast.mp3" volume 0.5 fadein 1.0
     $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
     "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
-    play melody ["<sync music>photo-underscore-1_melody-1.mp3", "photo-underscore-1_melody-1.mp3"] fadein 5.0
+    $ audio_start_kitchen()
     "Then, she starts to move. Her feet, partially suspended, touch the ground."
+    $ audio_kitchen_melody("siobhan")
     $ zoom_development = True
     pause 3
     $ develop_double(5)
@@ -747,8 +752,7 @@ label develop_kitchen_siobhan:
 
 label develop_kitchen_siobhan_overexposed:
     $ renpy.block_rollback()
-    play ambiance_2 ["<sync ambiance_1>clock-both.mp3", "clock-both.mp3"] volume 0.4 fadein 1.0
-    stop ambiance_1 fadeout 1.0
+    $ audio_warn_clock()
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
@@ -757,7 +761,7 @@ label develop_kitchen_siobhan_overexposed:
     show erin ponder at left, dcp, dc_overexpose
     show siobhan talk at right, dcs, dc_overexpose
     $ photoRuined = True
-    play photo_1 ["<sync music>photo-underscore-1_a.mp3", "photo-underscore-1_a.mp3"] fadein 5.0 volume 0.8
+    $ audio_overexpose_kitchen()
     $ corruption += 5
     if reachedEnd == False:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
@@ -768,23 +772,16 @@ label develop_kitchen_siobhan_overexposed:
     show erin ponder at dcp, dc_overexpose
     show siobhan talk at dcs, dc_overexpose
     Siob "It was {b}TAKEN{/b} from him."
+    $ audio_escalate(1)
     Siob "{sc=5}BUT HE WILL NOT BE CONTAINED{/sc}"
-    play audio "guitar-Ab.mp3" noloop
-    play photo_3 "gong-3.mp3" noloop volume 0.6
-    play drone_1 "bass-drone-1.mp3" fadein 3
+    $ audio_escalate(2)
     Erin "{sc=5}HE WILL HAVE WHAT IS HIS{/sc}!"
     $ develop_overexposed(30)
     show erin ponder at dcp, dc_overexpose
     show siobhan talk at dcs, dc_overexpose
-    play drone_1 "bass-drone-2.mp3" fadein 1
+    $ audio_escalate(3)
     "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
-    play sfx_2 "splash-small-1.mp3" noloop volume 0.5
-    stop ambiance_1
-    stop ambiance_2
-    stop drone_1
-    stop photo_1 fadeout 0.5
-    stop music fadeout 4.0
-    stop melody fadeout 4.0
+    $ audio_remove_photo()
     "Almost without thinking, you grab the tongs and pull out the image."
     "You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen_siobhan
@@ -802,7 +799,9 @@ label complete_kitchen_siobhan:
 #region gunnar
 label develop_kitchen_gunnar:
     $ start_double_exposing(OBJECT_IMAGE_GUNNAR)
+    $ audio_start_kitchen()
     "As the man begins to fade into the doorway, his mouth immediately begins to move"
+    $ audio_kitchen_melody("gunnar")
     $ develop_double(5)
     $ zoom_development = True
     pause 3
@@ -873,13 +872,15 @@ label develop_kitchen_gunnar:
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
     $ reachedEnd = True
 
-label develop_kitchen_gunnar_overexposed:
+label develop_kitchen_gunnar_overexposed:    
     $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
+        $ audio_warn_clock()
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
+    $ audio_overexpose_kitchen()
     show erin think at left, dcp, dc_overexpose
     show gunnar points at right, dcs, dc_overexpose
     $ photoRuined = True
@@ -888,11 +889,14 @@ label develop_kitchen_gunnar_overexposed:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     Gunnar "There's a lot that he sees, Erin."
     Gunnar "But he can't see enough. Not what he needs to."
+    $ audio_escalate(1)
     Gunnar "He is BLIND, just as I AM BLIND."
     $ develop_overexposed(20)
+    $ audio_escalate(2)
     show erin think at dcp, dc_overexpose
     show gunnar points at dcs, dc_overexpose
     Gunnar "WHERE ARE MY {sc=2}EYES{/sc}, ERIN?"
+    $ audio_escalate(3)
     Gunnar "{sc=3}WHERE ARE MY EYES, INTERLOPER{/sc}?"
     $ develop_overexposed(30)
     show erin think at dcp, dc_overexpose
@@ -914,12 +918,14 @@ label complete_kitchen_gunnar:
 #region peter
 label develop_kitchen_peter:
     $ start_double_exposing(OBJECT_IMAGE_PETER)
+    $ audio_start_kitchen()
     "The man from the negative begins to appear, fitting almost naturally into the scene."
     $ zoom_development = True
     pause 3
     $ develop_double(5)
     show erin think at dcp, left with dissolve
     show peter explain at dcs, right with dissolve
+    $ audio_kitchen_melody("peter")
     unk "I've spoken with Siobhan. She'll be going through tonight. Gunnar is happy to go tomorrow, unless you'd prefer his spot."
     show peter listen at dcs
     show erin ponder at dcp
@@ -997,12 +1003,14 @@ label develop_kitchen_peter:
     $ reachedEnd = True
 
 label develop_kitchen_peter_overexposed:
+    $ audio_warn_clock()
     $ renpy.block_rollback()
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
+    $ audio_overexpose_kitchen()
     $ corruption += 5
     $ photoRuined = True
     if reachedEnd == False:
@@ -1010,12 +1018,15 @@ label develop_kitchen_peter_overexposed:
     show peter explain at right, dcs, dc_overexpose
     show erin think at left, dcp, dc_overexpose
     Peter "But now that I've found it, I find myself feeling so... inadequate before it."
+    $ audio_escalate(1)
     Peter "Inadequate like the foolish, weak thing that I am."
     $ develop_overexposed(20)
+    $ audio_escalate(2)
     show peter playful at dcs, dc_overexpose
     show erin think at dcp, dc_overexpose
     Peter "I am a {sc=4}Worm{/sc}, a {sc=4}Thief{/sc}!"
     $ develop_overexposed(30)
+    $ audio_escalate(3)
     show peter explain at dcs, dc_overexpose
     show erin think at dcp, dc_overexpose
     Peter "He will Find me. He will find You too."
@@ -1048,7 +1059,8 @@ label endOfDayOneChoices:
     "And you have no choice to believe that understanding what she was up to could explain what you've just seen."
     "On the other hand, Erin disappeared without a trace. Knowing more might be a very bad idea."
     if corruption > 10:
-        play sfx_1 "guitar-Ab.mp3" volume 0.6
+        play sfx_1 "eerie-1.mp3" volume 0.1
+        play sfx_2 ["<silence 2>", "low-thud-single.mp3"] volume 0.2
         "You start to feel the hairs on the back of your neck raise. Like something is watching you."
         "Like something is in the darkroom with you."
     jump findPhoto
@@ -1059,13 +1071,17 @@ label findPhoto:
         "Search the room for further clues":
             "You spend hours searching the room. Supposedly her effects were left undisturbed, so it stands to reason you might find something that helps explain this."
             if corruption >= 10:
+                play sfx_1 "eerie-1.mp3" volume 0.6
+                play sfx_2 ["<silence 2>", "low-thud-single.mp3"] volume 0.2
                 "The whole time, you feel that presense over your shoulder, watching you."
                 "It's not a good feeling."
             elif corruption >= 5:
+                play sfx_1 "eerie-1.mp3" volume 0.1
                 "You start to feel the hairs on the back of your neck raise. Like something is watching you."
                 "Like something is in the darkroom with you."
             "You find notes on projects, decades-old receipts for photography equipment, and other glimpses into her life that normally you'd find fascinating."
             "And then, tucked away in the back of a file nestled among old tax documents, you find something."
+            play sfx_2 "low-thud-single.mp3" volume 0.5
             show porter photo erin:
                 zoom .9
                 xalign 0.0
@@ -1076,12 +1092,13 @@ label findPhoto:
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
             "{font=ReenieBeanie-Regular.ttf}{size=+26}'restitution. atonement?'"
+            play sfx_1 "slides/remove-2.mp3" volume 0.3
             "You slip it into your bag."
             hide porter photo erin
             jump findPhoto
         "Try printing another photograph":
             "The photo paper you found is gone, but you of course had brought some of your own."
-            "You pull it out of your back and attempt another exposure."
+            "You pull it out of your bag and attempt another exposure."
             show nightAndDayPartial with flash:
                 zoom .9
                 xalign 0.0
@@ -1098,21 +1115,15 @@ label night1:
     stop ambiance_2 fadeout 2
     scene bg bedroom light with dissolve
     "With your head swirling with questions, you head home to try and get some sleep."
-    play ambiance_3 "crickets-1.mp3" volume 0.1 fadein 2 loop
+    call night_crickets
     show bg bedroom sleep with Dissolve(1)
     "It comes slowly, but sleep does come."
-    play sfx_1 "gong-3.mp3"
-    play drone_1 "eerie-1.mp3" volume 0.4 fadein 4 noloop
-    play nightmare_1 "<loop 3>porter-drone.mp3" fadein 3 volume 0.4
-    play sfx_2 "heavy-breathing.mp3" volume 0.1 loop fadein 4.0
+    call nightmare_start
     scene bg nightmare:
         RaveLights
     with Dissolve(2.0)
     "..."    
-    play drone_2 "bass-drone-1.mp3" volume 0.5 fadein 2
-    play sound "gong-1.mp3"
-    play sfx_3 ["<silence 2>", "guitar-Ab.mp3"] volume 0.5
-    play audio "porter-wail.mp3" volume 1.0
+    call nightmare_porter_appear
     show porter dead:
         yalign .03
         xalign .5
@@ -1129,10 +1140,14 @@ label night1:
     unk "return what is {sc=1}mine{/sc}."
     unk "you {sc=2}WILL{/sc} return what is mine."
     play nightmare_2 ["porter-drums-1.mp3"] fadein 10 volume 1
+    play sfx_1 "low-thud-single.mp3"
     unk "{sc=4}my eyes{/sc}... kept in anothers head"
+    play sfx_1 "low-thud-single.mp3"
     unk "{sc=4}my blood{/sc} thick in anothers veins"
     play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
+    temp "SHOW hand"
     unk "{sc=4}my hand{/sc} joined to another's arm"
+    temp "SHOW tongue"
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     play sound "porter-single-voice-higher.mp3" volume 0.2
     play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
@@ -1169,15 +1184,7 @@ label night1:
     play sound "porter-wail.mp3"
     play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
     pause 2
-    stop ambiance_1 fadeout 1
-    stop nightmare_1 fadeout 1
-    stop nightmare_2 fadeout 1
-    stop nightmare_3 fadeout 1
-    stop drone_1
-    stop drone_2
-    stop drone_3
-    show bg bedroom light with flash
-    play audio "breath-2.mp3"
+    call nightmare_stop
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
     "The face from the photo you found."
     "Like it is burned into your vision."
