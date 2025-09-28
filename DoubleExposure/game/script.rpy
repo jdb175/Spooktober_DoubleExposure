@@ -49,6 +49,7 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
+image parcel = "bg/bg parcel.png"
 image darkroom_workspace bright = "bg/bg dark room day1.png"
 image darkroom_workspace red = "bg/bg dark room day1 red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
