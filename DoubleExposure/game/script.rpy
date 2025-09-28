@@ -486,11 +486,9 @@ label projector_select_base_dayone:
     "You make sure your watch is in easy view as you submerge the photos."
     hide fakeClock
     hide clock pointer aligned
-    show photopaper tray:
-        developingImageWave
-    "You drop the print in the bath and wait."
     show photopaper tray at developingImageWave with Dissolve(0.5):
         matrixcolor TintMatrix("#975555") 
+    "You drop the print in the bath and wait."
     jump expression target_label
 
 #jumps here afer you're done with the base image
@@ -502,15 +500,20 @@ label projector_select_double_dayone:
     stop photo_2 fadeout 1.0
     stop photo_3 fadeout 1.0
     play sfx_1 "splash-small-1.mp3" noloop volume 0.2
+    "You grab your tongs and pull out the photo"  
+    $ complete_label = get_tag_if_finished()
     if onFirstBase == False:
-        "You grab your tongs and pull out the photo. It's ready for a second exposure."
+        if(complete_label):
+            jump expression complete_label
+        "It's ready for a second exposure."
     else:
-        "You grab your tongs and pull out the photo."
+        if(complete_label):
+            jump expression complete_label
         "Immediately, whatever it was you were watching stops completely."
         play sfx_2 "heartbeat.mp3" volume 0.6 fadein 2.0 loop
         "The room is quiet, except for the sound of your heart pounding in your chest."
         "You don't know what you just saw but you're absolutely certain you saw it."
-        "Right?"
+        "Right?"     
         "The only way to be sure would be to finish the print..."
         $ onFirstBase = False
     stop sfx_2 fadeout 2.0  
@@ -679,10 +682,11 @@ label complete_kitchen:
     $ finish_development()
     "Immediately, whatever it was you were watching stops completely."
     play sfx_2 "heartbeat.mp3" volume 0.6 fadein 3.0 loop
-    "The photo looks as it should - a ruined, totally overexposed mess of a print"
-    "The room is quiet, except for the sound of your heart pounding in your chest."
-    "You don't know what you just saw but you're absolutely certain you saw it."
-    "Right?"
+    if onFirstBase == True:
+        "The room is quiet, except for the sound of your heart pounding in your chest."
+        "You don't know what you just saw but you're absolutely certain you saw it."
+        "Right?"        
+        $ onFirstBase = False
     jump post_image_completion_dayone
 
 #region Siobhan
