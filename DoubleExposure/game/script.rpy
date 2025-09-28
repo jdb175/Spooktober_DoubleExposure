@@ -139,9 +139,6 @@ transform dcs:
     fit "scale-down"
     alpha  .4 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.6
 
-transform dc_porter:
-    ysize 1050
-
 transform dc_overexpose:
     matrixcolor BrightnessMatrix(over_exposure/MAX_OVEREXPOSURE_TIME) * ContrastMatrix(1+over_exposure/MAX_OVEREXPOSURE_TIME)
     shader "MakeVisualNovels.PerlinWarp"

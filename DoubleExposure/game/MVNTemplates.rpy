@@ -184,8 +184,9 @@ transform DramaticRevealPorter:
     pause 0.3
     u_key_light_position(0.5,0.3)
     linear 2 u_key_light_radius(0.5)
-    linear 1 u_key_light_intensity (0.5)
-    u_fill_light_intensity (0.0)
+    linear 2 u_key_light_intensity (0)
+    linear 2 u_fill_light_intensity (0.0)
+    linear 2 u_rim_light_intensity (0.0)
 
 transform EmergencyReset:
     mesh True
