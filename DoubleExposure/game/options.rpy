@@ -54,6 +54,12 @@ define gui.about = _p("""
 {size=*0.85}PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=d53333}Zoey (KleineLuka){/a}{/size}{/color}
 
 {size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=d53333}Hadara Madrak{/a}{/size}{/color}
+
+{size=*.85}MAKE VISUAL NOVELS SHADERS - {a=https://makevisualnovels.itch.io/make-visual-novels-rspv1}{color=d53333}Stella{/a}{/size}{/color}
+
+{size=*.85}WAVE SHADER BY - {a=https://wattson.itch.io/renpy-wave-shader}{color=d53333}Wattson{/a}{/size}{/color}
+
+{size=*.85}KINETIC TEXT TAGS BY - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}
 """)
 
 

@@ -193,6 +193,11 @@ init python:
         store.current_base_image = None
         store.current_secondary_image = None
 
+    def get_tag_if_finished():
+        if(base_development >= MAX_DEVELOP_TIME):
+            return "complete_" + store.current_base_image.label
+        else:
+            return None
 #endregion
 
 #region enlarger
