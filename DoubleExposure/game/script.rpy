@@ -59,10 +59,10 @@ image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs t
 image black_background = Solid("#000000") 
 image white_background = Solid("#fff")  
 
-image porter_eyes = "body parts nightmare/eyes.png"
-image porter_hand = "body parts nightmare/hand.png"
-image porter_heart = "body parts nightmare/heart.png"
-image porter_tongue = "body parts nightmare/tongue.png"
+image porter_eyes_nightmare = "body parts nightmare/eyes.png"
+image porter_hand_nightmare = "body parts nightmare/hand.png"
+image porter_heart_nightmare = "body parts nightmare/heart.png"
+image porter_tongue_nightmare = "body parts nightmare/tongue.png"
 
 #region effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -136,13 +136,13 @@ transform zoomedEnlarger:
     yalign 0.5
 
 transform dcp:
-    ysize 1000
-    fit "scale-down"
+    # ysize 1000
+    # fit "scale-down"
     alpha  .3 + min(base_development / MAX_DEVELOP_TIME, 1.0) *.7
         
 transform dcs:
-    ysize 1000
-    fit "scale-down"
+    # ysize 1000
+    # fit "scale-down"
     alpha  .4 + min(secondary_development / SECONDARY_MAX_DEVELOP_TIME, 1.0) *.6
 
 transform dc_overexpose:
@@ -1177,17 +1177,19 @@ label night1:
     with Dissolve(2.0)
     "..."    
     call nightmare_porter_appear
-    show porter jumpscare:
+    show porter talk:
         subpixel True
-        yalign .03
+        yalign .5
         xalign .5
+        xanchor 0.5
+        yanchor 0.25
         zoom 200
         alpha 0
         parallel:
             ease 2 alpha 1         
         parallel:
-            ease 2 zoom 1
-        linear 250 zoom 2
+            ease 2 zoom 2
+        linear 250 zoom 6
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     stop ambiance_3 fadeout 4.0
     unk "{sc=2}i see you{/sc}"
@@ -1199,30 +1201,31 @@ label night1:
         alpha 1.0
         pause 0.5
         linear 2.5 alpha 0
-    show porter_eyes at porterBodyPart
+    show porter_eyes_nightmare at porterBodyPart
+    show porter dead with dissolve
     unk "{sc=4}my eyes{/sc}... kept in anothers head"
     play sfx_1 "low-thud-single.mp3"
-    hide porter_eyes
+    hide porter_eyes_nightmare
     show black_background:
         alpha 1.0
         pause 0.5
         linear 2.5 alpha 0
-    show porter_heart at porterBodyPart
+    show porter_heart_nightmare at porterBodyPart
     unk "{sc=4}my blood{/sc} thick in anothers veins"
     play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
-    hide porter_heart
+    hide porter_heart_nightmare
     show black_background:
         alpha 1.0
         pause 0.5
         linear 2.5 alpha 0
-    show porter_hand at porterBodyPart
+    show porter_hand_nightmare at porterBodyPart
     unk "{sc=4}my hand{/sc} joined to another's arm"
-    hide porter_hand
+    hide porter_hand_nightmare
     show black_background:
         alpha 1.0
         pause 0.5
         linear 2.5 alpha 0
-    show porter_tongue at porterBodyPart
+    show porter_tongue_nightmare at porterBodyPart
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     play sound "porter-single-voice-higher.mp3" volume 0.2
     play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
@@ -1245,7 +1248,8 @@ label night1:
         unk "corrpution may yet be avoided"
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
-    show porter jumpscare at ZoomInto:
+    hide porter_tongue_nightmare
+    show porter dead at ZoomInto:
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"
