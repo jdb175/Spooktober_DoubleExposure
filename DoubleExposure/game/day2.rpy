@@ -1411,58 +1411,71 @@ label develop_portal_archer:
     $ audio_portal()
     $ zoom_development = True
     pause 3
-    show flame argue at dcp, right with Dissolve(.4)
-    show sage base at dcs, xflip, left with Dissolve(.8)
+    show fire open at dcp, right with Dissolve(.4)
+    show sage crossed at dcs, xflip, left with Dissolve(.8)
     $ audio_portal_melody("erin")
     flame "I'm glad you changed your mind."
+    show fire show at dcp
     flame "I'd like to ask why, but I'm afraid it'll only make you run away again."
+    show fire hips at dcp
     archer "..."
     flame "Of course, you don't have to say anything."
+    show fire explain at dcp
     flame "I have to be honest."
+    show fire show at dcp
     flame "When I pulled this little group together I had no idea what was going to happen."
     flame "Once it all started to go wrong, I felt like I had made a terrible mistake."
     $ develop_double(10)
-    show sage base at xflip, dcs  
-    show flame argue at dcp
+    show sage crossed at xflip, dcs  
+    show fire open at dcp
     flame "Now I see that everything that happened was all in service of something greater."
     flame "So. Here is my guess. After all this time, you've come around to the same conclusion."
+    show sage explain at xflip, dcs
+    show fire hips at dcp
     archer "That's not it."
-    show sage base at dcs  
+    show sage crossed at xflip, dcs
     archer "I wanted nothing to do with what you two had done. Honestly, I still don't."
+    show sage scared at xflip, dcs
     archer "But I started having these... terrible, realistic nightmares. About the Porter."
     archer "Started seeing it in real life, started feeling this icy pain that would grip my heart at random times."
     $ develop_double(15)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage explain at xflip, dcs
+    show fire hips at dcp
     archer "I spoke to Siobhan. Before she died. She wasn't easy to find, always with one foot in some other world."
     archer "I wanted her to undo what'd she'd done. She didn't listen. She wasn't afraid of the Porter."
+    show sage show at xflip, dcs
     archer "I spoke to Gunnar. He was easy enough to find. He doesn't leave his apartment at all anymore, the nurse said."
+    show sage open at xflip, dcs
     archer "The walls, the floors, every square inch covered in mad writings. I could read enough to know the dreams were coming for him too."
     $ develop_double(20)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage open at xflip, dcs
+    show fire hips at dcp
     archer "So if I'm going to be hounded by some nightmare thing for all the shit you lot got up to..."
+    show sage crossed at xflip, dcs
     archer "...I'd like to at least get something out of it."
     flame "I understand that logic. I'm a bit disappointed that an artist such as yourself has such a... selfish perspective."
+    show fire open at dcp
     flame "We all meet out end eventually. What matters is what we {b}create{/b} along the way."
+    show fire magic at dcp
     "The figure in the flame mask makes a gesture and something is drawn through the portal."
     show porter dead weyes at center, dcp, DoubleRegicide with Dissolve(1)
     flame "But, that doesn't matter. All that matters is that you are here now."
     flame "So, what will you take into yourself?"
     $ develop_double(25)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage crossed at xflip, dcs
+    show fire hips at dcp
     show porter dead weyes at center, dcp, DoubleRegicide
     archer "... I want its eyes."
     flame "..."
+    show fire magic at dcp
     "The flame-masked figure makes a gesture."
     "Yellow light begins to form around the Porter's eyes."
     $ play_crunch()
     show porter dead at center, dcp with Fade(0.5, 0.2, 0.3, color="#fddf37")
     flame "Done."
     $ develop_double(30)
-    show sage base at xflip, dcs
-    show flame argue at dcp
+    show sage crossed at xflip, dcs
+    show fire magic at dcp
     show porter dead at center, dcp, DoubleRegicide
     "The eyes of the human mask, too, begin to glow."
     $ reachedEnd = True
