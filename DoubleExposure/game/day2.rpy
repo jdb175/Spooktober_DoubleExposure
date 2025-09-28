@@ -175,12 +175,21 @@ label day2BudConvo:
     jump day2_darkroom
 #endregion
 
+image owlmask = "masks/owl mask.png"
+image sagemask = "masks/face mask.png"
+image flamemask = "masks/flame mask.png"
+image frogmask = "masks/frog mask.png"
+
+image sneakphoto = "photos/night populated.png"
+image portalphoto = "photos/portal populated.png"
+
 #region darkroom
 label day2_darkroom:
     scene darkroom_workspace bright
     menu:
         set menuset
         "The desk":
+            scene parcel
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
             "{font=NothingYouCouldDo-Regular.ttf}'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
             "Must be from the grant?"
@@ -192,7 +201,7 @@ label day2_darkroom:
             else:
                 $ paperFirst = True
                 jump day2_darkroom
-        "The photo on the wall":
+        "The photo on the wall":          
             "In your dream you saw a photo hanging on the wall."
             show bg painting with Dissolve(1)
             "You hadn't really clocked it yesterday, but you see it today, just where it was in your dream."
@@ -207,9 +216,51 @@ label day2_darkroom:
             show bg painting back with dissolve
             "On a hunch, you pull off the back of the frame. Tucked inside is a strip of photo negatives."
             "Most of the images appear to be the original negatives from 'seen' itself - four masks in all."
+            show owlmask  with dissolve:
+                zoom 0.7
+                xalign 0.5
+                matrixcolor SaturationMatrix(0) * InvertMatrix()            
+            pause 0.3
+            hide owlmask with dissolve
+            show flamemask with dissolve:
+                zoom 0.7
+                xalign 0.5
+                matrixcolor SaturationMatrix(0) * InvertMatrix()            
+            pause 0.3
+            hide flamemask with dissolve
+            show sagemask with dissolve:
+                zoom 0.7
+                xalign 0.5
+                matrixcolor SaturationMatrix(0) * InvertMatrix()            
+            pause 0.3
+            hide sagemask with dissolve
+            show frogmask with dissolve:
+                zoom 0.7
+                xalign 0.5
+                matrixcolor SaturationMatrix(0) * InvertMatrix()            
+            pause 0.3
+            hide frogmask with dissolve
             "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
             "Two of the images, however, appear not to be art at all."
+            show sneakphoto with dissolve:
+                zoom 0.4
+                xanchor 0.5
+                yanchor 0.5
+                rotate 1
+                xalign 0.1
+                yalign 0.4
+                matrixcolor  SaturationMatrix(0) * InvertMatrix() * BrightnessMatrix(.2) 
+            show portalphoto with dissolve:
+                zoom 0.4
+                xanchor 0.5
+                yanchor 0.5
+                rotate -2
+                xalign 0.9
+                yalign 0.37
+                matrixcolor SaturationMatrix(0) * InvertMatrix()      
             "Candid photographs of strange figures in robes."
+            show portalphoto with dissolve
+            hide sneakphoto with dissolve
             #"Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
             if paperFirst == True:
                 jump day2_print
