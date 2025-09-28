@@ -261,13 +261,15 @@ label projector_select_base_daytwo:
 
     label projector_select_double_daytwo:
     scene darkroom_workspace red
+    "You grab your tongs and pull out the photo."
+    $ complete_label = get_tag_if_finished()
+    if(complete_label):
+        jump expression complete_label
     if onFirstBase == True:
-        "You grab your tongs and pull out the photo."
         "Then, you make your way to the enlarger."
         "You're eager to see what you might be able to learn from these negatives you found."
         $ onFirstBase = False
     else:
-        "You grab your tongs and pull out the photo."
         if corruption <= 15:
             "Then it's back to the enlarger, ready to see what the next negative might reveal..."
         else:
@@ -395,7 +397,7 @@ label develop_sneaky:
     $ develop(60)
     show owl crossed at xflip, dcp
     owl "He better not turn me in..."
-    "The image is getting darker now, becoming overdeveloped"
+    "The image is getting brighter now, becoming overdeveloped"
 
 label develop_sneaky_overexposed:
     $ renpy.block_rollback()
