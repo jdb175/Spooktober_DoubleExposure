@@ -598,7 +598,7 @@ screen projector_porter_final(name, correct_target):
             yalign .94
 
         if(target_area):
-            text "Project [name] over the [target_area]":
+            text "Project [name] over the [target_area]?":
                 xalign 0.5
                 yalign 0.9    
 
@@ -614,9 +614,9 @@ screen projector_porter_final(name, correct_target):
         if(not heart_added):
             button:
                 xsize 120
-                ysize 120
+                ysize 350
                 xpos 1020
-                ypos 580
+                ypos 480
                 hovered SetScreenVariable("target_area", "heart"), SetScreenVariable("wrong_guess_text", False)
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "heart",
@@ -631,9 +631,9 @@ screen projector_porter_final(name, correct_target):
         if(not tongue_added):
             button:
                 xsize 120
-                ysize 120
+                ysize 350
                 xpos 1200
-                ypos 500
+                ypos 400
                 hovered SetScreenVariable("target_area", "tongue"), SetScreenVariable("wrong_guess_text", False)
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "tongue",
@@ -648,10 +648,10 @@ screen projector_porter_final(name, correct_target):
 
         if(not arm_added):
             button:
-                xsize 120
-                ysize 120
+                xsize 150
+                ysize 350
                 xpos 700
-                ypos 700
+                ypos 600
                 hovered SetScreenVariable("target_area", "arm"), SetScreenVariable("wrong_guess_text", False)
                 unhovered SetScreenVariable("target_area", None)
                 action If(correct_target == "arm",

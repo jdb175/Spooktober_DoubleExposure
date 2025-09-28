@@ -49,6 +49,7 @@ default onFirstBase = True
 ###images### 
 #We may decide not to define these but just to use filenames later
 #BGs
+image parcel = "bg/bg parcel.png"
 image darkroom_workspace bright = "bg/bg dark room day1.png"
 image darkroom_workspace red = "bg/bg dark room day1 red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
@@ -57,6 +58,11 @@ image nightAndDay = "photos/erin original two.png"
 image fakeClock = "clock/clock gold.png" #unlike many of these, actually needs to be defined.
 image black_background = Solid("#000000") 
 image white_background = Solid("#fff")  
+
+image porter_eyes = "body parts nightmare/eyes.png"
+image porter_hand = "body parts nightmare/hand.png"
+image porter_heart = "body parts nightmare/heart.png"
+image porter_tongue = "body parts nightmare/tongue.png"
 
 #region effects
 define flash = Fade(0.1, 0.0, 0.5, color="#fff")
@@ -158,6 +164,41 @@ transform dc_overexpose:
     u_flipSpeed (2.0)
     u_flipScale (80.0*over_exposure/MAX_OVEREXPOSURE_TIME)
 
+transform porterBodyPart:
+    xanchor 0.5
+    yanchor 0.5
+    ypos 400
+    xpos 960
+    shader "MakeVisualNovels.StillAberration"
+    u_aberrationAmount(30.0)
+    zoom 0
+    parallel:
+        easein 0.5 zoom 1
+    parallel:
+        xpos 957
+        pause 0.1
+        xpos 964
+        pause 0.05
+        xpos 954
+        pause 0.08
+        xpos 958
+        pause 0.1     
+        repeat
+    parallel:
+        ypos 408
+        pause 0.1
+        ypos 400
+        pause 0.06
+        ypos 405
+        pause 0.1
+        ypos 391
+        pause 0.15
+        ypos 395
+        pause 0.06
+        repeat
+    parallel:
+        linear 5 alpha 0
+
 transform yflip:
     yzoom -1
 
@@ -181,8 +222,8 @@ label splashscreen:
             easein 2 zoom .8
         parallel:
             easein 2 alpha 1
-    with Pause(2.2)
-    hide spooktoberlogo
+    with Pause(3)
+    hide spooktoberlogo with Dissolve(1)
     return
 
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
@@ -1151,13 +1192,34 @@ label night1:
     unk "you {sc=2}WILL{/sc} return what is mine."
     play nightmare_2 ["porter-drums-1.mp3"] fadein 10 volume 1
     play sfx_1 "low-thud-single.mp3"
+    show black_background:
+        alpha 1.0
+        pause 0.5
+        linear 2.5 alpha 0
+    show porter_eyes at porterBodyPart
     unk "{sc=4}my eyes{/sc}... kept in anothers head"
     play sfx_1 "low-thud-single.mp3"
+    hide porter_eyes
+    show black_background:
+        alpha 1.0
+        pause 0.5
+        linear 2.5 alpha 0
+    show porter_heart at porterBodyPart
     unk "{sc=4}my blood{/sc} thick in anothers veins"
     play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
-    temp "SHOW hand"
+    hide porter_heart
+    show black_background:
+        alpha 1.0
+        pause 0.5
+        linear 2.5 alpha 0
+    show porter_hand at porterBodyPart
     unk "{sc=4}my hand{/sc} joined to another's arm"
-    temp "SHOW tongue"
+    hide porter_hand
+    show black_background:
+        alpha 1.0
+        pause 0.5
+        linear 2.5 alpha 0
+    show porter_tongue at porterBodyPart
     unk "{sc=4}my tongue{/sc} curled in anothers mouth"
     play sound "porter-single-voice-higher.mp3" volume 0.2
     play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
