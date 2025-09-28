@@ -375,7 +375,7 @@ label finalJudgement:
         show porter swear
         porter "It is possible you have predicted what {sc=2}must come next{/sc}."
         show porter talk
-        $ audio_excalate(1)
+        $ audio_escalate(1)
         porter "You have become {sc=4}too bright{/sc}"
         porter "You are a flame, little one. A flame that could catch the world."
         "You feel an anger, or maybe a fear, rise in your chest."
@@ -385,7 +385,7 @@ label finalJudgement:
         porter "You were tricked... and had none to truly guide you."
         show porter swear
         porter "Let your final thoughts be this: you have done something great. You have made right a wrong."
-        $ audio_excalate(2)
+        $ audio_escalate(2)
         show darkroom_workspace red:
             matrixcolor BrightnessMatrix(-0.55)
         show porter swear at center:
@@ -416,7 +416,7 @@ label finalJudgement:
             matrixcolor BrightnessMatrix(-0.9)
         show porter swear:
             matrixcolor BrightnessMatrix(-.7)
-        $ audio_excalate(3)
+        $ audio_escalate(3)
         "The cold is now touching every part of you, it is everywhere inside you."
         show darkroom_workspace red:
             matrixcolor BrightnessMatrix(-1)

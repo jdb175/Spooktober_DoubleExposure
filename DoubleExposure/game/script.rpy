@@ -1177,17 +1177,19 @@ label night1:
     with Dissolve(2.0)
     "..."    
     call nightmare_porter_appear
-    show porter jumpscare:
+    show porter talk:
         subpixel True
-        yalign .03
+        yalign .5
         xalign .5
+        xanchor 0.5
+        yanchor 0.25
         zoom 200
         alpha 0
         parallel:
             ease 2 alpha 1         
         parallel:
-            ease 2 zoom 1
-        linear 250 zoom 2
+            ease 2 zoom 2
+        linear 250 zoom 6
     play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
     stop ambiance_3 fadeout 4.0
     unk "{sc=2}i see you{/sc}"
@@ -1200,6 +1202,7 @@ label night1:
         pause 0.5
         linear 2.5 alpha 0
     show porter_eyes at porterBodyPart
+    show porter dead with dissolve
     unk "{sc=4}my eyes{/sc}... kept in anothers head"
     play sfx_1 "low-thud-single.mp3"
     hide porter_eyes
@@ -1245,7 +1248,7 @@ label night1:
         unk "corrpution may yet be avoided"
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
-    show porter jumpscare at ZoomInto:
+    show porter dead at ZoomInto:
         WhiteNoise
     pause 1.1
     play sfx_3 "duet-Bb.mp3"
