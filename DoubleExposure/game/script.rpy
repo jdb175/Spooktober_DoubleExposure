@@ -181,8 +181,8 @@ label splashscreen:
             easein 2 zoom .8
         parallel:
             easein 2 alpha 1
-    with Pause(2.2)
-    hide spooktoberlogo
+    with Pause(3)
+    hide spooktoberlogo with Dissolve(1)
     return
 
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
