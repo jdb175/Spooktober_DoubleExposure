@@ -164,6 +164,9 @@ transform yflip:
 transform xflip:
     xzoom -1
 
+transform xhack: #no idea why I need this but we are like a day away from the end so
+    xzoom 1
+
 #transitions
 #$ renpy.transition(Dissolve(1.0), layer="master")
 #endregion
@@ -1113,8 +1116,8 @@ label findPhoto:
                 xalign 0.0
                 yalign 0.5
                 rotate 1.5
-            "Nothing."
-            "Just a photo."
+            "Nothing special happens."
+            "It's just an ordinary photo."
             hide nightAndDayPartial
             jump findPhoto
     jump night1

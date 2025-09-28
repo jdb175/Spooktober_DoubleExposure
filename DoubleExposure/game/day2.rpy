@@ -1054,7 +1054,7 @@ label develop_portal:
     pause .2
     unk2 "Is it your will that I follow them?"
     show porter talk at dcp, xflip with moveinleft
-    porter "Or will you accompany them today?"
+    porter "Or would you rather accompany them today?"
     $ develop(10)
     show porter listen at dcp, xflip
     show fire explain at dcp
@@ -1077,6 +1077,7 @@ label develop_portal:
     $ develop(25)
     show fire crossed at dcp
     show porter swear at dcp, xflip
+    porter "You know there are risks."
     porter "Even the service I owe to you to you cannot override my purpose."
     $ develop(30)
     show fire crossed at dcp
@@ -1552,64 +1553,79 @@ label develop_portal_frog:
     "But there is another figure, visible faintly through the portal."
     show porter dead weyes at dcp, center, DoubleRegicide with Dissolve(1)
     frog "I can't believe that worked!"
-    show frog open at dcs, xflip
+    show frog open at dcs, xhack
     frog "That was incredible, Peter. You're a genius, a true genius!"
     "Peter, if that who it is, stares blankely at the Porter."
     $ develop_double(10)
     show porter dead weyes at dcp
-    show frog hips at dcs, xflip
+    show frog hips at dcs, xhack
     show fire crossed at dcp
     flame "Can you hear me?"
     porter "..."
     show fire scared at dcp
     flame "What did she do to you?"
-    show frog explain at dcs, xflip
+    show frog explain at dcs, xhack
     frog "I told you, she took its power. I would have stopped her if I had known what she was doing."
     show fire crossed at dcp
     frog "I don't understand this stuff the way you do, or the way she did."
     flame "Quiet."
-    show frog open at dcs, xflip
+    show frog open at dcs, xhack
     frog "If we're going to do this, Peter..."
-    show frog hips at dcs, xflip
+    show frog hips at dcs, xhack
     show fire scared at dcp
     flame "I wish we knew where she went."
     $ develop_double(15)
     show porter dead weyes at dcp
-    show frog open at xflip, dcs
+    show frog open at dcs, xhack
     show fire crossed at dcp
     frog "You think she's even in this world? Even in the Bright House? She could be anywhere."
-    show frog show at dcs, xflip
+    show frog show at dcs, xhack
     frog "A few simple gestures not just from the Bright House, but from the Garden, from..."
     frog "Hell, Peter, I wonder if you even know what else could be out there."
-    show frog hips at dcs, xflip
+    show frog hips at dcs, xhack
     show fire explain at dcp
     flame "This feels wrong."
     show fire crossed at dcp
-    show frog explain at dcs, xflip
+    show frog explain at dcs, xhack
     frog "If you want to find her, you won't find her without {sc=2}power{/sc} of your own."
-    show frog open at dcs, xflip
+    show frog open at dcs, xhack
     frog "As for me, I just want to write."
     frog "I was so close to something great, Peter. Isn't that all you wanted to come out of this? Something truly great for humanity?"
-    show frog show at dcs, xflip
+    show frog show at dcs, xhack
     flame "..."
     $ develop_double(20)
     show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
+    show frog hips at dcs, xhack
+    show fire open at dcp
     flame "Alright. Hand me the stone."
+    show frog explain at dcs, xhack
     "The frog passes a small, dark object to Peter, who grips it in his left palm."
+    show frog hips at dcs, xhack
+    show fire magic at dcp
     "He then traces some kind of design over his chest."
+    show porter dead weyes at dcp, magic_strike, HeartGlow
     "Holding out both hands, a yellow glow appears in the chest of the spirit."
-    "The light forms a thin thread, connecting Peter's chest with the spirit's"
+    show fire magic at dcp, HeartGlowPeter
+    "The light forms an almost imperceptible thread connecting Peter's chest with the Porter's."
     $ develop_double(25)
     $ play_crunch()
-    show porter dead weyes at dcp
-    show frog explain at xflip, dcs
-    show flame argue at dcp
-    flame "Good god..."
-    "The figure with the flame mask sits motionless."
+    show porter dead weyes at dcp, magic_strike, EmergencyReset
+    show frog hips at dcs, xhack
+    show fire magic at dcp
+    flame "Ah."
+    flame "It burns."
+    show frog scared at dcs, xhack
+    frog "Holy hell..."
+    show frog show at dcs, xhack
+    show fire crossed at dcp
+    frog "Are you alright?"
+    show fire scared at dcp
+    "The figure with the flame mask does not move, for a moment."
+    flame "Yes."
+    show fire open at dcp, magic_strike, EmergencyReset
     flame "It is done."
     flame "Your turn."
+    show frog hips at dcs, xhack
     flame "Take what you will from this husk."
     $ develop_double(30)
     $ reachedEnd = True
@@ -1627,34 +1643,34 @@ label develop_portal_frog_overexposed:
     if reachedEnd == False:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     show porter dead weyes at center, dcp, dc_overexpose
-    show frog explain at left, xflip, dcs, dc_overexpose
-    show flame argue at right, dcp, dc_overexpose
+    show frog hips at left, dcs, dc_overexpose
+    show fire open at right, dcp, dc_overexpose
     $ audio_escalate(1)
     frog "How... how does it feel?"
     flame "I can feel its power."
     $ develop_overexposed(15)
-    show porter dead weyes at dcp, dc_overexpose
-    show frog explain at xflip, dcs, dc_overexpose
-    show flame argue at dcp, dc_overexpose
+    show porter dead weyes at center, dcp, dc_overexpose
+    show frog hips at left, dcs, dc_overexpose
+    show fire open at right, dcp, dc_overexpose
     frog "What should it be?"
     $ develop_overexposed(20)
-    show porter dead weyes at dcp, dc_overexpose
-    show frog explain at xflip, dcs, dc_overexpose
-    show flame argue at dcp, dc_overexpose
+    show porter dead weyes at center, dcp, dc_overexpose
+    show frog hips at left, dcs, dc_overexpose
+    show fire open at right, dcp, dc_overexpose
     frog "Do words live in the tongue? Or the mind? Do I want to see what is in that mind? Could I even comprehend it?"
     $ audio_escalate(2)
     flame "{size=+10}FOOL{/size}."
     $ develop_overexposed(25)
-    show porter dead weyes at dcp, dc_overexpose
-    show frog explain at xflip, dcs, dc_overexpose
-    show flame argue at dcp, dc_overexpose
+    show porter dead weyes at center, dcp, dc_overexpose
+    show frog hips at left, dcs, dc_overexpose
+    show fire open at right, dcp, dc_overexpose
     flame "{size=+7}IT MATTERS NOT{/size}."
     $ audio_escalate(3)
     flame "{size=+7}ALL WILL BE RETURNED{/size}."
     $ develop_overexposed(30)
-    show porter dead weyes at dcp, dc_overexpose
-    show frog explain at xflip, dcs, dc_overexpose
-    show flame argue at dcp, dc_overexpose
+    show porter dead weyes at center, dcp, dc_overexpose
+    show frog hips at left, dcs, dc_overexpose
+    show fire open at right, dcp, dc_overexpose
     flame "{size=+15}ALL MUST BE RETURNED{/size}"
     "An icy chill grips your heart and you feel the room start to spin."
     "Almost without thinking, you grab the tongs and pull out the image."

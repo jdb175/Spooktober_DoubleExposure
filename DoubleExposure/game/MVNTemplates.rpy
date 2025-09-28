@@ -658,6 +658,46 @@ transform EyeGlowSage:
     pause 0.4
     ease .5 u_key_light_intensity(0.5)
     repeat
+
+transform HeartGlow:
+    mesh True
+    shader "MakeVisualNovels.SimulatedLighting"
+    ##Unused, but I think need to be defined?
+    u_rim_light_color (0.9, 0.7, 0.4)  
+    u_fill_light_color (0.4, 0.9, 0.9)  
+    u_rim_light_radius (0)
+    u_rim_light_position (0.1,0.182) 
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (0)            
+    u_fill_light_intensity (0)
+    #The good stuff!!!  
+    u_key_light_color (0.9, 0.7, 0.4 )
+    u_key_light_position(0.44, .4)
+    u_key_light_radius(.2)
+    ease .7 u_key_light_intensity(1.3)
+    pause 0.4
+    ease .5 u_key_light_intensity(0.7)
+    repeat
+
+transform HeartGlowPeter:
+    mesh True
+    shader "MakeVisualNovels.SimulatedLighting"
+    ##Unused, but I think need to be defined?
+    u_rim_light_color (0.9, 0.7, 0.4)  
+    u_fill_light_color (0.4, 0.9, 0.9)  
+    u_rim_light_radius (0)
+    u_rim_light_position (0.1,0.182) 
+    u_fill_light_direction (-1.0, 0.0)  
+    u_rim_light_intensity (0)            
+    u_fill_light_intensity (0)
+    #The good stuff!!!  
+    u_key_light_color (0.9, 0.7, 0.4 )
+    u_key_light_position(0.44, .4)
+    u_key_light_radius(.2)
+    ease .7 u_key_light_intensity(1.3)
+    pause 0.4
+    ease .5 u_key_light_intensity(0.7)
+    repeat
 #endregion
 
 transform VirtualBoy:
