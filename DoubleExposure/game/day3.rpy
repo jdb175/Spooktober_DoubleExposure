@@ -1,6 +1,37 @@
 default heardSpeech = False
 default heardSpirit = False
 
+transform bg_shake(s = 1):
+    xanchor 0.5
+    yanchor 0.5
+    xalign 0.5
+    yalign 0.5
+    parallel:
+        xanchor .5 + 0.002 * s
+        pause .05
+        xanchor .5 - 0.004 * s
+        pause .06
+        xanchor .50
+        pause .08
+        xanchor .5 + .0015 * s
+        pause .03
+        xanchor .5 - .003 * s
+        pause .4
+        repeat       
+    parallel:
+        pause .2
+        yanchor .5 + 0.002 * s
+        pause .02
+        yanchor .5 - .004 * s
+        pause .04
+        yanchor .50
+        pause .05
+        yanchor .5 + .002 * s
+        pause .03
+        yanchor .5 - .003 * s
+        pause .18
+        repeat
+
 label day3Start:
     show black_background
     play music "creaking-underscore.mp3" volume 0.5
@@ -355,15 +386,61 @@ label finalJudgement:
         show porter talk
         porter "The brightness in you must be scraped out"
         play drone_1 "bass-drone-2.mp3" fadein 1
-        show porter swear with Fade(.2, 0.1, .5, color="#fefefe")
+        show porter swear:
+            xanchor 0.5
+            yanchor 0
+            xalign 0.5
+            yalign 0
+            zoom 1.4
+        show darkroom_workspace red:
+            xanchor 0.5
+            yanchor 0.5
+            xalign 0.5
+            yalign 0.5
+            WhiteNoise
+            zoom 1.2
+            matrixcolor BrightnessMatrix(-1)
+            parallel:
+                linear 1 matrixcolor BrightnessMatrix(-.5)
+            parallel:
+                linear 1 zoom 1
+        show porter swear:
+            matrixcolor BrightnessMatrix(1)
+            linear 1 matrixcolor BrightnessMatrix(0)
         you "{fast}{sc=4}AAAAAHHHH{/sc}{w=.4}{nw}"
+        show darkroom_workspace red:
+            WhiteNoise
+            zoom 1.2
+            matrixcolor BrightnessMatrix(-1)
+            parallel:
+                linear 1 matrixcolor BrightnessMatrix(-.5)
+            parallel:
+                linear 1 zoom 1
+        show porter swear:
+            matrixcolor BrightnessMatrix(1)
+            parallel:
+                linear 1 matrixcolor BrightnessMatrix(0)
         # window auto False
         # window show
         while corruption > 0:
             $ corruption -= 5
-            extend "{fast}{sc=4}HHHH{w=.4}{nw}"
+            extend "{fast}{sc=4}HHHH{w=.4}{nw}"        
+            show darkroom_workspace red:
+                WhiteNoise
+                zoom 1.2
+                matrixcolor BrightnessMatrix(-1)
+                parallel:
+                    linear 1 matrixcolor BrightnessMatrix(-.5)
+                parallel:
+                    linear 1 zoom 1
+            show porter swear:
+                matrixcolor BrightnessMatrix(1)
+                parallel:
+                    linear 1 matrixcolor BrightnessMatrix(0)
         #window auto True
-        show porter talk with Fade(.2, 0.1, .5, color="#fefefe")
+        show porter talk with Fade(.2, 0.1, .5, color="#fefefe"):
+            matrixcolor BrightnessMatrix(0)
+            zoom 1
         stop drone_1 fadeout 2
         "The pain, which felt like hot knives carving at your insides, quickly starts to fade."
         "You feel... better?"
@@ -386,40 +463,51 @@ label finalJudgement:
         show porter swear
         porter "Let your final thoughts be this: you have done something great. You have made right a wrong."
         $ audio_escalate(2)
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake:
+            xalign 0.5
+            yalign 0.5
+            xanchor 0.5
+            yanchor 0.5
             matrixcolor BrightnessMatrix(-0.55)
+            zoom 1.05
         show porter swear at center:
             matrixcolor BrightnessMatrix(-.1)
         "Your heart beats wildly as the porter begins to make some sort of magical gesture..."
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.65)
+            zoom 1.1
         show porter swear:
             matrixcolor BrightnessMatrix(-.2)
         "You wonder if this is truly happening. If any of this can truly hurt you."
         "But it can hurt you."
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.7)
+            zoom 1.15
         show porter swear:
             matrixcolor BrightnessMatrix(-.3)
         "And it does."
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.75)
+            zoom 1.2
         show porter swear:
             matrixcolor BrightnessMatrix(-.4)
         "It feels like cold, snaking from the back of your mind down your spine."
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.8)
+            zoom 1.25
         show porter swear:
             matrixcolor BrightnessMatrix(-.5)
         "Coiling around your organs. The cold begins to burn and you pass out, and in your sudden sleep you see its face."
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.9)
+            zoom 1.3
         show porter swear:
             matrixcolor BrightnessMatrix(-.7)
         $ audio_escalate(3)
         "The cold is now touching every part of you, it is everywhere inside you."
-        show darkroom_workspace red:
+        show darkroom_workspace red at bg_shake(2):
             matrixcolor BrightnessMatrix(-1)
+            zoom 1.35
         show porter swear:
             matrixcolor BrightnessMatrix(-.9)
         "You are gone."
