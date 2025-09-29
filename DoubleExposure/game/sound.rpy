@@ -36,13 +36,13 @@ init python:
 
     def play_darkroom_light_atl(trans, st, at):
         play_darkroom_light()
-        renpy.music.play("piano-underscore-spook-1.mp3", channel="drone_1", fadein=18.0, loop=False, relative_volume=1.0)
-        renpy.music.play("piano-underscore-spook-2.mp3", channel="drone_2", fadein=24.0, loop=False, relative_volume=0.6)
+        renpy.music.play("piano-underscore-spook-1.mp3", channel="drone_1", fadein=18.0, loop=False, relative_volume=0.6)
+        renpy.music.play("piano-underscore-spook-2.mp3", channel="drone_2", fadein=24.0, loop=False, relative_volume=0.2)
 
         return
 
     def play_darkroom_light_off_atl(trans, st, at):
-        renpy.sound.play("breath-2.mp3", channel="sfx_2", relative_volume=0.5)
+        renpy.sound.play("breath-2.mp3", channel="sfx_2", relative_volume=0.1)
         renpy.sound.play("low-thud-single.mp3", channel="sfx_3", relative_volume=0.1)
         play_darkroom_light_off()
         renpy.music.stop("drone_1")
