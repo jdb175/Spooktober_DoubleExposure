@@ -217,7 +217,8 @@ transform xhack: #no idea why I need this but we are like a day away from the en
 label splashscreen:
     scene black
     with Pause(.4)
-    play audio "porter-wail.mp3" noloop
+    play music "porter-wail.mp3" noloop
+    play sfx_1 "bass-drone-2.mp3" fadein 9 volume 0.8
     #show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
     show spooktoberlogo at center:
         truecenter zoom .5
@@ -228,10 +229,12 @@ label splashscreen:
             easein 2.2 alpha 1
     with Pause(5)
     play audio "low-thud-single.mp3"
+    show spooktoberlogo at center:
+        truecenter zoom .8
+        matrixcolor SaturationMatrix(0.0) * InvertMatrix()
+    with Pause(0.05)
     scene black
-    hide spooktoberlogo with Dissolve(0)
-    play sfx_1 "bass-drone-2.mp3" fadein 4 volume 0.8
-    pause 4
+    hide spooktoberlogo with Pause(4)
     play audio "light-click-off.mp3" volume 0.7
     stop sfx_1
     return
@@ -308,10 +311,13 @@ label introScene:
     play drone_3 'porter-drums-1.mp3' fadein 0.5
     play sfx_2 'porter-wail.mp3' # ~2.2s from start to cut
     show porter photo:
+        matrixcolor SaturationMatrix(1.0) * InvertMatrix(0.0)
         parallel:
             easein 60 zoom 10
         parallel:
             easein 60 rotate 180
+        parallel:
+            easeout 2.1 matrixcolor SaturationMatrix(0.0) * InvertMatrix(1.0)
     pause 2.1
     show black_background #with Fade(1.1, 0, 0)
     window hide
