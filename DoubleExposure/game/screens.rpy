@@ -1031,9 +1031,11 @@ screen main_menu():
                 "bg dark room painting"
                 matrixcolor BrightnessMatrix(-.4)
                 pause 2.5
+                function play_darkroom_light_atl
                 "bg dark room painting red"
                 matrixcolor BrightnessMatrix(0)
                 pause 25
+                function play_darkroom_light_off_atl
                 "bg dark room painting"
                 matrixcolor BrightnessMatrix(-.4)
                 pause 4
