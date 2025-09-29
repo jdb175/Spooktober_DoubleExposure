@@ -217,6 +217,7 @@ transform xhack: #no idea why I need this but we are like a day away from the en
 label splashscreen:
     scene black
     with Pause(.4)
+    play audio "porter-wail.mp3" noloop
     #show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
     show spooktoberlogo at center:
         truecenter zoom .5
