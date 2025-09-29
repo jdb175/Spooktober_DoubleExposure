@@ -1734,34 +1734,41 @@ label endOfDay2:
     show buddy question with moveinleft
     play photo_1 '<loop 20>piano-underscore-spook-1.mp3' volume 0.1
     bud "So I looked into Peter Carlson..."
-    show buddy sad
+    show buddy angry
     bud "Um, it got weird."
     show buddy question
     bud "So he's the guy who runs this foundation."
+    show buddy confused
+    bud "Turns out he's been involved with a few other art organizations as well."
     show buddy sad
-    bud "Also, there used to be a Siobhan Kent young artists grant. A lot of the recipients, uh, seem to have died."
+    bud "The former 'Siobhan Kent young artists grant,' for example."
+    show buddy sus
+    bud "That one's shut down now. A lot of the recipients, uh, seem to have died or disappeared.."
     show buddy question
-    bud "Same for the, uh Gunnar Olsen young poet award award winners."
+    bud "Same for the  'Gunnar Olsen young poet award' winners."
     if porterKnown == True:
         show buddy talkhand
         bud "I didn't have a lot of luck looking up any kind of a spirit called the Porter."
-        bud "That's probably just because like, where the hell do you even start with something like that."
-        show buddy question
-        bud "But it did come up in some of Gunnar's unfinished works. And the works of the poet award winners."
+        show buddy think
+        bud "That's probably just because like, where the hell do you even start with something like that?"
         show buddy talkhand
+        bud "But it did come up in some of Gunnar's unfinished works. And the works of the poet award winners."
+        show buddy confused
         bud "It's either some sort of like, vengeful killer or some sort of guardian angel."
-        show buddy sad
+        show buddy sus
         you "That's super helpful..."
-        show buddy listen
+        show buddy laughs
         bud "Right?"
+    show buddy listen
     you "Bud... did you have any nightmares last night?"
     show buddy question
     bud "Kinda, yeah, actually."
+    show buddy disgust
     bud "I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
     bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods." #NOTE: ARCHER REFERENCE
-    show buddy talkhand
+    show buddy angry
     bud "Oh god then he ate his heart!? Damn, I almost forgot how messed up it was."
-    show buddy question
+    show buddy confused
     bud "How did you know?"
     show buddy listen
     you "I had one too. About the porter."
@@ -1770,14 +1777,14 @@ label endOfDay2:
     bud "So we just quit?"
     show buddy sad
     bud "..."
-    show buddy talkhand
+    show buddy disgust
     bud "It's too late for that, isn't it?"
-    show buddy listen
     "You fill Bud in on everything you've seen."
     show buddy sad
     "Bud sighs."
-    bud "I feel crazy."
     show buddy question
+    bud "I feel crazy."
+    show buddy talkhand
     bud "Like, this is starting to make sense, but where the hell do we fit in?"
     show buddy sad
     you "I think the spirit wants something from us."
@@ -1787,31 +1794,37 @@ label endOfDay2:
     bud "Yeah but like, it showed me all these random body parts getting ripped apart."
     show buddy listen
     you "It talked to me about body parts as well..."
+    show buddy sus
     you "A heart, a hand, a tongue, and eyes."
-    show buddy sad
     bud "..."
-    show buddy question
+    show buddy think
     bud "Can I see that photo you found again?"
-    show buddy talkhand
+    play audio "slides/remove-2.mp3"
+    show porter photo erin:
+        zoom .9
+        xalign 0.0
+        yalign 0.5
+        rotate 1.5
     bud "Look at the exposure. Erin's face over the porter's face."
     bud "Why would Erin do that?"
-    show buddy listen
-    "You look at the photo for a moment."
-    you "Not her face over his face."
-    you "Her eyes over its eyes."
-    show buddy amused
-    bud "Oh. Now {i}that{/i} is interesting."
+    bud "Her eyes over its eyes."
+    bud "This isn't a coincidence."
+    hide porter photo erin
+    #show buddy amused
+    #bud "Oh. Now {i}that{/i} is interesting."
+    #show buddy question
+    #bud "In the negative here, the spirit has no eyes..."
+    #bud "But in your dream, it did, right?"
+    #show buddy listen
+    #you "Yeah."
+    #bud "..."
+    #show buddy talkhand
     show buddy question
-    bud "In the negative here, the spirit has no eyes..."
-    bud "But in your dream, it did, right?"
-    show buddy listen
-    you "Yeah."
-    bud "..."
-    show buddy talkhand
-    bud "I think we need to find the negative of this photograph."
-    show buddy amused
+    bud "I think we need to find the original negative of this photograph."
+    show buddy sus
     bud "Do you think it could be hidden somewhere here?"
     show buddy listen
+    you "We should look!"
     play photo_2 'piano-underscore-spook-2.mp3' volume 0.5
     "Your search the other day was quick. As the photos hidden behind the picture frame made clear, you hadn't done a truly deep search."
     stop ambiance_1 fadeout 2.0
