@@ -367,7 +367,7 @@ label finalJudgement:
         WhiteNoise
         matrixcolor BrightnessMatrix(-.5)
     hide screen projector_porter_healed with Fade(1,1,1)
-    show porter talk at center with Dissolve(.4)
+    show porter speak at center with Dissolve(.4)
     play ambiance_2 ["piano-underscore-spook-2.mp3"] volume 0.2 fadein 2
     stop drone_1 fadeout 2
     stop drone_2 fadeout 2
@@ -375,7 +375,7 @@ label finalJudgement:
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
     show porter swear
     porter "Humanity will regain my service again."
-    show porter talk
+    show porter speak
     porter "With perhaps more caution."
     play drone_2 ["<sync drone_3>porter-drums-2.mp3", "porter-drums-2.mp3"] volume 0.4 fadein 3
     porter "..."
@@ -388,7 +388,7 @@ label finalJudgement:
     elif corruption <= 30:
         show porter swear
         porter "Now, for you, there will be {sc=2}some pain{/sc}."
-        show porter talk
+        show porter speak
         porter "The brightness in you must be scraped out"
         play drone_1 "bass-drone-2.mp3" fadein 1
         show porter swear:
@@ -443,7 +443,7 @@ label finalJudgement:
                 parallel:
                     linear 1 matrixcolor BrightnessMatrix(0)
         #window auto True
-        show porter talk with Fade(.2, 0.1, .5, color="#fefefe"):
+        show porter speak with Fade(.2, 0.1, .5, color="#fefefe"):
             matrixcolor BrightnessMatrix(0)
             zoom 1
         stop drone_1 fadeout 2
@@ -456,7 +456,7 @@ label finalJudgement:
     else:
         show porter swear
         porter "It is possible you have predicted what {sc=2}must come next{/sc}."
-        show porter talk
+        show porter speak
         $ audio_escalate(1)
         porter "You have become {sc=4}too bright{/sc}"
         porter "You are a flame, little one. A flame that could catch the world."

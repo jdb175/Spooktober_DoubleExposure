@@ -960,7 +960,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     play drone_1 "bass-drone-1.mp3" fadein 1.0 volume 0.5
     play sfx_1 "low-thud-single.mp3" volume 0.5
     play sfx_2 "guitar-Ab.mp3" volume 0.6
-    show porter talk at dcs, left, xflip, DramaticRevealPorter
+    show porter speak at dcs, left, xflip, DramaticRevealPorter
     with flash
     pause 3.56
     porter "You."
@@ -1107,14 +1107,14 @@ label develop_portal:
     hide robes reach with Dissolve(1)
     pause .2
     unk2 "Is it your will that I follow them?"
-    show porter talk at dcp, xflip with moveinleft
+    show porter speak at dcp, xflip with moveinleft
     porter "Or would you rather accompany them today?"
     $ develop(10)
     show porter listen at dcp, xflip
     show fire explain at dcp
     flame "You go. I'll wait here."
     show fire hips at dcp
-    show porter talk at dcp, xflip
+    show porter speak at dcp, xflip
     porter "As you wish."
     $ develop(15)
     show porter listen at dcp, xflip
@@ -1135,7 +1135,7 @@ label develop_portal:
     porter "Even the service I owe to you to you cannot override my purpose."
     $ develop(30)
     show fire crossed at dcp
-    show porter talk at dcp, xflip
+    show porter speak at dcp, xflip
     porter "They must rest soon or they will begin to overflow. You will see to it that it is so."
     if(development_end_signalled == False):
         $ audio_warn_clock()
