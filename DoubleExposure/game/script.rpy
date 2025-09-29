@@ -223,11 +223,17 @@ label splashscreen:
         truecenter zoom .5
         alpha 0
         parallel:
-            easein 2 zoom .8
+            easein 2.2 zoom .8
         parallel:
-            easein 2 alpha 1
-    with Pause(3)
-    hide spooktoberlogo with Dissolve(1)
+            easein 2.2 alpha 1
+    with Pause(5)
+    play audio "low-thud-single.mp3"
+    scene black
+    hide spooktoberlogo with Dissolve(0)
+    play sfx_1 "bass-drone-2.mp3" fadein 4 volume 0.8
+    pause 4
+    play audio "light-click-off.mp3" volume 0.7
+    stop sfx_1
     return
 
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
@@ -306,11 +312,11 @@ label introScene:
             easein 60 zoom 10
         parallel:
             easein 60 rotate 180
-    pause 1.2
-    show black_background with Fade(1.1, 0, 0)
+    pause 2.1
+    show black_background #with Fade(1.1, 0, 0)
     window hide
     play audio ['ding-1.mp3'] noloop
-    play audio ['low-thud-single.mp3'] noloop
+    play sfx_3 ['low-thud-single.mp3'] noloop
     stop music
     stop sfx_1
     stop photo_1
