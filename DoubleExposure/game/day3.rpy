@@ -193,7 +193,7 @@ label peterAngry:
         "Try to go back to playing along.":
             temp "Peter heads upstairs after some grandiose speechmaking"
             temp "But bud is out there and beats 'em, and takes the negatives for you!"
-        "Give up on the negative. Maybe Peter has a point? Maybe he could help you become great?!" if corruption >= 15: #NOTE need to fix numbers.
+        "Give up on the negative. Maybe Peter has a point? Maybe he could help you become great?!" if corruption >= 25: #NOTE need to fix numbers.
             jump shitEnding
 
 label peterCalm:

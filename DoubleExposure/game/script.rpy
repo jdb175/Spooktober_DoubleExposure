@@ -212,7 +212,7 @@ transform xhack: #no idea why I need this but we are like a day away from the en
 #$ renpy.transition(Dissolve(1.0), layer="master")
 #endregion
 
-#region intro
+
 #This will be replaced by something more official
 label splashscreen:
     scene black
@@ -230,6 +230,55 @@ label splashscreen:
     hide spooktoberlogo with Dissolve(1)
     return
 
+#region corruptionCalls
+label corruptionDialogue:
+    if corruption <= 5:
+        "As you watch the photo warp in the chemical bath you start to feel as though the room is spinning."
+        "As though SOMETHING TERRIBLE has happened."
+        $ audio_remove_photo()
+        "Almost without thinking, you grab the tongs and pull out the image."
+    elif corruption <= 10:
+        "As you watch a second photo overdevelop, your stomach starts to form into a knot again."
+        "As though SOMETHING TERRIBLE has happened."
+        "You feel dizzy, and for a moment, the room seems to brighten."
+        $ audio_remove_photo()
+        "Almost without thinking, you grab the tongs and pull out the image."
+    elif corruption <= 15:
+        "You're starting to understand - the things you see when you overdevelop a photo are somehow different."
+        "Stranger, more cryptic."
+        "Once again, you find yourself feeling dizzy and full of DREAD."
+        $ audio_remove_photo()
+        "Almost without thinking, you grab the tongs and pull out the image."
+    elif corruption <= 20:
+        "As the photo develops far past the point of clarity, you fight off the familiar strange feeling."
+        "You are getting better at it. In fact, you're almost starting to enjoy it."
+        $ audio_remove_photo()
+        "You grab the tongs and pull out the image."
+    elif corruption <= 25:
+        "To an untrained eye, this photo is now totally ruined."
+        "But you feel as though you are starting to understand the patterns hidden in the noise."
+        "A voice in the back of your mind makes a quiet plea: 'this feels wrong.'"
+        "Which, of course, is a silly little thought indeed."
+        $ audio_remove_photo()
+        "Whistling slightly to yourself, you grab the tongs and pull out the image."
+    else:
+        "Maybe overdeveloping photos like this could be your {i}thing{/i}. More and more you find yourself convinced of their beauty."
+        "It {i}is{/i} beautiful this way, isn't it?"
+        $ audio_remove_photo()
+        "Whistling slightly to yourself, you grab the tongs and pull out the image."
+    return
+
+label day1PostDevDialogue:
+    if photoRuined == True:
+        "You're left holding a wrecked photograph."
+        "Now useless as a piece of art, it hopefully served you well as a source of information."
+    else:
+        "You're left holding perfectly unremarkable photo of two people having a conversation in a kitchen."
+        "A conversation that you, and possibly you alone, have heard."
+    return
+#endregion
+
+#region intro
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
     stop music fadeout 1.0
@@ -327,28 +376,28 @@ label introScene:
     play music "lil-guitar-loop.mp3" volume 0.2 fadein 1
     "It's your first day at Erin's studio. You're excited to poke around, maybe start to sketch out some ideas."
     "Although at the moment it's a bit hard to focus."
-    show buddy smile with moveinleft
+    show buddy question with moveinleft
     bud "I don't think she's dead."
-    show buddy amused
+    show buddy confused
     bud "No way."
     show buddy talkhand
-    bud "This 'Young Artist Foundation?' She runs it. She just got tired of the limelight."
+    bud "This 'Young Artist Foundation?' She {i}runs{/i} it. Secretly, because she got tired of the limelight."
     show buddy listen
     you "She wasn't {i}that{/i} big."
+    show buddy sad
     you "And she had already started talking about her next series. Does that sound like someone ready to disappear?"
-    show buddy amused
+    show buddy confused
     bud "Ready or not, that's what happened."
-    show buddy laughs
+    show buddy talkhand
     bud "Without a trace..."
-    show buddy smile
-    "Bud is the {i}other{/i} grant winner. A collage artist, whose work, despite not being photography, much more closely mirrors Erin's."
+    show buddy think
+    "Bud is the {i}other{/i} grant winner. A collage artist, whose work, despite not being photography, closely mirrors Erin's."
     "Surreal themes and imagery, symbols dripping with meaning. Uncommon juxtapositions."
     "You thought it was a bit derivative at first. Now you're starting to think they're a bit obsessed."
     show buddy question
     bud "Don't tell me you've never wondered what happened to her!"
     menu:
         "I prefer to focus on the art, not the artist":
-            #show bud dejected or pensive
             show buddy sad
             bud "Yeah, of course. Me too. That's why we're here."
         "Of course. I've read some pretty crazy theories":
@@ -357,14 +406,14 @@ label introScene:
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
         "Why would she need to fake her disappearence to run her own foundation? You have to admit that makes no sense.":
-            #show bud dejected or pensive
             show buddy sad
             bud "Yeah, I know. I just prefer to imagine everything has a happy ending, you know?"
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
     show buddy amused
-    bud "I was just thinking about maybe doing some sort of piece around her. Like, Erin."
+    bud "I was just thinking about maybe making my grant piece something {i}about{/i} her. Erin, I mean."
     show buddy question
-    bud "What happened, or didn't happen. Putting her in places she isn't, but could have been."
+    bud "What happened to her, or didn't happen, or could have happened."
+    bud "Images showing her in places she isn't, but could have been."
     show buddy tricky
     bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
     show buddy talkhand
@@ -372,21 +421,25 @@ label introScene:
     bud "This is my first grant, actually."
     show buddy question
     bud "What are you going to make? Do you know?"
+    show buddy listen
     "Ah shit. To be honest, you've been struggling with that too."
     menu:
         "I'm actually really struggling with it.":
             $ budLevel += 1
-            "I know the grant stipulates that we can make whatever we want, so long as it is 'in dialogue with Erin's work'"
-            "Just specific enough to make things harder, but vague enough to get drowned in options"
+            you "I know the grant stipulates that we can make whatever we want, so long as it is 'in dialogue with Erin's work'"
+            show buddy smile
+            you "But that's just specific enough to make it hard, but vague enough to get drowned in options"
             show buddy laughs
-            bud "Dude, it's freaking HARD, right? It's like, suddenly there's all this pressure."
+            bud "Dude, it {i}is{/i} HARD, right? It's like, suddenly there's all this pressure."
             show buddy amused
-            bud "Well, you can always start with the basics. You do photography, have you done much double exposure."
-            "Not really, actually"
+            bud "Well, you can always start with the basics. You do photography, have you done much double exposure?"
+            show buddy listen
+            you "Not really, actually."
             show buddy laughs
             bud "Hey, maybe start there!"
-        "I've got some ideas.":
-            show buddy sad
+        "I've got a few solid ideas.":
+            you "Probably easier to just show you once I've made some progress."
+            show buddy sus
             bud "Okay, keep your secrets then."
     show buddy smile
     bud "Well, I should probably get to work. Got a long day of cutting stuff up, you know."
@@ -402,8 +455,6 @@ label darkroomIntro:
     "According to your grant representitive, the equipment has been mantained but otherwise things have been virtually untouched for the last 30 years."
     "They were hoping to turn the house into a museum but it never came through."
     "Which only makes it more exciting that you're suddenly allowed to poke around!"
-    #temp "I like the idea of being able to click on objects in the room, and getting a brief rundown on them."
-    #temp "Clickables are highlighted (no looking for secrets) and the scene would continue until you had clicked everything"
 
 label darkroomIntro2:
     if lightOn:
@@ -442,12 +493,13 @@ label darkroomIntro2:
                 show kitchen erin:
                     smallNegativeBase
                 "Oh, wow. Now {i}this{/i} is a find!"
-                "This photo was used to make her famous piece 'night and day.' The final version had a this crazy blazing sun images exposed over it, in the doorway."
-                "So this is like, the original negative from that work. That's crazy!"
-                "Maybe this is my first project? Maybe I print this and expose something else over it!"
-                "Put my own spin on the image..."
-                "Create dialog with Erin through {i}fusing{/i} her art with mine."
-                "Yeah, that sounds amazing!"
+                "This photo was used to make one of her early pieces, 'night and day.'"
+                "The final version had this forest scene bleeding into the space through the doorway."
+                "To see one of the original negatives from a piece you recognize is absolutely wild."
+                you "Maybe this is my first project? Maybe I print this and expose something else over it?"
+                you "Put my own spin on the image."
+                you "Create dialog with Erin through {i}fusing{/i} her art with mine."
+                you "Yeah, that sounds amazing!"
                 hide kitchen erin
                 $ enlargeFirst = False
             #Second time here
@@ -475,26 +527,27 @@ label darkroomIntro2:
         "Check out the trays" if papersGrabbed == False:
             if traysFirst == True:
                 "These lovely baths of toxic chemicals are where your photos will develop."
-                "You notice a hand-wrapped package sitting next to the baths labeled with scrawled ballpoint pen as 'photo paper exp. lot 4'"
+                "You notice a hand-wrapped package sitting next to the baths."
+                "It's labeled with scrawled ballpoint pen: '{font=NothingYouCouldDo-Regular.ttf}photo paper exp. lot 4{/font}'"
                 "You know she had experimented with printing on some unusual surfaces. Maybe that's what was going on here?"
                 $ traysFirst = False
             if lightOn == False:
                 if traysFirst == True:
                     "Either way, it can't be opened until the safe light is on."
                 else:
-                    "Once the safe light is on you can open the package of photo paper."
+                    "You'd better turn on the safelight so you can check it out."
             else:
                 play audio "slides/remove-2.mp3"
-                "You carefully unwrap the parcel and discover two luxurious pieces of print paper."
-                "It feels a bit wrong, but the grant was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
+                "You carefully unwrap the parcel and discover three luxurious pieces of print paper."
+                "A bit thicker than you're used to. And oddly coarse to the touch."
+                "The grant was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
                 $ papersGrabbed = True
             jump darkroomIntro2
 #endregion
 
 #region photo functions
 label photo1_firstDev:
-    "You slide one of the two pieces of photo paper under the enlarger."
-    "It feels coarse to the touch. Strangely thick."
+    "You slide one of the three pieces of photo paper under the enlarger."
     $ begin_day(Days.DAY_ONE)
     jump projector_select_base_dayone
 
@@ -616,7 +669,7 @@ label develop_kitchen:
     if seenPhoto1 == True:
         "As you develop the scene from 'night and day' for a second time, the same thing happens."
         "Erin begins to move and speak, the same motions and words as she did before."
-        "You could watch it all play out again, or you could just wait to pull it out as soon as possible"
+        "You could watch it all play out again, or you could just wait to pull it out as soon as possible."
         menu:
             "Watch it all again":
                 $ seenPhoto1 = False
@@ -624,18 +677,20 @@ label develop_kitchen:
                 $ develop (30)
                 "You keep your eye on the clock and pull the photo out as soon as possible."
                 $ stop_developing_instant()
-    "The image begins to emerge, slowly at first."
+    "The image begins to develop, slowly at first."
     $ develop(5)
-    "Then, something else starts to happen."
+    "Then, something {i}else{/i} starts to happen."
     $ develop(10)
-    "In the photo, the figure by the window starts to move."
+    "In the photo, the figure by the window starts to {sc=2}move{/sc}."
     $ zoom_development = True
     pause 3
     show erin smile at dcp, left with Dissolve(1)
     "Erin."
-    "Her lips part. Subtly, but unmistakably"
+    show erin speak at dcp
+    "Her lips part. Subtly, but unmistakably."
     play sfx_1 "breath-1.mp3" volume 0.8
-    "She turns towards the camera and begins to mutter to herself"
+    "She turns towards the camera and begins to mutter to herself."
+    "And somehow, you can hear it!"
     $ develop(15)
     show erin ponder at dcp
     Erin "Something like that..."
@@ -649,9 +704,10 @@ label develop_kitchen:
     $ develop(25)
     show erin ponder at dcp
     Erin "Since I have no idea how I'm going to be feeling after all of this."
-    Erin "That's assuming, of course, you even come back at all..."
+    show erin look away sad at dcp
+    Erin "That's assuming, of course, I even come back at all..."
     $ develop(30)
-    "You pull your gaze away for a moment to check the clock. It's almost {b}{size=+2}30 seconds{/b}{/size}."
+    "You pull your gaze away for a moment to check the clock. It's almost been {b}{size=+2}30 seconds{/b}{/size}."
     if(not development_end_signalled):
         $ audio_warn_clock()        
         "Technically you should be pulling the photo out just about now. The longer you leave it, the closer to overexposure it gets."
@@ -659,20 +715,22 @@ label develop_kitchen:
         "You could choose to push it just a {i}little{/i} longer..."
     $ develop(35)
     $ audio_overexpose_kitchen()
+    show erin sad at dcp
     Erin "Shit. Erin, you're shaking."
+    show erin ponder at dcp
     Erin "Well, if this is going to be my last photograph, it may as well be a good one."
     show erin think at dcp
-    "She turns and looks at the doorway."
-    show erin ponder at dcp
+    "She focuses her gaze on the doorway opposite her."
+    show erin chuckle at dcp
     Erin "Maybe Peter is completely full of shit."
     $ develop(40)
-    show erin think at dcp
+    show erin look away sad at dcp
     Erin "..."
     show erin ponder at dcp
     Erin "I don't think he is though."
     $ develop(45)
     Erin "And you've come too far to back out now. Whatever happens..."
-    show erin think at dcp
+    show erin look away sad at dcp
     "Erin sighs."
     $ develop(50)
     show erin think at dcp
@@ -681,8 +739,9 @@ label develop_kitchen:
         "There's still a chance to expose something over the image, although aleady it'll likely be a bit overdeveloped."
         "But does that even matter anymore?"
     $ develop(55)
-    show erin ponder at dcp
+    show erin look away smile at dcp
     Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
+    Erin "Maybe that means coming here was the right move after all."
     $ develop(60)
     "The image is getting darker now. You're about to ruin it."
 
@@ -714,14 +773,12 @@ label develop_kitchen_overexposed:
     $ develop_overexposed(25)
     $ audio_escalate(3)
     show erin smile at dcp, dc_overexpose
-    "An icy chill grips your heart and you feel the room start to spin."
-    "You feel like SOMETHING TERRIBLE has happened."
-    "Almost without thinking, you grab the tongs and pull out the image."
+    call corruptionDialogue
     jump complete_kitchen
 
 label complete_kitchen:
     $ finish_development()
-    "Immediately, whatever it was you were watching stops completely."
+    "Immediately, all movement in the photo ceases. All sound stops."
     play sfx_2 "heartbeat.mp3" volume 0.6 fadein 3.0 loop
     if onFirstBase == True:
         "The room is quiet, except for the sound of your heart pounding in your chest."
@@ -737,65 +794,87 @@ label develop_kitchen_siobhan:
     $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
     "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
     $ audio_start_kitchen()
-    "Then, she starts to move. Her feet, partially suspended, touch the ground."
+    "Then, she starts to {sc=1}move{/sc}. Her feet, partially suspended, touch the ground."
     $ audio_kitchen_melody("siobhan")
     $ zoom_development = True
     pause 3
     $ develop_double(5)
     show erin think at dcp, left with dissolve
-    "Like she's there." #this timing needs to improve
+    "Like she's really there."
     show siobhan talk at dcs, right with Dissolve(1)
     Siob "I hear you... but I trust Peter. Something about his energy."
+    show siobhan smug at dcs
     show erin ponder at dcp, left with dissolve
     Erin "Normally, sure, but liking someone's 'energy' doesn't feel like enough to go on when it comes to life and death."
     show erin think at dcp
+    show siobhan snark at dcs
     Siob "Well, I'll go first and if I die or... come back weird, then you don't have to go."
-    Siob "But if I do... well, I just want to say, I love your work."
+    show siobhan worry at dcs
+    Siob "But if... well, in case that does happen..."
+    show siobhan shy at dcs
+    Siob "I just want to say, I love your work."
     $ develop_double(10)
-    show siobhan talk at dcs
+    show siobhan touched at dcs
     show erin smile at dcp
     Erin "Admit it, you'd never heard of me."
+    show siobhan talk at dcs
     Siob "Of course not. But Peter showed me some stuff. Showed me Gunnar's stuff too."
-    Siob "I guess he's like, famous famous. Did you know?"
+    show siobhan surprised at dcs
+    Siob "I guess he's like, {i}famous{/i} famous. Did you know?"
     show erin ponder at dcp
+    show siobhan smug at dcs
     Erin "Yeah."
+    show erin laugh at dcp
     Erin "You seem excited for tomorrow."
+    show erin think at dcp
+    show siobhan snark at dcs
+    Siob "Fuck yeah man. You aren't?"
     show erin smile at dcp
-    Siob "Fuck yeah man. You aren't? You can be afraid and excited, you know that right?"
+    Siob "Fun fact: you can be afraid and excited at the same time, you know that right?"
     $ develop_double(15)    
     show erin ponder at dcp
-    show siobhan talk at dcs
+    show siobhan smug at dcs
     Erin "I just feel like we're trusting Peter quite a bit here and he's not telling us much."
-    show erin ponder at dcp
+    show erin look away sad at dcp
+    show siobhan snark at dcs
     Siob "Like, what should he be telling us?"
     show erin ponder at dcp
     Erin "Well, so, what {i}is{/i} the Porter? Like how did he find it? Why should he trust it?"
     $ porterKnown = True
+    show erin look away sad at dcp
     Erin "He calls it a spirit but couldn't it be a demon or something?"
-    show erin smile at dcp
-    show siobhan talk at dcs
+    show siobhan snark at dcs
     Siob "Oh, yeah, I was worried about that too."
     $ develop_double(20)
-    show erin smile at dcp
-    show siobhan talk at dcs
-    Siob "But I did some um, some digging. While you guys were doing that bonefire thing last night."
+    show erin sad at dcp
+    show siobhan disagree at dcs
+    Siob "But I did some um, some digging. While you guys were doing that 'bonfire bonding' thing last night."
+    show siobhan ruthless at dcs
     Siob "I figured a guy like Peter writes absolutely everything down."
+    show siobhan hope at dcs
     Siob "To be fair, I also thought he'd like, lock all that shit up in a secret library or something."
-    Siob "But it was all just out in his office."
+    show erin think at dcp
+    Siob "But it was all just {i}laying out there{/i} on the desk in his office."
     $ develop_double(25)
     show erin ponder at dcp
-    show siobhan talk at dcs
+    show siobhan smug at dcs
     Erin "You read his stuff??"
-    show erin smile at dcp
+    show erin think at dcp
+    show siobhan angry at dcs
     Siob "SHHH!"
+    show siobhan awkward at dcs
     Siob "But, yeah."
+    show siobhan snark at dcs
     Siob "You want me to tell you or what?"
     show erin ponder at dcp
+    show siobhan smug at dcs
     Erin "... yeah, I do."
     $ develop_double(30)
     show erin smile at dcp
-    show siobhan talk at dcs
-    Siob "He says it's an 'old spirit.' It's not from 'there,' it's from 'here.' That it came with this place."
+    show siobhan surprised at dcs
+    Siob "He says it's an 'old spirit.'"
+    Siob "It's not from '{i}there{/i},' it's from '{i}here{/i}.' That it came with this place."
+    show siobhan snark at dcs
     Siob "Or the woods nearby, he's not sure. But he's not the first to write about it."
     $ reachedEnd = True
 
@@ -808,18 +887,19 @@ label develop_kitchen_siobhan_overexposed:
         "You know that if you keep this photo in any longer you will overexpose it."
     $ develop_overexposed(10)
     show erin ponder at left, dcp, dc_overexpose
-    show siobhan talk at right, dcs, dc_overexpose
+    show siobhan snark at right, dcs, dc_overexpose
     $ photoRuined = True
     $ audio_overexpose_kitchen()
     $ corruption += 5
     if reachedEnd == False:
         "As the photo begins to become overexposed, you see the figures in the frame {b}jolt forwards{/b}, as if skipping time."
     Erin "'The Porter.' Did Peter come up with that name?"
+    show siobhan angry at dcs, dc_overexpose
     Siob "No. It is his {b}Name{/b}."
     Siob "It is his {b}Function{/b}."
     $ develop_overexposed(20)
     show erin ponder at dcp, dc_overexpose
-    show siobhan talk at dcs, dc_overexpose
+    show siobhan angry at dcs, dc_overexpose
     Siob "It was {b}TAKEN{/b} from him."
     $ audio_escalate(1)
     Siob "{sc=5}BUT HE WILL NOT BE CONTAINED{/sc}"
@@ -827,21 +907,18 @@ label develop_kitchen_siobhan_overexposed:
     Erin "{sc=5}HE WILL HAVE WHAT IS HIS{/sc}!"
     $ develop_overexposed(30)
     show erin ponder at dcp, dc_overexpose
-    show siobhan talk at dcs, dc_overexpose
+    show siobhan angry at dcs, dc_overexpose
     $ audio_escalate(3)
-    "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
-    $ audio_remove_photo()
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    call corruptionDialogue
+    #"An icy chill grips your heart and you feel the room start to spin." #copypasted for now
+    #$ audio_remove_photo()
+    #"Almost without thinking, you grab the tongs and pull out the image."
+    #"You feel like SOMETHING TERRIBLE has happened."
     jump complete_kitchen_siobhan
 
 label complete_kitchen_siobhan:  
     $ finish_development()
-    if photoRuined == True:
-        "You pull out the wrecked photograph. Now useless as a piece of art, it hopefully served you well as a source of information."
-    else:
-        "You pull out the print, a perfectly unremarkable of two people having a conversation in a kitchen."
-        "A conversation that you, and possibly you alone, have heard."
+    call day1PostDevDialogue
     jump post_image_completion_dayone
 #endregion
 
@@ -854,70 +931,102 @@ label develop_kitchen_gunnar:
     $ develop_double(5)
     $ zoom_development = True
     pause 3
-    show erin think at dcp, left with dissolve
-    show gunnar points at dcs, right
+    show erin sad at dcp, left with dissolve
+    show gunnar talk2 at dcs, right
     unk "I'm sure you've heard this before, but I will say it again."
+    show gunnar remark at dcs
     unk "Fame is the {i}worst{/i} thing that could happen to you."
-    show erin ponder at dcp
+    show erin agree at dcp
     Erin "You're right. I {i}have{/i} heard that before."
-    show erin think at dcp
-    unk "Oh don't get me wrong, I understand you."
+    show erin smile at dcp
+    show gunnar talk1 at dcs
+    unk "You think I don't know what I'm talking about, but I understand {i}exacly{/i} where you're coming from."
     $ develop_double(10)
     show gunnar points at dcs
-    show erin ponder at dcp
+    show erin speak at dcp
     Erin "Do you?"
-    show erin think at dcp
-    unk "The fire to prove yourself. To do something great. It's pointless to ignore it."
+    show erin smile at dcp
+    show gunnar talk2 at dcs
+    unk "The fire to prove yourself. To do something great."
+    show gunnar remark at dcs
+    unk "It's pointless to ignore it."
+    show gunnar excited at dcs
     unk "I'm not saying you should stop chasing fame. May as well tell a moth to steer clear of candles."
+    show gunnar talk2 at dcs
     unk "I'm just telling you that you won't like it." #Note, I think Erin actually kinda thinks this is funny now. It was annoying at first.
     show erin ponder at dcp
+    show gunnar points at dcs
     Erin "So what, embrace the flame?"
     show erin think at dcp
+    show gunnar excited at dcs
     unk "Isn't that what we're doing here?"
+    show gunnar remark at dcs
     unk "Chasing somthing that could very well destroy us?"
     $ develop_double(15)
     show erin ponder at dcp
-    show gunnar points at dcs
+    show gunnar look away at dcs
     Erin "I'm not going to get destroyed. That's why I'm not going first."
     Erin "Is that what you're doing?"
     show erin think at dcp
+    show gunnar amused at dcs
     unk "Hah!"
+    show gunnar remark at dcs
     unk "Well..."
+    show gunnar talk2 at dcs
     unk "If Peter is right and this... place... really exists, then someone should to write about it."
     $ houseKnown = True
     $ develop_double(20)
-    show erin think at dcp
-    show gunnar points at dcs
-    unk "And I suppose I can't stand the thought of it being anyone other than me."
-    show erin ponder at dcp
+    show erin smile at dcp
+    show gunnar excited at dcs
+    unk "And I suppose I can't stand the thought of it being anyone other than me!"
+    show erin agree at dcp
     Erin "I think you might be vain, Gunnar. Has anyone ever told you that?"
     $ gunnarKnown = True
-    show erin think at dcp
-    Gunnar "I've seen your work. Very psychological, very personal. You must think your head is a very interesting place to be."
+    show erin smile at dcp
+    show gunnar talk2 at dcs
+    Gunnar "Hrmph..."
+    show gunnar speak worry at dcs
+    Gunnar "I've seen your work."
+    Gunnar "Very psychological. Very personal."
+    show gunnar talk2 at dcs
+    Gunnar "You must think your head is a very interesting place to be."
     Gunnar "My books have multiple points of view. And I try {i}{b}very{/i}{/b} hard to make sure none of them are my own."
-    show erin ponder at dcp
+    show erin agree at dcp
+    show gunnar points at dcs
     Erin "So you're saying I'm going to be in your book?"
-    show erin think at dcp
+    show erin smile at dcp
+    show gunnar look away at dcs
     Gunnar "Who knows what's going to come out of this. Book. Poem. Alien scribblings. The Truth about the Creation of Time."
-    Gunnar "But if you end up being interesting enough... sure, I might put you in."
+    show gunnar excited at dcs
+    Gunnar "But if you end up being interesting enough... sure, I might put you in!"
     $ develop_double(25)
+    show erin smile at dcp
+    show gunnar talk2 at dcs
+    Gunnar "Well. Enough ramblings of a vain man."
+    Gunnar "What drives Erin Darabondi to step through the threshold of the so-called Bright House?"
     show erin think at dcp
     show gunnar points at dcs
-    Gunnar "But enough ramblings of a vain man. What drive Erin Darabondi to step through the threshold of the so-called Bright House?"
-    show erin ponder at dcp
     Erin "..."
+    show erin ponder at dcp
     Erin "I have no idea."
     show erin think at dcp
+    show gunnar excited at dcs
     Gunnar "Bullshit."
+    show gunnar points at dcs
+    show erin look away sad at dcp
+    Erin "..."
     show erin ponder at dcp
     Erin "Do you really trust Peter?"
     show erin think at dcp
+    show gunnar remark at dcs
     Gunnar "If he tells us this Bright House is safe, well, I trust he believes that."
-    Gunnar "I know you - both of you - have just met him, but I've known him a long time. He knows what he's doing."
-    Gunnar "Not in all things. I pray to God you never have to see his personal attempts at art."
+    show gunnar talk2 at dcs
+    Gunnar "I know you - {i}both{/i} of you - have just met him, but I've known him a long time. He knows what he's doing."
+    show gunnar amused at dcs
+    Gunnar "Not in all things, of course. I pray to God you never have to see his personal attempts at art."
     $ develop_double(30)
     show erin think at dcp
-    show gunnar points at dcs
+    show gunnar amused at dcs
     Gunnar "He's got no talent of his own, but damned if he can't see it in others."
     $ reachedEnd = True
 
@@ -931,7 +1040,7 @@ label develop_kitchen_gunnar_overexposed:
     $ develop_overexposed(10)
     $ audio_overexpose_kitchen()
     show erin think at left, dcp, dc_overexpose
-    show gunnar points at right, dcs, dc_overexpose
+    show gunnar worry at right, dcs, dc_overexpose
     $ photoRuined = True
     $ corruption += 5
     if reachedEnd == False:
@@ -943,24 +1052,19 @@ label develop_kitchen_gunnar_overexposed:
     $ develop_overexposed(20)
     $ audio_escalate(2)
     show erin think at dcp, dc_overexpose
-    show gunnar points at dcs, dc_overexpose
+    show gunnar worry at dcs, dc_overexpose
     Gunnar "WHERE ARE MY {sc=2}EYES{/sc}, ERIN?"
     $ audio_escalate(3)
     Gunnar "{sc=3}WHERE ARE MY EYES, INTERLOPER{/sc}?"
     $ develop_overexposed(30)
     show erin think at dcp, dc_overexpose
-    show gunnar points at dcs, dc_overexpose
-    "An icy chill grips your heart and you feel the room start to spin." #copypasted for now
-    "You feel like SOMETHING TERRIBLE has happened."
+    show gunnar worry at dcs, dc_overexpose
+    call corruptionDialogue
     jump complete_kitchen_gunnar
 
 label complete_kitchen_gunnar: 
     $ finish_development()
-    if photoRuined == True:
-        "You pull out the wrecked photograph. Now useless as a piece of art, it hopefully served you well as a source of information."
-    else:
-        "You pull out the print, a perfectly unremarkable of two people having a conversation in a kitchen."
-        "A conversation that you, and possibly you alone, have heard."
+    call day1PostDevDialogue
     jump post_image_completion_dayone
 #endregion
 
@@ -1080,15 +1184,12 @@ label develop_kitchen_peter_overexposed:
     show erin think at dcp, dc_overexpose
     Peter "He will Find me. He will find You too."
     Peter "{sc=4}THIS ALL MUST BE UNDONE{/sc}."
+    call corruptionDialogue
     jump complete_kitchen_peter
 
 label complete_kitchen_peter: 
     $ finish_development()
-    if photoRuined == True:
-        "You pull out the wrecked photograph. Now useless as a piece of art, it hopefully served you well as a source of information."
-    else:
-        "You pull out the print, a perfectly unremarkable of two people having a conversation in a kitchen."
-        "A conversation that you, and possibly you alone, have heard."
+    call day1PostDevDialogue
     jump post_image_completion_dayone
 #endregion
 #endregion
@@ -1101,13 +1202,14 @@ label endOfDayOneChoices:
     scene darkroom_workspace red
     "You stand in the darkroom for a minute, dumbfounded, still processing what just happened."
     if corruption > 10:
-        "You look at the photos you just printed. Out the corner of your eye you feel like you can see them moving still. But they aren't."
+        "You look at the photos you just printed."
+        "Out the corner of your eye you feel like they're still moving. But they aren't."
     else:
         "You look at the photos you just printed. No sign of anything out of the ordinary."
-    "If you can trust what you've just seen, it seems like Erin was a part of something strange. Magical."
-    "And you have no choice to believe that understanding what she was up to could explain what you've just seen."
+    "It seems like Erin was a part of something strange. Magical."
+    "It's hard not to want to know more."
     "On the other hand, Erin disappeared without a trace. Knowing more might be a very bad idea."
-    if corruption > 10:
+    if corruption >= 15:
         play sfx_1 "eerie-1.mp3" volume 0.1
         play sfx_2 ["<silence 2>", "low-thud-single.mp3"] volume 0.2
         "You start to feel the hairs on the back of your neck raise. Like something is watching you."
@@ -1165,7 +1267,7 @@ label night1:
     stop ambiance_1 fadeout 2
     stop ambiance_2 fadeout 2
     scene bg bedroom light with dissolve
-    "With your head swirling with questions, you head home to try and get some sleep."
+    "Your head swirling with questions, you head home to try and get some sleep."
     call night_crickets
     show bg bedroom sleep with Dissolve(1)
     "It comes slowly, but sleep does come."
@@ -1178,7 +1280,7 @@ label night1:
     stop ambiance_3 fadeout 4.0
     unk "{sc=2}i see you{/sc}"
     call nightmare_porter_appear
-    show porter talk:
+    show porter dead nohand:
         subpixel True
         yalign .5
         xalign .5

@@ -1029,15 +1029,15 @@ screen main_menu():
         at transform:
             on show:
                 "bg dark room painting"
-                matrixcolor BrightnessMatrix(-.4)
+                matrixcolor BrightnessMatrix(-.1)
                 pause 2.5
                 function play_darkroom_light_atl
                 "bg dark room painting red"
-                matrixcolor BrightnessMatrix(0)
+                matrixcolor BrightnessMatrix(-.15)
                 pause 25
                 function play_darkroom_light_off_atl
                 "bg dark room painting"
-                matrixcolor BrightnessMatrix(-.4)
+                matrixcolor BrightnessMatrix(-.1)
                 pause 4
                 repeat
             on replace:
@@ -1814,7 +1814,7 @@ style help_label:
     right_padding 30
 
 style help_label_text:
-    size gui.text_size
+    size 32 #gui.text_size
     xalign 1.0
     textalign 1.0
 

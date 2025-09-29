@@ -44,15 +44,15 @@ label day2Start:
     stop ambiance_2 fadeout 2.0
     stop ambiance_3 fadeout 2.0
     #Note: I have no idea what BG this should be. We probably just have to make it the darkroom.
-    "You wake up feeling like you've hardly slept at all."
+    "You feel like you've hardly slept at all."
     play sound "text-vibrate.mp3" volume 0.4
     "Grabbing your phone, you see a text from Bud."
     window hide
     scene bg bedroom light
     $ reset_phone_data()
     $ phone_start()
-    show screen phone_ui with dissolve
     $ switch_channel_view("bud_dm")
+    show screen phone_ui with dissolve
     $ lock_phone_screen()
     if budLevel == 0:
         $ send_phone_message("Bud", "yo sorry to bother you", "bud_dm")
@@ -1777,7 +1777,8 @@ label endOfDay2:
         bud "Right?"
     you "Bud... did you have any nightmares last night?"
     show buddy question
-    bud "Kinda, yeah, actually. I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
+    bud "Kinda, yeah, actually."
+    bud "I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
     bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods." #NOTE: ARCHER REFERENCE
     show buddy talkhand
     bud "Oh god then he ate his heart!? Damn, I almost forgot how messed up it was."
