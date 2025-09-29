@@ -419,7 +419,7 @@ label darkroomIntro2:
             if lightOn:
                 show bg enlarger red at zoomedEnlarger
             else:
-                show bg enlarger at offsetStoryEnlarger
+                show bg enlarger at zoomedEnlarger
             if enlargeFirst == True:
                 "The enlarger is an older model, old even for the 90s when Erin was working."
                 "Oh wow, it looks like there are already some negatives in here!"
@@ -502,14 +502,14 @@ label photo1_firstDev:
     jump projector_select_base_dayone
 
 label projector_select_base_dayone:
-    scene black_background with flash
+    scene bg enlarger red bigger with dissolve
     window hide
     $ start_enlarger()
     $ target_label = renpy.call_screen("enlarger_select_photo")
     show bg enlarger red bigger
     show photopaper enlarger
     with flash
-    "You expose the paper, starting a print of 'day and night'"
+    "You expose the paper, starting a print of 'night and day'"
     scene
     show bg tray red
     "Next comes the developing liquid."
@@ -1157,6 +1157,7 @@ label findPhoto:
                 xalign 0.0
                 yalign 0.5
                 rotate 1.5
+                matrixcolor SaturationMatrix(0)
             "Nothing special happens."
             "It's just an ordinary photo."
             hide nightAndDayPartial
