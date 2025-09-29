@@ -298,23 +298,19 @@ label introScene:
         yanchor 0.5
     with Fade(0.1, 0.2, 1.9, color="#ffffff")
     "...you are now a part of."
+    # Start transition sounds + animation
+    play drone_3 'porter-drums-1.mp3' fadein 0.5
+    play sfx_2 'porter-wail.mp3' # ~2.2s from start to cut
     show porter photo:
         parallel:
             easein 60 zoom 10
         parallel:
             easein 60 rotate 180
-    pause 1
+    pause 1.2
     show black_background with Fade(1.1, 0, 0)
     window hide
-    play drone_3 'porter-drums-1.mp3' fadein 0.5
-    #TRANSITION TIME!
-    play sfx_2 'porter-wail.mp3'
-    pause 1.1
     play audio ['ding-1.mp3'] noloop
     play audio ['low-thud-single.mp3'] noloop
-    
-    #pause 2.2
-
     stop music
     stop sfx_1
     stop photo_1
@@ -1177,7 +1173,10 @@ label night1:
     scene bg nightmare:
         RaveLights
     with Dissolve(2.0)
-    "..."    
+    "..."
+    play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
+    stop ambiance_3 fadeout 4.0
+    unk "{sc=2}i see you{/sc}"
     call nightmare_porter_appear
     show porter talk:
         subpixel True
@@ -1192,9 +1191,6 @@ label night1:
         parallel:
             ease 2 zoom 2
         linear 250 zoom 6
-    play photo_1 "porter-single-voice.mp3" volume 0.2 noloop
-    stop ambiance_3 fadeout 4.0
-    unk "{sc=2}i see you{/sc}"
     unk "return what is {sc=1}mine{/sc}."
     unk "you {sc=2}WILL{/sc} return what is mine."
     play nightmare_2 ["porter-drums-1.mp3"] fadein 10 volume 1

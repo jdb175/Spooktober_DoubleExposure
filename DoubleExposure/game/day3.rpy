@@ -354,7 +354,7 @@ label finalJudgement:
     play drone_2 "porter-drone-3.mp3" fadein 3 volume 0.2
     "The bizarre composite now done, you bring it back to be developed."
     $ zooming_porter = True
-    play drone_3 "<sync drone_2>porter-drums-1.mp3" fadein 3 volume 0.2
+    play drone_3 ["<sync drone_2>porter-drums-1.mp3", "porter-drums-1.mp3"] fadein 3 volume 0.2
     porter "My power is returning."
     $ zoomed_porter = True
     porter "My function may be served again."
@@ -368,15 +368,16 @@ label finalJudgement:
         matrixcolor BrightnessMatrix(-.5)
     hide screen projector_porter_healed with Fade(1,1,1)
     show porter talk at center with Dissolve(.4)
-    stop drone_1 fadeout 1
-    stop drone_2 fadeout 1
+    play ambiance_2 ["piano-underscore-spook-2.mp3"] volume 0.2 fadein 2
+    stop drone_1 fadeout 2
+    stop drone_2 fadeout 2
     stop sfx_1 fadeout 1
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
     show porter swear
     porter "Humanity will regain my service again."
     show porter talk
     porter "With perhaps more caution."
-    play drone_2 "<sync drone_3>porter-drums-2.mp3" volume 0.4 fadein 3
+    play drone_2 ["<sync drone_3>porter-drums-2.mp3", "porter-drums-2.mp3"] volume 0.4 fadein 3
     porter "..."
     #values broken
     if corruption <= 15:
@@ -555,8 +556,6 @@ label finalJudgement:
     call night_crickets_stop
     play sfx_2 "low-thud-single.mp3" volume 0.5
     "Or, some of it anyway..."
-    play audio "breath-1.mp3"
-    play music "piano-end.mp3"
 
 
 style creditStyle:
@@ -583,6 +582,7 @@ image creditChunk4 = Text("""{font=CastoroTitling-Regular.ttf}{size=*0.85}PHONE 
 {size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}""", style="creditStyle")
 
 label theEnd:
+    play music "porter-1.mp3" volume 0.5
     window auto False
     $_window_hide()
     #show thankyouforplaying with Fade(1.1, 0.5, .5, color="#ffffff")

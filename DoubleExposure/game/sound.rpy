@@ -218,6 +218,7 @@ label nightmare_stop:
 label good_ending:
     stop drone_2 fadeout 4
     stop drone_3 fadeout 4
+    stop ambiance_2 fadeout 4
     play music "piano-underscore.mp3"
     return
 
