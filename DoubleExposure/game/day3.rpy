@@ -37,7 +37,7 @@ label day3Start:
     play music "creaking-underscore.mp3" volume 0.5
     pause 1
     "It isn't until you reach the door to the darkroom and swing it open that you begin to feel afraid."
-    scene darkroom_workspace bright:
+    scene darkroom_workspace bright with Dissolve(2):
         matrixcolor BrightnessMatrix(-0.6)
     "The room is cloaked in shadow."
     "Just like in your dream"
@@ -102,7 +102,7 @@ label peterConvo:
             jump peterConvo
         "What are you doing to that paper?":
             show peter old explain
-            Peter "You surly have learned by know that this is no ordinary paper."
+            Peter "Surely you have learned by know that this is no ordinary paper."
             show peter old show
             Peter "I won't bore you with the details, but my blood is not ordinary blood."
             jump peterConvo
@@ -129,12 +129,12 @@ label peterConvo:
 
 label thePoint:
     show peter old snark
-    Peter "If this seems all terribly complicated, I assure you it is not. I only seek to help you create."
+    Peter "If this all seems terribly complicated, I assure you it is not. I only seek to help you create."
     show peter old explain
     Peter "'Truth is everywhere. But art is the window through which truth may be seen.'"
     Peter "I always liked that quote."
     show peter old focus
-    Peter "But why stop a window, when you could have a door?"
+    Peter "But why look through a window, when you could open a door?"
     show peter old explain
     Peter "There is a Brightness. It is both a thing and a place. It is both in the world and in the mind."
     show peter old show
@@ -160,10 +160,10 @@ label thePorter:
     Peter "Rest assured that I will do what I can to protect you from it. I would be lying if I said that I could protect you fully."
     show peter old show
     Peter "But as an artist, I'm sure you understand that a little bit of urgency, a little bit of risk, can be just the thing."
-    Peter "'Nothing is more creative than death, since it is the whole secret of life.;"
+    Peter "'Nothing is more creative than death, since it is the whole secret of life.'"
     show peter old explain
     Peter "'It means that the past must be abandoned, that the unknown cannot be avoided, that 'I' cannot continue, and that nothing can be ultimately fixed.'"
-    Peter "'When a man knows this, he lives for the first time in his life. By holding his breath, he loses it. By letting go he finds it'"
+    Peter "'When a man knows this, he lives for the first time in his life. By holding his breath, he loses it. By letting go, he finds it'"
     show peter old paranoid
     "Peter's face, which so far has been hard to read, becomes gripped by an almost painful melancholy."
     Peter "Alan Watts. Such a way with words. If only I could express myself with such grace."
@@ -283,9 +283,9 @@ label peterCalmEnding:
     show peter old explain
     Peter "I've worked with... several other artists over the years."
     show peter old paranoid
-    "He thumbs arkwardly at his pockets."
+    "He thumbs awkwardly at his pockets."
     show peter old explain
-    Peter "Many of whom have worked with elements which themselves are... carry something of greater origin than this sorry world."
+    Peter "Many of whom have worked with elements which themselves... carry something of greater origin than this sorry world."
     show peter old paranoid
     Peter "I could... potentially... arrange for some of them to be sent to you."
     show peter old tense
@@ -324,6 +324,7 @@ label photoFinal_firstDev:
     jump finalSiobhan
 
 label finalSiobhan:
+    $ renpy.block_rollback()
     call screen projector_porter_final("Siobhan", "arm") with Fade(1,1,1)
     play sfx_1 "low-thud-single.mp3"
     play sfx_2 "breath-2.mp3"
@@ -331,6 +332,7 @@ label finalSiobhan:
     "This feels right."
 
 label finalPeter:
+    $ renpy.block_rollback()
     call screen projector_porter_final("Peter", "heart")
     play sfx_1 "low-thud-single.mp3"
     play sfx_2 "breath-2.mp3"
@@ -338,6 +340,7 @@ label finalPeter:
     "This feels right."
 
 label finalGunnar:
+    $ renpy.block_rollback()
     call screen projector_porter_final("Gunnar", "tongue")
     play sfx_1 "low-thud-single.mp3"
     play sfx_2 "breath-2.mp3"
@@ -345,6 +348,7 @@ label finalGunnar:
     "This feels right."
     
 label finalJudgement:
+    $ renpy.block_rollback()
     show screen projector_porter_healed with Fade(1,1,1)
     hide screen projector_porter_healing
     play drone_2 "porter-drone-3.mp3" fadein 3 volume 0.2
@@ -447,7 +451,7 @@ label finalJudgement:
         call good_ending
         porter "You are lucky. Go. Live."
         porter "But leave your artistic ambitions behind... at least for a time."
-        porter "Or you may reawake the danger."
+        porter "Or you may reawaken the danger."
     else:
         show porter swear
         porter "It is possible you have predicted what {sc=2}must come next{/sc}."
@@ -517,7 +521,7 @@ label finalJudgement:
         jump theEnd
     #only the corrupted ending skips this
     scene darkroom_workspace red with Fade(1, 0.4, .5, color="#000000")
-    "The rest of the day passes without a single strange occurance."
+    "The rest of the day passes without a single strange occurence."
     show buddy question at center:
         matrixcolor TintMatrix(color="#e22b2b")
     with moveinleft
@@ -558,29 +562,33 @@ label finalJudgement:
 style creditStyle:
     justify True
 
-image creditChunk1 = Text("""{b}{color=#a01111}CODE:{/b}{/color} {size=*0.85}Jason Whitehouse{/size}
+image creditChunk1 = Text("""{font=CastoroTitling-Regular.ttf}
+{b}{color=#a01111}CODE:{/b}{/color} {size=*0.85}Jason Whitehouse{/size}
 {b}{color=#a01111}WRITING/CODE:{/b}{/color} {size=*0.85}Nathan Whitehouse{/size}
 {b}{color=#a01111}SOUND/MUSIC/CODE:{/b}{/color} {size=*0.85}Kyle Levien{/size}
-{b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}""", style="creditStyle")
+{b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}{/font}""", style="creditStyle")
 
-image creditChunk2 = Text("""{b}{color=#a01111}ART LEAD:{/b}{/color} {size=*0.85}Inês Lebre{space=10}({a=https://www.instagram.com/lebre.por.gato/}{color=#d53333}lebre.por.gato{/a}{/size}{/color})
+image creditChunk2 = Text("""{font=CastoroTitling-Regular.ttf}
+{b}{color=#a01111}ART LEAD:{/color}{/b} {size=*0.85}Inês Lebre{space=10}({a=https://www.instagram.com/lebre.por.gato/}{color=#d53333}lebre.por.gato{/a}{/size}{/color})
 {b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Mariana Santos{/size}
 {b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Irís Loureiro{/size}""", style="creditStyle")
 
-image creditChunk3 = Text("""{b}{color=#a01111}ADDITIONAL DEVELOPMENT:{/b}{/color}
+image creditChunk3 = Text("""{font=CastoroTitling-Regular.ttf}{b}{color=#a01111}ADDITIONAL DEVELOPMENT:{/color}{/b}
 {size=*0.85}Sam Levatich, Madison Avery Gordon{/size}""", style="creditStyle")
 
-image creditChunk4 = Text("""{b}THIRD PARTY ASSETS WILL GO HERE{/b}
-{size=*0.85}PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=#d53333}Zoey (KleineLuka){/a}{/size}{/color}
-{size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=#d53333}Hadara Madrak{/a}{/size}{/color}""", style="creditStyle")
+image creditChunk4 = Text("""{font=CastoroTitling-Regular.ttf}{size=*0.85}PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=#d53333}Zoey (KleineLuka){/a}{/size}{/color}
+{size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=#d53333}Hadara Madrak{/a}{/size}{/color}
+{size=*.85}MAKE VISUAL NOVELS SHADERS - {a=https://makevisualnovels.itch.io/make-visual-novels-rspv1}{color=d53333}Stella{/a}{/size}{/color}
+{size=*.85}WAVE SHADER - {a=https://wattson.itch.io/renpy-wave-shader}{color=d53333}Wattson{/a}{/size}{/color}
+{size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}""", style="creditStyle")
 
 label theEnd:
     window auto False
     $_window_hide()
     #show thankyouforplaying with Fade(1.1, 0.5, .5, color="#ffffff")
     scene black_background
-    with Fade(1.1, 0.5, .5, color="#ffffff")
-    show text "{size=+50}DOUBLE EXPOSURE{/size}":
+    with Fade(1.1, 0.5, .5, color="#000")
+    show text "{font=CastoroTitling-Regular.ttf}{size=+50}DOUBLE EXPOSURE{/size}{/font}":
         ypos .1
     with dissolve
     pause

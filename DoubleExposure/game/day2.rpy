@@ -142,7 +142,7 @@ label day2BudConvo:
     you "I would, but there's no more photo paper."
     if corruption >= 10:
         you "Besides, I... think it might be dangerous."
-        "Bud's eyes go wide, but they don't say anything."
+        "Bud's eyes go wide, but he doesn't say anything."
     if peterKnown == True:
         show buddy question
         bud "Okay, well, I guess in the meantime I should look up this uh, Peter Carlson"
@@ -220,25 +220,25 @@ label day2_darkroom:
                 zoom 0.7
                 xalign 0.5
                 matrixcolor SaturationMatrix(0) * InvertMatrix()            
-            pause 0.3
+            "{font=ReenieBeanie-Regular.ttf}{size=+26}The Owl"
             hide owlmask with dissolve
             show flamemask with dissolve:
                 zoom 0.7
                 xalign 0.5
-                matrixcolor SaturationMatrix(0) * InvertMatrix()            
-            pause 0.3
+                matrixcolor SaturationMatrix(0) * InvertMatrix()         
+            "{font=ReenieBeanie-Regular.ttf}{size=+26}The Flame"
             hide flamemask with dissolve
             show sagemask with dissolve:
                 zoom 0.7
                 xalign 0.5
-                matrixcolor SaturationMatrix(0) * InvertMatrix()            
-            pause 0.3
+                matrixcolor SaturationMatrix(0) * InvertMatrix()         
+            "{font=ReenieBeanie-Regular.ttf}{size=+26}The Sage"
             hide sagemask with dissolve
             show frogmask with dissolve:
                 zoom 0.7
                 xalign 0.5
-                matrixcolor SaturationMatrix(0) * InvertMatrix()            
-            pause 0.3
+                matrixcolor SaturationMatrix(0) * InvertMatrix()         
+            "{font=ReenieBeanie-Regular.ttf}{size=+26}The Frog"
             hide frogmask with dissolve
             "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
             "Two of the images, however, appear not to be art at all."
@@ -261,6 +261,7 @@ label day2_darkroom:
             "Candid photographs of strange figures in robes."
             show portalphoto with dissolve
             hide sneakphoto with dissolve
+            hide portalphoto with dissolve
             #"Most of the images are totally ruined, but it does look like there are a few near the end that are relatively untouched."
             if paperFirst == True:
                 jump day2_print
@@ -271,6 +272,7 @@ label day2_darkroom:
 
 #region projector basics
 label day2_print:
+    window hide
     $ begin_day(Days.DAY_TWO)
     $ onFirstBase = True #changes dialogue in select double
     scene darkroom_workspace bright
@@ -671,8 +673,8 @@ label develop_sneaky_flame_overexposed:
     else:
         "You know that if you keep this photo in any longer you will overexpose it"
     $ develop_overexposed(10)
-    show fire show at dcs, dc_overexpose
-    show owl point at dcp, xflip, dc_overexpose
+    show fire point at dcs, dc_overexpose
+    show owl show at dcp, xflip, dc_overexpose
     $ corruption += 5
     $ audio_sneaky_overexpose()
     $ photoRuined = True
@@ -993,7 +995,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     stop sfx_3 fadeout 1
     pause 0.5
     hide porter
-    show porter dead at dcs, magic_strike, xflip, collapsed(2.0):
+    show porter dead at dcs, magic_strike, xflip, collapsed(1):
         shader None
     stop photo_1 fadeout 1
     frog "What have you done?! What did you do to it?!"
@@ -1254,7 +1256,7 @@ label develop_portal_owl:
     $ develop_double(15)
     show owl crossed at xflip, dcs
     show fire open at dcp
-    flame "It made me think ponder how both worlds are really cousin worlds."
+    flame "It made me think about how both worlds are, really, cousin worlds."
     show fire magic at dcp
     flame "Or, twins, in a way."
     show fire hips at dcp
@@ -1301,7 +1303,7 @@ label develop_portal_owl:
     $ develop_double(30)
     show owl hips at xflip, dcs
     show fire show at dcp
-    flame "Let's get some food. Maybe you can tell me more about your thoughts about the Orrery and it's Door?"
+    flame "Let's get some food. Maybe you can tell me more about your thoughts about the Orrery and its Door?"
     show owl hips at dcs
     hide owl point with moveoutleft
     hide fire show with moveoutleft
@@ -1744,7 +1746,7 @@ label complete_portal_frog:
 #region end of day 2
 
 label endOfDay2:
-    "You wipe the sweat from your brow and sit in Erin's chair, thought swirling."
+    "You wipe the sweat from your brow and sit in Erin's chair, thoughts swirling."
     "Trying to make sense of the events you've seen. To piece together the timeline."
     "You can't be sure that everything you've seen is real, or was real, but at the same time it almost adds up."
     play sound "text-vibrate.mp3" volume 0.6

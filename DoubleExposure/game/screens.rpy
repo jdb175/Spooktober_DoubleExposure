@@ -343,7 +343,7 @@ transform porter_heal_bg:
 transform porter_ascend:
     matrixcolor BrightnessMatrix(0)
     alpha 1.0
-    pause 2.0
+    pause .3
     parallel:
         pause 2.0
         linear 2.0 alpha 0
@@ -1029,8 +1029,15 @@ screen main_menu():
         at transform:
             on show:
                 "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.4)
                 pause 2.5
                 "bg dark room painting red"
+                matrixcolor BrightnessMatrix(0)
+                pause 25
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.4)
+                pause 4
+                repeat
             on replace:
                 "bg dark room painting red"
     
