@@ -564,7 +564,8 @@ style creditStyle:
 image creditChunk1 = Text("""{font=CastoroTitling-Regular.ttf}
 {b}{color=#a01111}CODE:{/b}{/color} {size=*0.85}Jason Whitehouse{/size}
 {b}{color=#a01111}WRITING/CODE:{/b}{/color} {size=*0.85}Nathan Whitehouse{/size}
-{b}{color=#a01111}SOUND/MUSIC/CODE:{/b}{/color} {size=*0.85}Kyle Levien{/size}
+{b}{color=#a01111}SOUND/MUSIC/CODE:{/b}{/color} {size=*0.85}Kyle Levien{space=40}
+({a=https://soundcloud.com/tehkyle/}{color=#d53333}soundcloud{/a}{/size}{/color})
 {b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}{/font}""", style="creditStyle")
 
 image creditChunk2 = Text("""{font=CastoroTitling-Regular.ttf}
@@ -579,7 +580,9 @@ image creditChunk4 = Text("""{font=CastoroTitling-Regular.ttf}{size=*0.85}PHONE 
 {size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=#d53333}Hadara Madrak{/a}{/size}{/color}
 {size=*.85}MAKE VISUAL NOVELS SHADERS - {a=https://makevisualnovels.itch.io/make-visual-novels-rspv1}{color=d53333}Stella{/a}{/size}{/color}
 {size=*.85}WAVE SHADER - {a=https://wattson.itch.io/renpy-wave-shader}{color=d53333}Wattson{/a}{/size}{/color}
-{size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}""", style="creditStyle")
+{size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}
+{size=*.85}IRRITATING FLUORESCENT LIGHT HUM - {a=https://freesound.org/s/328013/}{color=d53333}pfranzen{/a}{/size}{/color}""", style="creditStyle")
+
 
 label theEnd:
     play music "porter-1.mp3" volume 0.5
@@ -588,8 +591,10 @@ label theEnd:
     #show thankyouforplaying with Fade(1.1, 0.5, .5, color="#ffffff")
     scene black_background
     with Fade(1.1, 0.5, .5, color="#000")
-    show text "{font=CastoroTitling-Regular.ttf}{size=+50}DOUBLE EXPOSURE{/size}{/font}":
-        ypos .1
+    #show text "{font=CastoroTitling-Regular.ttf}{size=+50}DOUBLE EXPOSURE{/size}{/font}":
+    show game title at truecenter:
+        zoom .5
+        ypos .17
     with dissolve
     pause
     show nightAndDay:

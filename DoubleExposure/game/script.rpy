@@ -50,6 +50,7 @@ default onFirstBase = True
 #We may decide not to define these but just to use filenames later
 #BGs
 image parcel = "bg/bg parcel.png"
+image parcel red = "bg/bg parcel red.png"
 image darkroom_workspace bright = "bg/bg dark room day1.png"
 image darkroom_workspace red = "bg/bg dark room day1 red.png"
 image porterPhoto = "placeholders/porterPhoto_temp.png"
@@ -541,6 +542,7 @@ label darkroomIntro2:
                 else:
                     "You'd better turn on the safelight so you can check it out."
             else:
+                show parcel red
                 play audio "slides/remove-2.mp3"
                 "You carefully unwrap the parcel and discover three luxurious pieces of print paper."
                 "A bit thicker than you're used to. And oddly coarse to the touch."
@@ -1341,7 +1343,7 @@ label night1:
         unk "i see it has already started to consume you"
         unk "you are {sc=4}careless{/sc}, like them"
         unk "it will be your end if you are not more careful"
-    if corruption >= 5:
+    elif corruption >= 5:
         unk "..."
         unk "you are already tainted"
         unk "do not be {sc=4}careless{/sc} as they were"

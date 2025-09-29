@@ -65,7 +65,7 @@ init python:
         print("starting development for ", image.label)
         renpy.scene()
         renpy.show("black")
-        renpy.block_rollback()
+        #renpy.block_rollback()
         store.zoom_development = False
         store.zoom_development_transitioned = False
         store.current_base_image = image
@@ -105,7 +105,7 @@ init python:
         renpy.show("black")
         renpy.show_screen("clock")
         renpy.show_screen("develop_photo", _layer="master")
-        renpy.block_rollback()
+        #renpy.block_rollback()
         store.zoom_development = False
         store.zoom_development_transitioned = False
         store.current_secondary_image = image
@@ -124,7 +124,7 @@ init python:
             renpy.hide_screen("develop_photo")      
             renpy.scene()
             renpy.show("black")
-            renpy.block_rollback()
+            #renpy.block_rollback()
             audio_remove_photo()
             renpy.jump(store.development_end_target)
     
@@ -134,13 +134,13 @@ init python:
             #renpy.show("white")
             #renpy.show_screen("clock")
             #renpy.show_screen("develop_photo", _layer="master")
-            renpy.block_rollback()  
+            #renpy.block_rollback()  
             renpy.jump(store.development_overexpose_target)
 
     def _develop(base_development: int = -1, secondary_development: int = -1):
         print("developing base:", base_development, ", secondary", secondary_development)
         _checkPendingJump()
-        renpy.block_rollback()
+        #renpy.block_rollback()
 
         increment : int = 0
 
@@ -189,7 +189,7 @@ init python:
             secondary_development=store.secondary_development, 
             overexposure=store.over_exposure,
             _layer="master")
-        renpy.block_rollback()
+        #renpy.block_rollback()
         store.current_base_image = None
         store.current_secondary_image = None
 
@@ -219,7 +219,7 @@ init python:
 
     def start_enlarger():
         print("Starting enlarger")
-        renpy.block_rollback()
+        #renpy.block_rollback()
         if not (store.current_base_image):
             store.current_photo_paper-= 1
 
@@ -228,7 +228,7 @@ init python:
     
     def stop_enlarger():
         print("Stopping enlarger")
-        renpy.block_rollback()
+        #renpy.block_rollback()
 
     def cycle_enlarger(sign: int):   
         print("Cycling enlarger")
