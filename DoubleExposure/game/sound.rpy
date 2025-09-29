@@ -43,6 +43,7 @@ init python:
 
     def play_darkroom_light_off():
         renpy.sound.play("light-click-off.mp3", channel="sfx_1")
+        renpy.sound.stop("ambiance_1")
 
     def play_slide_place(trans, st, at):
         renpy.sound.play(renpy.random.choice(slide_place_fx), channel="sfx_1")
@@ -205,6 +206,7 @@ label nightmare_stop:
 label good_ending:
     stop drone_2 fadeout 4
     stop drone_3 fadeout 4
+    stop ambiance_2 fadeout 4
     play music "piano-underscore.mp3"
     return
 
