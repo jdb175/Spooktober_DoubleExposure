@@ -385,7 +385,7 @@ screen clock:
                 ypos 995
                 xpos 180
         elif store.can_stop_developing:
-            textbutton "Stop Developing":
+            textbutton "{font=DejaVuSans.ttf}Stop Developing":
                 action Function(stop_developing)      
                 style_prefix "develop"
                 xanchor 0.5   
@@ -530,13 +530,13 @@ screen enlarger_select_photo():
             hbox:
                 xalign 0.5
                 if(store.enable_cycling):
-                    textbutton "{size=40}<<" action Function(cycle_enlarger, sign=-1):
+                    textbutton "{font=DejaVuSans.ttf}{size=40}<<" action Function(cycle_enlarger, sign=-1):
                         yoffset -5
-                    textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
-                    textbutton "{size=40}>>" action Function(cycle_enlarger, sign=1):
+                    textbutton "{font=DejaVuSans.ttf}Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]
+                    textbutton "{font=DejaVuSans.ttf}{size=40}>>" action Function(cycle_enlarger, sign=1):
                         yoffset -5
                 else:
-                    textbutton "Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]:
+                    textbutton "{font=DejaVuSans.ttf}Select Image" action [Function(stop_enlarger), Return(store.enlarger_jump_label)]:
                         ypadding 10
                         yoffset -8
 
