@@ -273,7 +273,7 @@ label day1PostDevDialogue:
         "You're left holding a wrecked photograph."
         "Now useless as a piece of art, it hopefully served you well as a source of information."
     else:
-        "You're left holding perfectly unremarkable photo of two people having a conversation in a kitchen."
+        "You're left holding a perfectly unremarkable photo of two people having a conversation in a kitchen."
         "A conversation that you, and possibly you alone, have heard."
     return
 #endregion
@@ -527,7 +527,11 @@ label darkroomIntro2:
         "Check out the trays" if papersGrabbed == False:
             if traysFirst == True:
                 "These lovely baths of toxic chemicals are where your photos will develop."
-                "You notice a hand-wrapped package sitting next to the baths."
+                if lightOn == False:
+                    show parcel
+                else:
+                    show parcel red
+                "You notice a small package sitting next to the baths."
                 "It's labeled with scrawled ballpoint pen: '{font=NothingYouCouldDo-Regular.ttf}photo paper exp. lot 4{/font}'"
                 "You know she had experimented with printing on some unusual surfaces. Maybe that's what was going on here?"
                 $ traysFirst = False
@@ -783,7 +787,7 @@ label complete_kitchen:
     if onFirstBase == True:
         "The room is quiet, except for the sound of your heart pounding in your chest."
         "You don't know what you just saw but you're absolutely certain you saw it."
-        "Right?"        
+        "Right?"
         $ onFirstBase = False
     jump post_image_completion_dayone
 

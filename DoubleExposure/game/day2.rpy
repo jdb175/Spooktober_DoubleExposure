@@ -37,6 +37,15 @@ transform collapsed(m = 1):
     yoffset 80*m
     xoffset 24 + m
 
+label day2PostPrintDialogue:
+    if photoRuined == True:
+        "You're left holding a wrecked photograph."
+        "You suspect that you heard many useful things which were meant to be kept secret..."
+    else:
+        "You're left holding a bizarre photo you suspect no one was meant to see."
+        "A conversation which, certainly, no one was meant to hear."
+    return
+
 #region start of day 2
 label day2Start:
     stop music fadeout 2.0 
@@ -74,24 +83,25 @@ label day2Start:
     stop sound
     scene darkroom_workspace bright with Fade(0.8, 0.4, 0.8)
     pause .5
-    show buddy question with moveinleft
+    show buddy determination with moveinleft
     play music "lil-guitar-loop.mp3" volume 0.5 fadein 4
     bud "So I kept thinking about like, my piece, what I was going to do."
     show buddy talkhand
-    bud "I think I told you I was thinking of doing something like, on her disappearance, like what happened to her."
-    show buddy sad
+    bud "As you know, I was thinking of doing something about her disappearance, like exploring that."
+    show buddy disgust
     bud "But then I decided that would probably be seen as kinda trashy."
     show buddy question
     bud "So I was looking at her life as a whole, maybe something about that."
     show buddy amused
-    bud "And discovered she'd dedicated one of her pieces to this artist I'd never heard of. Siobhan Kent"
+    bud "And discovered she'd dedicated one of her pieces to this artist I'd never heard of: {i}Siobhan Kent{/i}."
     show buddy question
     bud "Mixed media artist. A lot of similar themes."
+    show buddy confused
+    bud "But there was not really any record of them interacting or anything, you know?"
+    bud "Like, they never did a showing together."
     show buddy talkhand
-    bud "But there was not really any record of them interacting or anything, you know? Like, they never did a showing together."
-    show buddy sad
     bud "Here's the crazy part. Siobhan? {i}Disappeared.{/i} A few months before Erin did." #same day? What's better for us?
-    show buddy talkhand
+    show buddy confused
     bud "So... it begs the question, how did they know each other?"
 
 label day2BudConvo:
@@ -107,6 +117,7 @@ label day2BudConvo:
             bud "Oh shit, really?"
     show buddy listen
     you "They were both in some sort of... magical organization? Cult?" #Ugh I hate how this scene makes overexplaining hard to avoid
+    show buddy sus
     if peterKnown == True:
         you "Run by this guy Peter Carlson" #keep double checking what info is given at this point
     else:
@@ -117,25 +128,33 @@ label day2BudConvo:
         you "They had plans to go {i}through{/i} something or {i}to{/i} something. Some other place."
     else:
         you "They were planning to {i}do{/i} something together. I don't really know what."
-    show buddy sad
+    show buddy sus
     bud "..."
     if budLevel <= 5:
-        bud "..."
-        show buddy question
+        show buddy sad
+        bud "... ..."
+        show buddy angry
         bud "Okay, fine, I get it. You think I'm crazy."
+        bud "You're just here to work on your art. I get it."
+        show buddy sad
+        you "I am being completely serious."
+        show buddy question
     else:
-        bud "..."
+        bud "... ..."
         show buddy laughs
         bud "Are you serious? That's... absolutely wild!"
-    you "I am being completely serious."
-    show buddy question
-    bud "How could you know all of that?"
+        show buddy clever
+        bud "I knew it had to be something freaky!"
+        show buddy amused
+    bud "How the hell do you know all of that?"
     #Stretch goal is make this a choice, create a second route.
-    show buddy listen
+    show buddy smile
     "This is way too much to keep all to yourself. You decide to tell Bud everything."
-    "Any fear you had that the story would be too strange to believe evaporates instantly."
     show buddy talkhand
+    "Any fear you had that the story would be too strange to believe evaporates instantly."
+    show buddy disgust
     "They're hanging on to your every word."
+    show buddy talkhand
     bud "You have to show me."
     #FIX: this doesn't work 100%, you need to make the choice to try other photo paper earlier manditory
     show buddy listen
@@ -145,10 +164,10 @@ label day2BudConvo:
         "Bud's eyes go wide, but he doesn't say anything."
     if peterKnown == True:
         show buddy question
-        bud "Okay, well, I guess in the meantime I should look up this uh, Peter Carlson"
+        bud "Okay, well, I guess in the meantime I should look up this uh, Peter Carlson."
     else:
         show buddy question
-        bud "Okay, well, I guess in the meantime I should look up this, uh, Peter guy"
+        bud "Okay, well, I guess in the meantime I should look up this, uh, Peter guy."
     if porterKnown == True:
         show buddy talkhand
         bud "And some sort of spirit called a Porter?"
@@ -171,7 +190,7 @@ label day2BudConvo:
     hide buddy with moveoutleft
     "As Bud leaves, you start to think about your next move."
     stop music fadeout 4
-    "As you gaze around the room, two things catch your eye."
+    "Gazing around the room, two things catch your eye."
     jump day2_darkroom
 #endregion
 
@@ -194,7 +213,7 @@ label day2_darkroom:
             "{font=NothingYouCouldDo-Regular.ttf}'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
             "Must be from the grant?"
             play sfx_1 "slides/remove-2.mp3"
-            "You open the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
+            "You peek inside the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
             "And there's more of it this time - five whole sheets." #NOTE: this being hardcoded is a challenge if we change it.
             if photoFirst == True:
                 jump day2_print
@@ -204,13 +223,14 @@ label day2_darkroom:
         "The photo on the wall":          
             "In your dream you saw a photo hanging on the wall."
             show bg painting with Dissolve(1)
-            "You hadn't really clocked it yesterday, but you see it today, just where it was in your dream."
+            "You hadn't really clocked it yesterday, but there it is, just where it was in your dream."
             play sfx_1 "slides/remove-1.mp3"
             "You take it down and look at it for a little while. It is a print from one of Erin's last series - 'seen.'"
             play sfx_3 "brass-hit.mp3" volume 0.1
             play sfx_2 "low-thud-single.mp3" volume 0.2
             show mask double exposure with Dissolve(1)
-            "The whole series was like this - various masks, shown in a presentational style. You never liked this one. Something about it felt unsettling."
+            "The whole series was like this - various masks, shown in a presentational style."
+            "You never liked this one. Something about it felt unsettling."
             hide mask double exposure with dissolve
             "You ponder the image for a minute before turning it over."
             show bg painting back with dissolve
@@ -240,8 +260,9 @@ label day2_darkroom:
                 matrixcolor SaturationMatrix(0) * InvertMatrix()         
             "{font=ReenieBeanie-Regular.ttf}{size=+26}The Frog"
             hide frogmask with dissolve
-            "For a moment, you forget the strange circumstances you are in - it's a rush seeing an original negative from Erin"
-            "Two of the images, however, appear not to be art at all."
+            "For a moment, you forget the strange circumstances you are in."
+            "It's a rush seeing an original negative from Erin!"
+            "Two of the images, however, hardly look like works of art at all."
             show sneakphoto with dissolve:
                 zoom 0.4
                 xanchor 0.5
@@ -471,14 +492,12 @@ label develop_sneaky_overexposed:
     owl "BUT HE SHALL RETURN"
     $ develop_overexposed(20)
     show owl magic at xflip, dcp, dc_overexpose
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
     jump complete_sneaky
 
 label complete_sneaky:  
     $ finish_development()
     $ donePhoto2 = True
+    call corruptionDialogue
     "As you pull out the image, it ceases to move."
     "Your heart, however, continues to beat quickly."
     if corruption >= 15:
@@ -580,8 +599,7 @@ label develop_sneaky_owl_overexposed:
     $ audio_escalate(3)
     show owl open at dcp, dc_overexpose
     show porter dead at dcp, dc_overexpose
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
+    call corruptionDialogue
     hide owl
     hide porter
     jump complete_sneaky_owl
@@ -699,8 +717,7 @@ label develop_sneaky_flame_overexposed:
         WhiteNoise
     show owl crossed at dcp, xflip, dc_overexpose
     owl "{sc=4}GIVE ME BACK MY HAND{/sc}!"
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    call corruptionDialogue
     hide owl
     hide flame
     jump complete_sneaky_flame
@@ -708,12 +725,7 @@ label develop_sneaky_flame_overexposed:
 label complete_sneaky_flame:  
     $ finish_development()
     $ donePhoto2 = True
-    if photoRuined == True:
-        "You pull out the wrecked photograph."
-        "You suspect that you heard many useful things which were meant to be kept secret..."
-    else:
-        "You pull out the print, a bizarre image you suspect no one was meant to see."
-        "A conversation which, certainly, no one was meant to hear."
+    call day2PostPrintDialogue
     jump post_image_completion_daytwo
 #endregion
 
@@ -870,12 +882,7 @@ label develop_sneaky_archer_overexposed:
 label complete_sneaky_archer:
     $ finish_development()
     $ donePhoto2 = True
-    if photoRuined == True:
-        "You pull out the wrecked photograph."
-        "You suspect that you heard many useful things which were meant to be kept secret..."
-    else:
-        "You pull out the print, a bizarre image you suspect no one was meant to see."
-        "A conversation which, certainly, no one was meant to hear."
+    call day2PostPrintDialogue
     jump post_image_completion_daytwo
 #endregion
 
@@ -1052,20 +1059,14 @@ label develop_sneaky_frog_overexposed:
     "They are weeping."
     $ develop_overexposed(20)
     show owl scared at center, dcs, dc_overexpose
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
+    call corruptionDialogue
     hide owl
     jump complete_sneaky_frog
 
 label complete_sneaky_frog:
     $ finish_development()
     $ donePhoto2 = True
-    if photoRuined == True:
-        "You pull out the wrecked photograph."
-        "You suspect that what you saw was meant to be kept secret.."
-    else:
-        "You pull out the print, a bizarre image you suspect no one was meant to see."
-        "A conversation which, certainly, no one was meant to hear."
+    call day2PostPrintDialogue
     jump post_image_completion_daytwo
 #endregion
 #endregion
@@ -1200,9 +1201,7 @@ label develop_portal_overexposed:
     flame "{sc=4}AND {sc=4}BRIGHT THINGS WILL BE CONTAINED{/sc}!"
     $ develop_overexposed(25)
     show fire crossed at dcp, dc_overexpose
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    call corruptionDialogue
     jump complete_portal
 
 label complete_portal:  
@@ -1347,12 +1346,7 @@ label develop_portal_owl_overexposed:
 label complete_portal_owl:  
     $ finish_development()
     $ donePhoto3 = True
-    if photoRuined == True:
-        "You pull out the wrecked photograph."
-        "You suspect that you heard many useful things which were meant to be kept secret..."
-    else:
-        "You pull out the print, a bizarre image you suspect no one was meant to see."
-        "A conversation which, certainly, no one was meant to hear."
+    call day2PostPrintDialogue
     jump post_image_completion_daytwo
 #endregion
 
@@ -1443,8 +1437,7 @@ label develop_portal_flame_overexposed:
         doubFlame "The one who is {sc=2}not yet too bright."
     $ audio_escalate(3)
     #I want to put more of an ending clue here but need to write that first.
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
+    call corruptionDialogue
     hide flame2
     hide flame
     jump complete_portal_flame
@@ -1574,20 +1567,13 @@ label develop_portal_archer_overexposed:
     show porter dead at center, dcp, DoubleRegicide, dc_overexpose
     $ audio_escalate(3)
     archer "I see a way out."
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    call corruptionDialogue
     jump complete_portal_archer
 
 label complete_portal_archer:  
     $ finish_development()
     $ donePhoto3 = True
-    if photoRuined == True:
-        "You pull out the wrecked photograph."
-        "You suspect that you heard many useful things which were meant to be kept secret..."
-    else:
-        "You pull out the print, a bizarre image you suspect no one was meant to see."
-        "A conversation which, certainly, no one was meant to hear."
+    call day2PostPrintDialogue
     jump post_image_completion_daytwo
 #endregion
 
@@ -1725,20 +1711,13 @@ label develop_portal_frog_overexposed:
     show frog hips at left, dcs, dc_overexpose
     show fire open at right, dcp, dc_overexpose
     flame "{size=+15}ALL MUST BE RETURNED{/size}"
-    "An icy chill grips your heart and you feel the room start to spin."
-    "Almost without thinking, you grab the tongs and pull out the image."
-    "You feel like SOMETHING TERRIBLE has happened."
+    call corruptionDialogue
     jump complete_portal_frog
 
 label complete_portal_frog:  
     $ finish_development()
     $ donePhoto3 = True
-    if photoRuined == True:
-        "You pull out the wrecked photograph."
-        "You suspect that you heard many useful things which were meant to be kept secret..."
-    else:
-        "You pull out the print, a bizarre image you suspect no one was meant to see."
-        "A conversation which, certainly, no one was meant to hear."
+    call day2PostPrintDialogue
     jump post_image_completion_daytwo
 #endregion
 #endregion
