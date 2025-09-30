@@ -410,10 +410,10 @@ label introScene:
     show buddy question
     bud "Don't tell me you've never wondered what happened to her!"
     menu:
-        "I prefer to focus on the art, not the artist":
+        "I prefer to focus on the art, not the artist.":
             show buddy sad
             bud "Yeah, of course. Me too. That's why we're here."
-        "Of course. I've read some pretty crazy theories":
+        "Of course. I've read some pretty crazy theories.":
             $ budLevel += 1
             show buddy tricky
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
@@ -435,13 +435,13 @@ label introScene:
     show buddy question
     bud "What are you going to make? Do you know?"
     show buddy listen
-    "Ah shit. To be honest, you've been struggling with that too."
+    "Ah, shit. To be honest, you've been struggling with that too."
     menu:
         "I'm actually really struggling with it.":
             $ budLevel += 1
-            you "I know the grant stipulates that we can make whatever we want, so long as it is 'in dialogue with Erin's work'"
+            you "I know the grant stipulates that we can make whatever we want, so long as it is 'in dialogue with Erin's work.'"
             show buddy smile
-            you "But that's just specific enough to make it hard, but vague enough to get drowned in options"
+            you "But that's just specific enough to make it hard, but vague enough to get drowned in options."
             show buddy laughs
             bud "Dude, it {i}is{/i} HARD, right? It's like, suddenly there's all this pressure."
             show buddy amused
@@ -499,7 +499,7 @@ label darkroomIntro2:
                 play audio "slides/sweep-3.mp3"
                 show peter one at center:
                     smallNegativePerson
-                "Another mystery person"
+                "Another mystery person."
                 "A friend, maybe?"
                 hide peter one
                 play audio "slides/sweep-4.mp3"
@@ -518,10 +518,10 @@ label darkroomIntro2:
                 $ enlargeFirst = False
             #Second time here
             else:
-                "The negatives sit in the enlarger, ready to print"
+                "The negatives sit in the enlarger, ready to print."
             #Either way, we need to complete these steps first
             if lightOn == False:
-                "I should flip on the safe light before working."
+                "I should flip on the safelight before working."
                 jump darkroomIntro2
             elif papersGrabbed == False:
                 "I should find some photo paper to print this on."
@@ -551,7 +551,7 @@ label darkroomIntro2:
                 $ traysFirst = False
             if lightOn == False:
                 if traysFirst == True:
-                    "Either way, it can't be opened until the safe light is on."
+                    "Either way, it can't be opened until the safelight is on."
                 else:
                     "You'd better turn on the safelight so you can check it out."
             else:
@@ -578,7 +578,7 @@ label projector_select_base_dayone:
     show bg enlarger red bigger
     show photopaper enlarger
     with flash
-    "You expose the paper, starting a print of 'night and day'"
+    "You expose the paper, starting a print of 'night and day.'"
     scene
     show bg tray red
     "Next comes the developing liquid."
@@ -613,7 +613,7 @@ label projector_select_double_dayone:
     stop photo_2 fadeout 1.0
     stop photo_3 fadeout 1.0
     play sfx_1 "splash-small-1.mp3" noloop volume 0.2
-    "You grab your tongs and pull out the photo"  
+    "You grab your tongs and pull out the photo."  
     $ complete_label = get_tag_if_finished()
     if onFirstBase == False:
         if(complete_label):
@@ -770,8 +770,8 @@ label develop_kitchen_overexposed:
     $ develop_overexposed(5)
     $ corruption += 5
     show erin ponder at dcp, dc_overexpose
-    Erin "But maybe it's not about who 'shares the frame with me...'"
-    Erin "But who is {sc=4}outside{/sc} the frame. Watching?"
+    Erin "But maybe it's not about what 'shares the frame with me...'"
+    Erin "But what is {sc=4}outside{/sc} the frame. Watching?"
     Erin "You don't seem to care much about your images, do you?"
     $ develop_overexposed(10)
     show erin ponder at dcp, dc_overexpose
@@ -847,9 +847,9 @@ label develop_kitchen_siobhan:
     Erin "You seem excited for tomorrow."
     show erin think at dcp
     show siobhan snark at dcs
-    Siob "Fuck yeah man. You aren't?"
+    Siob "Fuck yeah, man. You aren't?"
     show erin smile at dcp
-    Siob "Fun fact: you can be afraid and excited at the same time, you know that right?"
+    Siob "You can be afraid and excited at the same time, you know that, right?"
     $ develop_double(15)    
     show erin ponder at dcp
     show siobhan smug at dcs
@@ -858,7 +858,7 @@ label develop_kitchen_siobhan:
     show siobhan snark at dcs
     Siob "Like, what should he be telling us?"
     show erin ponder at dcp
-    Erin "Well, so, what {i}is{/i} the Porter? Like how did he find it? Why should he trust it?"
+    Erin "Well, so, what {i}is{/i} the Porter? Like, how did he find it? Why should he trust it?"
     $ porterKnown = True
     show erin look away sad at dcp
     Erin "He calls it a spirit but couldn't it be a demon or something?"
@@ -867,7 +867,7 @@ label develop_kitchen_siobhan:
     $ develop_double(20)
     show erin sad at dcp
     show siobhan disagree at dcs
-    Siob "But I did some um, some digging. While you guys were doing that 'bonfire bonding' thing last night."
+    Siob "But I did some, um, some digging. While you guys were doing that 'bonfire bonding' thing last night."
     show siobhan ruthless at dcs
     Siob "I figured a guy like Peter writes absolutely everything down."
     show siobhan hope at dcs
@@ -887,7 +887,7 @@ label develop_kitchen_siobhan:
     Siob "You want me to tell you or what?"
     show erin ponder at dcp
     show siobhan smug at dcs
-    Erin "... yeah, I do."
+    Erin "... Yeah, I do."
     $ develop_double(30)
     show erin smile at dcp
     show siobhan surprised at dcs
@@ -903,7 +903,7 @@ label develop_kitchen_siobhan_overexposed:
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
-        "You know that if you keep this photo in any longer you will overexpose it."
+        "You know that if you keep this photo in any longer, you will overexpose it."
     $ develop_overexposed(10)
     show erin ponder at left, dcp, dc_overexpose
     show siobhan snark at right, dcs, dc_overexpose
@@ -945,7 +945,7 @@ label complete_kitchen_siobhan:
 label develop_kitchen_gunnar:
     $ start_double_exposing(OBJECT_IMAGE_GUNNAR)
     $ audio_start_kitchen()
-    "As the man begins to fade into the doorway, his mouth immediately begins to move"
+    "As the man begins to fade into the doorway, his mouth immediately begins to move."
     $ audio_kitchen_melody("gunnar")
     $ develop_double(5)
     $ zoom_development = True
@@ -992,7 +992,7 @@ label develop_kitchen_gunnar:
     show gunnar remark at dcs
     unk "Well..."
     show gunnar talk2 at dcs
-    unk "If Peter is right and this... place... really exists, then someone should to write about it."
+    unk "If Peter is right and this... place... really exists, then someone should write about it."
     $ houseKnown = True
     $ develop_double(20)
     show erin smile at dcp
@@ -1055,7 +1055,7 @@ label develop_kitchen_gunnar_overexposed:
         "You pull the photo out at the perfect time."
     else:
         $ audio_warn_clock()
-        "You know that if you keep this photo in any longer you will overexpose it."
+        "You know that if you keep this photo in any longer, you will overexpose it."
     $ develop_overexposed(10)
     $ audio_overexpose_kitchen()
     show erin think at left, dcp, dc_overexpose
@@ -1152,9 +1152,9 @@ label develop_kitchen_peter:
     show erin think at dcp
     $ porterKnown = True
     Peter "Incredible amounts of research. And a good deal of personal experience."
-    Peter "You will see it yourself, you know. Tonight. 7:00PM sharp, in fact."
+    Peter "You will see it yourself, you know. Tonight. Seven pm sharp, in fact."
     Peter "..."
-    Peter "I know that is not adequate. But the truth is I don't think anything I say could be enough. You either believe me or don't."
+    Peter "I know that is not adequate. But the truth is I don't think anything I say could be enough. You either believe me or you don't."
     Peter "Or do several years of your own painstaking research."
     $ develop_double(25)
     show erin ponder at dcp
@@ -1180,7 +1180,7 @@ label develop_kitchen_peter_overexposed:
     if development_end_signalled:
         "You pull the photo out at the perfect time."
     else:
-        "You know that if you keep this photo in any longer you will overexpose it."
+        "You know that if you keep this photo in any longer, you will overexpose it."
     $ develop_overexposed(10)
     $ audio_overexpose_kitchen()
     $ corruption += 5
@@ -1201,7 +1201,7 @@ label develop_kitchen_peter_overexposed:
     $ audio_escalate(3)
     show peter explain at dcs, dc_overexpose
     show erin think at dcp, dc_overexpose
-    Peter "He will Find me. He will find You too."
+    Peter "He will Find me. He will Find You too."
     Peter "{sc=4}THIS ALL MUST BE UNDONE{/sc}."
     call corruptionDialogue
     jump complete_kitchen_peter
@@ -1222,7 +1222,7 @@ label endOfDayOneChoices:
     "You stand in the darkroom for a minute, dumbfounded, still processing what just happened."
     if corruption > 10:
         "You look at the photos you just printed."
-        "Out the corner of your eye you feel like they're still moving. But they aren't."
+        "Out of the corner of your eye, you feel like they're still moving. But they aren't."
     else:
         "You look at the photos you just printed. No sign of anything out of the ordinary."
     "It seems like Erin was a part of something strange. Magical."
@@ -1313,7 +1313,7 @@ label night1:
             ease 2 zoom 2
         linear 250 zoom 6
     unk "return what is {sc=1}mine{/sc}."
-    unk "you {sc=2}WILL{/sc} return what is mine."
+    unk "you {sc=2}WILL{/sc} return what is mine"
     play nightmare_2 ["porter-drums-1.mp3"] fadein 10 volume 1
     play sfx_1 "low-thud-single.mp3"
     show black_background:

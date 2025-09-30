@@ -40,7 +40,7 @@ label day3Start:
     scene darkroom_workspace bright with Dissolve(2):
         matrixcolor BrightnessMatrix(-0.6)
     "The room is cloaked in shadow."
-    "Just like in your dream"
+    "Just like in your dream."
     "And in the dimness, you can recognize that there is someone in here with you."
     play melody "brass-hit.mp3" fadein 2.0 volume 0.1 noloop
     pause 1
@@ -58,7 +58,7 @@ label day3Start:
     "As your eyes adjust, your heart stops as you realize the figure is carrying a small knife."
     play sfx_1 ["gore/knife-click.mp3", "gore/knife-slice.mp3"] volume 0.2
     show peter old arm
-    "With a slight flick of their wrist they make a cut on their arm."
+    "With a slight flick of their wrist, they make a cut on their arm."
     "The blood drips onto the desk, where you see several pieces of photo paper have been placed."
     "You can't help but gasp."
     play sfx_1 "low-thud-single.mp3" volume 0.2
@@ -68,7 +68,7 @@ label day3Start:
     show peter old focus with dissolve
     Peter "You've come rather early."
     show peter old explain
-    Peter "I suppose you were curious about who was leaving you your photo paper."
+    Peter "I suppose you were curious about who was leaving you photo paper."
     Peter "I hope you don't find it too unseemly."
     show peter old show
     Peter "I would have told you everything eventually."
@@ -163,7 +163,7 @@ label thePorter:
     Peter "'Nothing is more creative than death, since it is the whole secret of life.'"
     show peter old explain
     Peter "'It means that the past must be abandoned, that the unknown cannot be avoided, that 'I' cannot continue, and that nothing can be ultimately fixed.'"
-    Peter "'When a man knows this, he lives for the first time in his life. By holding his breath, he loses it. By letting go, he finds it'"
+    Peter "'When a man knows this, he lives for the first time in his life. By holding his breath, he loses it. By letting go, he finds it.'"
     show peter old paranoid
     "Peter's face, which so far has been hard to read, becomes gripped by an almost painful melancholy."
     Peter "Alan Watts. Such a way with words. If only I could express myself with such grace."
@@ -188,7 +188,7 @@ label peterAngry:
         "Anyone - or anything - who tells you there is a way out is lying."
     menu:
         "Lunge for Peter":
-            temp "you'll get hurt by Peter, who escapes outside."
+            temp "You'll get hurt by Peter, who escapes outside."
             temp "But bud is out there and beats 'em, and takes the negatives for you!"
         "Try to go back to playing along.":
             temp "Peter heads upstairs after some grandiose speechmaking"
@@ -206,9 +206,9 @@ label peterCalm:
     "If your dream is to be trusted, Peter has a negative that you need."
     "Although should you trust a monster in a dream? Could Peter really bring you success? You {i}have{/i} felt more alive these last two days than ever..."
     menu:
-        "I need more than paper. Mr. Carlson. I need {i}imagery{/i}. Something powerful to work with.":
+        "I need more than paper, Mr. Carlson. I need {i}imagery{/i}. Something powerful to work with.":
             jump peterCalmEnding
-        "I know about the negative you carry. But don't worry, I don't want it. What I want is to {i}create{/i}" if corruption >= 25: #NOTE need to fix numbers.
+        "I know about the negative you carry. But don't worry, I don't want it. What I want is to {i}create{/i}." if corruption >= 25: #NOTE need to fix numbers.
             jump shitEnding
 
 label shitEnding:
@@ -219,7 +219,7 @@ label shitEnding:
     show peter old arm
     play sfx_1 "low-thud-single.mp3" volume 0.8
     play sfx_2 "eerie-1.mp3" volume 0.2 fadein 3
-    "You shake Peter's bloody hand, and in doing so seal your fate."
+    "You shake Peter's bloody hand, and in doing so, seal your fate."
     hide peter with dissolve
     "You begin to create new work."
     show darkroom_workspace red
@@ -233,10 +233,10 @@ label shitEnding:
         matrixcolor BrightnessMatrix(.2)
     play audio "breath-2.mp3"
     "But they come around."
-    "It is hard work, but the more you produce the brighter you see the world around you become."
+    "It is hard work, but the more you produce, the Brighter you see the world around you become."
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.3)
-    "You are able to take on students. Disciples. And show them how to make the world bright as well."
+    "You are able to take on students. Disciples. And show them how to make the world Bright as well."
     $ audio_escalate(2)
     show darkroom_workspace red:
         matrixcolor BrightnessMatrix(.4)
@@ -293,7 +293,7 @@ label peterCalmEnding:
     show peter old worry
     Peter "I have a few things I could give you, I suppose. They weren't meant for... this."
     show peter old focus
-    Peter "But I could see their artistic applications... yes. I suppose."
+    Peter "But I could see their artistic applications... Yes. I suppose."
     show peter old arm
     "Peter removes from his pocket a small envelope and hands it to you."
     show peter old worry
@@ -321,7 +321,7 @@ label negativesReceived:
             ease 9 rotate -1.5
             repeat
     "Most of them you don't understand. But one thing you do recognize - a negative for a photo of the Porter itself."
-    "A sorry looking thing, blind and mutilated. The same photo Erin had exposed her face over."
+    "A sorry-looking thing, blind and mutilated. The same photo Erin had exposed her face over."
     scene darkroom_workspace red with dissolve
     "You make your way over to the enlarger and begin to expose the photo"
 
@@ -383,31 +383,31 @@ label finalJudgement:
         WhiteNoise
         matrixcolor BrightnessMatrix(-.5)
     hide screen projector_porter_healed with Fade(1,1,1)
-    show porter speak at center with Dissolve(.4)
+    show porter healed grave at center with Dissolve(.4)
     play ambiance_2 ["piano-underscore-spook-2.mp3"] volume 0.2 fadein 2
     stop drone_1 fadeout 2
     stop drone_2 fadeout 2
     stop sfx_1 fadeout 1
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
-    show porter swear
+    show porter healed touched
     porter "Humanity will regain my service again."
-    show porter speak
+    show porter healed vow
     porter "With perhaps more caution."
     play drone_2 ["<sync drone_3>porter-drums-2.mp3", "porter-drums-2.mp3"] volume 0.4 fadein 3
     porter "..."
     #values broken
     if corruption <= 15:
-        porter "I see little brightness in you."
-        show porter swear
+        porter "I see little Brightness in you."
+        show porter healed speak2
         call good_ending
         porter "Go. Live."
     elif corruption <= 30:
-        show porter swear
+        show porter healed badnews
         porter "Now, for you, there will be {sc=2}some pain{/sc}."
-        show porter speak
-        porter "The brightness in you must be scraped out"
+        show porter healed grave
+        porter "The Brightness in you must be scraped out."
         play drone_1 "bass-drone-2.mp3" fadein 1
-        show porter swear:
+        show porter healed vow:
             xanchor 0.5
             yanchor 0
             xalign 0.5
@@ -425,7 +425,7 @@ label finalJudgement:
                 linear 1 matrixcolor BrightnessMatrix(-.5)
             parallel:
                 linear 1 zoom 1
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(1)
             linear 1 matrixcolor BrightnessMatrix(0)
         you "{fast}{sc=4}AAAAAHHHH{/sc}{w=.4}{nw}"
@@ -437,7 +437,7 @@ label finalJudgement:
                 linear 1 matrixcolor BrightnessMatrix(-.5)
             parallel:
                 linear 1 zoom 1
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(1)
             parallel:
                 linear 1 matrixcolor BrightnessMatrix(0)
@@ -454,34 +454,38 @@ label finalJudgement:
                     linear 1 matrixcolor BrightnessMatrix(-.5)
                 parallel:
                     linear 1 zoom 1
-            show porter swear:
+            show porter healed vow:
                 matrixcolor BrightnessMatrix(1)
                 parallel:
                     linear 1 matrixcolor BrightnessMatrix(0)
         #window auto True
-        show porter speak with Fade(.2, 0.1, .5, color="#fefefe"):
+        show porter healed speak2 with Fade(.2, 0.1, .5, color="#fefefe"):
             matrixcolor BrightnessMatrix(0)
             zoom 1
         stop drone_1 fadeout 2
         "The pain, which felt like hot knives carving at your insides, quickly starts to fade."
         "You feel... better?"
         call good_ending
+        show porter healed speak
         porter "You are lucky. Go. Live."
+        show porter healed badnews
         porter "But leave your artistic ambitions behind... at least for a time."
         porter "Or you may reawaken the danger."
     else:
-        show porter swear
+        show porter healed grave
         porter "It is possible you have predicted what {sc=2}must come next{/sc}."
-        show porter speak
         $ audio_escalate(1)
-        porter "You have become {sc=4}too bright{/sc}"
+        porter "You have become {sc=4}too Bright{/sc}"
+        show porter healed vow
         porter "You are a flame, little one. A flame that could catch the world."
+        show porter healed serious
         "You feel an anger, or maybe a fear, rise in your chest."
         "But alongside it, you feel... frenzy, a strangeness inside you."
         "Could the spirit be right??"
+        show porter healed badnews
         porter "It was not your fault."
         porter "You were tricked... and had none to truly guide you."
-        show porter swear
+        show porter healed vow
         porter "Let your final thoughts be this: you have done something great. You have made right a wrong."
         $ audio_escalate(2)
         show darkroom_workspace red at bg_shake:
@@ -491,45 +495,45 @@ label finalJudgement:
             yanchor 0.5
             matrixcolor BrightnessMatrix(-0.55)
             zoom 1.05
-        show porter swear at center:
+        show porter healed vow at center:
             matrixcolor BrightnessMatrix(-.1)
-        "Your heart beats wildly as the porter begins to make some sort of magical gesture..."
+        "Your heart beats wildly as the Porter begins to make some sort of magical gesture..."
         show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.65)
             zoom 1.1
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(-.2)
         "You wonder if this is truly happening. If any of this can truly hurt you."
         "But it can hurt you."
         show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.7)
             zoom 1.15
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(-.3)
         "And it does."
         show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.75)
             zoom 1.2
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(-.4)
-        "It feels like cold, snaking from the back of your mind down your spine."
+        "It feels like cold, snaking from the back of your mind, down your spine."
         show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.8)
             zoom 1.25
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(-.5)
         "Coiling around your organs. The cold begins to burn and you pass out, and in your sudden sleep you see its face."
         show darkroom_workspace red at bg_shake:
             matrixcolor BrightnessMatrix(-0.9)
             zoom 1.3
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(-.7)
         $ audio_escalate(3)
-        "The cold is now touching every part of you, it is everywhere inside you."
+        "The cold is now touching every part of you. It is everywhere inside you."
         show darkroom_workspace red at bg_shake(2):
             matrixcolor BrightnessMatrix(-1)
             zoom 1.35
-        show porter swear:
+        show porter healed vow:
             matrixcolor BrightnessMatrix(-.9)
         "You are gone."
         $ audio_hard_stop_all()
@@ -544,12 +548,12 @@ label finalJudgement:
     with moveinleft
     stop music fadeout 3
     play photo_1 "lil-guitar-loop.mp3" volume 0.5 fadein 2.0
-    "Buddy arrived a few minutes after the exposure was done, exceedingly worried about you."
+    "Bud arrived a few minutes after the exposure was done, exceedingly worried about you."
     $ play_darkroom_light_off()
     show darkroom_workspace bright
     show buddy question at center:
         matrixcolor None
-    "You thought they'd want to hear all about what happened with the porter"
+    "You thought they'd want to hear all about what happened with the Porter."
     show buddy smile
     "But mostly they seemed happy to see that you were alright."
     "You both worried about Peter's return."
@@ -567,7 +571,7 @@ label finalJudgement:
         show bg bedroom sleep:
             matrixcolor BrightnessMatrix(.1)
         play sfx_1 "porter-single-voice-higher.mp3" volume 0.05
-        "Only a little brightness in the corners"
+        "Only a little Brightness in the corners."
     "But you know the truth."
     call night_crickets_stop
     play sfx_2 "low-thud-single.mp3" volume 0.5
