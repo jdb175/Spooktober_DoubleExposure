@@ -245,36 +245,36 @@ label corruptionDialogue:
     if corruption <= 5:
         "As you watch the photo warp in the chemical bath you start to feel as though the room is spinning."
         "As though SOMETHING TERRIBLE has happened."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Almost without thinking, you grab the tongs and pull out the image."
     elif corruption <= 10:
         "As you watch a second photo overdevelop, your stomach starts to form into a knot again."
         "As though SOMETHING TERRIBLE has happened."
         "You feel dizzy, and for a moment, the room seems to brighten."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Almost without thinking, you grab the tongs and pull out the image."
     elif corruption <= 15:
         "You're starting to understand - the things you see when you overdevelop a photo are somehow different."
         "Stranger, more cryptic."
         "Once again, you find yourself feeling dizzy and full of DREAD."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Almost without thinking, you grab the tongs and pull out the image."
     elif corruption <= 20:
         "As the photo develops far past the point of clarity, you fight off the familiar strange feeling."
         "You are getting better at it. In fact, you're almost starting to enjoy it."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "You grab the tongs and pull out the image."
     elif corruption <= 25:
         "To an untrained eye, this photo is now totally ruined."
         "But you feel as though you are starting to understand the patterns hidden in the noise."
         "A voice in the back of your mind makes a quiet plea: 'this feels wrong.'"
         "Which, of course, is a silly little thought indeed."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Whistling slightly to yourself, you grab the tongs and pull out the image."
     else:
         "Maybe overdeveloping photos like this could be your {i}thing{/i}. More and more you find yourself convinced of their beauty."
         "It {i}is{/i} beautiful this way, isn't it?"
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Whistling slightly to yourself, you grab the tongs and pull out the image."
     return
 
@@ -316,7 +316,7 @@ label introScene:
     show nightAndDay:
         easeout 2.5 zoom 1.0
     pause 2.7
-    "The supposed impartial medium of photography used to present impossibilities."
+    "The supposedly impartial medium of photography used to present impossibilities."
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "You started getting a bit of attention as an artist. Showed at a few smaller galleries."
     "Some days it feels crazy, like you're on your way to becoming a 'real artist.'"
@@ -330,7 +330,7 @@ label introScene:
     "...and then exposing another over it, creating a new image."
     show nightAndDay with Dissolve(1)
     pause 1.0
-    "When Erin was doing it in the early 90s, people couldn't yet just photoshop together any crazy idea."
+    "When Erin was doing it in the early 90s, people couldn't just photoshop together any crazy idea."
     "Her imagery stood out."
     "You still do it the old fashioned way, too. Film. A darkroom."
     "It was your double exposure pieces that caught the eye of the Darabondi Foundation."
@@ -418,7 +418,7 @@ label introScene:
             show buddy tricky
             bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
-        "Why would she need to fake her disappearence to run her own foundation? You have to admit that makes no sense.":
+        "Why would she need to fake her disappearance to run her own foundation? You have to admit that makes no sense.":
             show buddy sad
             bud "Yeah, I know. I just prefer to imagine everything has a happy ending, you know?"
             #this would be a great place for a CLUE! Maybe corruption if we run such a mechanic.
@@ -512,7 +512,7 @@ label darkroomIntro2:
                 "Maybe this could be your first project?"
                 "To print one of Erin's actual works and expose something else over it."
                 "Put your own spin on the image."
-                "Create dialog with Erin through {i}fusing{/i} her art with your own."
+                "Create dialog with Erin by {i}fusing{/i} her art with your own."
                 "Yeah, that sounds amazing!"
                 hide kitchen erin
                 $ enlargeFirst = False
@@ -604,7 +604,7 @@ label projector_select_base_dayone:
     "You drop the print in the bath and wait."
     jump expression target_label
 
-#jumps here afer you're done with the base image
+#jumps here after you're done with the base image
 label projector_select_double_dayone:
     scene darkroom_workspace red
     stop ambiance_1 fadeout 1.0
@@ -762,7 +762,7 @@ label develop_kitchen:
     Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
     Erin "Maybe that means coming here was the right move after all."
     $ develop(60)
-    "The image is getting darker now. You're about to ruin it."
+    "The image is getting brighter now. You're about to ruin it."
 
 label develop_kitchen_overexposed:    
     $ renpy.block_rollback()
@@ -811,7 +811,7 @@ label develop_kitchen_siobhan:
     "You lower the print into the developing fluid, filled with a nervous anticipation."
     "Will it happen again?"
     $ start_double_exposing(OBJECT_IMAGE_SIOBHAN)
-    "For a moment, Siobhan looks awkward, overlayed crudely over the doorway."
+    "For a moment, Siobhan looks awkward, overlaid crudely over the doorway."
     $ audio_start_kitchen()
     "Then, she starts to {sc=1}move{/sc}. Her feet, partially suspended, touch the ground."
     $ audio_kitchen_melody("siobhan")
@@ -980,7 +980,7 @@ label develop_kitchen_gunnar:
     show gunnar excited at dcs
     unk "Isn't that what we're doing here?"
     show gunnar remark at dcs
-    unk "Chasing somthing that could very well destroy us?"
+    unk "Chasing something that could very well destroy us?"
     $ develop_double(15)
     show erin ponder at dcp
     show gunnar look away at dcs
@@ -1244,7 +1244,7 @@ label findPhoto:
             if corruption >= 10:
                 play sfx_1 "eerie-1.mp3" volume 0.6
                 play sfx_2 ["<silence 2>", "low-thud-single.mp3"] volume 0.2
-                "The whole time, you feel that presense over your shoulder, watching you."
+                "The whole time, you feel that presence over your shoulder, watching you."
                 "It's not a good feeling."
             elif corruption >= 5:
                 play sfx_1 "eerie-1.mp3" volume 0.1
@@ -1258,7 +1258,7 @@ label findPhoto:
                 xalign 0.0
                 yalign 0.5
                 rotate 1.5
-            #CANNONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
+            #CANONICALLY, THIS MEANS THAT ITS EYES HAVE BEEN RETURNED.
             "Something unsettling indeed."
             "The photo is printed on similar paper to the photos you found."
             "Scribbled hastily on the back in ballpoint pen, a title."
@@ -1322,7 +1322,7 @@ label night1:
         linear 2.5 alpha 0
     show porter_eyes_nightmare at porterBodyPart
     show porter dead with dissolve
-    unk "{sc=4}my eyes{/sc}... kept in anothers head"
+    unk "{sc=4}my eyes{/sc}... kept in another's head"
     play sfx_1 "low-thud-single.mp3"
     hide porter_eyes_nightmare
     show black_background:
@@ -1330,7 +1330,7 @@ label night1:
         pause 0.5
         linear 2.5 alpha 0
     show porter_heart_nightmare at porterBodyPart
-    unk "{sc=4}my blood{/sc} thick in anothers veins"
+    unk "{sc=4}my blood{/sc} thick in another's veins"
     play nightmare_3 ["<sync nightmare_2>porter-drums-2.mp3", "porter-drums-2.mp3"] fadein 6 volume 0.8
     hide porter_heart_nightmare
     show black_background:
@@ -1345,7 +1345,7 @@ label night1:
         pause 0.5
         linear 2.5 alpha 0
     show porter_tongue_nightmare at porterBodyPart
-    unk "{sc=4}my tongue{/sc} curled in anothers mouth"
+    unk "{sc=4}my tongue{/sc} curled in another's mouth"
     play sound "porter-single-voice-higher.mp3" volume 0.2
     play ambiance_1 "heartbeat.mp3" volume 1 fadein 2
     play drone_3 "bass-drone-2.mp3" volume 1 fadein 6
@@ -1364,7 +1364,7 @@ label night1:
     else:
         unk "you have been careful..."
         unk "you have not pushed your luck as they did."
-        unk "corrpution may yet be avoided"
+        unk "corruption may yet be avoided"
     $_window_hide
     play sfx_1 "guitar-Ab.mp3"
     hide porter_tongue_nightmare
