@@ -72,7 +72,7 @@ python early:
     OBJECT_IMAGE_SIOBHAN = EnlargerImage(
         label = "siobhan",
         path = "photos/kitchen siobhan",
-        description = "A portrait of Sioban Kent")
+        description = "A portrait of Siobhan Kent")
     OBJECT_IMAGE_PETER = EnlargerImage(
         label = "peter",
         path = "photos/kitchen peter",
