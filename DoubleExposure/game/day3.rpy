@@ -522,7 +522,7 @@ label finalJudgement:
         jump theEnd
     #only the corrupted ending skips this
     scene darkroom_workspace red with Fade(1, 0.4, .5, color="#000000")
-    "The rest of the day passes without a single strange occurence."
+    "The rest of the day passes without a single strange occurrence."
     show buddy question at center:
         matrixcolor TintMatrix(color="#e22b2b")
     with moveinleft
