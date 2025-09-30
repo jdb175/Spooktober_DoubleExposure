@@ -204,6 +204,7 @@ label nightmare_porter_appear:
     return
 
 label nightmare_stop:
+    play audio "low-thud-single.mp3"
     stop ambiance_1 fadeout 1
     stop nightmare_1 fadeout 1
     stop nightmare_2 fadeout 1
@@ -211,8 +212,17 @@ label nightmare_stop:
     stop drone_1
     stop drone_2
     stop drone_3
-    show bg bedroom morning with flash
+    scene bg bedroom morning with flash
     play audio "breath-2.mp3"
+    call audio_birds
+    return
+
+label audio_birds:
+    play ambiance_3 "ambient-birds.mp3" volume 0.5 fadein 2 loop
+    return
+
+label audio_birds_stop:
+    stop ambiance_3 fadeout 3
     return
 
 label good_ending:
