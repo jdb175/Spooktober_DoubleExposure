@@ -1731,7 +1731,8 @@ label endOfDay2:
     "You can't be sure that everything you've seen is real, or {i}was{/i} real, but at the same time it almost adds up."
     play sound "text-vibrate.mp3" volume 0.6
     "Your phone buzzes. It's Bud. They're outside."
-    show darkroom_workspace bright with dissolve
+    show darkroom_workspace bright
+    $ play_darkroom_light_off()
     show buddy question with moveinleft
     play photo_1 '<loop 20>piano-underscore-spook-1.mp3' volume 0.1
     bud "So I looked into Peter Carlson..."
@@ -1916,16 +1917,14 @@ label night2:
     play sfx_1 "guitar-Ab.mp3"
     play sfx_2 "gong-1.mp3"
     play audio "porter-wail.mp3"
-    play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
     pause 1.3
     show bg nightmare:
         size(1920, 1080) crop (0, 0, 1920, 1080)
         linear .8 crop(1130, 310, 360, 240)
-    porter "{size=+20}NOW!!{nw=.6}"    
-    scene bg bedroom light with flash
+    porter "{size=+20}NOW!!{nw=.6}"
     call nightmare_stop
     "You wake up and your body is already halfway out of bed."
     "You throw on clothes, send a quick text to Bud, and rush out the door."
-    call night_crickets_stop
+    call audio_birds_stop
     jump day3Start
 #endregion

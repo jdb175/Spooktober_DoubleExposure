@@ -219,7 +219,8 @@ label splashscreen:
     scene black
     with Pause(.4)
     play music "porter-wail.mp3" noloop
-    play sfx_1 "bass-drone-2.mp3" fadein 9 volume 0.8
+    play sfx_1 "<silence 2.0>"
+    queue sfx_1 "bass-drone-2.mp3" fadein 6 volume 0.8
     #show text "Created for the Spooktober Visual Novel Jam 2025 (this will be an image later)"
     show spooktoberlogo at center:
         truecenter zoom .5
@@ -228,14 +229,14 @@ label splashscreen:
             easein 2.2 zoom .8
         parallel:
             easein 2.2 alpha 1
-    with Pause(5)
+    with Pause(6)
     play audio "low-thud-single.mp3"
     show spooktoberlogo at center:
         truecenter zoom .8
         matrixcolor SaturationMatrix(0.0) * InvertMatrix()
     with Pause(0.05)
     scene black
-    hide spooktoberlogo with Pause(4)
+    hide spooktoberlogo with Pause(3)
     play audio "light-click-off.mp3" volume 0.7
     stop sfx_1
     return
@@ -1380,7 +1381,6 @@ label night1:
     with Dissolve(1)
     play sfx_2 "gong-1.mp3"
     play sound "porter-wail.mp3"
-    play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
     pause 2
     call nightmare_stop
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
