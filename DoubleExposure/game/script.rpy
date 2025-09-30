@@ -1381,7 +1381,6 @@ label night1:
     with Dissolve(1)
     play sfx_2 "gong-1.mp3"
     play sound "porter-wail.mp3"
-    play ambiance_3 "crickets-1.mp3" volume 0.05 fadein 2 loop
     pause 2
     call nightmare_stop
     "You awake in a cold sweat. You try to sleep, but all you can see is that... face."
