@@ -245,36 +245,36 @@ label corruptionDialogue:
     if corruption <= 5:
         "As you watch the photo warp in the chemical bath you start to feel as though the room is spinning."
         "As though SOMETHING TERRIBLE has happened."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Almost without thinking, you grab the tongs and pull out the image."
     elif corruption <= 10:
         "As you watch a second photo overdevelop, your stomach starts to form into a knot again."
         "As though SOMETHING TERRIBLE has happened."
         "You feel dizzy, and for a moment, the room seems to brighten."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Almost without thinking, you grab the tongs and pull out the image."
     elif corruption <= 15:
         "You're starting to understand - the things you see when you overdevelop a photo are somehow different."
         "Stranger, more cryptic."
         "Once again, you find yourself feeling dizzy and full of DREAD."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Almost without thinking, you grab the tongs and pull out the image."
     elif corruption <= 20:
         "As the photo develops far past the point of clarity, you fight off the familiar strange feeling."
         "You are getting better at it. In fact, you're almost starting to enjoy it."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "You grab the tongs and pull out the image."
     elif corruption <= 25:
         "To an untrained eye, this photo is now totally ruined."
         "But you feel as though you are starting to understand the patterns hidden in the noise."
         "A voice in the back of your mind makes a quiet plea: 'this feels wrong.'"
         "Which, of course, is a silly little thought indeed."
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Whistling slightly to yourself, you grab the tongs and pull out the image."
     else:
         "Maybe overdeveloping photos like this could be your {i}thing{/i}. More and more you find yourself convinced of their beauty."
         "It {i}is{/i} beautiful this way, isn't it?"
-        $ audio_remove_photo()
+#        $ audio_remove_photo()
         "Whistling slightly to yourself, you grab the tongs and pull out the image."
     return
 
@@ -762,7 +762,7 @@ label develop_kitchen:
     Erin "There's something I like about working this way. Not having anything planned. Not knowing what I'll choose to share the frame with me."
     Erin "Maybe that means coming here was the right move after all."
     $ develop(60)
-    "The image is getting darker now. You're about to ruin it."
+    "The image is getting brighter now. You're about to ruin it."
 
 label develop_kitchen_overexposed:    
     $ renpy.block_rollback()
