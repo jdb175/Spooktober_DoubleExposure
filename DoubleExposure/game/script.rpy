@@ -307,7 +307,7 @@ label introScene:
     show nightAndDay:
         easeout 2.5 zoom 1.0
     pause 2.7
-    "The supposed 'truth' of photography used to present impossibilities."
+    "The supposed impartial medium of photography used to present impossibilities."
     "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
     "You started getting a bit of attention as an artist. Showed at a few smaller galleries."
     "Some days it feels crazy, like you're on your way to becoming a 'real artist.'"
@@ -382,7 +382,7 @@ label introScene:
     show buddy confused
     bud "No way."
     show buddy talkhand
-    bud "This 'Young Artist Foundation?' She {i}runs{/i} it. Secretly, because she got tired of the limelight."
+    bud "This 'Darabondi Foundation?' She {i}runs{/i} it. Secretly, because she got tired of the limelight."
     show buddy listen
     you "She wasn't {i}that{/i} big."
     show buddy sad
@@ -497,10 +497,11 @@ label darkroomIntro2:
                 "This photo was used to make one of her early pieces, 'night and day.'"
                 "The final version had this forest scene bleeding into the space through the doorway."
                 "To see one of the original negatives from a piece you recognize is absolutely wild."
-                you "Maybe this is my first project? Maybe I print this and expose something else over it?"
-                you "Put my own spin on the image."
-                you "Create dialog with Erin through {i}fusing{/i} her art with mine."
-                you "Yeah, that sounds amazing!"
+                "Maybe this could be your first project?"
+                "To print one of Erin's actual works and expose something else over it."
+                "Put your own spin on the image."
+                "Create dialog with Erin through {i}fusing{/i} her art with your own."
+                "Yeah, that sounds amazing!"
                 hide kitchen erin
                 $ enlargeFirst = False
             #Second time here
@@ -546,7 +547,7 @@ label darkroomIntro2:
                 play audio "slides/remove-2.mp3"
                 "You carefully unwrap the parcel and discover three luxurious pieces of print paper."
                 "A bit thicker than you're used to. And oddly coarse to the touch."
-                "The grant was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
+                "The foundation was emphatic that you could use her original materials, so you grab the papers, eager to see what Erin had been tinkering with."
                 $ papersGrabbed = True
             jump darkroomIntro2
 #endregion
@@ -687,7 +688,7 @@ label develop_kitchen:
     $ develop(5)
     "Then, something {i}else{/i} starts to happen."
     $ develop(10)
-    "In the photo, the figure by the window starts to {sc=2}move{/sc}."
+    "In the photo, the figure in the kitchen starts to {sc=2}move{/sc}."
     $ zoom_development = True
     pause 3
     show erin smile at dcp, left with Dissolve(1)
@@ -1122,7 +1123,7 @@ label develop_kitchen_peter:
     Peter "Please, just Peter is fine."
     Peter "Anyway, I'll leave you to your work."
     show peter remark at dcs
-    Peter "Dinner's at 5 if you want it and then Siobhan's going through at 7:00PM sharp. In the Grand hall."
+    Peter "Dinner's at five if you want it and then Siobhan's going through at seven pm sharp. In the Grand Hall."
     show peter judges at xflip, dcs
     hide peter with moveoutright
     show erin ponder at dcp

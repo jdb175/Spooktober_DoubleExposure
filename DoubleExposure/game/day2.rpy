@@ -69,7 +69,7 @@ label day2Start:
     else:
         $ send_phone_message("Bud", "Hey can  come by the darkroom?", "bud_dm")
     window hide
-    $ send_phone_message("Bud", "had a weird day yesterday and learned some weird stuff you might be interested in", "bud_dm")
+    $ send_phone_message("Bud", "had a weird day yesterday and learned some wild stuff you might be interested in", "bud_dm")
     $ send_phone_message("Bud", "also got some cool ideas.", "bud_dm")
     $ send_phone_message("Bud", "ever heard of an artist called siohan kent?", "bud_dm")
     $ send_phone_message("Bud", "siobhan*", "bud_dm")
@@ -210,8 +210,8 @@ label day2_darkroom:
         "The desk":
             scene parcel
             "Sitting nearly on the corner of the desk is a small package, with a note on it."
-            "{font=NothingYouCouldDo-Regular.ttf}'Forgot to drop these off yesterday. Some addit'l of Erin's items, in case they're of interest'" #handwriting
-            "Must be from the grant?"
+            "{font=NothingYouCouldDo-Regular.ttf}'Forgot to drop these off yesterday. some more of Erin's items, in case they're of interest'" #handwriting
+            "Must be from the foundation?"
             play sfx_1 "slides/remove-2.mp3"
             "You peek inside the package and discover another small, hand-wrapped package of photo paper. The same paper you used last night."
             "And there's more of it this time - five whole sheets." #NOTE: this being hardcoded is a challenge if we change it.
@@ -298,8 +298,8 @@ label day2_print:
     $ onFirstBase = True #changes dialogue in select double
     scene darkroom_workspace bright
     "With these negatives, and more paper, you realize you have a chance to learn more about what is really going on."
-    "You of course have some doubts - whatever forces you are playing with you don't understand."
-    "And this paper being here is... suspicious..."
+    "You of course have some doubts. After all, you know that you don't {i}really{/i} know what's going on."
+    "And this package with fresh paper suddenly arriving is... suspicious..."
     show darkroom_workspace red
     $ play_darkroom_light()
     if corruption >= 15:
@@ -423,7 +423,7 @@ label develop_sneaky:
     show owl hips at xflip, dcp
     unk "But if I may speak frankly, I don't believe it pays to be reckless with these things."
     show robes open at dcp
-    unk "Peter knows far more than me, and whatever you think you may have picked up these last few days, more than you too."
+    unk "Peter knows far more than me, and whatever you think you may have picked up these last few days, he more than you too."
     show robes crossed at dcp
     owl "..."
     show owl scared at dcp
@@ -582,7 +582,6 @@ label develop_sneaky_owl_overexposed:
         dcs
         yalign .01
         xalign .9
-        xzoom -1
         WhiteNoise
     $ corruption += 5
     $ audio_sneaky_overexpose()
@@ -1725,9 +1724,12 @@ label complete_portal_frog:
 #region end of day 2
 
 label endOfDay2:
-    "You wipe the sweat from your brow and sit in Erin's chair, thoughts swirling."
+    "That's it. You're out of paper."
+    if corruption >= 20:
+        "You feel a twinge of sadness. You weren't ready to be done with this..."
+    "You collapse in Erin's chair, thoughts swirling."
     "Trying to make sense of the events you've seen. To piece together the timeline."
-    "You can't be sure that everything you've seen is real, or was real, but at the same time it almost adds up."
+    "You can't be sure that everything you've seen is real, or {i}was{/i} real, but at the same time it almost adds up."
     play sound "text-vibrate.mp3" volume 0.6
     "Your phone buzzes. It's Bud. They're outside."
     show darkroom_workspace bright with dissolve
