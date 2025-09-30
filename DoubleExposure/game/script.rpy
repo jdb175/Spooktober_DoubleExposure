@@ -382,7 +382,8 @@ label introScene:
     stop drone_1
     stop drone_2
     stop drone_3
-    show twodays with Dissolve(0)
+    #show twodays with Dissolve(0)
+    show text "{font=RubikGlitch-Regular.ttf}{size=+40}Two Days Earlier" at truecenter with Dissolve(0)
     stop sfx_2 fadeout 1
     pause 10
     #show buddy. If this convo can happen outside of the darkroom (maybe a kitchen in the house?)
