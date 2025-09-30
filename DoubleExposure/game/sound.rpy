@@ -211,6 +211,7 @@ label nightmare_stop:
     stop drone_1
     stop drone_2
     stop drone_3
+    show bg bedroom morning with flash
     play audio "breath-2.mp3"
     return
 
