@@ -1732,7 +1732,8 @@ label endOfDay2:
     "You can't be sure that everything you've seen is real, or {i}was{/i} real, but at the same time it almost adds up."
     play sound "text-vibrate.mp3" volume 0.6
     "Your phone buzzes. It's Bud. They're outside."
-    show darkroom_workspace bright with dissolve
+    show darkroom_workspace bright
+    $ play_darkroom_light_off()
     show buddy question with moveinleft
     play photo_1 '<loop 20>piano-underscore-spook-1.mp3' volume 0.1
     bud "So I looked into Peter Carlson..."
