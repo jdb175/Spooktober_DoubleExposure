@@ -304,9 +304,25 @@ label peterCalmEnding:
 label negativesReceived:
     "In the envelope, you discover several negatives and drawings."
     "Things Peter wanted to keep close... or keep secret for some reason."
+    show image "photos/porter photo.png" with dissolve:
+        subpixel True
+        zoom 0.8
+        rotate -1.5
+        xalign 0.5
+        yalign 0.6
+        alpha 0.6
+        matrixcolor SaturationMatrix(0) * InvertMatrix() * BrightnessMatrix(.4)
+        parallel:
+            ease 10 yalign 0.63
+            ease 10 yalign 0.6
+            repeat
+        parallel:
+            ease 9 rotate .5
+            ease 9 rotate -1.5
+            repeat
     "Most of them you don't understand. But one thing you do recognize - a negative for a photo of the Porter itself."
     "A sorry looking thing, blind and mutilated. The same photo Erin had exposed her face over."
-    scene darkroom_workspace red
+    scene darkroom_workspace red with dissolve
     "You make your way over to the enlarger and begin to expose the photo"
 
 label photoFinal_firstDev:
@@ -522,7 +538,7 @@ label finalJudgement:
         jump theEnd
     #only the corrupted ending skips this
     scene darkroom_workspace red with Fade(1, 0.4, .5, color="#000000")
-    "The rest of the day passes without a single strange occurence."
+    "The rest of the day passes without a single strange occurrence."
     show buddy question at center:
         matrixcolor TintMatrix(color="#e22b2b")
     with moveinleft

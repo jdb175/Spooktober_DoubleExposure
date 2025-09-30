@@ -116,7 +116,7 @@ label day2BudConvo:
             show buddy question
             bud "Oh shit, really?"
     show buddy listen
-    you "They were both in some sort of... magical organization? Cult?" #Ugh I hate how this scene makes overexplaining hard to avoid
+    you "They were both in some sort of... magical organization? Cult?" #Ugh I hate how this scene makes over-explaining hard to avoid
     show buddy sus
     if peterKnown == True:
         you "Run by this guy Peter Carlson" #keep double checking what info is given at this point
@@ -156,7 +156,7 @@ label day2BudConvo:
     "They're hanging on to your every word."
     show buddy talkhand
     bud "You have to show me."
-    #FIX: this doesn't work 100%, you need to make the choice to try other photo paper earlier manditory
+    #FIX: this doesn't work 100%, you need to make the choice to try other photo paper earlier mandatory
     show buddy listen
     you "I would, but there's no more photo paper."
     if corruption >= 10:
@@ -985,7 +985,7 @@ label develop_sneaky_frog: #This scene is hella long but needs to be...
     show porter swear at dcs, magic_strike, xflip, ArmGlow
     play sfx_3 "eerie-1.mp3"
     "Its arm begins to glow, consumed by a sickly yellow light."
-    "The light travels through the air and into the darkness, travelling towards the hand of another."
+    "The light travels through the air and into the darkness, traveling towards the hand of another."
     $ develop_double(20)
     show frog crossed at dcs
     show porter swear at dcs, magic_strike, xflip, ArmGlow
@@ -1271,7 +1271,7 @@ label develop_portal_owl:
     $ develop_double(20)
     show owl crossed at xflip, dcs
     show fire argue at dcp
-    flame "I imagine it's because you're simply more open to the truth of that place. Because of your artistic temperment."
+    flame "I imagine it's because you're simply more open to the truth of that place. Because of your artistic temperament."
     show fire explain at dcp
     flame "It's a good thing."
     show fire hips at dcp
@@ -1329,7 +1329,7 @@ label develop_portal_owl_overexposed:
     $ develop_overexposed(20)
     "Then, something strange starts to happen."
     $ audio_escalate(2)
-    "You start to percieve that in the brightness of the photograph there is a {size=+6}pattern"
+    "You start to perceive that in the brightness of the photograph there is a {size=+6}pattern"
     $ develop_overexposed(25)
     $ audio_escalate(3)
     "That your {size=+2}{i}mistake{/i}{/size} has been not making your previous exposures {size=+8}BRIGHT{/size} enough."
@@ -1593,7 +1593,7 @@ label develop_portal_frog:
     frog "I can't believe that worked!"
     show frog open at dcs, xhack
     frog "That was incredible, Peter. You're a genius, a true genius!"
-    "Peter, if that who it is, stares blankely at the Porter."
+    "Peter, if that who it is, stares blankly at the Porter."
     $ develop_double(10)
     show porter dead weyes at dcp
     show frog hips at dcs, xhack
@@ -1767,7 +1767,7 @@ label endOfDay2:
     bud "Kinda, yeah, actually."
     show buddy disgust
     bud "I kept dreaming of these chopped up body parts and like, all these different creatures pecking at them."
-    bud "This owl was eating someone's hand and then there was this moustached guy just like, watching it all from the woods." #NOTE: ARCHER REFERENCE
+    bud "This owl was eating someone's hand and then there was this mustached guy just like, watching it all from the woods." #NOTE: ARCHER REFERENCE
     show buddy angry
     bud "Oh god then he ate his heart!? Damn, I almost forgot how messed up it was."
     show buddy confused

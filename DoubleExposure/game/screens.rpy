@@ -969,38 +969,38 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("Start") action Start()
+            textbutton _("{font=RubikGlitch-Regular.ttf}Start") action Start()
 
         else:
 
-            textbutton _("History") action ShowMenu("history")
+            textbutton _("{font=RubikGlitch-Regular.ttf}History") action ShowMenu("history")
 
-            textbutton _("Save") action ShowMenu("save")
+            textbutton _("{font=RubikGlitch-Regular.ttf}Save") action ShowMenu("save")
 
-        textbutton _("Load") action ShowMenu("load")
+        textbutton _("{font=RubikGlitch-Regular.ttf}Load") action ShowMenu("load")
 
-        textbutton _("Preferences") action ShowMenu("preferences")
+        textbutton _("{font=RubikGlitch-Regular.ttf}Preferences") action ShowMenu("preferences")
 
         if _in_replay:
 
-            textbutton _("End Replay") action EndReplay(confirm=True)
+            textbutton _("{font=RubikGlitch-Regular.ttf}End Replay") action EndReplay(confirm=True)
 
         elif not main_menu:
 
-            textbutton _("Main Menu") action MainMenu()
+            textbutton _("{font=RubikGlitch-Regular.ttf}Main Menu") action MainMenu()
 
-        textbutton _("About") action ShowMenu("about")
+        textbutton _("{font=RubikGlitch-Regular.ttf}About") action ShowMenu("about")
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("Help") action ShowMenu("help")
+            textbutton _("{font=RubikGlitch-Regular.ttf}Help") action ShowMenu("help")
 
         if renpy.variant("pc"):
 
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+            textbutton _("{font=RubikGlitch-Regular.ttf}Quit") action Quit(confirm=not main_menu)
 
 
 style navigation_button is gui_button
@@ -1029,20 +1029,75 @@ screen main_menu():
         at transform:
             on show:
                 "bg dark room painting"
-                matrixcolor BrightnessMatrix(-.1)
+                matrixcolor BrightnessMatrix(-.3)
                 pause 2.5
                 function play_darkroom_light_atl
                 "bg dark room painting red"
-                matrixcolor BrightnessMatrix(-.15)
+                matrixcolor BrightnessMatrix(-.3)
+                pause .05
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.3)
+                pause .06
+                "bg dark room painting red"
+                matrixcolor BrightnessMatrix(-.3)
+                pause .05
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.3)
+                pause 0.7
+                "bg dark room painting red"
+                matrixcolor BrightnessMatrix(-.3)
                 pause 25
                 function play_darkroom_light_off_atl
                 "bg dark room painting"
-                matrixcolor BrightnessMatrix(-.1)
+                matrixcolor BrightnessMatrix(-.3)
                 pause 4
                 repeat
             on replace:
+                
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.3)
+                pause 2.5
+                function play_darkroom_light_atl
                 "bg dark room painting red"
-    
+                matrixcolor BrightnessMatrix(-.3)
+                pause .05
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.3)
+                pause .06
+                "bg dark room painting red"
+                matrixcolor BrightnessMatrix(-.3)
+                pause .05
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.3)
+                pause 0.7
+                "bg dark room painting red"
+                matrixcolor BrightnessMatrix(-.3)
+                pause 25
+                function play_darkroom_light_off_atl
+                "bg dark room painting"
+                matrixcolor BrightnessMatrix(-.3)
+                pause 4
+                repeat
+
+    add "game title.png":
+        at transform:
+            zoom .9
+            xanchor 0.5
+            yalign 0.5
+            xpos 1150
+            block:
+                shader None
+                pause 12
+                shader "MakeVisualNovels.StillAberration"
+                u_aberrationAmount(5.0) 
+                pause .1
+                shader None
+                pause .1
+                shader "MakeVisualNovels.StillAberration"
+                u_aberrationAmount(5.0) 
+                pause .1
+                repeat
+
     ## This empty frame darkens the main menu.
     frame:
         style "main_menu_frame"
@@ -1106,7 +1161,8 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
     style_prefix "game_menu"
 
     if main_menu:
-        add gui.main_menu_background
+        add gui.main_menu_background:
+            matrixcolor BrightnessMatrix(-.3)
     else:
         add gui.game_menu_background
 
