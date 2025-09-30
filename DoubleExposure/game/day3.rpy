@@ -193,7 +193,7 @@ label peterAngry:
         "Try to go back to playing along.":
             temp "Peter heads upstairs after some grandiose speechmaking"
             temp "But bud is out there and beats 'em, and takes the negatives for you!"
-        "Give up on the negative. Maybe Peter has a point? Maybe he could help you become great?!" if corruption >= 15: #NOTE need to fix numbers.
+        "Give up on the negative. Maybe Peter has a point? Maybe he could help you become great?!" if corruption >= 25: #NOTE need to fix numbers.
             jump shitEnding
 
 label peterCalm:
@@ -367,7 +367,7 @@ label finalJudgement:
         WhiteNoise
         matrixcolor BrightnessMatrix(-.5)
     hide screen projector_porter_healed with Fade(1,1,1)
-    show porter talk at center with Dissolve(.4)
+    show porter speak at center with Dissolve(.4)
     play ambiance_2 ["piano-underscore-spook-2.mp3"] volume 0.2 fadein 2
     stop drone_1 fadeout 2
     stop drone_2 fadeout 2
@@ -375,7 +375,7 @@ label finalJudgement:
     porter "The BRIGHT in this world will be culled, and things returned where they belong."
     show porter swear
     porter "Humanity will regain my service again."
-    show porter talk
+    show porter speak
     porter "With perhaps more caution."
     play drone_2 ["<sync drone_3>porter-drums-2.mp3", "porter-drums-2.mp3"] volume 0.4 fadein 3
     porter "..."
@@ -388,7 +388,7 @@ label finalJudgement:
     elif corruption <= 30:
         show porter swear
         porter "Now, for you, there will be {sc=2}some pain{/sc}."
-        show porter talk
+        show porter speak
         porter "The brightness in you must be scraped out"
         play drone_1 "bass-drone-2.mp3" fadein 1
         show porter swear:
@@ -443,7 +443,7 @@ label finalJudgement:
                 parallel:
                     linear 1 matrixcolor BrightnessMatrix(0)
         #window auto True
-        show porter talk with Fade(.2, 0.1, .5, color="#fefefe"):
+        show porter speak with Fade(.2, 0.1, .5, color="#fefefe"):
             matrixcolor BrightnessMatrix(0)
             zoom 1
         stop drone_1 fadeout 2
@@ -456,7 +456,7 @@ label finalJudgement:
     else:
         show porter swear
         porter "It is possible you have predicted what {sc=2}must come next{/sc}."
-        show porter talk
+        show porter speak
         $ audio_escalate(1)
         porter "You have become {sc=4}too bright{/sc}"
         porter "You are a flame, little one. A flame that could catch the world."
@@ -564,7 +564,8 @@ style creditStyle:
 image creditChunk1 = Text("""{font=CastoroTitling-Regular.ttf}
 {b}{color=#a01111}CODE:{/b}{/color} {size=*0.85}Jason Whitehouse{/size}
 {b}{color=#a01111}WRITING/CODE:{/b}{/color} {size=*0.85}Nathan Whitehouse{/size}
-{b}{color=#a01111}SOUND/MUSIC/CODE:{/b}{/color} {size=*0.85}Kyle Levien{/size}
+{b}{color=#a01111}SOUND/MUSIC/CODE:{/b}{/color} {size=*0.85}Kyle Levien{space=40}
+({a=https://soundcloud.com/tehkyle/}{color=#d53333}soundcloud{/a}{/size}{/color})
 {b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}{/font}""", style="creditStyle")
 
 image creditChunk2 = Text("""{font=CastoroTitling-Regular.ttf}
@@ -579,7 +580,9 @@ image creditChunk4 = Text("""{font=CastoroTitling-Regular.ttf}{size=*0.85}PHONE 
 {size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=#d53333}Hadara Madrak{/a}{/size}{/color}
 {size=*.85}MAKE VISUAL NOVELS SHADERS - {a=https://makevisualnovels.itch.io/make-visual-novels-rspv1}{color=d53333}Stella{/a}{/size}{/color}
 {size=*.85}WAVE SHADER - {a=https://wattson.itch.io/renpy-wave-shader}{color=d53333}Wattson{/a}{/size}{/color}
-{size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}""", style="creditStyle")
+{size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}
+{size=*.85}IRRITATING FLUORESCENT LIGHT HUM - {a=https://freesound.org/s/328013/}{color=d53333}pfranzen{/a}{/size}{/color}""", style="creditStyle")
+
 
 label theEnd:
     play music "porter-1.mp3" volume 0.5
@@ -588,8 +591,10 @@ label theEnd:
     #show thankyouforplaying with Fade(1.1, 0.5, .5, color="#ffffff")
     scene black_background
     with Fade(1.1, 0.5, .5, color="#000")
-    show text "{font=CastoroTitling-Regular.ttf}{size=+50}DOUBLE EXPOSURE{/size}{/font}":
-        ypos .1
+    #show text "{font=CastoroTitling-Regular.ttf}{size=+50}DOUBLE EXPOSURE{/size}{/font}":
+    show game title at truecenter:
+        zoom .5
+        ypos .17
     with dissolve
     pause
     show nightAndDay:

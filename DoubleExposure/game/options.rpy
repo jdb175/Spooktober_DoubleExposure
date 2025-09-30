@@ -45,21 +45,23 @@ define gui.about = _p("""
 
 {b}{color=#a01111}ART:{/b}{/color} {size=*0.85}Irís Loureiro{/size}
 
-{b}{color=#a01111}SOUND/MUSIC:{/b}{/color} {size=*0.85}Kyle Levien{/size}
+{b}{color=#a01111}SOUND/MUSIC:{/b}{/color} {size=*0.85}Kyle Levien{space=40}({a=https://soundcloud.com/tehkyle/}{color=#d53333}soundcloud{/a}{/size}{/color})
 
 {b}{color=#a01111}VOICE ACTING:{/b}{/color} {size=*0.85}Kyle Levien{/size}
 
 {b}{color=#a01111}THIRD PARTY ASSETS USED:{/b}{/color}
 
-{size=*0.85}PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=d53333}Zoey (KleineLuka){/a}{/size}{/color}
+{size=*0.85}REN'PY PHONE PACKAGE - {a=https://kleineluka.itch.io/phone/}{color=d53333}Zoey (KleineLuka){/a}{/size}{/color}
 
-{size=*0.85}ADDITIONAL PHONE ART - {a=https://pogonr.itch.io/phone-asset-template}{color=d53333}Hadara Madrak{/a}{/size}{/color}
+{size=*0.85}SMART PHONE ASSET - {a=https://pogonr.itch.io/phone-asset-template}{color=d53333}Hadara Madrak{/a}{/size}{/color}
 
 {size=*.85}MAKE VISUAL NOVELS SHADERS - {a=https://makevisualnovels.itch.io/make-visual-novels-rspv1}{color=d53333}Stella{/a}{/size}{/color}
 
 {size=*.85}WAVE SHADER - {a=https://wattson.itch.io/renpy-wave-shader}{color=d53333}Wattson{/a}{/size}{/color}
 
 {size=*.85}KINETIC TEXT TAGS - {a=https://wattson.itch.io/kinetic-text-tags}{color=d53333}Wattson{/a}{/size}{/color}
+
+{size=*.85}IRRITATING FLUORESCENT LIGHT HUM - {a=https://freesound.org/s/328013/}{color=d53333}pfranzen{/a}{/size}{/color}
 """)
 
 
