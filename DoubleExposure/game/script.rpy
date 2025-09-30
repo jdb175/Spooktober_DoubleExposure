@@ -1338,7 +1338,7 @@ label night1:
         pause 0.5
         linear 2.5 alpha 0
     show porter_hand_nightmare at porterBodyPart
-    unk "{sc=4}my hand{/sc} joined to anothers arm"
+    unk "{sc=4}my hand{/sc} joined to another's arm"
     hide porter_hand_nightmare
     show black_background:
         alpha 1.0
