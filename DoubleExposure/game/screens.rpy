@@ -1498,6 +1498,12 @@ screen preferences():
                     textbutton _("After Choices") action Preference("after choices", "toggle")
                     textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
 
+                vbox:
+                    style_prefix "check"
+                    label _("Language")
+                    textbutton _("English") action Language(None)
+                    textbutton _("Português PT") action Language("portuguese")
+
                 ## Additional vboxes of type "radio_pref" or "check_pref" can
                 ## be added here, to add additional creator-defined preferences.
 
