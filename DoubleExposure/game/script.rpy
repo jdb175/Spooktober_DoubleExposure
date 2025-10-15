@@ -293,7 +293,7 @@ label day1PostDevDialogue:
 # The game always starts here. I like to put no story in this so it remains a pure starting point that jumps to whatever block we want
 label start:
     stop music fadeout 1.0
-    $ config.developer = True #disable for public builds! This is a Ren'Py variable
+    $ config.developer = False #disable for public builds! This is a Ren'Py variable
     $ corruption = 0
     $ budLevel = 0
     jump introScene
