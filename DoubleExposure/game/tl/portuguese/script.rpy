@@ -166,44 +166,43 @@ translate portuguese introScene_20f0b618:
 translate portuguese introScene_3d2fefa6:
 
     # "Many artists have inspired you, but it was Erin who made you want to {i}be{/i} an artist."
-    "Muitas artistas inspiraram-te, mas foi por causa da Erin que querias ser uma artista."
+    "Muitos artistas inspiraram-te, mas foi a Erin que te fez querer {i}ser{/i} uma artista."
 
 # game/script.rpy:315
 translate portuguese introScene_2d665b76:
 
     # "Through her lens, strange and fantastic scenes became real."
-    "Através a lente dela, cenas esquisitas e fantásticas ficaram reais."
+    "Através da lente dela, cenas estranhas e fantásticas ficaram reais."
 
 # game/script.rpy:320
 translate portuguese introScene_a1fbf88d:
 
     # "The supposedly impartial medium of photography used to present impossibilities."
-    "O meio supostamente impartial de fotografia usado para apresentar impossibilidades."
+    "O meio supostamente impartial da fotografia usado para apresentar cenas impossíveis."
 
 # game/script.rpy:321
 translate portuguese introScene_233b89ed:
 
     # "A lot of your work ended up being different than hers. You wanted to carve your own path, of course."
-    "Muitas das suas obras ficarem ser diferentes do que as trabalhas delas."
-    "Tinhas querido trace o teu próprio rumo, claro."
+    "Muitas das tuas obras acabaram por ser diferentes das dela. Querias traçar o teu próprio rumo, claro."
 
 # game/script.rpy:322
 translate portuguese introScene_1eb5aea1:
 
     # "You started getting a bit of attention as an artist. Showed at a few smaller galleries."
-    "Tinha começado a atrair um pouco de atenção como artista. Mostraste em algumas galerinhas."
+    "Começaste a ter um pouco de atenção como artista. Expuseste em algumas pequenas galerias."
 
 # game/script.rpy:323
 translate portuguese introScene_f1e97653:
 
     # "Some days it feels crazy, like you're on your way to becoming a 'real artist.'"
-    "Alguns dias sente-se impossível, como estás no caminho ser um 'artista real.'"
+    "Alguns dias parece irreal, como se estivesses no caminho de te tornares numa 'artista real.'"
 
 # game/script.rpy:324
 translate portuguese introScene_2486c568:
 
     # "And some days it feels like you've still got a million miles to go."
-    "E alguns dias sente-se como ainda tens um milhão miles em frente."
+    "E alguns dias parece que ainda tens um milhão de miles pela frente."
 
 # game/script.rpy:325
 translate portuguese introScene_30901449:
@@ -233,7 +232,7 @@ translate portuguese introScene_164e21fc:
 translate portuguese introScene_f3c8a263:
 
     # "Her imagery stood out."
-    "A imagens dela destacaram-se."
+    "As imagens dela destacaram-se."
 
 # game/script.rpy:336
 translate portuguese introScene_552c6d3f:
@@ -251,13 +250,13 @@ translate portuguese introScene_8ffdea84:
 translate portuguese introScene_0a495eea:
 
     # "You could hardly believe it when you found out that you'd be a recipient of their first ever Young Artist Grant."
-    "Quase não acreditaste quando descubriste que seria um beneficio da primeira 'Bolsa Para Artistas Jovens.'"
+    "Quase não acreditaste quando descobriste que seria um beneficio da primeira 'Bolsa Para Artistas Jovens.'"
 
 # game/script.rpy:342
 translate portuguese introScene_81a88bda:
 
     # "A chance to work - to be {i}paid{/i} to work in Erin's old studio. With her old gear. To create works inspired by her."
-    "Um oportunidade para trabalhar - ser {i}pagado{/i} para trabalhar no estúdio antiga dela. Com a equipamento dela. Para criar obras inspirado por ela. "
+    "Um oportunidade para trabalhar - estar {i}pagado{/i} para trabalhar no estúdio antigo dela. Com o equipamento dela. Para criar obras inspirado por ela. "
 
 # game/script.rpy:344
 translate portuguese introScene_c2b2469b:
@@ -293,7 +292,7 @@ translate portuguese introScene_8972c893:
 translate portuguese introScene_1f489cc2:
 
     # bud "I don't think she's dead."
-    bud "Não acredito que está morto."
+    bud "Não acredito que ela está morto."
 
 # game/script.rpy:397
 translate portuguese introScene_d368a816:
@@ -305,7 +304,7 @@ translate portuguese introScene_d368a816:
 translate portuguese introScene_bc25944c:
 
     # bud "This 'Darabondi Foundation?' She {i}runs{/i} it. Secretly, because she got tired of the limelight."
-    bud "Este 'Fundação Darabondi?' Ele está a geri-lo. Secretamente, por que ficou cansado de ser em foco."
+    bud "Este 'Fundação Darabondi?' Ele está a {i}geri-lo{/i}. Em segredo, por que ficou cansado da atenção."
 
 # game/script.rpy:401
 translate portuguese introScene_5cbcaccb:
@@ -317,7 +316,7 @@ translate portuguese introScene_5cbcaccb:
 translate portuguese introScene_9ed3c2c9:
 
     # you "And she had already started talking about her next series. Does that sound like someone ready to disappear?"
-    you "E ela já tinha começado a falar sobre a sua proxima série. Parece como uma pessoa pronto para desaparecer?"
+    you "E ela já começou a falar sobre a sua proxima série. Parece como uma pessoa pronto para desaparecer?"
 
 # game/script.rpy:405
 translate portuguese introScene_1879b1d5:
@@ -335,103 +334,104 @@ translate portuguese introScene_fbe839f5:
 translate portuguese introScene_9415651b:
 
     # "Bud is the {i}other{/i} grant winner. A collage artist, whose work, despite not being photography, closely mirrors Erin's."
-    ""
+    "Bud é o outro recipiente do bolso."
+    "Um artista de colagem com trabalha que, mesmo não sendo fotografia, é muito semelhante ao da Erin."
 
 # game/script.rpy:410
 translate portuguese introScene_8e697200:
 
     # "Surreal themes and imagery, symbols dripping with meaning. Uncommon juxtapositions."
-    ""
+    "Temas e imagens surreais. Símbolos cheios de significado. Justaposições invulgares."
 
 # game/script.rpy:411
 translate portuguese introScene_157ccfcf:
 
     # "You thought it was a bit derivative at first. Now you're starting to think they're a bit obsessed."
-    ""
+    "Achavas o um bocado derivada á primeira vista. Agora, achas que o Bud pode ser um bocado obcecado."
 
 # game/script.rpy:413
 translate portuguese introScene_4aeae943:
 
     # bud "Don't tell me you've never wondered what happened to her!"
-    bud ""
+    bud "Não me disses que nunca te perguntaste sobre o que aconteceu a ela!"
 
 # game/script.rpy:417
 translate portuguese introScene_2ad21938:
 
     # bud "Yeah, of course. Me too. That's why we're here."
-    bud ""
+    bud "Sim, claro. Eu também.É por isso que estamos aqui."
 
 # game/script.rpy:421
 translate portuguese introScene_8b73efcb:
 
     # bud "I know, right? There was a group that tried to do a podcast about it. They didn't find much."
-    bud ""
+    bud "Eu sei! Houve um grupo que tentou fizer um podcast sobre o assunto. Não encontraram muito."
 
 # game/script.rpy:425
 translate portuguese introScene_56d6a9b9:
 
     # bud "Yeah, I know. I just prefer to imagine everything has a happy ending, you know?"
-    bud ""
+    bud "Sim, eu sei. Só prefiro imaginar que tudo tem um final feliz, sabes?"
 
 # game/script.rpy:428
 translate portuguese introScene_e4b75376:
 
     # bud "I was just thinking about maybe making my grant piece something {i}about{/i} her. Erin, I mean."
-    bud ""
+    bud "Estou a pensar de criar algo {i}sobre{/i} ela para a minha obra aqui. A Erin, quer dizer."
 
 # game/script.rpy:430
 translate portuguese introScene_70a6751e:
 
     # bud "What happened to her, or didn't happen, or could have happened."
-    bud ""
+    bud "Sobre o que aconteceu a ela, ou que não aconteceu, ou que pude acontecido."
 
 # game/script.rpy:431
 translate portuguese introScene_24cb442e:
 
     # bud "Images showing her in places she isn't, but could have been."
-    bud ""
+    bud "Imagens que a mostra em lugares que nunca estiver, mas poderia ter estado."
 
 # game/script.rpy:433
 translate portuguese introScene_0c77af19:
 
     # bud "A lot of my work was already kind of inspired by her, so I feel like I have to really do something different, you know?"
-    bud ""
+    bud "Muitos dos meus trabalhos já foram inspirados por ela, então sinto-me como mesmo preciso de fazer algo diferente, sabes?"
 
 # game/script.rpy:435
 translate portuguese introScene_71d98ea4:
 
     # bud "Especially since I'm getting paid now."
-    bud ""
+    bud "Sobretudo porque agora estou a ser pagado."
 
 # game/script.rpy:436
 translate portuguese introScene_fb03d7b6:
 
     # bud "This is my first grant, actually."
-    bud ""
+    bud "Este e o meu primeiro bolso, atualmente."
 
 # game/script.rpy:438
 translate portuguese introScene_51edc4ce:
 
     # bud "What are you going to make? Do you know?"
-    bud ""
+    bud "O que e que vais fazer? Já sabes?"
 
 # game/script.rpy:440
 translate portuguese introScene_b03d3ba6:
 
     # "Ah, shit. To be honest, you've been struggling with that too."
-    ""
+    "Merda. Ser honesto, estás a lutar com este questão."
 
 # game/script.rpy:444
 translate portuguese introScene_570ce180:
 
     # you "I know the grant stipulates that we can make whatever we want, so long as it is 'in dialogue with Erin's work.'"
-    you ""
+    you "Eu sei que o bolso manda que podemos fazer o que quisemos, desde que seja 'em diálogo com as obras da Erin...'"
 
 # game/script.rpy:446
 translate portuguese introScene_80bc95cb:
 
     # you "But that's just specific enough to make it hard, but vague enough to get drowned in options."
-    you ""
+    you "... mas isto é definido só o suficiente ser difícil, mas ainda é vago o suficiente criar demasiados opções."
 
 # game/script.rpy:448
 translate portuguese introScene_9be5d164:
@@ -2219,23 +2219,23 @@ translate portuguese strings:
 
     # game/script.rpy:415
     old "I prefer to focus on the art, not the artist."
-    new ""
+    new "Prefiro focar na arte, não o artista"
 
     # game/script.rpy:418
     old "Of course. I've read some pretty crazy theories."
-    new ""
+    new "Claro que sim. Li algumas teorias loucas."
 
     # game/script.rpy:423
     old "Why would she need to fake her disappearance to run her own foundation? You have to admit that makes no sense."
-    new ""
+    new "Por que precisaria fingir a sua própria desaparecimento para gerir este fundação? Deves admitir que não faz sentido."
 
     # game/script.rpy:442
     old "I'm actually really struggling with it."
-    new ""
+    new "Estou mesmo a lutar com este."
 
     # game/script.rpy:455
     old "I've got a few solid ideas."
-    new ""
+    new "Tenho algumas ideias seguras."
 
     # game/script.rpy:481
     old "Check out the enlarger"
